@@ -70,7 +70,7 @@
 		</div>
 		<div class="game-contain">
 			<div class="main-title">{{$t("language.mainPage.chooseTitle")}}</div>
-			<div class="contain">
+			<div class="contain" style="display: flex;">
 
 				<div class="li" style="background: none;border: none;margin:35px">
 					<img src="../assets/image/icon/icon_choose1.png" />
@@ -310,14 +310,13 @@
 			width: 1274px;
 			margin: 0 auto;
 			text-align: left;
-			margin-left: 40px;
 			.li {
 				text-align: center;
 				margin: 36px;
 				margin-top: 0;
 				box-sizing: border-box;
 				display: inline-block;
-				width: 239px;
+				width: 246px;
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
 				padding: 16px;
@@ -341,14 +340,13 @@
 			width: 1274px;
 			margin: 0 auto;
 			text-align: left;
-			margin-left: 40px;
 			.li {
 				text-align: center;
 				margin: 36px;
 				margin-top: 0;
 				box-sizing: border-box;
 				display: inline-block;
-				width: 245px;
+				width: 246px;
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
 				padding: 16px;
@@ -463,10 +461,9 @@
 			}
 		}
 		.contain {
-			width: 1274px;
+			width: 1224px;
 			margin: 0 auto;
 			text-align: left;
-			margin-left: 62px;
 			.text{
 				font-size:24px;
 				margin-top:20px;
@@ -477,7 +474,7 @@
 				margin-top: 0;
 				box-sizing: border-box;
 				display: inline-block;
-				width: 221px;
+				width: 220px;
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
 				padding: 15px 30px;

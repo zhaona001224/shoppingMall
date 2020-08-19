@@ -485,6 +485,7 @@
 		.menu {
 			text-align: right;
 			margin-right: 18%;
+			font-family: ArialMT;
 			.menu-cart {
 				display: inline-block;
 				margin-left: 50px;
@@ -568,8 +569,9 @@
 		width: 100%;
 		padding: 50px 0 60px;
 		background-color: #181818;
+		height: 326px;
+		box-sizing: border-box;
 		.tip {
-			margin-top: 50px;
 			span {
 				display: inline-block;
 				color: rgba(245, 245, 245, 0.8);
@@ -656,7 +658,7 @@
 	.pop-login {
 		position: fixed;
 		z-index: 100;
-		top: 10%;
+		top: 20%;
 		left: 50%;
 		margin-left: -395px;
 		width: 789px;
