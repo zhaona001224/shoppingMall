@@ -15,7 +15,7 @@
 			<div class="step" v-if="categoryList.length>0"><span>2</span>{{$t("language.good.selectCategory")}}</div>
 			<div class="step-line serve-contain" v-if="categoryList.length>0">
 				<span v-for="(item,index) in categoryList" v-if="categoryList.length>0" :key="item.id" @click="selectCategory(item)" :class="item.id==categoryId?'active point':'point'">{{item.name}}</span>
-				<span v-if="categoryList.length==0"  class="active">none</span>
+				<span v-if="categoryList.length==0" class="active">none</span>
 
 			</div>
 			<div class="step"><span>{{categoryList.length>0?'3':'2'}}</span>{{$t("language.good.selectServe")}}</div>
@@ -23,7 +23,7 @@
 				<span v-for="(item,index) in serveList" :key="item.id" @click="selectServe(item)" :class="item.id==serveId?'active point':'point'">{{item.name}}</span>
 			</div>
 
-			<div class="step" ><span>{{categoryList.length>0?'4':'3'}}</span>Buy Items</div>
+			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy Items</div>
 			<div class="step-line item-contain" style="min-height: 1000px;">
 				<div class="flex-style">
 					<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span> {{selectServeData.name}} - </span>
@@ -84,7 +84,7 @@
 				serveList: [],
 				itemList: [],
 				imgUrl: '',
-				gameName:localStorage.getItem('gameName'),
+				gameName: localStorage.getItem('gameName'),
 				gameList: {},
 				selectType: 'item',
 				searchKey: '',
@@ -158,21 +158,20 @@
 				});
 
 			},
-		getCategory() {
-				//获取game
+			getCategory() { //获取game
 				getTemplete('?type=Category&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
 						response.data = response.data || []
 						this.categoryList = response.data.filter((item) => {
 							var id = item.game.split(',')[0]
-							return id == localStorage.getItem('gameId')&&item.online
+							return id == localStorage.getItem('gameId') && item.online
 						})
 						this.imgUrl = window.imgUrl;
-						if(this.categoryList.length>0) {
+						if(this.categoryList.length > 0) {
 							this.selectCategoryData = this.categoryList[0];
 							this.categoryId = this.categoryList && this.categoryList[0].id
 							this.getServe();
-						}else{
+						} else {
 							this.getServe();
 						}
 
@@ -190,16 +189,16 @@
 					if(response.retCode == 0) {
 						response.data = response.data || []
 						this.serveList = response.data.filter((item) => {
-							if(!item.category){
+							if(!item.category) {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId')&&item.online
+								return id == localStorage.getItem('gameId') && item.online
 							}
 							if(this.categoryId) {
 								var id = item.category.split(',')[0]
-								return id == this.categoryId&&item.online
+								return id == this.categoryId && item.online
 							} else {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId')&&item.online
+								return id == localStorage.getItem('gameId') && item.online
 							}
 
 						})
@@ -275,7 +274,7 @@
 		},
 		created() {
 			//获取game
-			this.getServe();
+			this.getCategory();
 			this.getGame();
 			JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 				item = JSON.parse(item);
