@@ -1,6 +1,6 @@
 <template>
 
-	<div class="home-container">
+	<div class="home-container" style="min-width: 1400px;">
 		<div class="top">
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo1">
@@ -164,7 +164,6 @@
 				<div class="btn point" @click="register">{{$t("language.user.register")}}</div>
 			</div>
 		</div>
-
 	</div>
 
 </template>
@@ -183,6 +182,7 @@
 				countryData: [],
 				currencyData: [],
 				selectCurrency: '',
+				width:'100%',
 				gamePop: false,
 				totalPrice: 0,
 				selectType: 'login',
@@ -403,7 +403,8 @@
 									type: 'success',
 									message: 'success'
 								});
-								this.selelceType = "login"
+								this.form.password="";
+								this.selectType = "login"
 							} else {
 								this.$message({
 									type: 'warning',
@@ -434,10 +435,11 @@
 		},
 
 		created() {
-
+			this.imgUrl = window.imgUrl;
+//			this.width=document.body.clientWidth>1000?document.body.clientWidth+'px':'400px';
 			if(!localStorage.getItem('currencyInfo1')) {
 				getConfig().then(response => {
-					this.imgUrl = window.imgUrl;
+					
 					if(response.retCode == 0) {
 						this.countryData = response.country;
 
@@ -760,16 +762,7 @@
 			@include wh(36px, 20px);
 			display: block;
 			text-indent: -9999px;
-			&:before {
-				content: " ";
-				position: absolute;
-				left: 8px;
-				top: 0;
-				@include wh(20px);
-				background: url(/static/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png) -155px 0;
-				background-size: 240px 107px;
-				transition: none;
-			}
+			
 		}
 		li+li {
 			text-align: center;
@@ -859,14 +852,7 @@
 			display: block;
 			right: 0;
 			z-index: 1;
-			&:before {
-				display: block;
-				@include wh(30px, 100%);
-				content: " ";
-				background: url(/static/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png) 0 -22px;
-				background-size: 240px 107px;
-				background-position: -150px -22px;
-			}
+			
 		}
 		.cart-num {
 			position: relative;
@@ -1048,7 +1034,7 @@
 		top: 50%;
 		width: 76px;
 		height: 62px;
-		background: url("/static/images/cart-empty-new.png") no-repeat;
+		
 		background-size: cover;
 	}
 	

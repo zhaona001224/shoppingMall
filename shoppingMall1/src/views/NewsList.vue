@@ -1,5 +1,5 @@
 <template>
-	<div style="text-align: center;">
+	<div style="text-align: center;background: #f7f7f8;min-height: 1000px;">
 		<div class="new-contain" v-if="newsList.length>0">
 		<div class="contain">
 
@@ -57,6 +57,7 @@
 </script>
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
+	
 	.new-contain {
 		padding-top:100px;
 		background-color: #f7f7f8;
@@ -79,6 +80,9 @@
 					font-family: MicrosoftYaHei;
 					font-size: 20px;
 					color: #333333;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 				.text {
 					font-family: MicrosoftYaHeiLight;
@@ -88,19 +92,21 @@
 					line-height: 24px;
 					letter-spacing: 0px;
 					color: #666666;
+					
 				}
 				.date {
 					font-family: MicrosoftYaHeiLight;
 					font-size: 17px;
 					font-weight: normal;
 					font-style: italic;
-					text-align: left;
+					text-align: right;
 					margin-top: 66px;
 				}
 				.line {
 					width: 40px;
 					height: 1px;
 					margin:15px 0 40px;
+					float: right;
 					background-color: rgba(160, 160, 160, 0.3);
 				}
 			}

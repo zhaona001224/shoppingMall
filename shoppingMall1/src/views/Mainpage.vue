@@ -2,7 +2,7 @@
 	<div style="text-align: center;">
 		<el-carousel v-if="bannerList" style="margin: 40px 8.125% 0;" :interval="3000" type="card" height="477px">
 			<el-carousel-item v-for="item in bannerList" :key="item.id" style="width:50%;box-shadow: 0px 15px 20px -5px rgba(0, 0, 0, 0.3);">
-				<div :style="'width:100%;height:472px;background: url('+imgUrl+item.image+');background-size:cover;'"></div>
+				<div  :style="'width:100%;height:472px;background: url('+imgUrl+item.image+');background-size:cover;'"></div>
 			</el-carousel-item>
 		</el-carousel>
 		<div class="img-contain">
@@ -15,7 +15,6 @@
 		<div class="game-contain" v-if="gameList.length>0">
 			<div class="main-title">{{$t("language.mainPage.gameTitle")}}<span class="point" @click="$router.push('/gameList')" style="float: right;font-size: 16px;">More<img src="../assets/image/icon/icon_more.png"/></span></div>
 			<div class="contain">
-
 				<div class="li point" v-for="(item,index) in gameList" v-if="index<8" :key="item.id" @click="goProduct(item)">
 					<img v-lazy="imgUrl+item.logo" />
 					<div class="text">
@@ -131,6 +130,7 @@
 
 			</div>
 		</div>
+	
 	</div>
 </template>
 
@@ -169,6 +169,7 @@
 				this.$forceUpdate();
 			},
 			goProduct(item) {
+				debugger
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
 				this.$router.push('/itemList');
@@ -287,6 +288,7 @@
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
 	.img-contain {
+		width: 1200px;
 		display: inline-block;
 		margin: 30px auto;
 		border-radius: 2px;
@@ -305,6 +307,7 @@
 	}
 	
 	.game-contain {
+		width: 100%;
 		background-color: #f7f7f8;
 		.contain {
 			width: 1274px;
@@ -354,6 +357,9 @@
 					font-family: MicrosoftYaHei;
 					font-size: 20px;
 					color: #333333;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 				.text {
 					font-family: MicrosoftYaHeiLight;
@@ -369,14 +375,15 @@
 					font-size: 17px;
 					font-weight: normal;
 					font-style: italic;
-					text-align: left;
+					text-align: right;
 					margin-top: 66px;
 				}
 				.line {
 					width: 40px;
 					height: 1px;
-					margin:15px 0 40px;
+					margin: 15px 0 40px;
 					background-color: rgba(160, 160, 160, 0.3);
+					float: right;
 				}
 			}
 		}
@@ -464,9 +471,9 @@
 			width: 1224px;
 			margin: 0 auto;
 			text-align: left;
-			.text{
-				font-size:24px;
-				margin-top:20px;
+			.text {
+				font-size: 24px;
+				margin-top: 20px;
 			}
 			.li {
 				text-align: center;

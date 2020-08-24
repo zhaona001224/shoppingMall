@@ -3,7 +3,7 @@
 		<!--面包屑-->
 		<el-card class="box-card">
 			<el-breadcrumb separator="/">
-				<el-breadcrumb-item :to="{ path: '/Discount/List'}">Coupon</el-breadcrumb-item>
+				<el-breadcrumb-item :to="{ path: '/Discount/List'}">Discount</el-breadcrumb-item>
 				<el-breadcrumb-item>{{$route.query.id?'Edit':'Add'}}</el-breadcrumb-item>
 			</el-breadcrumb>
 		</el-card>

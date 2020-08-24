@@ -26,6 +26,7 @@ export const language = {
 	},
 	good:{
 		chooseProducts:'Choose Products',
+		selectCategory:"Please Select Your Category",
 		selectServe:"Please Select Your Server",
 		selectItems:"Buy POE Currency Items",
 		selectCoin:"Buy Albion Online Silver",

@@ -37,7 +37,7 @@
 				</el-table-column>
 				<el-table-column header-align="left" prop="updated" width="160px" label="updateTime">
 				</el-table-column>
-				<el-table-column label="operation" width="180px" cell-class-name="center" header-align="center">
+				<el-table-column  fixed="right" label="operation" width="180px" cell-class-name="center" header-align="center">
 					<template slot-scope="scope">
 						<!--<el-button type="text" size="small" v-if="scope.row.online" @click="handleStatus(scope.row)">{{scope.row.online?'outLine':'online'}}</el-button>-->
 						<el-button type="text" size="small" @click="handleEdit(scope.row)">Edit</el-button>

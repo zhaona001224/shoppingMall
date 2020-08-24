@@ -1,5 +1,5 @@
 <template>
-	<div style="text-align: center;">
+	<div style="text-align: center;min-height: 1000px;background: #f7f7f8;" >
 		<div class="game-contain" v-if="gameList.length>0">
 			<div class="main-title">{{$t("language.mainPage.gameTitle")}}</div>
 			<div class="contain">

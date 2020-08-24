@@ -1,6 +1,7 @@
 <template>
 	<div class="list">
 		<el-card class="box-card">
+			<el-breadcrumb-item style="line-height: 33px;" >{{$route.params.key}}/List</el-breadcrumb-item>
 			<el-button type="primary" class="common-btn" @click.native="$router.push('/template/Add/' + $route.params.key)">Add</el-button>
 			<el-button type="primary" style="float: right;" class="common-btn" @click="search">Search</el-button>
 			<el-input @input="selfSearch" class="search-input" style="width:340px!important;margin-right: 50px;float: right;" prefix-icon="el-icon-search" v-model="keyword" placeholder="请输入搜索内容">
@@ -34,7 +35,7 @@
 
 				<el-table-column prop="updated" sortable label="updateTime" width="160px" cell-class-name="center" header-align="center">
 				</el-table-column>
-				<el-table-column label="operation" min-width="240px" cell-class-name="center" header-align="center">
+				<el-table-column  fixed="right" label="operation" min-width="240px" cell-class-name="center" header-align="center">
 					<template slot-scope="scope">
 						<!--<el-button type="text" size="small" v-if="scope.row.online" @click="handleStatus(scope.row)">{{scope.row.online?'outLine':'online'}}</el-button>-->
 						<el-button type="text" size="small" @click="handleEdit(scope.row)">Edit</el-button>

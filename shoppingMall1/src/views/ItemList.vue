@@ -1,6 +1,8 @@
 <template>
 	<div>
 		<div style="width: 1200px;margin:100px auto">
+			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > Items</div>
+
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
 				<div :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList')">
@@ -10,14 +12,21 @@
 					<img src="../assets/image/icon/icon_item.png" /> Items
 				</div>
 			</div>
-			<div class="step"><span>2</span>{{$t("language.good.selectServe")}}</div>
+			<div class="step" v-if="categoryList.length>0"><span>2</span>{{$t("language.good.selectCategory")}}</div>
+			<div class="step-line serve-contain" v-if="categoryList.length>0">
+				<span v-for="(item,index) in categoryList" v-if="categoryList.length>0" :key="item.id" @click="selectCategory(item)" :class="item.id==categoryId?'active point':'point'">{{item.name}}</span>
+				<span v-if="categoryList.length==0"  class="active">none</span>
+
+			</div>
+			<div class="step"><span>{{categoryList.length>0?'3':'2'}}</span>{{$t("language.good.selectServe")}}</div>
 			<div class="step-line serve-contain">
 				<span v-for="(item,index) in serveList" :key="item.id" @click="selectServe(item)" :class="item.id==serveId?'active point':'point'">{{item.name}}</span>
 			</div>
-			<div class="step"><span>3</span>Buy Items</div>
-			<div class="step-line item-contain">
+
+			<div class="step" ><span>{{categoryList.length>0?'4':'3'}}</span>Buy Items</div>
+			<div class="step-line item-contain" style="min-height: 1000px;">
 				<div class="flex-style">
-					<div class="select-title">You Have Selected:<span style="color: #333;"> {{this.selectServeData.name}} </span>
+					<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span> {{selectServeData.name}} - </span>
 						<el-select @change="setCurrency" style="width:140px" v-model="selectCurrency" placeholder="">
 							<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.showName" :value="subItem.id">
 							</el-option>
@@ -56,7 +65,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="footer">
+		<div class="footer1">
 			<div class="main-title">Introduction</div>
 			<div class="contain">
 				<img :src="imgUrl+gameList.logo" />
@@ -75,27 +84,31 @@
 				serveList: [],
 				itemList: [],
 				imgUrl: '',
+				gameName:localStorage.getItem('gameName'),
 				gameList: {},
 				selectType: 'item',
 				searchKey: '',
 				itemOriginList: [],
 				selectServeData: {},
 				currencyData: [],
-				selectCurrency: ''
+				selectCurrency: '',
+				categoryList: [],
+				selectCategoryData: [],
+				categoryId: ''
 			};
 		},
 		computed: {
-			...mapState(['login', 'showMoveImg', 'currencyInfo','currencyInfo1'])
+			...mapState(['login', 'showMoveImg', 'currencyInfo', 'currencyInfo1'])
 		},
 		methods: {
 			...mapMutations(['ADD_CART', 'CHOOSE_CURRENCY']),
 			down(index) {
 				if(this.itemList[index].num == 0) return
-				this.itemList[index].num = this.itemList[index].num*1 - 1;
+				this.itemList[index].num = this.itemList[index].num * 1 - 1;
 				this.$forceUpdate();
 			},
 			up(index) {
-				this.itemList[index].num = this.itemList[index].num*1 + 1;
+				this.itemList[index].num = this.itemList[index].num * 1 + 1;
 				this.$forceUpdate();
 			},
 			setCurrency(a) {
@@ -113,7 +126,7 @@
 				this.itemList = data.filter(item => item.name.indexOf(this.searchKey) > -1)
 			},
 			addCart(id, price, name, productNum, img) {
-				if(productNum<0){
+				if(productNum < 0) {
 					this.$message({
 						type: 'error',
 						message: 'Please fill in right Quantity'
@@ -145,18 +158,53 @@
 				});
 
 			},
+		getCategory() {
+				//获取game
+				getTemplete('?type=Category&offset=-1&count=-1').then(response => {
+					if(response.retCode == 0) {
+						response.data = response.data || []
+						this.categoryList = response.data.filter((item) => {
+							var id = item.game.split(',')[0]
+							return id == localStorage.getItem('gameId')&&item.online
+						})
+						this.imgUrl = window.imgUrl;
+						if(this.categoryList.length>0) {
+							this.selectCategoryData = this.categoryList[0];
+							this.categoryId = this.categoryList && this.categoryList[0].id
+							this.getServe();
+						}else{
+							this.getServe();
+						}
+
+					} else {
+						this.$message({
+							type: 'warning',
+							message: response.message
+						});
+					}
+				})
+			},
 			getServe() {
 				//获取game
 				getTemplete('?type=Server&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
-						response.data=response.data||[]
+						response.data = response.data || []
 						this.serveList = response.data.filter((item) => {
-							var id = item.game.split(',')[0]
-							return id == localStorage.getItem('gameId')
+							if(!item.category){
+								var id = item.game.split(',')[0]
+								return id == localStorage.getItem('gameId')&&item.online
+							}
+							if(this.categoryId) {
+								var id = item.category.split(',')[0]
+								return id == this.categoryId&&item.online
+							} else {
+								var id = item.game.split(',')[0]
+								return id == localStorage.getItem('gameId')&&item.online
+							}
+
 						})
 						this.imgUrl = window.imgUrl;
-
-						if(this.serveList && this.serveList[0]) {
+						if(this.serveList.length > 0) {
 							this.selectServeData = this.serveList[0];
 							this.serveId = this.serveList && this.serveList[0].id
 							this.getItem();
@@ -174,6 +222,12 @@
 				this.selectServeData = item;
 				this.serveId = item.id;
 				this.getItem();
+				this.$forceUpdate()
+			},
+			selectCategory(item) {
+				this.selectCategoryData = item;
+				this.categoryId = item.id;
+				this.getServe();
 				this.$forceUpdate()
 			},
 			getItem() {
@@ -237,6 +291,18 @@
 </script>
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
+	.nav {
+		font-family: ArialMT;
+		font-size: 14px;
+		letter-spacing: 0px;
+		color: #666666;
+		margin: 20px 0;
+		img {
+			width: 18px;
+			height: 18px;
+		}
+	}
+	
 	.step {
 		font-family: ArialMT;
 		font-size: 18px;
@@ -334,7 +400,7 @@
 					border: solid 1px #e5e5e5;
 				}
 				img {
-					top: 24px;
+					top: 36px;
 					width: 18px;
 					height: 18px;
 					position: absolute;
@@ -444,7 +510,7 @@
 		}
 	}
 	
-	.footer {
+	.footer1 {
 		background-color: #f7f7f7;
 		padding: 96px 0 46px;
 		.contain {
@@ -475,6 +541,12 @@
 				width: 400px;
 				height: 280px;
 			}
+		}
+	}
+	
+	@media only screen and (max-width: 1200px) {
+		.footer1 {
+			height: calc(100vh - 1460px);
 		}
 	}
 </style>

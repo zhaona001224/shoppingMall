@@ -77,7 +77,7 @@
 						<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
 					</template>
 				</el-table-column> -->
-				<el-table-column label="operation" width="120px" cell-class-name="center" header-align="center">
+				<el-table-column  fixed="right" label="operation" width="120px" cell-class-name="center" header-align="center">
 					<template slot-scope="scope">
 						<el-button type="text" size="small" @click="handleEdit(scope.row)">Edit</el-button>
 						<el-button type="text" class="clip" :data-clipboard-text="getFromData(scope.$index)" size="small" @click="copy(scope.row.id)">Copy</el-button>

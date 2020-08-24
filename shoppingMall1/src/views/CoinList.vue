@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<div style="width: 1200px;margin:100px auto">
+			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > Silver</div>
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
 				<div :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList')">
@@ -10,15 +11,22 @@
 					<img src="../assets/image/icon/icon_item.png" /> Items
 				</div>
 			</div>
-			<div class="step"><span>2</span>{{$t("language.good.selectServe")}}</div>
+			<div class="step" v-if="categoryList.length>0"><span>2</span>{{$t("language.good.selectCategory")}}</div>
+			<div class="step-line serve-contain" v-if="categoryList.length>0">
+				<span v-for="(item,index) in categoryList" v-if="categoryList.length>0" :key="item.id" @click="selectCategory(item)" :class="item.id==categoryId?'active point':'point'">{{item.name}}</span>
+				<span v-if="categoryList.length==0"  class="active">none</span>
+
+			</div>
+			<div class="step"><span>{{categoryList.length>0?'3':'2'}}</span>{{$t("language.good.selectServe")}}</div>
 			<div class="step-line serve-contain">
 				<span v-for="(item,index) in serveList" :key="item.id" @click="selectServe(item)" :class="item.id==serveId?'active point':'point'">{{item.name}}</span>
 			</div>
-			<div class="step"><span>3</span>Buy {{selectData[0]&&selectData[0].name}} Silver</div>
 
-			<div class="step-line item-contain">
+			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy  {{selectCategoryData.name}} {{selectData[0]&&selectData[0].name}} Silver</div>
+
+			<div class="step-line item-contain" style="min-height: 1000px;">
 				<div class="flex-style">
-					<div class="select-title">You Have Selected:<span style="color: #333;"> {{this.selectServeData.name}} - {{selectData[0]&&selectData[0].name}}</span>
+					<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span> {{selectServeData.name}} </span>
 						<el-select @change="setCurrency" style="width:140px" v-model="selectCurrency" placeholder="">
 							<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.showName" :value="subItem.id">
 							</el-option>
@@ -36,14 +44,18 @@
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity">{{item.name}}*{{item.qty||1}}</span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity">{{item.name}}*{{selectData[0].miniNumber}}*{{item.qty||1}}</span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
 					</div>
 
 				</div>
 			</div>
 		</div>
-		<div class="footer">
-
+		<div class="footer1">
+			<div class="main-title">Introduction</div>
+			<div class="contain">
+				<img :src="imgUrl+gameList.logo" />
+				<div style="display: inline-block;" class="text" v-html="gameList.description"></div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -58,6 +70,7 @@
 				itemList: [],
 				imgUrl: '',
 				gameList: {},
+				gameName:localStorage.getItem('gameName'),
 				discountList: [],
 				selectType: 'coin',
 				selectId: '',
@@ -70,7 +83,10 @@
 				plane: [],
 				totalPrice: 0,
 				selectServeData: {},
-				discountListAll: []
+				discountListAll: [],
+				categoryList: [],
+				selectCategoryData: [],
+				categoryId: ''
 			};
 		},
 		computed: {
@@ -83,7 +99,7 @@
 				this.newArray = JSON.parse(JSON.stringify(this.discountList));
 				this.lowPrice = '';
 				this.plane = [];
-				if(this.coinNum<0){
+				if(this.coinNum < 0) {
 					this.$message({
 						type: 'error',
 						message: 'Please fill in right Custom Quantity'
@@ -116,27 +132,27 @@
 				data.map((item, index) => {
 					if(num == 0) return
 					if(index == data.length - 1) {
-						if(num * 1 <= item.qty) {
+						if(num * 1 <= (item.qty * this.selectData[0].miniNumber)) {
 							item.buyNum = 1;
 							num = 0
 							return
 						} else {
-							item.buyNum = Math.ceil(num * 1 / item.qty);
+							item.buyNum = Math.ceil(num * 1 / (item.qty * this.selectData[0].miniNumber));
 							num = 0
 							return
 						}
 
 					}
-					if(num * 1 % item.qty == 0) {
-						item.buyNum = parseInt(num * 1 / item.qty);
+					if(num * 1 % (item.qty * this.selectData[0].miniNumber) == 0) {
+						item.buyNum = parseInt(num * 1 / (item.qty * this.selectData[0].miniNumber));
 						num = 0
 
-					} else if(num * 1 % data[index + 1].qty == 0) {
-						data[index + 1].buyNum = parseInt(num * 1 / data[index + 1].qty);
+					} else if(num * 1 % (data[index + 1].qty * this.selectData[0].miniNumber) == 0) {
+						data[index + 1].buyNum = parseInt(num * 1 / (data[index + 1].qty * this.selectData[0].miniNumber));
 						num = 0
 					} else {
-						item.buyNum = parseInt(num * 1 / item.qty);
-						num = num * 1 % item.qty
+						item.buyNum = parseInt(num * 1 / (item.qty * this.selectData[0].miniNumber));
+						num = num * 1 % (item.qty * this.selectData[0].miniNumber)
 					}
 
 				})
@@ -181,7 +197,7 @@
 				} else {
 					this.plane.map((item) => {
 						if(item.buyNum && item.buyNum > 0) {
-							this.addCart(this.selectId, item.totalPrice * 1 * item.buyNum, item.name, '', item.qty * item.buyNum,2)
+							this.addCart(this.selectId, item.totalPrice * 1 * item.buyNum, item.name, '', item.qty * item.buyNum, 2)
 						}
 					})
 				}
@@ -193,7 +209,7 @@
 				}, 1000)
 
 			},
-			addCart(id, price, name, img, productNum,addType) {
+			addCart(id, price, name, img, productNum, addType, minNum) {
 				if(addType == 1) {
 					if(!this.login) {
 						this.SHOW_LOGIN(true);
@@ -223,17 +239,53 @@
 				}
 
 			},
+			getCategory() {
+				//获取game
+				getTemplete('?type=Category&offset=-1&count=-1').then(response => {
+					if(response.retCode == 0) {
+						response.data = response.data || []
+						this.categoryList = response.data.filter((item) => {
+							var id = item.game.split(',')[0]
+							return id == localStorage.getItem('gameId') && item.online
+						})
+						this.imgUrl = window.imgUrl;
+						if(this.categoryList.length > 0) {
+							this.selectCategoryData = this.categoryList[0];
+							this.categoryId = this.categoryList && this.categoryList[0].id
+							this.getServe();
+						} else {
+							this.getServe();
+						}
+
+					} else {
+						this.$message({
+							type: 'warning',
+							message: response.message
+						});
+					}
+				})
+			},
 			getServe() {
 				//获取game
 				getTemplete('?type=Server&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
 						response.data = response.data || []
 						this.serveList = response.data.filter((item) => {
-							var id = item.game.split(',')[0]
-							return id == localStorage.getItem('gameId')
+							if(!item.category) {
+								var id = item.game.split(',')[0]
+									return id == localStorage.getItem('gameId')&&item.online
+							}
+							if(this.categoryId) {
+								var id = item.category.split(',')[0]
+								return id == this.categoryId && item.online
+							} else {
+								var id = item.game.split(',')[0]
+								return id == localStorage.getItem('gameId') && item.online
+							}
+
 						})
 						this.imgUrl = window.imgUrl;
-						if(this.serveList) {
+						if(this.serveList.length > 0) {
 							this.selectServeData = this.serveList[0];
 							this.serveId = this.serveList && this.serveList[0].id
 							this.getItem();
@@ -251,6 +303,12 @@
 				this.selectServeData = item;
 				this.serveId = item.id;
 				this.getItem();
+				this.$forceUpdate()
+			},
+			selectCategory(item) {
+				this.selectCategoryData = item;
+				this.categoryId = item.id;
+				this.getServe();
 				this.$forceUpdate()
 			},
 			getItem() { //获取item
@@ -355,7 +413,7 @@
 		},
 		created() {
 			//获取game
-			this.getServe();
+			this.getCategory();
 			this.getGame();
 			JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 				item = JSON.parse(item);
@@ -380,6 +438,18 @@
 </script>
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
+	.nav {
+		font-family: ArialMT;
+		font-size: 14px;
+		letter-spacing: 0px;
+		color: #666666;
+		margin: 20px 0;
+		img {
+			width: 18px;
+			height: 18px;
+		}
+	}
+	
 	.tab {
 		text-align: left;
 		width: 1200px;
@@ -564,6 +634,40 @@
 	}
 	
 	.footer {
+		background-color: #f7f7f7;
+		padding: 96px 0 46px;
+		.contain {
+			display: flex;
+			width: 1200px;
+			margin: 0 auto;
+			padding: 40px 0;
+			background: #fff;
+			border-radius: 30px;
+		}
+		.main-title {
+			margin: 0 auto 27px;
+			width: 1200px;
+			text-align: left;
+			font-family: Allstar4;
+			font-size: 24px;
+			font-weight: normal;
+			font-stretch: normal;
+			line-height: 18px;
+			letter-spacing: 0px;
+			color: #333333;
+		}
+		.contain {
+			text-align: left;
+			img {
+				margin-right: 20px;
+				display: inline-block;
+				width: 400px;
+				height: 280px;
+			}
+		}
+	}
+	
+	.footer1 {
 		background-color: #f7f7f7;
 		padding: 96px 0 46px;
 		.contain {
