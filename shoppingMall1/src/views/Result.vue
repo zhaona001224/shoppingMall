@@ -2,27 +2,36 @@
 	<div style="width: 1200px;margin:0 auto">
 		<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > Shoppingcart</div>
 		<div class="content">
-			<img style="margin-top: 28px;" src="../assets/image/icon/icon_success.png" />
-			<div class="tip">Congratulations, Payment successful !</div>
-			<div class="order">Odd Numbers:<span>21212121</span></div>
-			<div class="email">You can check your email<span>Tom86@gmail.com</span> to view the order details</div>
+			<img v-if="status==1" style="margin-top: 28px;" src="../assets/image/icon/icon_success.png" />
+			<img v-else style="margin-top: 28px;" src="../assets/image/icon/icon_fail.png" />
+			<div class="tip" >{{msg}}</div>
+			<div class="order">Odd Numbers:<span>{{orderno}}</span></div>
+			<div class="email">You can check your email<span>{{userInfo.email}}</span> to view the order details</div>
 		</div>
 	</div>
 </template>
 
 <script>
+		import { mapMutations, mapState } from 'vuex'
 	export default {
 		data() {
 			return {
-
+					status:1,
+					orderno:0,
+					msg:''
 			};
 		},
 		methods: {
 
 		},
-
+		computed: {
+			...mapState(["userInfo"])
+			
+		},
 		created() {
-
+			this.status=this.$route.query.status;
+			this.orderno=this.$route.query.orderno;
+			this.msg=this.$route.query.msg;
 		}
 
 	}

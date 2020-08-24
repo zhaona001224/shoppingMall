@@ -3,7 +3,7 @@ export const language = {
 		cart: 'My Cart',
 		login: 'Login',
 		reister: 'Register',
-		tab1: 'choose your game',
+		tab1: 'CHOOSE YOUR GAME',
 		footerTip: "Possible account termination when using illegal leveling or illegally obtained gold. Registered Names and Trademarks are the copyright and property of their respective owners. Copyright© 2020,All rights reserved "
 	},
 	mainPage:{

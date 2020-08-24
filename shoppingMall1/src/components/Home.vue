@@ -84,8 +84,8 @@
 		<div class="select">
 			<div>
 				<span :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">{{$t("language.common.tab1")}}</span>
-				<span @click="$router.push('/')">Home</span>
-				<span>About US</span>
+				<span @click="$router.push('/')">HOME</span>
+				<span>ABOUT US</span>
 			</div>
 		</div>
 		<transition name="fade" mode="out-in">
@@ -93,8 +93,8 @@
 		</transition>
 		<div class="footer">
 			<div class="tip">
-				<span>Home</span>
-				<span>About US</span>
+				<span>HOME</span>
+				<span>ABOUT US</span>
 				<span>FAQ</span>
 				<span>Sell to Us</span>
 			</div>
@@ -110,7 +110,7 @@
 		</div>
 		<div class="choose-game" v-if="gamePop">
 			<img @click="gamePop=false" class="close" src="../assets/image/icon/icon_close.png" />
-			<span v-for="(item,index) in gameList" @click="chooseGame(item)">
+			<span v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
 				<img :src="imgUrl+item.logo+''" />{{item.name}}
 			</span>
 		</div>
@@ -276,11 +276,12 @@
 				})
 			},
 			goPayPage() {
-				if(this.login) {
+//				if(this.login) {
+//					this.$router.push('/payPage');
+//				} else {
+//					this.SHOW_LOGIN(true);
+//				}
 					this.$router.push('/payPage');
-				} else {
-					this.SHOW_LOGIN(true);
-				}
 
 			},
 			//退出登录
@@ -527,6 +528,7 @@
 			cursor: pointer;
 			font-family: Allstar4;
 			font-size: 16px;
+			font-weight:600;
 			font-weight: normal;
 			font-stretch: normal;
 			line-height: 48px;
@@ -539,7 +541,7 @@
 			color: #fff;
 			position: relative;
 			&.tri_bottom:before {
-				right: 19px;
+				right: 10px;
 				content: "";
 				width: 0px;
 				height: 0px;

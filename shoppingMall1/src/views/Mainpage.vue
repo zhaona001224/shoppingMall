@@ -2,7 +2,7 @@
 	<div style="text-align: center;">
 		<el-carousel v-if="bannerList" style="margin: 40px 8.125% 0;" :interval="3000" type="card" height="477px">
 			<el-carousel-item v-for="item in bannerList" :key="item.id" style="width:50%;box-shadow: 0px 15px 20px -5px rgba(0, 0, 0, 0.3);">
-				<div  :style="'width:100%;height:472px;background: url('+imgUrl+item.image+');background-size:cover;'"></div>
+				<div @click="goProduct(item,1)"  :style="'width:100%;height:472px;background: url('+imgUrl+item.image+');background-size:cover;'"></div>
 			</el-carousel-item>
 		</el-carousel>
 		<div class="img-contain">
@@ -168,8 +168,11 @@
 				this.itemList[index].num = this.itemList[index].num + 1;
 				this.$forceUpdate();
 			},
-			goProduct(item) {
-				debugger
+			goProduct(item,type) {
+				if(type==1){
+					item.id=item.game.split(',')[0];
+					item.name=item.game.split(',')[0]
+				}
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
 				this.$router.push('/itemList');
@@ -179,7 +182,7 @@
 				getTemplete('?type=Game&offset=' + this.gamePage + '&count=8').then(response => {
 					if(response.retCode == 0) {
 						this.gameList = response.data.filter((item) => {
-							return item.hot
+							return item.hot&& item.online
 						})
 					} else {
 						this.$message({
@@ -212,7 +215,7 @@
 						this.itemList = response.data.filter((item) => {
 							var gameId = item.game.split(',')[0];
 
-							return gameId == this.selectId
+							return gameId == this.selectId&&item.online
 						})
 
 					} else {
@@ -228,7 +231,7 @@
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
 						this.gameHotList = response.data.filter((item) => {
-							return item.hotitem
+							return item.hotitem&& item.online
 						})
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];

@@ -59,7 +59,11 @@
 								<input type="number" min="0" v-model="item.num" class="show">
 								<span class="up" @click="up(index)">+</span></div>
 							<div class="price">{{currencyInfo.symbol}}{{(item.price*1*currencyInfo.rate).toFixed(2)}}</div>
-							<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />
+							<div style="    position: relative; width: 164px; margin: 0 auto;">
+								<div style="position: absolute;width:70%;height: 32px;" class="add" @click="addCart(item.id,item.price,item.name,1,imgUrl+item.hintImage,1)"></div>
+								<div style="position: absolute;width:30%;right:0;height: 32px;" class="go" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" ></div>
+								<img class="point" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />
+							</div>
 						</div>
 					</el-popover>
 				</div>
@@ -125,37 +129,54 @@
 
 				this.itemList = data.filter(item => item.name.indexOf(this.searchKey) > -1)
 			},
-			addCart(id, price, name, productNum, img) {
-				if(productNum < 0) {
+			addCart(id, price, name, productNum, img, addType) {
+
+				if(addType == 1) {
+					this.ADD_CART({
+						productId: id,
+						salePrice: price,
+						productName: name,
+						productImg: img,
+						productNum: productNum,
+						type: 'item',
+						serveId: this.selectServeData.id,
+						serveName: this.selectServeData.name,
+						gameId: localStorage.gameId,
+						gameName: localStorage.gameName,
+					})
+					this.$router.push('/payPage');
+				} else {
+					if(productNum < 0) {
+						this.$message({
+							type: 'error',
+							message: 'Please fill in right Quantity'
+						});
+						return
+					}
+					if(productNum == 0) {
+						this.$message({
+							type: 'warning',
+							message: "Please Select"
+						});
+						return
+					}
+					this.ADD_CART({
+						productId: id,
+						salePrice: price,
+						productName: name,
+						productImg: img,
+						productNum: productNum,
+						type: 'item',
+						serveId: this.selectServeData.id,
+						serveName: this.selectServeData.name,
+						gameId: localStorage.gameId,
+						gameName: localStorage.gameName,
+					})
 					this.$message({
-						type: 'error',
-						message: 'Please fill in right Quantity'
+						type: 'success',
+						message: 'Add Success'
 					});
-					return
 				}
-				if(productNum == 0) {
-					this.$message({
-						type: 'warning',
-						message: "Please Select"
-					});
-					return
-				}
-				this.ADD_CART({
-					productId: id,
-					salePrice: price,
-					productName: name,
-					productImg: img,
-					productNum: productNum,
-					type: 'item',
-					serveId: this.selectServeData.id,
-					serveName: this.selectServeData.name,
-					gameId: localStorage.gameId,
-					gameName: localStorage.gameName,
-				})
-				this.$message({
-					type: 'success',
-					message: 'Add Success'
-				});
 
 			},
 			getCategory() { //获取game

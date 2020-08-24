@@ -210,11 +210,11 @@
 
 			},
 			addCart(id, price, name, img, productNum, addType, minNum) {
-				if(addType == 1) {
-					if(!this.login) {
-						this.SHOW_LOGIN(true);
-					}
-				}
+//				if(addType == 1) {
+//					if(!this.login) {
+//						this.SHOW_LOGIN(true);
+//					}
+//				}
 				this.ADD_CART({
 					productId: id,
 					salePrice: price,

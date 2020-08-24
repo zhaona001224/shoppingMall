@@ -10,7 +10,7 @@
 					<div style="width: 290px;">
 						<div class="select-num">
 							<span v-if="item.type!='coin'" @click="down(item.productId,item.productName)" class="down">-</span>
-							<input disabled="item.type=='coin'" type="number"  :style="item.type=='coin'?'border: solid 1px #dcdcdc;width:154px':''" min="0" v-model="item.productNum" class="show">
+							<input disabled="item.type=='coin'" type="number" :style="item.type=='coin'?'border: solid 1px #dcdcdc;width:154px':''" min="0" v-model="item.productNum" class="show">
 							<span v-if="item.type!='coin'" class="up" @click="up(item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
 						</div>
 					</div>
@@ -182,7 +182,7 @@
 		},
 
 		computed: {
-			...mapState(['cartList', 'currencyInfo']),
+			...mapState(['cartList', 'currencyInfo','login']),
 			totalPice() {
 				this.totalNum = 0;
 				var price = 0;
@@ -207,7 +207,7 @@
 			},
 		},
 		methods: {
-			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART']),
+			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART','SHOW_LOGIN']),
 			deletePro(id, productName) {
 				this.EDIT_CART({
 					productId: id,
@@ -233,6 +233,14 @@
 
 			},
 			pay() {
+				if(!this.login) {
+					this.SHOW_LOGIN(true);
+					return
+				}
+				if(this.totalAmount<=0) {
+					that.$message.error("Please select product！");
+					return
+				}
 				var that = this;
 				if(!this.form.email) {
 					that.$message.error("Please fill in form！");
@@ -268,7 +276,7 @@
 						method: str,
 						"unit_amount": {
 							"currency_code": this.currencyInfo.name,
-							"value": (item.salePrice*this.currencyInfo.rate).toFixed(2) + ''
+							"value": (item.salePrice * this.currencyInfo.rate).toFixed(2) + ''
 						},
 						"description": ''
 
@@ -284,11 +292,11 @@
 						"reference_id": "",
 						"amount": {
 							"currency_code": this.currencyInfo.name,
-							"value": (this.totalPice*this.currencyInfo.rate) + '',
+							"value": (this.totalPice * this.currencyInfo.rate) + '',
 							"breakdown": {
 								"item_total": {
 									"currency_code": this.currencyInfo.name,
-									"value": (this.totalPice*this.currencyInfo.rate).toFixed(2) + '',
+									"value": (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
 								}
 							},
 							"items": itemList,
@@ -303,7 +311,7 @@
 				}
 				getPay(params).then(response => {
 					if(response.retCode == 0) {
-						window.open(response.data.redirect_url)
+						window.location.href = response.data.redirect_url;
 					} else {
 						this.$message({
 							type: 'warning',
@@ -316,7 +324,7 @@
 				var that = this;
 				var params = {
 					"pm_id": type,
-					amount: (this.totalPice*this.currencyInfo.rate).toFixed(2) + '',
+					amount: (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
 					currency: this.currencyInfo.name,
 					"description": this.form.link + this.form.link1,
 					payer_email: this.form.email,
@@ -325,7 +333,7 @@
 				}
 				getPay2(params).then(response => {
 					if(response.retCode == 0) {
-						window.open(response.data.redirect_url)
+						window.location.href = response.data.redirect_url
 					} else {
 						this.$message({
 							type: 'warning',
@@ -339,7 +347,7 @@
 				var that = this;
 
 				var params = {
-					"amount": (this.totalPice*this.currencyInfo.rate).toFixed(2) + '',
+					"amount": (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
 					"currency": this.currencyInfo.name,
 					"description": this.form.link + this.form.link1,
 					"payer_email": this.form.email,
@@ -355,7 +363,7 @@
 				}
 				getPay3(params).then(response => {
 					if(response.retCode == 0) {
-						window.open(response.data.redirect_url)
+						window.location.href = response.data.redirect_url;
 					} else {
 						this.$message({
 							type: 'warning',
@@ -367,21 +375,21 @@
 			},
 
 			apply() {
-				if(!this.couponCode){
+				if(!this.couponCode) {
 					return
 				}
 				var data = this.couponList.filter((item) => {
 
 					return item.code == this.couponCode
 				})
-				
+
 				if(data.length == 0) {
 					this.$message({
 						type: 'warning',
 						message: 'Coupon is not valid'
 					});
 					this.couponPrice = 0;
-					this.disPrice=0;
+					this.disPrice = 0;
 					return
 				}
 				var cart = this.cartList.filter((item) => {
@@ -395,7 +403,7 @@
 						this.couponPrice = data[0]
 					} else {
 						this.couponPrice = 0;
-							this.disPrice=0;
+						this.disPrice = 0;
 						this.$message({
 							type: 'warning',
 							message: 'Coupon is not valid'
@@ -403,7 +411,7 @@
 					}
 				} else {
 					this.couponPrice = 0;
-						this.disPrice=0;
+					this.disPrice = 0;
 					this.$message({
 						type: 'warning',
 						message: 'Coupon is not valid'
