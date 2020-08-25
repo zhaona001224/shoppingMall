@@ -21,6 +21,7 @@ window.imgUrl='http://216.24.249.93:8080/api/v1/pics?id=';
 let loading;
 let i = 0;
 axios.interceptors.request.use(config => {
+			config.headers.lqcms_token = localStorage.token;
 	if(config.url.indexOf('/payment/paypal/info/' == -1)) {
 		i++;
 
@@ -45,6 +46,7 @@ axios.interceptors.request.use(config => {
  **/
 
 axios.interceptors.response.use(response => {
+
 	i--
 	if(i <=0) {
 		loading.close();

@@ -172,10 +172,10 @@
 
 				},
 				form: {
-					email: '408006570@qq.com',
-					payer: '2112',
-					link1: "212121",
-					link: "1221"
+					email: '',
+					payer: '',
+					link1: "",
+					link: ""
 				}
 
 			};
