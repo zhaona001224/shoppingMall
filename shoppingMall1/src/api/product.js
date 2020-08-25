@@ -10,5 +10,5 @@ export const getPay2 = (params) => {
   return http.fetchPost('/payment/payssion/pay',params)
 }
 export const getPay3 = (params) => {
-  return http.fetchPost('payment/skrill/pay',params)
+  return http.fetchPost('/payment/skrill/pay',params)
 }

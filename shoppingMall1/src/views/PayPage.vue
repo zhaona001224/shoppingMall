@@ -172,10 +172,10 @@
 
 				},
 				form: {
-					email: '',
-					payer: '',
-					link1: "",
-					link: ""
+					email: '408006570@qq.com',
+					payer: '2112',
+					link1: "212121",
+					link: "1221"
 				}
 
 			};
@@ -233,11 +233,12 @@
 
 			},
 			pay() {
+				var that=this;
 				if(!this.login) {
 					this.SHOW_LOGIN(true);
 					return
 				}
-				if(this.totalAmount<=0) {
+				if(this.totalNum<=0) {
 					that.$message.error("Please select product！");
 					return
 				}
@@ -345,7 +346,7 @@
 			},
 			pay3(type) {
 				var that = this;
-
+				
 				var params = {
 					"amount": (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
 					"currency": this.currencyInfo.name,
