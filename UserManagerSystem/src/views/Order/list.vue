@@ -26,7 +26,7 @@
 			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle">
 				<el-table-column header-align="left" sortable prop="id" label="id">
 				</el-table-column>
-				<el-table-column header-align="left" width="280px" prop="order_id" label="order_id">
+				<el-table-column header-align="left" width="180px" prop="order_id" label="order_id">
 				</el-table-column>
 
 				<el-table-column prop="payer" label="payer" width="200px">

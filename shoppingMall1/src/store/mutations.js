@@ -10,7 +10,8 @@ import {
 	LOGINOUT_USERINFO,
 	CHOOSE_CURRENCY,
 	CHOOSE_COUNTRY,
-	SHOW_LOGIN
+	SHOW_LOGIN,
+	CLEAR_CART
 } from './mutation-types'
 import { setStore, getStore } from '../utils/storage'
 export default {
@@ -159,6 +160,12 @@ export default {
 			})
 		}
 		state.cartList = cart
+		// 存入localStorage
+		setStore('buyCart', state.cartList)
+	},
+	// 清空购物车
+	[CLEAR_CART](state) {
+		state.cartList = [];
 		// 存入localStorage
 		setStore('buyCart', state.cartList)
 	},

@@ -207,7 +207,7 @@
 			},
 		},
 		methods: {
-			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART','SHOW_LOGIN']),
+			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART','SHOW_LOGIN','CLEAR_CART']),
 			deletePro(id, productName) {
 				this.EDIT_CART({
 					productId: id,
@@ -313,6 +313,7 @@
 				getPay(params).then(response => {
 					if(response.retCode == 0) {
 						window.location.href = response.data.redirect_url;
+						this.CLEAR_CART();
 					} else {
 						this.$message({
 							type: 'warning',
@@ -334,7 +335,8 @@
 				}
 				getPay2(params).then(response => {
 					if(response.retCode == 0) {
-						window.location.href = response.data.redirect_url
+						window.location.href = response.data.redirect_url;
+						this.CLEAR_CART();
 					} else {
 						this.$message({
 							type: 'warning',
@@ -365,6 +367,8 @@
 				getPay3(params).then(response => {
 					if(response.retCode == 0) {
 						window.location.href = response.data.redirect_url;
+						this.CLEAR_CART();
+						
 					} else {
 						this.$message({
 							type: 'warning',
@@ -514,6 +518,7 @@
 		},
 		created() {
 			this.getCoupn();
+			
 		},
 		watch: {
 			cartList(a, b) {

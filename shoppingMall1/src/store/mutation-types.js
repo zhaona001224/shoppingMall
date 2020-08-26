@@ -10,6 +10,8 @@ export const LOGINOUT_USERINFO = 'LOGINOUT_USERINFO'
 export const CHOOSE_COUNTRY = 'CHOOSE_COUNTRY'
 export const CHOOSE_CURRENCY = 'CHOOSE_CURRENCY'
 export const SHOW_LOGIN = 'SHOW_LOGIN'
+export const CLEAR_CART = 'CLEAR_CART'
+
 
 // WEBPACK FOOTER //
 // ./src/store/mutation-types.js
