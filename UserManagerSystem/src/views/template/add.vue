@@ -413,7 +413,12 @@
 
 							if(this.dataSource.formData.data[key].type == "select") {
 								if(this.form[key]) {
-									this.form[key] = this.form[key] && parseInt(this.form[key].split(',')[0])
+									if(key=='type'){
+										this.form[key] = this.form[key] && this.form[key].split(',')[0]
+									}else{
+										this.form[key] = this.form[key] && parseInt(this.form[key].split(',')[0])
+									}
+									
 								}
 
 							}

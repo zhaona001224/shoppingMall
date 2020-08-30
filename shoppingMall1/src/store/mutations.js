@@ -52,12 +52,7 @@ export default {
 		}
 		if(cart && cart.length) { // 有内容
 			cart.forEach(item => {
-				if(item.productId === productId) {
-					if(type == "coin") {
-						item.salePrice = (item.productNum * item.salePrice * 1 + salePrice * 1) / (item.productNum * 1 + productNum * 1);
-						item.salePrice = Math.round(item.salePrice * 100) / 100;
-							item.totalPrice += salePrice * 1
-					}
+				if(item.productId === productId&&item.productName === productName) {
 					if(item.productNum >= 0) {
 						falg = false
 						item.productNum += productNum * 1
@@ -122,7 +117,7 @@ export default {
 	}) {
 		let cart = state.cartList
 		cart.forEach((item, i) => {
-			if(item.productId === productId) {
+			if(item.productId === productId&&item.productName === productName) {
 				if(item.productNum * 1 > 1) {
 					item.productNum--
 				} else {
@@ -143,14 +138,14 @@ export default {
 		let cart = state.cartList
 		if(productNum) {
 			cart.forEach((item, i) => {
-				if(item.productId === productId) {
+				if(item.productId === productId&&item.productName === productName) {
 					item.productNum = productNum * 1
 					item.checked = checked
 				}
 			})
 		} else if(productId) {
 			cart.forEach((item, i) => {
-				if(item.productId === productId) {
+				if(item.productId === productId&&item.productName === productName) {
 					cart.splice(i, 1)
 				}
 			})

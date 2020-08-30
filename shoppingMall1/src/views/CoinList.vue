@@ -14,7 +14,7 @@
 			<div class="step" v-if="categoryList.length>0"><span>2</span>{{$t("language.good.selectCategory")}}</div>
 			<div class="step-line serve-contain" v-if="categoryList.length>0">
 				<span v-for="(item,index) in categoryList" v-if="categoryList.length>0" :key="item.id" @click="selectCategory(item)" :class="item.id==categoryId?'active point':'point'">{{item.name}}</span>
-				<span v-if="categoryList.length==0"  class="active">none</span>
+				<span v-if="categoryList.length==0" class="active">none</span>
 
 			</div>
 			<div class="step"><span>{{categoryList.length>0?'3':'2'}}</span>{{$t("language.good.selectServe")}}</div>
@@ -22,7 +22,7 @@
 				<span v-for="(item,index) in serveList" :key="item.id" @click="selectServe(item)" :class="item.id==serveId?'active point':'point'">{{item.name}}</span>
 			</div>
 
-			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy  {{selectCategoryData.name}} {{selectData[0]&&selectData[0].name}} Silver</div>
+			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy {{selectCategoryData.name}} {{selectData[0]&&selectData[0].name}} Silver</div>
 
 			<div class="step-line item-contain" style="min-height: 1000px;">
 				<div class="flex-style">
@@ -39,12 +39,12 @@
 				</span>
 				</div>
 				<div class="total">
-					<span class="custom-quantity">Custom Quantity:<input type="number" min='0' class="input-style" v-model="coinNum" /></span><span class="price">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
-					<span class="option"><span class="buy point" @click="batchAdd">Buy Now</span></span>
+					<span class="custom-quantity">Custom Quantity:<input @blur="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /></span><span class="price">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
+					<span class="option"><span class="buy point" @click="addCart(selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity">{{item.name}}*{{selectData[0].miniNumber}}*{{item.qty||1}}</span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
 					</div>
 
 				</div>
@@ -70,7 +70,7 @@
 				itemList: [],
 				imgUrl: '',
 				gameList: {},
-				gameName:localStorage.getItem('gameName'),
+				gameName: localStorage.getItem('gameName'),
 				discountList: [],
 				selectType: 'coin',
 				selectId: '',
@@ -81,54 +81,25 @@
 				selectCurrency: '',
 				lowPrice: '',
 				plane: [],
-				totalPrice: 0,
 				selectServeData: {},
 				discountListAll: [],
 				categoryList: [],
 				selectCategoryData: [],
-				categoryId: ''
+				categoryId: '',
+				totalPrice: 0
 			};
 		},
 		computed: {
-			...mapState(['login', 'showMoveImg', 'showCart', 'currencyInfo', 'currencyInfo1'])
+			...mapState(['login', 'showMoveImg', 'showCart', 'currencyInfo', 'currencyInfo1']),
+
 		},
 		methods: {
 			...mapMutations(['ADD_CART', 'SHOW_LOGIN', 'CHOOSE_CURRENCY']),
-			countNum() {
-				var that = this;
-				this.newArray = JSON.parse(JSON.stringify(this.discountList));
-				this.lowPrice = '';
-				this.plane = [];
-				if(this.coinNum < 0) {
-					this.$message({
-						type: 'error',
-						message: 'Please fill in right Custom Quantity'
-					});
-					return
-				}
-				if(this.coinNum == 0) return
-				this.newArray.map((item, index) => {
-					item.buyNum = 0;
-					if(index == 0) {
-						this.mapCount(JSON.parse(JSON.stringify(this.newArray)));
-					} else {
-						for(var i = 0; i <= this.newArray.length; i++) {
-							var data = JSON.parse(JSON.stringify(this.newArray)).splice(i, index);
-							that.mapCount(data);
-						}
-					}
 
-				})
-				setTimeout(() => {
-					this.totalPrice = this.lowPrice
-				}, 1000)
-
-			},
 			mapCount(data) {
 				var num = this.coinNum;
 				if(num == 0 || data.length == 0) return
 				data = data.reverse();
-				console.log(data)
 				data.map((item, index) => {
 					if(num == 0) return
 					if(index == data.length - 1) {
@@ -158,6 +129,31 @@
 				})
 				this.totalPrice2(data)
 			},
+			changeNum() {
+
+				var that = this;
+				this.newArray = JSON.parse(JSON.stringify(this.discountList));
+				this.lowPrice = '';
+				this.plane = [];
+				if(this.coinNum && this.coinNum < this.selectData[0].miniNumber) {
+					this.$message({
+						type: 'error',
+						message: 'The minimum purchase quantity is ' + this.selectData[0].miniNumber
+					});
+					return
+				}
+				var totalPrice = 0;
+				if(this.coinNum > this.newArray[this.newArray.length - 1].qty) {
+					this.totalPrice = this.coinNum * this.newArray[this.newArray.length - 1].price;
+					return
+				}
+				this.newArray.map((item, index) => {
+					if(this.coinNum >= item.qty && this.coinNum < this.newArray[index + 1] && this.newArray[index + 1].qty) {
+						this.totalPrice = item.price * this.coinNum
+					}
+				})
+			},
+
 			totalPrice2(data) {
 				var price = 0;
 
@@ -184,37 +180,11 @@
 					type: 1
 				})
 			},
-			batchAdd() {
-
-				if(!this.login) {
-					this.SHOW_LOGIN(true);
-
+			addCart(id, price, name, img, productNum, addType, minNum) {
+				if(price == 0 || productNum == 0) {
 					return
 				}
-				if(this.discountList.length == 1) {
-					this.addCart(this.selectId, this.totalPrice, this.discountList[0].name, '', this.coinNum, 2)
-
-				} else {
-					this.plane.map((item) => {
-						if(item.buyNum && item.buyNum > 0) {
-							this.addCart(this.selectId, item.totalPrice * 1 * item.buyNum, item.name, '', item.qty * item.buyNum, 2)
-						}
-					})
-				}
-
-				setTimeout(() => {
-					if(this.login) {
-						this.$router.push('/payPage');
-					}
-				}, 1000)
-
-			},
-			addCart(id, price, name, img, productNum, addType, minNum) {
-//				if(addType == 1) {
-//					if(!this.login) {
-//						this.SHOW_LOGIN(true);
-//					}
-//				}
+				debugger
 				this.ADD_CART({
 					productId: id,
 					salePrice: price,
@@ -273,7 +243,7 @@
 						this.serveList = response.data.filter((item) => {
 							if(!item.category) {
 								var id = item.game.split(',')[0]
-									return id == localStorage.getItem('gameId')&&item.online
+								return id == localStorage.getItem('gameId') && item.online
 							}
 							if(this.categoryId) {
 								var id = item.category.split(',')[0]
@@ -315,6 +285,7 @@
 				getTemplete('?type=Product&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
 						this.itemList = [];
+
 						this.selectServeData.coins && JSON.parse(this.selectServeData.coins).map((subItem) => {
 							response.data.map((item) => {
 								if(item.id == subItem.split(',')[0] && item.type == "coin,coin") {
@@ -423,16 +394,6 @@
 			var name = this.currencyInfo.name || this.currencyInfo1.name
 			var data = this.currencyData.filter(item => item.name == name);
 			this.selectCurrency = data[0].id
-		},
-		watch: {
-			coinNum() {
-				if(this.discountList.length == 1) {
-					this.totalPrice = (this.discountList[0].price * this.coinNum).toFixed(2)
-				} else {
-					this.countNum();
-				}
-
-			}
 		}
 	}
 </script>
@@ -618,6 +579,13 @@
 			letter-spacing: 0px;
 			color: #333333;
 		}
+	}
+	
+	.hidden-style {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		display: block;
 	}
 	
 	.li {

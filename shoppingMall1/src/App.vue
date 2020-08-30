@@ -21,9 +21,13 @@
 		margin: 0;
 		overflow-y: auto;
 		min-height: 100%;
+		font-family: font,Arial,Helvetica Neue,Helvetica,sans-serif;
 		
 	}
-	
+	li,ul{
+		padding: 0;
+		margin: 0;
+	}
 	.el-dropdown {
 		margin-top: 12px;
 		width: 97px;

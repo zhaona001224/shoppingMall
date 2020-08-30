@@ -6,21 +6,21 @@
 			<div class="total head"><span class="custom-quantity">{{$t("language.good.shoppingCart")}}</span></div>
 			<div class="table">
 				<div class="th" v-for="(item,index) in cartList">
-					<div style="width: 500px;padding-left: 29px;">{{item.gameName}}-{{item.serveName}}-{{item.productName}}</div>
+					<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.serveName}}-{{item.productName}}</div>
 					<div style="width: 290px;">
 						<div class="select-num">
-							<span v-if="item.type!='coin'" @click="down(item.productId,item.productName)" class="down">-</span>
-							<input disabled="item.type=='coin'" type="number" :style="item.type=='coin'?'border: solid 1px #dcdcdc;width:154px':''" min="0" v-model="item.productNum" class="show">
-							<span v-if="item.type!='coin'" class="up" @click="up(item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
+							<span  @click="down(item.productId,item.productName)" class="down">-</span>
+							<input  type="number"  min="0" v-model="item.productNum" class="show">
+							<span  class="up" @click="up(item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
 						</div>
 					</div>
-					<div style="width: 290px;text-align: center;color: #f39800;">
-						{{currencyInfo.symbol}}{{item.salePrice*currencyInfo.rate}}
+					<div style="width: 220px;text-align: center;color: #f39800;">
+						{{currencyInfo.symbol}}{{(item.salePrice*currencyInfo.rate).toFixed(2)}}
 					</div>
-					<div class="price" style="width: 247px;">{{currencyInfo.symbol}}{{(item.salePrice&&item.salePrice*item.productNum*currencyInfo.rate).toFixed(2)}}</div>
+					<div class="price" style="width: 220px;">{{currencyInfo.symbol}}{{(item.salePrice&&item.salePrice*item.productNum*currencyInfo.rate).toFixed(2)}}</div>
 					<!--					<div class="price" style="width: 247px;" v-else>{{currencyInfo.symbol}}{{item.totalPrice*currencyInfo.rate}}</div>-->
 
-					<div class="delete point" @click="deletePro(item.productId,item.productName)" style="width: 137px;text-align: center;vertical-align: -8px;"><img style="width: 20px;height: 22px;" src="../assets/image/icon/icon_delete.png" /></div>
+					<div class="delete point" @click="deletePro(item.productId,item.productName)" style="width:80px;text-align: center;vertical-align: -8px;"><img style="width: 20px;height: 22px;" src="../assets/image/icon/icon_delete.png" /></div>
 				</div>
 			</div>
 			<div style="display: flex;justify-content: space-between;">

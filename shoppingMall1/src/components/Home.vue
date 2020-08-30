@@ -2,6 +2,7 @@
 
 	<div class="home-container" style="min-width: 1400px;">
 		<div class="top">
+			
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo1">
 					<span class="el-dropdown-link">
@@ -19,7 +20,7 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div class="menu-cart point user" @click="goPayPage()"><span class="num">{{totalNum}}</span><img src="../assets/image/icon/icon_cart.png"></img>{{$t("language.common.cart")}}
+				<div class="menu-cart point user" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png"></img>{{$t("language.common.cart")}}
 					<div class="nav-user-wrapper pa active">
 						<div class="nav-user-list">
 							<div class="full" v-show="totalNum">
@@ -82,11 +83,18 @@
 		</div>
 		<div class="img" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 65px;" /></div>
 		<div class="select">
-			<div>
-				<span :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">{{$t("language.common.tab1")}}</span>
-				<span @click="$router.push('/')">HOME</span>
-				<span>ABOUT US</span>
-			</div>
+			<ul>
+				<li :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
+					<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
+				</li>
+				<li @click="$router.push('/')">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li >
+					<a href="javascript:void(0)">About Us</a>
+				</li>
+
+			</ul>
 		</div>
 		<transition name="fade" mode="out-in">
 			<router-view></router-view>
@@ -106,7 +114,7 @@
 				<img src="../assets/image/icon/icon_footer4.png" />
 				<img src="../assets/image/icon/icon_footer5.png" />
 			</div>
-			<div style="margin:0 auto;width:930px;font-family: ArialMT;font-size: 12px;color: rgba(245, 245, 245, 0.3);">{{$t("language.common.footerTip")}}</div>
+			<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">{{$t("language.common.footerTip")}}</div>
 		</div>
 		<div class="choose-game" v-if="gamePop">
 			<img @click="gamePop=false" class="close" src="../assets/image/icon/icon_close.png" />
@@ -182,7 +190,7 @@
 				countryData: [],
 				currencyData: [],
 				selectCurrency: '',
-				width:'100%',
+				width: '100%',
 				gamePop: false,
 				totalPrice: 0,
 				selectType: 'login',
@@ -276,12 +284,12 @@
 				})
 			},
 			goPayPage() {
-//				if(this.login) {
-//					this.$router.push('/payPage');
-//				} else {
-//					this.SHOW_LOGIN(true);
-//				}
-					this.$router.push('/payPage');
+				//				if(this.login) {
+				//					this.$router.push('/payPage');
+				//				} else {
+				//					this.SHOW_LOGIN(true);
+				//				}
+				this.$router.push('/payPage');
 
 			},
 			//退出登录
@@ -404,7 +412,7 @@
 									type: 'success',
 									message: 'success'
 								});
-								this.form.password="";
+								this.form.password = "";
 								this.selectType = "login"
 							} else {
 								this.$message({
@@ -437,10 +445,10 @@
 
 		created() {
 			this.imgUrl = window.imgUrl;
-//			this.width=document.body.clientWidth>1000?document.body.clientWidth+'px':'400px';
+			//			this.width=document.body.clientWidth>1000?document.body.clientWidth+'px':'400px';
 			if(!localStorage.getItem('currencyInfo1')) {
 				getConfig().then(response => {
-					
+
 					if(response.retCode == 0) {
 						this.countryData = response.country;
 
@@ -488,7 +496,7 @@
 		.menu {
 			text-align: right;
 			margin-right: 18%;
-			font-family: ArialMT;
+			
 			.menu-cart {
 				display: inline-block;
 				margin-left: 50px;
@@ -521,25 +529,27 @@
 	
 	.select {
 		text-align: center;
-		height: 50px;
+		height: 49px;
 		background-color: #212121;
-		line-height: 50px;
-		span {
+		line-height: 49px;
+		li {
 			cursor: pointer;
-			font-family: Allstar4;
+			font-family:microsoft yahei;
+			font-family:font,Arial,Helvetica Neue,Helvetica,sans-serif;
 			font-size: 16px;
-			font-weight:600;
-			font-weight: normal;
-			font-stretch: normal;
 			line-height: 48px;
 			letter-spacing: 0px;
 			color: #ffffff;
 			display: inline-block;
-			height: 50px;
+			height: 48px;
 			text-align: center;
 			width: 230px;
 			color: #fff;
 			position: relative;
+			a {
+				color: #fff;
+				text-decoration: none;
+			}
 			&.tri_bottom:before {
 				right: 10px;
 				content: "";
@@ -560,7 +570,7 @@
 				border-left: 6px solid transparent;
 				border-right: 6px solid transparent;
 				position: absolute;
-				top: 23px;
+				top: 20px;
 			}
 			&.active {
 				background-color: #29303a;
@@ -580,7 +590,7 @@
 				display: inline-block;
 				color: rgba(245, 245, 245, 0.8);
 				text-align: center;
-				font-family: ArialMT;
+				
 				font-size: 16px;
 				width: 170px;
 				text-align: center;
@@ -636,7 +646,7 @@
 			cursor: pointer;
 			display: flex;
 			align-items: center;
-			font-family: ArialMT;
+			
 			font-size: 14px;
 			height: 40px;
 			text-align: left;
@@ -711,7 +721,7 @@
 			border: solid 1px #e5e5e5;
 		}
 		.forget-password {
-			font-family: ArialMT;
+			
 			text-decoration: underline;
 			font-size: 13px;
 			font-weight: normal;
@@ -732,7 +742,7 @@
 			text-align: center;
 			background-color: #e1251b;
 			border-radius: 4px;
-			font-family: ArialMT;
+			
 			font-size: 14px;
 			letter-spacing: 0px;
 			color: #ffffff;
@@ -764,7 +774,6 @@
 			@include wh(36px, 20px);
 			display: block;
 			text-indent: -9999px;
-			
 		}
 		li+li {
 			text-align: center;
@@ -854,7 +863,6 @@
 			display: block;
 			right: 0;
 			z-index: 1;
-			
 		}
 		.cart-num {
 			position: relative;
@@ -1036,7 +1044,6 @@
 		top: 50%;
 		width: 76px;
 		height: 62px;
-		
 		background-size: cover;
 	}
 	
