@@ -171,7 +171,7 @@
 			goProduct(item,type) {
 				if(type==1){
 					item.id=item.game.split(',')[0];
-					item.name=item.game.split(',')[0]
+					item.name=item.game.split(',')[1]
 				}
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
