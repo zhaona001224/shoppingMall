@@ -67,7 +67,6 @@
 				</el-form>
 			</div>
 		</el-card>
-		{{form}}
 		<div v-html="editorContent"></div>
 	</div>
 </template>
@@ -317,7 +316,6 @@
 				})
 			},
 			getDataSource(url, key) {
-				debugger
 				if(key)
 					var that = this;
 				that.$get(url, {
@@ -447,7 +445,7 @@
 
 							if(this.dataSource.formData.data[key].type == "select") {
 								if(this.form[key]) {
-									if(key == 'type') {
+									if(key == 'type'||key == 'productSell') {
 										this.form[key] = this.form[key] && this.form[key].split(',')[0]
 									} else {
 										this.form[key] = this.form[key] && parseInt(this.form[key].split(',')[0])

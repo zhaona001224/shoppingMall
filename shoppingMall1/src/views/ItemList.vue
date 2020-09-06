@@ -5,10 +5,10 @@
 
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
-				<div :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList')">
+				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'" :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList')">
 					<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
 				</div>
-				<div :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList')">
+				<div  v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'" :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList')">
 					<img src="../assets/image/icon/icon_item.png" /> {{gameList.itemName||'Items'}}
 				</div>
 			</div>
