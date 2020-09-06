@@ -35,16 +35,10 @@
 			<div class="contain">
 
 				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&item.type=='item,item'" @click="goProduct(selectGame)">
-					<el-popover placement="right" width="400" trigger="hover">
+					<el-popover placement="right" :width="item.customerLabel?'400':''" trigger="hover">
 						<div class="pop-item">
 							<img style="margin-right: 17px;" :src="imgUrl+item.hintImage" />
 							<div>
-								<div class="title hidden-style">
-									{{item.name}}
-								</div>
-								<div class="text">
-									Price:<span>{{currencyInfo.symbol}}{{item.price*1*currencyInfo.rate.toFixed(2)}}</span>
-								</div>
 								<div class="label">{{item.customerLabel}}</div>
 							</div>
 

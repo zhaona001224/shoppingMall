@@ -39,7 +39,7 @@
 				</span>
 				</div>
 				<div class="total">
-					<span class="custom-quantity">Custom Quantity:<input @blur="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /></span><span class="price">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
+					<span class="custom-quantity">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /></span><span class="price">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
 					<span class="option"><span class="buy point" @click="addCart(selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
@@ -74,7 +74,7 @@
 				discountList: [],
 				selectType: 'coin',
 				selectId: '',
-				coinNum: '',
+				coinNum: 1,
 				newArray: [],
 				selectData: [],
 				currencyData: [],
@@ -184,7 +184,6 @@
 				if(price == 0 || productNum == 0) {
 					return
 				}
-				debugger
 				this.ADD_CART({
 					productId: id,
 					salePrice: price,
@@ -195,7 +194,9 @@
 					serveId: this.selectServeData.id,
 					serveName: this.selectServeData.name,
 					gameId: localStorage.gameId,
-					gameName: localStorage.gameName
+					gameName: localStorage.gameName,
+					categoryName: this.selectCategoryData.name,
+					categoryId: this.selectCategoryData.id
 				})
 				if(addType == 1) {
 					this.$router.push('/payPage');
@@ -226,7 +227,13 @@
 						} else {
 							this.getServe();
 						}
-
+						var resultArray = this.categoryList.sort(
+							function compareFunction(param1, param2) {
+								return param1.name.trim().localeCompare(param2.name.trim(), "zh");
+							}
+						)
+						console.log(resultArray)
+						this.categoryList = resultArray;
 					} else {
 						this.$message({
 							type: 'warning',
@@ -249,11 +256,18 @@
 								var id = item.category.split(',')[0]
 								return id == this.categoryId && item.online
 							} else {
-								var id = item.game.split(',')[0]
+								var id = item.game.lit(',')[0]
 								return id == localStorage.getItem('gameId') && item.online
 							}
 
 						})
+
+						var resultArray = this.serveList.sort(
+							function compareFunction(param1, param2) {
+								return param1.name.trim().localeCompare(param2.name.trim(), "zh");
+							}
+						)
+						this.serveList = resultArray;
 						this.imgUrl = window.imgUrl;
 						if(this.serveList.length > 0) {
 							this.selectServeData = this.serveList[0];
@@ -394,6 +408,11 @@
 			var name = this.currencyInfo.name || this.currencyInfo1.name
 			var data = this.currencyData.filter(item => item.name == name);
 			this.selectCurrency = data[0].id
+		},
+		watch: {
+			coinNum() {
+				this.changeNum();
+			}
 		}
 	}
 </script>

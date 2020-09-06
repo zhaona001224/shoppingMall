@@ -18,11 +18,11 @@
 						</el-input>
 						<el-tree :default-expand-all="true" v-if="item.data.type=='tree'" ref="tree" :props="defaultProps" style="width:800px" :data="item.data.source[0].name?item.data.source:[]" :key="item.data.id" :highlight-current="true" node-key="id" :label="item.name" :value="item.id" accordion @node-click="handleNodeClick">
 						</el-tree>
-						<el-select :clearable="true" @change="refreshData" style="width:800px" multiple v-if="item.data.type=='multiselect'" v-model="form[item.name]" :placeholder="'请选择'+item.name">
+						<el-select :clearable="true"  @change="refreshData(subItem.name)" style="width:800px" multiple v-if="item.data.type=='multiselect'" v-model="form[item.name]" :placeholder="'请选择'+item.name">
 							<el-option v-for="subItem in item.data.source" :key="subItem.id" :label="subItem.name" :value="subItem.id">
 							</el-option>
 						</el-select>
-						<el-select :clearable="true" @change="refreshData" style="width:800px" v-if="item.data.type=='select'" v-model="form[item.name]" :placeholder="'请选择'+item.name">
+						<el-select :clearable="true"  @click="judgeGame(subItem.name)" @change="refreshData" style="width:800px" v-if="item.data.type=='select'" v-model="form[item.name]" :placeholder="'请选择'+item.name">
 							<el-option v-for="subItem in item.data.source" :key="subItem.id" :label="subItem.name" :value="subItem.id">
 							</el-option>
 						</el-select>
@@ -88,6 +88,7 @@
 				form: {
 
 				},
+				categoryUrl: '',
 				activeKey: '',
 				roles: [],
 				defaultProps: {
@@ -110,8 +111,16 @@
 				this.formData.imageUrl = URL.createObjectURL(file.raw);
 			},
 			refreshData(e) {
-				console.log(e)
+		
 				this.$forceUpdate();
+			},
+			judgeGame(e){
+				if(e=="category"&&this.dataSource.formData.data[e].source.length == 0) {
+					this.$message({
+						type: 'warning',
+						message: "Place Select Game"
+					});
+				}
 			},
 			changeSelect() {
 
@@ -185,7 +194,7 @@
 				for(var key in form) {
 					if(key != 'id' && this.dataSource.formData.data[key] && this.form[key]) {
 						if(this.dataSource.formData.data[key].type == "select" || this.dataSource.formData.data[key].type == "tree") {
-							
+
 							if(key == "belongto") {
 								var source = this.treeData
 							} else {
@@ -199,10 +208,10 @@
 
 							form[key] = this.form[key] + "," + data[0].name
 						}
-						
+
 						if(this.dataSource.formData.data[key].type == "multiselect") {
 							var source = this.dataSource.formData.data[key].source;
-							var array=[];
+							var array = [];
 							this.form[key].map((formItem) => {
 								var data = source.filter((item, index) => {
 									return item.id == formItem
@@ -250,7 +259,7 @@
 				})
 			},
 			getTreeList(data, fn) {
-		
+				debugger
 				data && data.map((item, index) => {
 					if(!item.id) return
 					item.children = this.treeData.filter((subItem, index) => {
@@ -261,8 +270,7 @@
 				})
 			},
 			getTreeSource(key) {
-				var that = this;
-				that.$get('/admin/v1/contents?type=Category&offset=1&count=10000', {
+				that.$get('/admin/v1/contents?type=Category&offset=1&count=10000&game=' + this.data.game, {
 
 				}).then(response => {
 
@@ -289,8 +297,29 @@
 
 				})
 			},
+			getServeData(key) {
+				if(!this.categoryUrl) return
+				this.$get(this.categoryUrl + this.form.game, {
+
+				}).then(response => {
+
+					if(response.retCode == 0) {
+						this.dataSource.formData.data[key].source = response.data || [];
+						this.$forceUpdate();
+					} else {
+
+						that.$message({
+							type: 'warning',
+							message: response.message
+						});
+					}
+
+				})
+			},
 			getDataSource(url, key) {
-				var that = this;
+				debugger
+				if(key)
+					var that = this;
 				that.$get(url, {
 
 				}).then(response => {
@@ -378,7 +407,12 @@
 				}
 				if(this.dataSource.formData.data[key].type == "select" || this.dataSource.formData.data[key].type == "multiselect") {
 					if(this.dataSource.formData.data[key].source.length > 0 && this.dataSource.formData.data[key].source[0].indexOf('/') > -1) {
-						that.getDataSource(this.dataSource.formData.data[key].source[0], key);
+						if(key == "category") {
+							this.categoryUrl = this.dataSource.formData.data[key].source[0].split('[[')[0]
+						} else {
+							that.getDataSource(this.dataSource.formData.data[key].source[0], key);
+
+						}
 
 					} else {
 						this.dataSource.formData.data[key].source.map((item, index) => {
@@ -413,22 +447,22 @@
 
 							if(this.dataSource.formData.data[key].type == "select") {
 								if(this.form[key]) {
-									if(key=='type'){
+									if(key == 'type') {
 										this.form[key] = this.form[key] && this.form[key].split(',')[0]
-									}else{
+									} else {
 										this.form[key] = this.form[key] && parseInt(this.form[key].split(',')[0])
 									}
-									
+
 								}
 
 							}
 							if(this.dataSource.formData.data[key].type == "multiselect") {
 								if(this.form[key]) {
-									var data=[];
-									 this.form[key] && JSON.parse(this.form[key]).map((item,index)=>{
-									 	data.push(item&&item.split(',')[0]*1)
-									 })
-									  this.form[key]=data
+									var data = [];
+									this.form[key] && JSON.parse(this.form[key]).map((item, index) => {
+										data.push(item && item.split(',')[0] * 1)
+									})
+									this.form[key] = data
 								}
 
 							}
@@ -459,6 +493,15 @@
 				this.getPicData();
 			}
 
+		},
+		watch: {
+			'form.game': { //深度监听，可监听到对象、数组的变化
+				handler(val, oldVal) {
+					this.getServeData('category');
+				},
+				deep: true //true 深度监听
+
+			}
 		}
 
 	}

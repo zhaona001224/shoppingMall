@@ -6,10 +6,10 @@
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
 				<div :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList')">
-					<img src="../assets/image/icon/icon_coin.png" /> Silver
+					<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
 				</div>
 				<div :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList')">
-					<img src="../assets/image/icon/icon_item.png" /> Items
+					<img src="../assets/image/icon/icon_item.png" /> {{gameList.itemName||'Items'}}
 				</div>
 			</div>
 			<div class="step" v-if="categoryList.length>0"><span>2</span>{{$t("language.good.selectCategory")}}</div>
@@ -38,7 +38,7 @@
 				<div class="li point" v-for="(item,index) in itemList" :key="item.id">
 					<el-popover placement="right" width="400" trigger="hover">
 						<div class="pop-item">
-							<img style="margin-right: 17px;" :src="imgUrl+item.hintImage" />
+							<img style="margin-right: 17px;" :src="imgUrl+item.logo" />
 							<div>
 								<div class="title hidden-style">
 									{{item.name}}
@@ -61,7 +61,7 @@
 							<div class="price">{{currencyInfo.symbol}}{{(item.price*1*currencyInfo.rate).toFixed(2)}}</div>
 							<div style="    position: relative; width: 164px; margin: 0 auto;">
 								<div style="position: absolute;width:70%;height: 32px;" class="add" @click="addCart(item.id,item.price,item.name,1,imgUrl+item.hintImage,1)"></div>
-								<div style="position: absolute;width:30%;right:0;height: 32px;" class="go" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" ></div>
+								<div style="position: absolute;width:30%;right:0;height: 32px;" class="go" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)"></div>
 								<img class="point" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />
 							</div>
 						</div>
@@ -171,6 +171,8 @@
 						serveName: this.selectServeData.name,
 						gameId: localStorage.gameId,
 						gameName: localStorage.gameName,
+						categoryName: this.selectCategoryData.name,
+						categoryId: this.selectCategoryData.id
 					})
 					this.$message({
 						type: 'success',
@@ -187,7 +189,15 @@
 							var id = item.game.split(',')[0]
 							return id == localStorage.getItem('gameId') && item.online
 						})
+						
 						this.imgUrl = window.imgUrl;
+							var resultArray = this.categoryList.sort(
+							function compareFunction(param1, param2) {
+								return param1.name.trim().localeCompare(param2.name.trim(), "zh");
+							}
+						)
+						console.log(resultArray)
+						this.categoryList = resultArray;
 						if(this.categoryList.length > 0) {
 							this.selectCategoryData = this.categoryList[0];
 							this.categoryId = this.categoryList && this.categoryList[0].id
@@ -223,6 +233,12 @@
 							}
 
 						})
+						var resultArray = this.serveList.sort(
+							function compareFunction(param1, param2) {
+								return param1.name.trim().localeCompare(param2.name.trim(), "zh");
+							}
+						)
+						this.serveList = resultArray;
 						this.imgUrl = window.imgUrl;
 						if(this.serveList.length > 0) {
 							this.selectServeData = this.serveList[0];

@@ -6,7 +6,7 @@
 			<div class="total head"><span class="custom-quantity">{{$t("language.good.shoppingCart")}}</span></div>
 			<div class="table">
 				<div class="th" v-for="(item,index) in cartList">
-					<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.serveName}}-{{item.productName}}</div>
+					<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}</div>
 					<div style="width: 290px;">
 						<div class="select-num">
 							<span  @click="down(item.productId,item.productName)" class="down">-</span>
