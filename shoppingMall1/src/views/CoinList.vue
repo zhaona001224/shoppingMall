@@ -4,11 +4,11 @@
 			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > Silver</div>
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
-				<div :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList')">
-					<img src="../assets/image/icon/icon_coin.png" /> Silver
+				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'" :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList')">
+					<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
 				</div>
-				<div :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList')">
-					<img src="../assets/image/icon/icon_item.png" /> Items
+				<div  v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'" :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList')">
+					<img src="../assets/image/icon/icon_item.png" /> {{gameList.itemName||'Items'}}
 				</div>
 			</div>
 			<div class="step" v-if="categoryList.length>0"><span>2</span>{{$t("language.good.selectCategory")}}</div>
