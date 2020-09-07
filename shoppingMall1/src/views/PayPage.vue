@@ -9,9 +9,9 @@
 					<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}</div>
 					<div style="width: 290px;">
 						<div class="select-num">
-							<span  @click="down(item.productId,item.productName)" class="down">-</span>
-							<input  type="number"  min="0" v-model="item.productNum" class="show">
-							<span  class="up" @click="up(item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
+							<span @click="down(item.productId,item.productName)" class="down">-</span>
+							<input type="number" min="0" v-model="item.productNum" class="show">
+							<span class="up" @click="up(item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
 						</div>
 					</div>
 					<div style="width: 220px;text-align: center;color: #f39800;">
@@ -65,15 +65,15 @@
 			<div class="step-line ">
 				<el-form style="padding-top:30px" ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
 					<el-row>
-						<el-col :span="8">
-							<el-form-item label='Character Name' prop="payer">
+						<el-col :span="14">
+							<el-form-item :label='productInfo.customerLabel' prop="payer">
 								<el-input placeholder="" v-model="form.payer">
 								</el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 				</el-form>
-				<div class="tip"><img src="../assets/image/icon/icon_tip.png" />Caution: Content content content.</div>
+				<div class="tip" v-if="productInfo.customerCaution"><img src="../assets/image/icon/icon_tip.png" />{{productInfo.customerCaution}}</div>
 			</div>
 			<div class="step"><span>3</span>{{$t("language.good.paymentMethod")}}</div>
 
@@ -147,6 +147,7 @@
 				couponPrice: {
 
 				},
+				productInfo: {},
 				rules: {
 					email: [{
 							message: "Please fill in email",
@@ -182,7 +183,7 @@
 		},
 
 		computed: {
-			...mapState(['cartList', 'currencyInfo','login']),
+			...mapState(['cartList', 'currencyInfo', 'login']),
 			totalPice() {
 				this.totalNum = 0;
 				var price = 0;
@@ -207,7 +208,7 @@
 			},
 		},
 		methods: {
-			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART','SHOW_LOGIN','CLEAR_CART']),
+			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART', 'SHOW_LOGIN', 'CLEAR_CART']),
 			deletePro(id, productName) {
 				this.EDIT_CART({
 					productId: id,
@@ -233,12 +234,12 @@
 
 			},
 			pay() {
-				var that=this;
+				var that = this;
 				if(!this.login) {
 					this.SHOW_LOGIN(true);
 					return
 				}
-				if(this.totalNum<=0) {
+				if(this.totalNum <= 0) {
 					that.$message.error("Please select product！");
 					return
 				}
@@ -348,7 +349,7 @@
 			},
 			pay3(type) {
 				var that = this;
-				
+
 				var params = {
 					"amount": (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
 					"currency": this.currencyInfo.name,
@@ -368,7 +369,7 @@
 					if(response.retCode == 0) {
 						window.location.href = response.data.redirect_url;
 						this.CLEAR_CART();
-						
+
 					} else {
 						this.$message({
 							type: 'warning',
@@ -441,41 +442,12 @@
 
 				})
 			},
-			getServe() {
-				//获取game
-				getTemplete('?type=Server&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
-						response.data = response.data || []
-						this.serveList = response.data.filter((item) => {
-							var id = item.game.split(',')[0]
-							return id = localStorage.getItem('gameId')
-						})
-						this.imgUrl = window.imgUrl;
-						this.selectServeData = this.serveList[0];
-						this.serveId = this.serveList && this.serveList[0].id
-						this.getItem();
-					} else {
-						this.$message({
-							type: 'warning',
-							message: response.message
-						});
-					}
-				})
-			},
 
 			getItem() { //获取item
 				getTemplete('?type=Product&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
-						this.itemList = [];
-						this.selectServeData.coins && JSON.parse(this.selectServeData.items).map((subItem) => {
-							response.data.map((item) => {
-								if(item.id == subItem.split(',')[0] && item.type == "coin,coin") {
-									this.itemList.push(item)
-								}
-
-							})
-						})
-
+						var data = response.data && response.data.filter(item => item.id == this.cartList[0].productId);
+						this.productInfo = data[0]
 					} else {
 						this.$message({
 							type: 'warning',
@@ -518,7 +490,8 @@
 		},
 		created() {
 			this.getCoupn();
-			
+			this.getItem();
+
 		},
 		watch: {
 			cartList(a, b) {
