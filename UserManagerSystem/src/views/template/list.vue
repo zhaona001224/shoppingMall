@@ -1,7 +1,10 @@
 <template>
 	<div class="list">
 		<el-card class="box-card">
+			<el-breadcrumb separator="/">
+			
 			<el-breadcrumb-item style="line-height: 33px;" >{{$route.params.key}}/List</el-breadcrumb-item>
+				</el-breadcrumb>
 			<el-button type="primary" class="common-btn" @click.native="$router.push('/template/Add/' + $route.params.key)">Add</el-button>
 			<el-button type="primary" style="float: right;" class="common-btn" @click="search">Search</el-button>
 			<el-input @input="selfSearch" class="search-input" style="width:340px!important;margin-right: 50px;float: right;" prefix-icon="el-icon-search" v-model="keyword" placeholder="请输入搜索内容">

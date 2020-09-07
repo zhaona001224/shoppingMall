@@ -17,7 +17,7 @@
 			<div class="contain">
 				<div class="li point" v-for="(item,index) in gameList" v-if="index<8" :key="item.id" @click="goProduct(item)">
 					<img v-lazy="imgUrl+item.logo" />
-					<div class="text">
+					<div class="text hidden-style">
 						{{item.name}}
 					</div>
 				</div>
@@ -539,5 +539,11 @@
 				}
 			}
 		}
+	}
+	.hidden-style {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		display: block;
 	}
 </style>

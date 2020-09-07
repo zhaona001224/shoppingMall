@@ -16,13 +16,14 @@
 
 						<el-input style="width:800px" v-if="item.data.type=='input'" :placeholder="'请填写 '+item.name" maxlength="" v-model="form[item.name]">
 						</el-input>
+						<!--	{{formData}}-->
 						<el-tree :default-expand-all="true" v-if="item.data.type=='tree'" ref="tree" :props="defaultProps" style="width:800px" :data="item.data.source[0].name?item.data.source:[]" :key="item.data.id" :highlight-current="true" node-key="id" :label="item.name" :value="item.id" accordion @node-click="handleNodeClick">
 						</el-tree>
-						<el-select :clearable="true"  @change="refreshData(subItem.name)" style="width:800px" multiple v-if="item.data.type=='multiselect'" v-model="form[item.name]" :placeholder="'请选择'+item.name">
+						<el-select :clearable="true" @change="refreshData(subItem.name)" style="width:800px" multiple v-if="item.data.type=='multiselect'" v-model="form[item.name]" :placeholder="'请选择'+item.name">
 							<el-option v-for="subItem in item.data.source" :key="subItem.id" :label="subItem.name" :value="subItem.id">
 							</el-option>
 						</el-select>
-						<el-select :clearable="true"  @click="judgeGame(subItem.name)" @change="refreshData" style="width:800px" v-if="item.data.type=='select'" v-model="form[item.name]" :placeholder="'请选择'+item.name">
+						<el-select :clearable="true" @click="judgeGame(subItem.name)" @change="refreshData" style="width:800px" v-if="item.data.type=='select'" v-model="form[item.name]" :placeholder="'请选择'+item.name">
 							<el-option v-for="subItem in item.data.source" :key="subItem.id" :label="subItem.name" :value="subItem.id">
 							</el-option>
 						</el-select>
@@ -110,11 +111,11 @@
 				this.formData.imageUrl = URL.createObjectURL(file.raw);
 			},
 			refreshData(e) {
-		
+
 				this.$forceUpdate();
 			},
-			judgeGame(e){
-				if(e=="category"&&this.dataSource.formData.data[e].source.length == 0) {
+			judgeGame(e) {
+				if(e == "category" && this.dataSource.formData.data[e].source.length == 0) {
 					this.$message({
 						type: 'warning',
 						message: "Place Select Game"
@@ -258,7 +259,6 @@
 				})
 			},
 			getTreeList(data, fn) {
-				debugger
 				data && data.map((item, index) => {
 					if(!item.id) return
 					item.children = this.treeData.filter((subItem, index) => {
@@ -269,11 +269,27 @@
 				})
 			},
 			getTreeSource(key) {
-				that.$get('/admin/v1/contents?type=Category&offset=1&count=10000&game=' + this.data.game, {
+				var that = this;
+				if(!this.form.game) return
+				var source = this.dataSource.formData.data['game'].source
+				if(source[0].name) {
+					var data = source.filter((item, index) => {
+
+						return item.id == this.form.game
+					})
+					var q = this.form['game'] + "," + data[0].name
+				} else {
+					return
+				}
+
+				this.$get('/admin/v1/contents/search?type=Category&q=' + q, {
 
 				}).then(response => {
 
 					if(response.retCode == 0) {
+						response.data&&response.data.map((item) => {
+							item.id = item.id + ''
+						})
 						this.treeData = response.data || [];
 						var Node1 = this.treeData && this.treeData.filter((item, index) => {
 							return !item.belongto
@@ -283,7 +299,10 @@
 							id: ''
 						})
 						this.getTreeList(Node1)
+						this.dataSource.formData.data[key] = this.dataSource.formData.data[key] || {}
+
 						this.dataSource.formData.data[key].source = Node1 || [];
+						console.log(this.dataSource.formData.data[key].source)
 						this.$forceUpdate();
 
 					} else {
@@ -298,11 +317,24 @@
 			},
 			getServeData(key) {
 				if(!this.categoryUrl) return
-				this.$get(this.categoryUrl + this.form.game, {
+				var source = this.dataSource.formData.data['game'].source
+				if(source[0].name) {
+					var data = source.filter((item, index) => {
+
+						return item.id == this.form.game
+					})
+					var q = this.form['game'] + "," + data[0].name
+				} else {
+					return
+				}
+				this.$get(this.categoryUrl + q, {
 
 				}).then(response => {
 
 					if(response.retCode == 0) {
+						response.data&&response.data.map((item) => {
+							item.id = item.id + ''
+						})
 						this.dataSource.formData.data[key].source = response.data || [];
 						this.$forceUpdate();
 					} else {
@@ -323,8 +355,13 @@
 				}).then(response => {
 
 					if(response.retCode == 0) {
+						response.data.map((item) => {
+							item.id = item.id + ''
+						})
+						
 						this.dataSource.formData.data[key].source = response.data || [];
-
+						this.getServeData('category');
+						this.getTreeSource('belongto');
 						if(this.dataSource.formData.data[key].required && this.dataSource.formData.data[key].source.length == 0) {
 							this.$alert('请先创建' + key, '提示', {
 								confirmButtonText: '确定',
@@ -430,7 +467,6 @@
 				}
 
 			}
-			console.log(this.rules)
 			this.$forceUpdate();
 
 		},
@@ -445,11 +481,7 @@
 
 							if(this.dataSource.formData.data[key].type == "select") {
 								if(this.form[key]) {
-									if(key == 'type'||key == 'productSell') {
-										this.form[key] = this.form[key] && this.form[key].split(',')[0]
-									} else {
-										this.form[key] = this.form[key] && parseInt(this.form[key].split(',')[0])
-									}
+									this.form[key] = this.form[key] && this.form[key].split(',')[0]
 
 								}
 
@@ -496,6 +528,8 @@
 			'form.game': { //深度监听，可监听到对象、数组的变化
 				handler(val, oldVal) {
 					this.getServeData('category');
+						this.getTreeSource('belongto');
+
 				},
 				deep: true //true 深度监听
 
