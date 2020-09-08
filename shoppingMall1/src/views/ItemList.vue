@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div style="width: 1200px;margin:100px auto">
-			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > Items</div>
+			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} >  {{gameList.itemName||'Items'}}</div>
 
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div style="width: 1200px;margin:100px auto">
-			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > Silver</div>
+			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} >  {{gameList.coinName||'Silver'}}</div>
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'" :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList')">
@@ -303,6 +303,8 @@
 						this.selectServeData.coins && JSON.parse(this.selectServeData.coins).map((subItem) => {
 							response.data.map((item) => {
 								if(item.id == subItem.split(',')[0] && item.type == "coin,coin") {
+									
+									item.price=this.selectServeData.price
 									this.itemList.push(item)
 								}
 
@@ -346,6 +348,9 @@
 				this.selectData = this.itemList.filter((item) => {
 					return item.id == this.selectId
 				})
+				this.selectData.map((item)=>{
+						item.price=this.selectServeData.price
+				})
 				if(!this.selectData[0].discount) {
 					this.selectData[0].qty = 1;
 					this.discountList = this.selectData;
@@ -373,11 +378,12 @@
 				this.discountList.map((item) => {
 					item.name = this.selectData[0].name;
 					if(this.selectData[0].price * 1 - item.discount > 0) {
+						console.log(this.selectData[0].price)
 						item.price = this.selectData[0].price * 1 - item.discount;
 					} else {
 						item.price = this.selectData[0].price * 1
 					}
-
+				
 					item.totalPrice = (item.price * 1 * (item.qty * 1)).toFixed(2)
 				})
 			},

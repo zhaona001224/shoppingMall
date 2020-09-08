@@ -145,7 +145,8 @@
 				gamePage: 0,
 				newPage: 0,
 				itemPage: 1,
-				selectGame: {}
+				selectGame: {},
+				
 			};
 		},
 		computed: {
@@ -171,6 +172,7 @@
 				localStorage.setItem('gameName', item.name);
 				this.$router.push('/itemList');
 			},
+			
 			getGame() {
 				//获取game
 				getTemplete('?type=Game&offset=' + this.gamePage + '&count=8').then(response => {
@@ -209,7 +211,7 @@
 						this.itemList = response.data.filter((item) => {
 							var gameId = item.game.split(',')[0];
 
-							return gameId == this.selectId&&item.online
+							return gameId == this.selectId&&item.online&&item.type=="item,item"
 						})
 
 					} else {
@@ -265,6 +267,7 @@
 			this.getItem();
 			this.getHotGame();
 			this.getNews();
+			
 			//获取banner
 			getTemplete('?type=Carousel&offset=0&count=5').then(response => {
 				if(response.retCode == 0) {

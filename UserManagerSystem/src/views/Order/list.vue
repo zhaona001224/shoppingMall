@@ -46,7 +46,7 @@
 						</el-popover>
 					</template>
 				</el-table-column>
-				<el-table-column header-align="left" width="160px" sortable prop="pay_time" label="pay_time">
+				<el-table-column header-align="left" width="240px" sortable prop="pay_time" label="pay_time">
 				</el-table-column>
 				<el-table-column header-align="left" prop="description" width="300px" label="description">
 				<template slot-scope="scope">
@@ -405,7 +405,7 @@
 							item.updated = this.$util.formatTime(item.updated, 'YYYY-MM-DD HH:mm:ss');
 							item.note = item.note && item.note.split(',');
 
-							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
+//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
 							item.request_time = item.request_time ? this.dateFormat(item.request_time, 'yyyy-MM-dd HH:mm:ss') : ''
 
 						})
@@ -487,7 +487,7 @@
 						this.tableData && this.tableData.map((item) => {
 							item.updated = this.$util.formatTime(item.updated, 'YYYY-MM-DD HH:mm:ss');
 							item.note = item.note && item.note.split(',');
-							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
+//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
 							item.request_time = item.request_time ? this.dateFormat(item.request_time, 'yyyy-MM-dd HH:mm:ss') : ''
 
 						})

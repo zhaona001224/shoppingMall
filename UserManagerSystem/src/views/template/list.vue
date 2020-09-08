@@ -2,9 +2,9 @@
 	<div class="list">
 		<el-card class="box-card">
 			<el-breadcrumb separator="/">
-			
-			<el-breadcrumb-item style="line-height: 33px;" >{{$route.params.key}}/List</el-breadcrumb-item>
-				</el-breadcrumb>
+
+				<el-breadcrumb-item style="line-height: 33px;">{{$route.params.key}}/List</el-breadcrumb-item>
+			</el-breadcrumb>
 			<el-button type="primary" class="common-btn" @click.native="$router.push('/template/Add/' + $route.params.key)">Add</el-button>
 			<el-button type="primary" style="float: right;" class="common-btn" @click="search">Search</el-button>
 			<el-input @input="selfSearch" class="search-input" style="width:340px!important;margin-right: 50px;float: right;" prefix-icon="el-icon-search" v-model="keyword" placeholder="请输入搜索内容">
@@ -22,7 +22,7 @@
 				</el-table-column>
 				<el-table-column v-for="(item,index) in formData" :key="item.id" v-if="item&&item.name=='price'" :prop="item&&item.name" :label="item&&item.name" width="120px">
 					<template slot-scope="scope">
-						<el-input @keyup.enter.native="handleInputConfirm(scope.$index)" style="width:110px" @blur="handleInputClear(scope.$index)" v-model="scope.row.price" :placeholder="'请输入'+item.name"></el-input>
+						<el-input @keyup.enter.native="handleInputConfirm(scope.row.id,scope.row.price)" style="width:110px" @blur="handleInputClear(scope.row.id,scope.row.price)" v-model="scope.row.price" :placeholder="'请输入'+item.name"></el-input>
 					</template>
 				</el-table-column>
 				<el-table-column :sortable="item&&item.name=='name'" v-for="(item,index) in formData" :key="item&&item.id" v-if="item&&item.data.type!='textarea'&&item.data.type!='file'&&item.name!='price'" header-align="left" :prop="item&&item.name" :label="item&&item.name" :width="(item.name=='type'||item.name=='miniNumber'||item.name=='hotItem'||item.name=='online')?'110px':'140px'">
@@ -38,7 +38,7 @@
 
 				<el-table-column prop="updated" sortable label="updateTime" width="160px" cell-class-name="center" header-align="center">
 				</el-table-column>
-				<el-table-column  fixed="right" label="operation" min-width="240px" cell-class-name="center" header-align="center">
+				<el-table-column fixed="right" label="operation" min-width="240px" cell-class-name="center" header-align="center">
 					<template slot-scope="scope">
 						<!--<el-button type="text" size="small" v-if="scope.row.online" @click="handleStatus(scope.row)">{{scope.row.online?'outLine':'online'}}</el-button>-->
 						<el-button type="text" size="small" @click="handleEdit(scope.row)">Edit</el-button>
@@ -124,15 +124,25 @@
 				})
 				this.$forceUpdate();
 			},
-			handleInputClear(index) {
-				this.tableData[index].price = this.originTable[index].price;
+			handleInputClear(id, price) {
+				this.tableData.map((item, index) => {
+					if(item.id == id) {
+						this.originTable.map((subItem, subIndex) => {
+							if(subItem.id == id) {
+								this.tableData[index].price = this.originTable[subIndex].price;
+							}
+						})
+						
+					}
+				})
+
 				this.$forceUpdate();
 			},
-			handleInputConfirm(index) {
+			handleInputConfirm(id, price) {
 				var that = this;
-				var data = this.originTable[index];
-				data.price = this.tableData[index].price
-				that.$post("/admin/v1/content/update?type=" + this.$route.params.key + "&id=" + data.id, data).then(response => {
+				var data = this.originTable.filter((item) => item.id == id);
+				data[0].price = price;
+				that.$post("/admin/v1/content/update?type=" + this.$route.params.key + "&id=" + id, data[0]).then(response => {
 					if(response.retCode == 0) {
 						that.$message({
 							type: 'success',

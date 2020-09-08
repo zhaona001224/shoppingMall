@@ -88,6 +88,7 @@
 				form: {
 
 				},
+				
 				categoryUrl: '',
 				activeKey: '',
 				roles: [],
@@ -287,7 +288,8 @@
 				}).then(response => {
 
 					if(response.retCode == 0) {
-						response.data&&response.data.map((item) => {
+						response.data && response.data.map((item) => {
+							item.name = item.name + '-' + item.sname
 							item.id = item.id + ''
 						})
 						this.treeData = response.data || [];
@@ -316,7 +318,7 @@
 				})
 			},
 			getServeData(key) {
-				if(!this.categoryUrl) return
+				if(!this.categoryUrl||!this.form.game) return
 				var source = this.dataSource.formData.data['game'].source
 				if(source[0].name) {
 					var data = source.filter((item, index) => {
@@ -332,7 +334,8 @@
 				}).then(response => {
 
 					if(response.retCode == 0) {
-						response.data&&response.data.map((item) => {
+						response.data && response.data.map((item) => {
+							item.name = item.name + '-' + item.sname
 							item.id = item.id + ''
 						})
 						this.dataSource.formData.data[key].source = response.data || [];
@@ -358,7 +361,7 @@
 						response.data.map((item) => {
 							item.id = item.id + ''
 						})
-						
+
 						this.dataSource.formData.data[key].source = response.data || [];
 						this.getServeData('category');
 						this.getTreeSource('belongto');
@@ -397,11 +400,11 @@
 					this['editor' + key].txt.html(that.form[key])
 				}, 1000)
 
-			}
+			},
 		},
 
 		mounted() {
-
+			
 			let that = this;
 			this.imgUrl = window.imgUrl;
 			var menuTrees = JSON.parse(this.store.state.loginData);
@@ -527,8 +530,11 @@
 		watch: {
 			'form.game': { //深度监听，可监听到对象、数组的变化
 				handler(val, oldVal) {
-					this.getServeData('category');
-						this.getTreeSource('belongto');
+					if(val!=oldVal){
+						this.getServeData('category');
+					this.getTreeSource('belongto');
+					}
+					
 
 				},
 				deep: true //true 深度监听

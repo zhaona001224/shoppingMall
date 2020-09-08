@@ -82,7 +82,7 @@
 			</div>
 		</div>
 		<div class="img" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 65px;" /></div>
-		<div class="select">
+		<div class="select" :style="scrollTop>200?'position: fixed;top:0;z-index:1000;width:100%':''">
 			<ul>
 				<li :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
 					<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
@@ -187,6 +187,7 @@
 			return {
 				gameList: [],
 				imgUrl: '',
+				scrollTop:0,
 				countryData: [],
 				currencyData: [],
 				selectCurrency: '',
@@ -439,12 +440,16 @@
 						});
 					}
 				})
-			}
+			},
+			scrollToTop() {　　
+				this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+			},
 
 		},
 
 		created() {
 			this.imgUrl = window.imgUrl;
+			window.addEventListener('scroll', this.scrollToTop)
 			//			this.width=document.body.clientWidth>1000?document.body.clientWidth+'px':'400px';
 			if(!localStorage.getItem('currencyInfo1')) {
 				getConfig().then(response => {
