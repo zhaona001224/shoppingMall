@@ -2,7 +2,7 @@
 
 	<div class="home-container" style="min-width: 1400px;">
 		<div class="top">
-			
+
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo1">
 					<span class="el-dropdown-link">
@@ -90,7 +90,7 @@
 				<li @click="$router.push('/')">
 					<a href="javascript:void(0)">Home</a>
 				</li>
-				<li >
+				<li>
 					<a href="javascript:void(0)">About Us</a>
 				</li>
 
@@ -187,7 +187,7 @@
 			return {
 				gameList: [],
 				imgUrl: '',
-				scrollTop:0,
+				scrollTop: 0,
 				countryData: [],
 				currencyData: [],
 				selectCurrency: '',
@@ -290,6 +290,14 @@
 				//				} else {
 				//					this.SHOW_LOGIN(true);
 				//				}
+				if(this.cartList.length == 0) {
+
+					this.$message({
+						type: 'warning',
+						message: 'Please Select Product'
+					});
+					return
+				}
 				this.$router.push('/payPage');
 
 			},
@@ -501,7 +509,6 @@
 		.menu {
 			text-align: right;
 			margin-right: 18%;
-			
 			.menu-cart {
 				display: inline-block;
 				margin-left: 50px;
@@ -539,8 +546,8 @@
 		line-height: 49px;
 		li {
 			cursor: pointer;
-			font-family:microsoft yahei;
-			font-family:font,Arial,Helvetica Neue,Helvetica,sans-serif;
+			font-family: microsoft yahei;
+			font-family: font, Arial, Helvetica Neue, Helvetica, sans-serif;
 			font-size: 16px;
 			line-height: 48px;
 			letter-spacing: 0px;
@@ -595,7 +602,6 @@
 				display: inline-block;
 				color: rgba(245, 245, 245, 0.8);
 				text-align: center;
-				
 				font-size: 16px;
 				width: 170px;
 				text-align: center;
@@ -651,7 +657,6 @@
 			cursor: pointer;
 			display: flex;
 			align-items: center;
-			
 			font-size: 14px;
 			height: 40px;
 			text-align: left;
@@ -726,7 +731,6 @@
 			border: solid 1px #e5e5e5;
 		}
 		.forget-password {
-			
 			text-decoration: underline;
 			font-size: 13px;
 			font-weight: normal;
@@ -747,7 +751,6 @@
 			text-align: center;
 			background-color: #e1251b;
 			border-radius: 4px;
-			
 			font-size: 14px;
 			letter-spacing: 0px;
 			color: #ffffff;

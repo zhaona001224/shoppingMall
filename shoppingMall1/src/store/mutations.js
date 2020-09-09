@@ -132,6 +132,7 @@ export default {
 	// 修改购物车
 	[EDIT_CART](state, {
 		productId,
+		productName,
 		productNum,
 		checked
 	}) {
