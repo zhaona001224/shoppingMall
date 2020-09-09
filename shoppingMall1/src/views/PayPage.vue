@@ -210,6 +210,10 @@
 		methods: {
 			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART', 'SHOW_LOGIN', 'CLEAR_CART']),
 			deletePro(id, productName) {
+				if(this.cartList.length==1){
+					this.$message.error("It's the last product");
+					return
+				}
 				this.EDIT_CART({
 					productId: id,
 					productName: productName
@@ -294,7 +298,7 @@
 						"reference_id": "",
 						"amount": {
 							"currency_code": this.currencyInfo.name,
-							"value": (this.totalPice * this.currencyInfo.rate) + '',
+							"value": (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
 							"breakdown": {
 								"item_total": {
 									"currency_code": this.currencyInfo.name,

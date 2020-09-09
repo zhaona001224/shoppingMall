@@ -5,10 +5,10 @@
 
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
-				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'" :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList')">
+				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'" :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
 					<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
 				</div>
-				<div  v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'" :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList')">
+				<div  v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'" :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList/'+$route.params.id)">
 					<img src="../assets/image/icon/icon_item.png" /> {{gameList.itemName||'Items'}}
 				</div>
 			</div>
@@ -310,9 +310,11 @@
 			},
 		},
 		created() {
+			localStorage.setItem('gameId',this.$route.params.id)
 			//获取game
 			this.getCategory();
 			this.getGame();
+			
 			JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 				item = JSON.parse(item);
 				item.showName = item.symbol + item.name;

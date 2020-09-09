@@ -56,7 +56,7 @@ const routes = [{
 		}
 	},
 	{
-		path: '/CoinList',
+		path: '/CoinList/:id',
 		name: 'CoinList',
 		component: Home,
 		children: [{
@@ -69,7 +69,7 @@ const routes = [{
 		}
 	},
 	{
-		path: '/itemList',
+		path: '/itemList/:id',
 		name: 'ItemList',
 		component: Home,
 		children: [{

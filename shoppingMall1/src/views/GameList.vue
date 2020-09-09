@@ -28,7 +28,7 @@
 			goProduct(item) {
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
-				this.$router.push('/itemList');
+				this.$router.push('/itemList/'+localStorage.getItem('gameId'));
 			},
 		},
 		computed: {
