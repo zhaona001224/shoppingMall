@@ -15,6 +15,10 @@
 						<el-input style="width:800px" placeholder="请填写 name" maxlength="" v-model="form.name">
 						</el-input>
 					</el-form-item>
+					<el-form-item label="selltext" prop="selltext">
+						<el-input style="width:800px" placeholder="请填写 selltext" maxlength="" v-model="form.selltext">
+						</el-input>
+					</el-form-item>
 					<el-form-item label="online" prop="online">
 						<el-radio-group v-model="form.online">
 							<el-radio :label="true">{{true}}</el-radio>
@@ -59,6 +63,7 @@
 							<div v-model="form.description" style="text-align:left;"></div>
 						</div>
 					</el-form-item>
+					
 					<div class="cls"></div>
 					<div class="cls"></div>
 					<div class="return-btn">

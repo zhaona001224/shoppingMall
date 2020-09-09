@@ -44,7 +44,7 @@
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}<span v-html="item.selltext"></span>-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-<span v-html="item.selltext"></span>-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
 					</div>
 
 				</div>
@@ -369,14 +369,16 @@
 					return item.id == discountId
 				})
 				this.discountList = JSON.parse(data[0].list);
-				this.discountList.filter((itrm) => {
-					var startTime = new Date(itrm.starttime + ':00');
-					var endTime = new Date(itrm.endtime + ':00');
+				this.discountList.filter((item) => {
+					item.selltext=data[0].selltext
+					var startTime = new Date(item.starttime + ':00');
+					var endTime = new Date(item.endtime + ':00');
 					return new Date() >= startTime && new Date() <= endTime
 				})
 
 				this.discountList.map((item) => {
 					item.name = this.selectData[0].name;
+
 					if(this.selectData[0].price * 1 - item.discount > 0) {
 						console.log(this.selectData[0].price)
 						item.price = this.selectData[0].price * 1 - item.discount;
