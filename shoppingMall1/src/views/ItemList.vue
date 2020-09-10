@@ -222,14 +222,14 @@
 						this.serveList = response.data.filter((item) => {
 							if(!item.category) {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online
+								return id == localStorage.getItem('gameId') && item.online&&item.items.length>2
 							}
 							if(this.categoryId) {
 								var id = item.category.split(',')[0]
-								return id == this.categoryId && item.online
+								return id == this.categoryId && item.online&&item.items.length>2
 							} else {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online
+								return id == localStorage.getItem('gameId') && item.online&&item.class=='item,item'&&item.items.length>2
 							}
 
 						})
@@ -397,14 +397,23 @@
 	}
 	
 	.serve-contain {
+		display: flex;
+		flex-wrap: wrap;
 		padding-top: 36px;
 		span {
+					overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		display: block;
+				width: 160px;
+			text-align: center;
 			padding: 14px 27px;
 			font-family: ArialMT;
 			font-size: 14px;
 			border: 1px solid #efefef;
 			margin-right: 23px;
 			position: relative;
+			margin-bottom: 20px;
 			&.active {
 				border: 1px solid #e1251b;
 				&::after {

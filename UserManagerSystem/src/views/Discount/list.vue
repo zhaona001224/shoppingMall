@@ -18,6 +18,11 @@
 				</el-table-column>
 					<el-table-column width="140px" header-align="left" prop="name" label="name">
 				</el-table-column>
+					<el-table-column header-align="left" prop="selltext" width="300px" label="selltext">
+				<template slot-scope="scope">
+						<div v-html="scope.row['selltext']"></div>
+					</template>
+				</el-table-column>
 				<el-table-column header-align="left" prop="online" label="online" width="100px">
 				</el-table-column>
 				<el-table-column header-align="left" prop="starttime" width="160px" label="starttime">

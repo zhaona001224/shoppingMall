@@ -1,13 +1,13 @@
 <template>
 	<div>
 		<div style="width: 1200px;margin:100px auto">
-			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} >  {{gameList.coinName||'Silver'}}</div>
+			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > {{gameList.coinName||'Silver'}}</div>
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'" :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
 					<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
 				</div>
-				<div  v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'" :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList/'+$route.params.id)">
+				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'" :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList/'+$route.params.id)">
 					<img src="../assets/image/icon/icon_item.png" /> {{gameList.itemName||'Items'}}
 				</div>
 			</div>
@@ -44,7 +44,7 @@
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-<span v-html="item.selltext"></span>-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
 					</div>
 
 				</div>
@@ -217,7 +217,7 @@
 						response.data = response.data || []
 						this.categoryList = response.data.filter((item) => {
 							var id = item.game.split(',')[0]
-							return id == localStorage.getItem('gameId') && item.online
+							return id == localStorage.getItem('gameId') && item.online && item.class == 'coin,coin'
 						})
 						this.imgUrl = window.imgUrl;
 						if(this.categoryList.length > 0) {
@@ -250,14 +250,14 @@
 						this.serveList = response.data.filter((item) => {
 							if(!item.category) {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online
+								return id == localStorage.getItem('gameId') && item.online&&item.coins.length>2
 							}
 							if(this.categoryId) {
 								var id = item.category.split(',')[0]
-								return id == this.categoryId && item.online
+								return id == this.categoryId && item.online&&item.coins.length>2
 							} else {
-								var id = item.game.lit(',')[0]
-								return id == localStorage.getItem('gameId') && item.online
+								var id = item.game.split(',')[0]
+								return id == localStorage.getItem('gameId') && item.online&&item.coins.length>2
 							}
 
 						})
@@ -303,8 +303,8 @@
 						this.selectServeData.coins && JSON.parse(this.selectServeData.coins).map((subItem) => {
 							response.data.map((item) => {
 								if(item.id == subItem.split(',')[0] && item.type == "coin,coin") {
-									
-									item.price=this.selectServeData.price
+
+									item.price = this.selectServeData.price
 									this.itemList.push(item)
 								}
 
@@ -348,8 +348,8 @@
 				this.selectData = this.itemList.filter((item) => {
 					return item.id == this.selectId
 				})
-				this.selectData.map((item)=>{
-						item.price=this.selectServeData.price
+				this.selectData.map((item) => {
+					item.price = this.selectServeData.price
 				})
 				if(!this.selectData[0].discount) {
 					this.selectData[0].qty = 1;
@@ -370,7 +370,7 @@
 				})
 				this.discountList = JSON.parse(data[0].list);
 				this.discountList.filter((item) => {
-					item.selltext=data[0].selltext
+					item.selltext = data[0].selltext
 					var startTime = new Date(item.starttime + ':00');
 					var endTime = new Date(item.endtime + ':00');
 					return new Date() >= startTime && new Date() <= endTime
@@ -385,7 +385,7 @@
 					} else {
 						item.price = this.selectData[0].price * 1
 					}
-				
+
 					item.totalPrice = (item.price * 1 * (item.qty * 1)).toFixed(2)
 				})
 			},
@@ -406,7 +406,7 @@
 		},
 		created() {
 			//获取game
-			localStorage.setItem('gameId',this.$route.params.id)
+			localStorage.setItem('gameId', this.$route.params.id)
 			this.getCategory();
 			this.getGame();
 			JSON.parse(localStorage.getItem('currencyData')).map((item) => {
@@ -523,14 +523,23 @@
 	}
 	
 	.serve-contain {
+		display: flex;
+		flex-wrap: wrap;
 		padding-top: 36px;
 		span {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			display: block;
+			width: 160px;
+			text-align: center;
 			padding: 14px 27px;
 			font-family: ArialMT;
 			font-size: 14px;
 			border: 1px solid #efefef;
 			margin-right: 23px;
 			position: relative;
+			margin-bottom: 20px;
 			&.active {
 				border: 1px solid #e1251b;
 				&::after {

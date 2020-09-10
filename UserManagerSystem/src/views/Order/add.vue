@@ -420,10 +420,10 @@
 						this.form = response.data;
 						this.originFrom = JSON.parse(JSON.stringify(this.form))
 						this.form.note = this.form.note && this.form.note.split(',');
-						this.form.pay_time = this.form.pay_time ? this.dateFormat(this.form.pay_time, 'yyyy-MM-dd HH:mm:ss') : '';
-						this.form.request_time = this.form.request_time ? this.dateFormat(this.form.request_time, 'yyyy-MM-dd HH:mm:ss') : '';
-						this.form.last_update = this.form.last_update ? this.dateFormat(this.form.last_update, 'yyyy-MM-dd HH:mm:ss') : ''
-						this.form.refund_time = this.form.refund_time ? this.dateFormat(this.form.refund_time, 'yyyy-MM-dd HH:mm:ss') : ''
+//						this.form.pay_time = this.form.pay_time ? this.dateFormat(this.form.pay_time, 'yyyy-MM-dd HH:mm:ss') : '';
+//						this.form.request_time = this.form.request_time ? this.dateFormat(this.form.request_time, 'yyyy-MM-dd HH:mm:ss') : '';
+//						this.form.last_update = this.form.last_update ? this.dateFormat(this.form.last_update, 'yyyy-MM-dd HH:mm:ss') : ''
+//						this.form.refund_time = this.form.refund_time ? this.dateFormat(this.form.refund_time, 'yyyy-MM-dd HH:mm:ss') : ''
 						if(this.form.id) {
 							this.transaction_id = this.form.id;
 							this.form.transaction_id = this.form.id;
