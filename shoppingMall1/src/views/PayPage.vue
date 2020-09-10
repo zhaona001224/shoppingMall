@@ -65,7 +65,7 @@
 			<div class="step-line ">
 				<el-form style="padding-top:30px" ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
 					<el-row>
-						<el-col :span="14">
+						<el-col :span="8">
 							<el-form-item :label='productInfo.customerLabel' prop="payer">
 								<el-input placeholder="" v-model="form.payer">
 								</el-input>
@@ -305,13 +305,14 @@
 									"value": (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
 								}
 							},
-							"items": itemList,
+							
+						},
+						"items": itemList,
 							"customer_id": "",
 							"description": this.form.link + this.form.link1,
 							"shipping": {
 
 							}
-						}
 
 					}]
 				}

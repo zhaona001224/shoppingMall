@@ -24,9 +24,9 @@
 		</el-card>
 		<el-card class="box-card">
 			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle">
-				<el-table-column header-align="left" sortable prop="id" label="id">
+				<el-table-column header-align="left" width="60px" sortable prop="id" label="id">
 				</el-table-column>
-				<el-table-column header-align="left" width="180px" prop="order_id" label="order_id">
+				<el-table-column header-align="left" width="160px" prop="order_id" label="order_id">
 				</el-table-column>
 
 				<el-table-column prop="payer" label="payer" width="200px">
@@ -349,7 +349,7 @@
 				var that = this;
 				var data;
 				data = this.originTable[index];
-				this.originTable[index].note = this.tableData[index].note.join(',');
+				this.originTable[index].note = this.tableData[index].note&&this.tableData[index].note.join(',');
 				this.originTable[index].status = this.tableData[index].status
 				delete data.id
 				that.$post("/admin/v1/content/update?type=Order&id=" + id, data).then(response => {
