@@ -24,7 +24,7 @@
 			</div>
 
 			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy Items</div>
-			<div class="step-line item-contain" style="min-height: 1000px;">
+			<div class="step-line item-contain" :style="isMobile?'min-height: 1000px;':''">
 				<div class="flex-style">
 					<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span> {{selectServeData.name}} - </span>
 						<el-select @change="setCurrency" style="width:140px" v-model="selectCurrency" placeholder="">
@@ -299,7 +299,10 @@
 
 							return item.id == localStorage.getItem('gameId')
 						})
-						this.gameList = data[0]
+						this.gameList = data[0];
+						if(this.gameList.productSell=='coin,coin'){
+							this.$router.replace('/coinList/'+this.$route.params.id)
+						}
 					} else {
 						this.$message({
 							type: 'warning',
@@ -310,6 +313,15 @@
 			},
 		},
 		created() {
+			var ua = navigator.userAgent;
+
+			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+
+				var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+
+			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
+
+			this.isMobile = isIphone || isAndroid;
 			localStorage.setItem('gameId',this.$route.params.id)
 			//获取game
 			this.getCategory();

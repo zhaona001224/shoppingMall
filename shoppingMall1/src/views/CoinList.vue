@@ -24,7 +24,7 @@
 
 			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy {{selectCategoryData.name}} {{selectData[0]&&selectData[0].name}} Silver</div>
 
-			<div class="step-line item-contain" style="min-height: 1000px;">
+			<div class="step-line item-contain" :style="isMobile?'min-height: 1000px;':''">
 				<div class="flex-style">
 					<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span> {{selectServeData.name}} </span>
 						<el-select @change="setCurrency" style="width:140px" v-model="selectCurrency" placeholder="">
@@ -42,9 +42,9 @@
 					<span class="custom-quantity">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /></span><span class="price">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
 					<span class="option"><span class="buy point" @click="addCart(selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
-				<div class="total head"><span class="custom-quantity">Product</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
+				<div class="total head"><span class="custom-quantity">Product</span><span class="price">Selltext</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price" v-html="item.selltext" style="min-width: 64px;"></span></spa><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
 					</div>
 
 				</div>
@@ -250,14 +250,14 @@
 						this.serveList = response.data.filter((item) => {
 							if(!item.category) {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online&&item.coins.length>2
+								return id == localStorage.getItem('gameId') && item.online && item.coins.length > 2
 							}
 							if(this.categoryId) {
 								var id = item.category.split(',')[0]
-								return id == this.categoryId && item.online&&item.coins.length>2
+								return id == this.categoryId && item.online && item.coins.length > 2
 							} else {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online&&item.coins.length>2
+								return id == localStorage.getItem('gameId') && item.online && item.coins.length > 2
 							}
 
 						})
@@ -335,7 +335,10 @@
 							return item.id == localStorage.getItem('gameId')
 						})
 
-						this.gameList = data[0]
+						this.gameList = data[0];
+						if(this.gameList.productSell=='item,item'){
+							this.$router.replace('/itemList/'+this.$route.params.id)
+						}
 					} else {
 						this.$message({
 							type: 'warning',
@@ -405,6 +408,16 @@
 			}
 		},
 		created() {
+			var ua = navigator.userAgent;
+
+			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+
+				var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+
+			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
+
+			this.isMobile = isIphone || isAndroid;
+
 			//获取game
 			localStorage.setItem('gameId', this.$route.params.id)
 			this.getCategory();
