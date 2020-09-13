@@ -495,7 +495,7 @@
 								if(this.form[key]) {
 									var data = [];
 									this.form[key] && JSON.parse(this.form[key]).map((item, index) => {
-										data.push(item && item.split(',')[0] * 1)
+										data.push(item && item.split(',')[0])
 									})
 									this.form[key] = data
 								}
