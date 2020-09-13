@@ -44,7 +44,7 @@
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price">Selltext</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price" v-html="item.selltext" style="min-width: 64px;"></span></spa><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name,'',item.qty)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price" v-html="item.selltext" style="min-width: 64px;"></span></spa><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',item.qty,1);">Buy Now</span></span>
 					</div>
 
 				</div>
@@ -572,9 +572,9 @@
 		display: flex;
 		justify-content: space-between;
 		width: 1200px;
-		height: 52px;
+		min-height: 52px;
 		background-color: #feba00;
-		line-height: 52px;
+		    align-items: center;
 		.custom-quantity {
 			width: 460px;
 			padding-left: 24px;
@@ -583,7 +583,6 @@
 			color: #333333;
 		}
 		.price {
-			height: 16px;
 			font-family: Arial-BoldMT;
 			font-size: 18px;
 			font-weight: normal;

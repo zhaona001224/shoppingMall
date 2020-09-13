@@ -24,7 +24,7 @@
 		font-family: font,Arial,Helvetica Neue,Helvetica,sans-serif;
 		
 	}
-	li,ul{
+	li,ul,p{
 		padding: 0;
 		margin: 0;
 	}

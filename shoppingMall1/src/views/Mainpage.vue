@@ -170,10 +170,10 @@
 				}
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
-				if(item.productSell=='coin,coin'){
-					this.$router.push('/coinList/'+localStorage.getItem('gameId'));
-				}else{
+				if(item.productSell=='item,item'){
 					this.$router.push('/itemList/'+localStorage.getItem('gameId'));
+				}else{
+					this.$router.push('/coinList/'+localStorage.getItem('gameId'));
 				}
 			},
 			

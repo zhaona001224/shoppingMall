@@ -33,7 +33,7 @@
 							</el-dropdown>
 
 							<el-dropdown>
-								<el-button type="primary" style="background-color: rgb(138, 129, 138) !important;border-color: rgb(138, 129, 138) !important" v-popover:popover5>备份</el-button>
+								<el-button type="primary" style="background-color: rgb(138, 129, 138) !important;border-color: rgb(138, 129, 138) !important" v-popover:popover>备份</el-button>
 								<el-dropdown-menu slot="dropdown">
 									<el-dropdown-item v-for="subItem in backUpList" :key="subItem">
 										<a style="color:#544c64;text-decoration: none;" @click="visible2=false" download="filename" :key="subItem" :href="store.state.baseUrl+'/admin/v1/backup?source='+subItem">{{subItem}}</a>

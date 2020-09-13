@@ -7,7 +7,8 @@ export default new Vuex.Store({
     token: null,  //登录token
     userName: "",
     screenHeight: window.screen.height,
-    imgUrl:window.imgUrl
+    imgUrl:window.imgUrl,
+    baseUrl:window.origin.indexOf('localhost') > -1?'http://216.24.249.93:8080':'https://support.bk.cloudns.cc:8081'
   },
   mutations: {
 
