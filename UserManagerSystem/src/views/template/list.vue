@@ -103,9 +103,12 @@
 
 			},
 			handleEdit(item) {
+				localStorage.setItem('keyword', this.keyword);
+				
 				this.$router.push('/template/Add/' + this.$route.params.key + '?id=' + item.id)
 			},
 			selfSearch() {
+
 				if(!this.keyword) {
 					this.pageNum = 1;
 					this.queryTable();
@@ -132,7 +135,7 @@
 								this.tableData[index].price = this.originTable[subIndex].price;
 							}
 						})
-						
+
 					}
 				})
 
@@ -291,6 +294,10 @@
 						})
 						this.tableData1 = JSON.parse(JSON.stringify(this.tableData))
 						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
+						if(this.keyword) {
+							this.selfSearch();
+
+						}
 					} else {
 
 						this.$message({
@@ -386,7 +393,14 @@
 				}
 
 			}
+			if(localStorage.getItem('keyword')) {
+				this.keyword = localStorage.getItem('keyword');
+				localStorage.setItem('keyword', '');
+
+			}
 			this.queryTable();
+			
+		
 
 		},
 		mounted() {

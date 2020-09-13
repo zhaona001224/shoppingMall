@@ -49,7 +49,7 @@
 				<el-table-column header-align="left" width="240px" sortable prop="pay_time" label="pay_time">
 				</el-table-column>
 				<el-table-column header-align="left" prop="description" width="300px" label="description">
-				<template slot-scope="scope">
+					<template slot-scope="scope">
 						<div v-html="scope.row['description']"></div>
 					</template>
 				</el-table-column>
@@ -77,7 +77,7 @@
 						<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
 					</template>
 				</el-table-column> -->
-				<el-table-column  fixed="right" label="operation" width="120px" cell-class-name="center" header-align="center">
+				<el-table-column fixed="right" label="operation" width="120px" cell-class-name="center" header-align="center">
 					<template slot-scope="scope">
 						<el-button type="text" size="small" @click="handleEdit(scope.row)">Edit</el-button>
 						<el-button type="text" class="clip" :data-clipboard-text="getFromData(scope.$index)" size="small" @click="copy(scope.row.id)">Copy</el-button>
@@ -146,6 +146,12 @@
 		methods: {
 
 			handleEdit(item) {
+				localStorage.setItem('keyword', this.keyword);
+				localStorage.setItem('checkedStatus', JSON.stringify(this.checkedStatus));
+				if(this.timeRange.length>0){
+					localStorage.setItem('timeRange', this.timeRange[0].getTime()+','+this.timeRange[1].getTime());
+				}
+				
 				this.$router.push('/Order/Add?id=' + item.id)
 			},
 			getRowStyle({
@@ -281,6 +287,7 @@
 				this.queryTable();
 			},
 			handlecheckedStatusChange(value) {
+					debugger
 				let checkedCount = value.length;
 				this.checkAll = checkedCount === this.statusOptions.length;
 				this.isIndeterminate = checkedCount > 0 && checkedCount < this.statusOptions.length;
@@ -349,7 +356,7 @@
 				var that = this;
 				var data;
 				data = this.originTable[index];
-				this.originTable[index].note = this.tableData[index].note&&this.tableData[index].note.join(',');
+				this.originTable[index].note = this.tableData[index].note && this.tableData[index].note.join(',');
 				this.originTable[index].status = this.tableData[index].status
 				delete data.id
 				that.$post("/admin/v1/content/update?type=Order&id=" + id, data).then(response => {
@@ -404,14 +411,18 @@
 						this.tableData && this.tableData.map((item) => {
 							item.updated = this.$util.formatTime(item.updated, 'YYYY-MM-DD HH:mm:ss');
 							item.note = item.note && item.note.split(',');
-
-//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
+							item.total = parseFloat(item.total)
+							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
 							item.request_time = item.request_time ? this.dateFormat(item.request_time, 'yyyy-MM-dd HH:mm:ss') : ''
 
 						})
 
 						this.tableData1 = JSON.parse(JSON.stringify(this.tableData))
 						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
+						if(this.keyword) {
+							this.selfSearch();
+
+						}
 					} else {
 
 						this.$message({
@@ -465,7 +476,7 @@
 					var str = ''
 				}
 				var start = "";
-				var end = ""
+				var end = "";
 				if(this.timeRange.length > 0) {
 					start = this.timeRange[0].getTime()
 					end = this.timeRange[1].getTime()
@@ -487,13 +498,17 @@
 						this.tableData && this.tableData.map((item) => {
 							item.updated = this.$util.formatTime(item.updated, 'YYYY-MM-DD HH:mm:ss');
 							item.note = item.note && item.note.split(',');
-//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
+							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
 							item.request_time = item.request_time ? this.dateFormat(item.request_time, 'yyyy-MM-dd HH:mm:ss') : ''
 
 						})
 						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
 
-						this.tableData1 = JSON.parse(JSON.stringify(this.tableData))
+						this.tableData1 = JSON.parse(JSON.stringify(this.tableData));
+						if(this.keyword) {
+							this.selfSearch();
+
+						}
 						this.$forceUpdate();
 					} else {
 
@@ -519,8 +534,28 @@
 
 		},
 		created() {
-			this.queryTable();
+			if(localStorage.getItem('keyword')) {
+				this.keyword = localStorage.getItem('keyword');
+				localStorage.setItem('keyword', '');
+
+			}
+			
+			
 			this.getDataSource();
+			if(localStorage.getItem('checkedStatus')||localStorage.getItem('timeRange')) {
+				this.checkedStatus = localStorage.getItem('checkedStatus') ? JSON.parse(localStorage.getItem('checkedStatus')) : []
+				this.timeRange=localStorage.getItem('timeRange') ? localStorage.getItem('timeRange').split(',') : [];
+				this.timeRange[0]=new Date(parseInt(this.timeRange[0]));
+				this.timeRange[1]=new Date(parseInt(this.timeRange[1]));
+				localStorage.setItem('checkedStatus', '');
+				localStorage.setItem('timeRange', '');
+				setTimeout(()=>{
+					this.handlecheckedStatusChange(this.checkedStatus)
+				},1000)
+				
+				return
+			}
+			this.queryTable();
 
 		},
 		mounted() {
@@ -548,17 +583,17 @@
 		display: none;
 	}
 	
-.el-table__row.note td:nth-child(3)  {
+	.el-table__row.note td:nth-child(3) {
 		background: #f73131;
 		color: #fff;
 	}
 	
-	.el-table__row.bad td:nth-child(3)  {
+	.el-table__row.bad td:nth-child(3) {
 		background: #c00;
 		color: #fff;
 	}
 	
-	.el-table__row.comments td:nth-child(3)   {
+	.el-table__row.comments td:nth-child(3) {
 		background: blue;
 		color: #fff;
 	}

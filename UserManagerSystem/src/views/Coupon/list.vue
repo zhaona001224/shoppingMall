@@ -73,6 +73,7 @@
 		methods: {
 
 			handleEdit(item) {
+				localStorage.setItem('keyword', this.keyword);
 				this.$router.push('/Coupon/Add?id=' + item.id)
 			},
 			getRowStyle({
@@ -193,6 +194,10 @@
 						})
 						this.tableData1 = JSON.parse(JSON.stringify(this.tableData))
 						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
+						if(this.keyword) {
+							this.selfSearch();
+
+						}
 					} else {
 
 						this.$message({
@@ -257,6 +262,11 @@
 
 		},
 		created() {
+				if(localStorage.getItem('keyword')) {
+				this.keyword = localStorage.getItem('keyword');
+				localStorage.setItem('keyword', '');
+
+			}
 			this.queryTable();
 
 		},

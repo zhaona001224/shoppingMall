@@ -14,7 +14,9 @@
 
 					<el-form-item v-for="(item,index) in formData" :label="item&&item.name+''" :prop="item&&item.name" :key="index" v-if="item">
 
-						<el-input style="width:800px" v-if="item.data.type=='input'" :placeholder="'请填写 '+item.name" maxlength="" v-model="form[item.name]">
+						<el-input style="width:800px" v-if="item.data.type=='input'&&item.name!='stock'" :placeholder="'请填写 '+item.name" maxlength="" v-model="form[item.name]">
+						</el-input>
+						<el-input style="width:800px" v-if="item.data.type=='input'&&item.name=='stock'" :placeholder="'请填写 '+item.name"  max="999999" maxlength="6" v-model="form[item.name]">
 						</el-input>
 						<!--	{{formData}}-->
 						<el-tree :default-expand-all="true" v-if="item.data.type=='tree'" ref="tree" :props="defaultProps" style="width:800px" :data="item.data.source[0].name?item.data.source:[]" :key="item.data.id" :highlight-current="true" node-key="id" :label="item.name" :value="item.id" accordion @node-click="handleNodeClick">
@@ -493,7 +495,7 @@
 								if(this.form[key]) {
 									var data = [];
 									this.form[key] && JSON.parse(this.form[key]).map((item, index) => {
-										data.push(item && item.split(',')[0] * 1)
+										data.push(item && item.split(',')[0])
 									})
 									this.form[key] = data
 								}

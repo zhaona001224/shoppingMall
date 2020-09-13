@@ -15,6 +15,10 @@
 						<el-input style="width:800px" placeholder="请填写 name" maxlength="" v-model="form.name">
 						</el-input>
 					</el-form-item>
+					<el-form-item label="selltext" prop="selltext">
+						<el-input style="width:800px" placeholder="请填写 selltext" maxlength="" v-model="form.selltext">
+						</el-input>
+					</el-form-item>
 					<el-form-item label="online" prop="online">
 						<el-radio-group v-model="form.online">
 							<el-radio :label="true">{{true}}</el-radio>
@@ -59,12 +63,7 @@
 							<div v-model="form.description" style="text-align:left;"></div>
 						</div>
 					</el-form-item>
-					<el-form-item label="selltext" prop="selltext">
-
-						<div ref="editorElem2" style="z-index: 1000;">
-							<div v-model="form.selltext" style="text-align:left;"></div>
-						</div>
-					</el-form-item>
+					
 					<div class="cls"></div>
 					<div class="cls"></div>
 					<div class="return-btn">
@@ -175,14 +174,6 @@
 					};
 					this.editor.create(); // 创建富文本实例
 					this.editor.txt.html(that.form['desc'])
-					this.editor2 = new E(this.$refs['editorElem2']);
-					// 编辑器的事件，每次改变会获取其html内容
-					this.editor2.customConfig.onchange = html => {
-						that.form['selltext'] = html;
-						that.$forceUpdate();
-					};
-					this.editor2.create(); // 创建富文本实例
-					this.editor2.txt.html(that.form['selltext'])
 				}, 1000)
 
 			},
