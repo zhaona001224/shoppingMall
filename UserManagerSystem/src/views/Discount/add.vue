@@ -47,6 +47,14 @@
 
 								</template>
 							</el-table-column>
+							<el-table-column cell-style="text-align:center" header-align="center" label="selltext" width="200px">
+								<template slot-scope="scope">
+									<el-form-item :inline-message="true"  :prop="'discountList.'+scope.$index+'.selltext'">
+										<el-input width="200px" v-model="scope.row.selltext"></el-input>
+									</el-form-item>
+
+								</template>
+							</el-table-column>
 							<el-table-column label="operation" width="120px" cell-class-name="center" header-align="center">
 								<template slot-scope="scope">
 									<el-button type="text" size="small" v-if="form.discountList.length!=1" @click="handleDelete(scope.$index)">Delete</el-button>

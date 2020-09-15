@@ -373,7 +373,6 @@
 				})
 				this.discountList = JSON.parse(data[0].list);
 				this.discountList.filter((item) => {
-					item.selltext = data[0].selltext
 					var startTime = new Date(item.starttime + ':00');
 					var endTime = new Date(item.endtime + ':00');
 					return new Date() >= startTime && new Date() <= endTime
