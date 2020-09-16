@@ -29,9 +29,9 @@
 					</el-input><span class="btn point" @click="apply">Apply</span>
 				</div>
 				<div class="count-price">
-					<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{(totalPice*currencyInfo.rate).toFixed(2)}}</span></div>
+					<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></div>
 					<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{(disPrice*currencyInfo.rate).toFixed(2)}}</span></div>
-					<div>Total Amount：<span class="price">{{currencyInfo.symbol}}{{((totalPice*1-disPrice*1)*currencyInfo.rate).toFixed(2)}}</span></div>
+					<div>Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice-(disPrice*1*currencyInfo.rate).toFixed(2)}}</span></div>
 				</div>
 			</div>
 			<div class="step"><span>1</span>{{$t("language.good.orderInformation")}}</div>
@@ -83,7 +83,7 @@
 					</span>
 			</div>
 			<div class="all">
-				<span>Total Item: <span class="price" style="margin-right: 100px;">{{totalNum}}</span></span><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{(totalPice*currencyInfo.rate).toFixed(2)}}</span></span>
+				<span>Total Item: <span class="price" style="margin-right: 100px;">{{totalNum}}</span></span><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></span>
 				<span class="btn point" @click="pay()">Pay  Now</span>
 			</div>
 		</div>
@@ -193,7 +193,7 @@
 					//					} else {
 					//						price = price + item.productNum * item.salePrice
 					//					}
-					price = price + item.productNum * item.salePrice
+					price = price + (item.productNum * (item.totalPrice*this.currencyInfo.rate).toFixed(2))
 					this.totalNum = this.totalNum + item.productNum;
 
 				})
@@ -204,7 +204,7 @@
 						this.disPrice = this.couponPrice.price * 1
 					}
 				}
-				return price
+				return price.toFixed(2)
 			},
 		},
 		methods: {
@@ -275,6 +275,7 @@
 
 				var that = this;
 				var itemList = []
+				var totalPrice=0;
 				this.cartList.map((item) => {
 					itemList.push({
 						"name": item.productName,
@@ -287,8 +288,9 @@
 						"description": ''
 
 					})
+					
 				})
-
+				
 				var params = {
 					email: this.form.email,
 					payer: "paypal",
@@ -298,11 +300,11 @@
 						"reference_id": "",
 						"amount": {
 							"currency_code": this.currencyInfo.name,
-							"value": (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
+							"value": totalPrice,
 							"breakdown": {
 								"item_total": {
 									"currency_code": this.currencyInfo.name,
-									"value": (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
+									"value": this.totalPice,
 								}
 							},
 							
@@ -332,7 +334,7 @@
 				var that = this;
 				var params = {
 					"pm_id": type,
-					amount: (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
+					amount: this.totalPice+ '',
 					currency: this.currencyInfo.name,
 					"description": this.form.link + this.form.link1,
 					payer_email: this.form.email,
@@ -356,7 +358,7 @@
 				var that = this;
 
 				var params = {
-					"amount": (this.totalPice * this.currencyInfo.rate).toFixed(2) + '',
+					"amount": this.totalPice + '',
 					"currency": this.currencyInfo.name,
 					"description": this.form.link + this.form.link1,
 					"payer_email": this.form.email,
