@@ -61,14 +61,15 @@ axios.interceptors.response.use(response => {
 	}
 	return response.data;
 }, error => { //响应错误处理
+	i--
+	if(i <= 0) {
+		loading.close();
+	}
 	if(error.response) {
-		if(error.response.status === 504 || error.response.status === 404) {
-			errorMessaage("请查看网络是否链接。");
-		} else if(error.response.status === 403) {
-			errorMessaage("抱歉，您没有权限查看该页面。");
-		} else {
-			errorMessaage("未知错误。");
-		}
+		Vue.prototype.$message({
+				message: '网络错误!',
+				type: 'error'
+			})
 	}
 	return Promise.reject(error);
 })
@@ -94,13 +95,13 @@ function backLogin() {
 	});
 }
 //弹出错误信息弹框
-function errorMessaage(msg, noPushPageFlag) {
-	if(noPushPageFlag) {
-		ElementUI.MessageBox.alert(msg, errorOptionsNoPushPage);
-	} else {
-		ElementUI.MessageBox.alert(msg, errorOptionsPushPage);
-	}
-}
+//function errorMessaage(msg, noPushPageFlag) {
+//	if(noPushPageFlag) {
+//		ElementUI.MessageBox.alert(msg, errorOptionsNoPushPage);
+//	} else {
+//		ElementUI.MessageBox.alert(msg, errorOptionsPushPage);
+//	}
+//}
 
 export default {
 	axiosGet(url, params) {
