@@ -300,7 +300,7 @@
 						"reference_id": "",
 						"amount": {
 							"currency_code": this.currencyInfo.name,
-							"value": totalPrice,
+							"value": this.totalPice,
 							"breakdown": {
 								"item_total": {
 									"currency_code": this.currencyInfo.name,
