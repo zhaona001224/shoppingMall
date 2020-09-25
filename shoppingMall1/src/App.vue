@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div id="app" >
 		<transition name="fade" mode="out-in">
 			<router-view :key="$route.fullPath"></router-view>
 		</transition>
@@ -16,7 +16,7 @@
 	@import "/assets/css/public.css" 
 	body,
 	html {
-	
+		
 		padding: 0;
 		margin: 0;
 		overflow-y: auto;

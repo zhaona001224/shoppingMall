@@ -13,7 +13,7 @@
 			<img class="img-style" src="../assets/image/home/img5.gif" />
 		</div>
 		<div class="game-contain" v-if="gameList.length>0">
-			<div class="main-title">{{$t("language.mainPage.gameTitle")}}<span class="point" @click="$router.push('/gameList')" style="float: right;font-size: 16px;">More<img src="../assets/image/icon/icon_more.png"/></span></div>
+			<div class="main-title">{{$t("language.mainPage.gameTitle")}}<span class="point" @click="$router.push('/gameList')" style="float: right;font-size: 16px;">More<img  style="margin-left: 10px;" src="../assets/image/icon/icon_more.png"/></span></div>
 			<div class="contain">
 				<div class="li point" v-for="(item,index) in gameList" v-if="index<8" :key="item.id" @click="goProduct(item)">
 					<img v-lazy="imgUrl+item.logo" />
@@ -106,7 +106,7 @@
 			<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png" />{{$t("language.mainPage.load")}}</div>
 		</div>
 		<div class="new-contain" v-if="newsList.length>0">
-			<div class="main-title">{{$t("language.mainPage.News")}}<span class="point" @click="$router.push('/newsList')" style="float: right;font-size: 16px;">More<img src="../assets/image/icon/icon_more.png"/></span></div>
+			<div class="main-title">{{$t("language.mainPage.News")}}<span class="point" @click="$router.push('/newsList')" style="float: right;font-size: 16px;">More<img style="margin-left: 10px;" src="../assets/image/icon/icon_more.png"/></span></div>
 			<div class="contain">
 
 				<div class="li" v-for="(item,index) in newsList" v-if="index<8" :key="item.id">
@@ -294,13 +294,12 @@
 	.img-contain {
 		width: 1200px;
 		display: inline-block;
-		margin: 30px auto;
+		margin: 30px auto 53px;
 		border-radius: 2px;
-		border: solid 1px #dcdcdc;
 		box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.2);
 		.img-style {
 			display: inline-block;
-			height: 38px;
+			height: 36px;
 			margin: 20px 0;
 			padding: 0 61.5px;
 			border-right: 1px solid #dcdcdc;
