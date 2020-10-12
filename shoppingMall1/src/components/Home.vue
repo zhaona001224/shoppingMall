@@ -1,6 +1,6 @@
 <template>
 
-	<div class="home-container" style="min-width: 1400px;">
+	<div class="home-container" style="min-width: 1300px;">
 		<div class="top">
 
 			<div class="menu">
@@ -571,7 +571,7 @@
 				border-left: 6px solid transparent;
 				border-right: 6px solid transparent;
 				position: absolute;
-				top: 23px;
+				top: 21px;
 			}
 			&.tri_top:before {
 				right: 19px;
@@ -640,9 +640,10 @@
 		margin-left: -637px;
 		width: 1274px;
 		background: #282e38;
-		padding: 36px;
+		padding:70px 36px;
 		box-sizing: border-box;
 		display: flex;
+		min-height: 300px;
 		flex-wrap: wrap;
 		align-items: center;
 		.close {
