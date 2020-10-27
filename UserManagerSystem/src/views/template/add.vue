@@ -16,7 +16,7 @@
 
 						<el-input style="width:800px" v-if="item.data.type=='input'&&item.name!='stock'" :placeholder="'请填写 '+item.name" maxlength="" v-model="form[item.name]">
 						</el-input>
-						<el-input style="width:800px" v-if="item.data.type=='input'&&item.name=='stock'" :placeholder="'请填写 '+item.name"  max="999999" maxlength="6" v-model="form[item.name]">
+						<el-input style="width:800px" v-if="item.data.type=='input'&&item.name=='stock'" :placeholder="'请填写 '+item.name" max="999999" maxlength="6" v-model="form[item.name]">
 						</el-input>
 						<!--	{{formData}}-->
 						<el-tree :default-expand-all="true" v-if="item.data.type=='tree'" ref="tree" :props="defaultProps" style="width:800px" :data="item.data.source[0].name?item.data.source:[]" :key="item.data.id" :highlight-current="true" node-key="id" :label="item.name" :value="item.id" accordion @node-click="handleNodeClick">
@@ -90,7 +90,7 @@
 				form: {
 
 				},
-				
+
 				categoryUrl: '',
 				activeKey: '',
 				roles: [],
@@ -280,7 +280,7 @@
 
 						return item.id == this.form.game
 					})
-					var q = this.form['game'] + "," + data[0].name
+					var q =data[0].name
 				} else {
 					return
 				}
@@ -319,19 +319,24 @@
 
 				})
 			},
-			getServeData(key) {
-				if(!this.categoryUrl||!this.form.game) return
+			getServeData(key,url) {
+				if(key=="items"||key=="coins"){
+					var key1=key.split('s')[0]
+					var url=`/admin/v1/contents/search?type=Product&filter=type:${key1},${key1}&count=-1&q=`
+				}
+				
+				if(!this.form.game) return
 				var source = this.dataSource.formData.data['game'].source
 				if(source[0].name) {
 					var data = source.filter((item, index) => {
 
 						return item.id == this.form.game
 					})
-					var q = this.form['game'] + "," + data[0].name
+					var q =  data[0].name
 				} else {
 					return
 				}
-				this.$get(this.categoryUrl + q, {
+				this.$get(url+ q, {
 
 				}).then(response => {
 
@@ -363,10 +368,9 @@
 						response.data.map((item) => {
 							item.id = item.id + ''
 						})
-
 						this.dataSource.formData.data[key].source = response.data || [];
-						this.getServeData('category');
-						this.getTreeSource('belongto');
+//						this.getServeData('category');
+//						this.getTreeSource('belongto');
 						if(this.dataSource.formData.data[key].required && this.dataSource.formData.data[key].source.length == 0) {
 							this.$alert('请先创建' + key, '提示', {
 								confirmButtonText: '确定',
@@ -406,7 +410,7 @@
 		},
 
 		mounted() {
-			
+
 			let that = this;
 			this.imgUrl = window.imgUrl;
 			var menuTrees = JSON.parse(this.store.state.loginData);
@@ -447,7 +451,10 @@
 				}
 				if(this.dataSource.formData.data[key].type == "select" || this.dataSource.formData.data[key].type == "multiselect") {
 					if(this.dataSource.formData.data[key].source.length > 0 && this.dataSource.formData.data[key].source[0].indexOf('/') > -1) {
-						if(key == "category") {
+						if(this.dataSource.formData.data[key].source[0].indexOf('q=[[game]]') > -1) {
+//							如果初始化数据元带有[game]则需要加个标识为了
+							this.dataSource.formData.data[key].isFilter=true;
+							this.dataSource.formData.data[key].ajaxUrl=this.dataSource.formData.data[key].source[0].split('[[game]]')[0]
 							this.categoryUrl = this.dataSource.formData.data[key].source[0].split('[[')[0]
 						} else {
 							that.getDataSource(this.dataSource.formData.data[key].source[0], key);
@@ -532,11 +539,14 @@
 		watch: {
 			'form.game': { //深度监听，可监听到对象、数组的变化
 				handler(val, oldVal) {
-					if(val!=oldVal){
-						this.getServeData('category');
-					this.getTreeSource('belongto');
+					var that=this;
+					if(val != oldVal) {
+						for(var key in that.dataSource.formData.data) {
+							if(that.dataSource.formData.data[key].isFilter) {
+								that.getServeData(key,that.dataSource.formData.data[key].ajaxUrl);
+							}
+						}
 					}
-					
 
 				},
 				deep: true //true 深度监听
