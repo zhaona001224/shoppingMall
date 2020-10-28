@@ -280,7 +280,7 @@
 
 						return item.id == this.form.game
 					})
-					var q =data[0].name
+					var q = data[0].name
 				} else {
 					return
 				}
@@ -319,12 +319,12 @@
 
 				})
 			},
-			getServeData(key,url) {
-				if(key=="items"||key=="coins"){
-					var key1=key.split('s')[0]
-					var url=`/admin/v1/contents/search?type=Product&filter=type:${key1},${key1}&count=-1&q=`
+			getServeData(key, url) {
+				if(key == "items" || key == "coins") {
+					var key1 = key.split('s')[0]
+					var url = `/admin/v1/contents/search?type=Product&filter=type:${key1},${key1}&count=-1&q=`
 				}
-				
+
 				if(!this.form.game) return
 				var source = this.dataSource.formData.data['game'].source
 				if(source[0].name) {
@@ -332,11 +332,11 @@
 
 						return item.id == this.form.game
 					})
-					var q =  data[0].name
+					var q = data[0].name
 				} else {
 					return
 				}
-				this.$get(url+ q, {
+				this.$get(url + q, {
 
 				}).then(response => {
 
@@ -369,8 +369,8 @@
 							item.id = item.id + ''
 						})
 						this.dataSource.formData.data[key].source = response.data || [];
-//						this.getServeData('category');
-//						this.getTreeSource('belongto');
+						//						this.getServeData('category');
+						//						this.getTreeSource('belongto');
 						if(this.dataSource.formData.data[key].required && this.dataSource.formData.data[key].source.length == 0) {
 							this.$alert('请先创建' + key, '提示', {
 								confirmButtonText: '确定',
@@ -378,6 +378,17 @@
 									this.$router.push('/template/Add/' + key.charAt(0).toUpperCase() + key.slice(1))
 								}
 							});
+						}
+						if(this.$route.query.id) {
+							setTimeout(() => {
+
+								for(var key in that.dataSource.formData.data) {
+									if(that.dataSource.formData.data[key].isFilter) {
+										that.getServeData(key, that.dataSource.formData.data[key].ajaxUrl);
+									}
+								}
+							}, 500)
+
 						}
 						this.$forceUpdate();
 					} else {
@@ -452,9 +463,9 @@
 				if(this.dataSource.formData.data[key].type == "select" || this.dataSource.formData.data[key].type == "multiselect") {
 					if(this.dataSource.formData.data[key].source.length > 0 && this.dataSource.formData.data[key].source[0].indexOf('/') > -1) {
 						if(this.dataSource.formData.data[key].source[0].indexOf('q=[[game]]') > -1) {
-//							如果初始化数据元带有[game]则需要加个标识为了
-							this.dataSource.formData.data[key].isFilter=true;
-							this.dataSource.formData.data[key].ajaxUrl=this.dataSource.formData.data[key].source[0].split('[[game]]')[0]
+							//							如果初始化数据元带有[game]则需要加个标识为了
+							this.dataSource.formData.data[key].isFilter = true;
+							this.dataSource.formData.data[key].ajaxUrl = this.dataSource.formData.data[key].source[0].split('[[game]]')[0]
 							this.categoryUrl = this.dataSource.formData.data[key].source[0].split('[[')[0]
 						} else {
 							that.getDataSource(this.dataSource.formData.data[key].source[0], key);
@@ -479,6 +490,7 @@
 				}
 
 			}
+
 			this.$forceUpdate();
 
 		},
@@ -498,6 +510,7 @@
 								}
 
 							}
+
 							if(this.dataSource.formData.data[key].type == "multiselect") {
 								if(this.form[key]) {
 									var data = [];
@@ -539,11 +552,17 @@
 		watch: {
 			'form.game': { //深度监听，可监听到对象、数组的变化
 				handler(val, oldVal) {
-					var that=this;
-					if(val != oldVal) {
+					var that = this;
+					if(oldVal && val != oldVal) {
+
 						for(var key in that.dataSource.formData.data) {
 							if(that.dataSource.formData.data[key].isFilter) {
-								that.getServeData(key,that.dataSource.formData.data[key].ajaxUrl);
+								if(that.dataSource.formData.data[key].type == "select") {
+									this.form[key] = '';
+								} else {
+									this.form[key] = [];
+								}
+								that.getServeData(key, that.dataSource.formData.data[key].ajaxUrl);
 							}
 						}
 					}
