@@ -40,11 +40,11 @@
 				</div>
 				<div class="total">
 					<span class="custom-quantity">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /></span><span class="price">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
-					<span class="option"><span class="buy point" @click="addCart(selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
+					<span class="option"><span class="buy point" @click="addCart(item,selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 200px;">Selltext</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price" v-html="item.selltext" style="width:200px"></span></spa><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span><span class="buy point" @click="addCart(selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity hidden-style">{{item.name}}-{{selectServeData.name}}*{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}}</span><span class="price" v-html="item.selltext" style="width:200px"></span></spa><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span><span class="buy point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1,1);">Buy Now</span></span>
 					</div>
 
 				</div>
@@ -180,11 +180,13 @@
 					type: 1
 				})
 			},
-			addCart(id, price, name, img, productNum, addType, minNum) {
+			addCart(item,id, price, name, img, productNum, addType, minNum) {
 				if(price == 0 || productNum == 0) {
 					return
 				}
+				item.unit=this.selectData[0].Unit
 				this.ADD_CART({
+					detail:item,
 					productId: id,
 					salePrice: price,
 					productName: name,

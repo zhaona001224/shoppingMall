@@ -24,6 +24,7 @@ export default {
 	},
 	// 加入购物车
 	[ADD_CART](state, {
+		detail,
 		productId,
 		salePrice,
 		productName,
@@ -35,10 +36,12 @@ export default {
 		gameId,
 		gameName,
 		totalPrice = 0
+		
 	}) {
 		let cart = state.cartList || [] // 购物车
-		let falg = true
+		let falg = true;
 		let goods = {
+			detail,
 			productId,
 			salePrice,
 			productName,
@@ -49,6 +52,7 @@ export default {
 			gameId,
 			gameName,
 			totalPrice
+		
 		}
 		if(cart && cart.length) { // 有内容
 			cart.forEach(item => {

@@ -6,7 +6,8 @@
 			<div class="total head"><span class="custom-quantity">{{$t("language.good.shoppingCart")}}</span></div>
 			<div class="table">
 				<div class="th" v-for="(item,index) in cartList">
-					<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}</div>
+					<!-- {{item.detail}} -->
+					<div style="width: 50%;padding-left: 29px;"><span v-if="item.detail.qty">{{item.detail.qty}}{{item.detail.unit}} - </span>{{item.detail.name}}<span v-if="item.categoryName"> - {{item.categoryName}}</span> - {{item.serveName}}</div>
 					<div style="width: 290px;">
 						<div class="select-num">
 							<span @click="down(item.productId,item.productName)" class="down">-</span>
@@ -188,12 +189,12 @@
 				this.totalNum = 0;
 				var price = 0;
 				this.cartList.map((item) => {
-					//					if(item.type == "coin") {
-					//						price = price + item.totalPrice
-					//					} else {
-					//						price = price + item.productNum * item.salePrice
-					//					}
-					price = price + (item.productNum * (item.totalPrice*this.currencyInfo.rate).toFixed(2))
+										if(item.type == "coin") {
+											var price1 =item.totalPrice*this.currencyInfo.rate.toFixed(2)
+										} else {
+											var price1 =item.productNum * item.salePrice*this.currencyInfo.rate.toFixed(2)
+										}
+					price = price + price1
 					this.totalNum = this.totalNum + item.productNum;
 
 				})

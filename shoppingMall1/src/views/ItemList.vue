@@ -60,8 +60,8 @@
 								<span class="up" @click="up(index)">+</span></div>
 							<div class="price">{{currencyInfo.symbol}}{{(item.price*1*currencyInfo.rate).toFixed(2)}}</div>
 							<div style="    position: relative; width: 164px; margin: 0 auto;">
-								<div style="position: absolute;width:70%;height: 32px;" class="add" @click="addCart(item.id,item.price,item.name,1,imgUrl+item.hintImage,1)"></div>
-								<div style="position: absolute;width:30%;right:0;height: 32px;" class="go" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)"></div>
+								<div style="position: absolute;width:70%;height: 32px;" class="add" @click="addCart(item,item.id,item.price,item.name,1,imgUrl+item.hintImage,1)"></div>
+								<div style="position: absolute;width:30%;right:0;height: 32px;" class="go" @click="addCart(item,item.id,item.price,item.name,item.num,imgUrl+item.hintImage)"></div>
 								<img class="point" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />
 							</div>
 						</div>
@@ -129,10 +129,10 @@
 
 				this.itemList = data.filter(item => item.name.indexOf(this.searchKey) > -1)
 			},
-			addCart(id, price, name, productNum, img, addType) {
-
+			addCart(item,id, price, name, productNum, img, addType) {
 				if(addType == 1) {
 					this.ADD_CART({
+						detail:item,
 						productId: id,
 						salePrice: price,
 						productName: name,
@@ -142,7 +142,8 @@
 						serveId: this.selectServeData.id,
 						serveName: this.selectServeData.name,
 						gameId: localStorage.gameId,
-						gameName: localStorage.gameName,
+						gameName: localStorage.gameName
+						
 					})
 					this.$router.push('/payPage');
 				} else {
