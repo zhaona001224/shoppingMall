@@ -184,7 +184,8 @@
 					if(key == "name") {
 						obj[key] = data[0][key] + "(复制)"
 					} else {
-						obj[key] = data[0][key]
+					
+						obj[key] = data.length>0&&data[0][key]
 					}
 
 				}
@@ -322,6 +323,8 @@
 
 					if(response.retCode == 0) {
 						this.tableData = response.data || [];
+							this.originTable = JSON.parse(JSON.stringify(this.tableData));
+						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
 						this.tableData.sort((a, b) => {
 							//排序基于的数据
 							return b.updated - a.updated;

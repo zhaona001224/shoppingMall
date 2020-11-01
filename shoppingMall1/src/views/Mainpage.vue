@@ -34,16 +34,16 @@
 			</div>
 			<div class="contain">
 
-				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&item.type=='item,item'" @click="goProduct(selectGame)">
-					<el-popover placement="right" :width="item.customerLabel?'400':''" trigger="hover">
+				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&(item.type=='item,item'||item.hintText&&item.hintImage)" @click="goProduct(selectGame)">
+					<el-popover placement="right" :width="item.hintText?'400':''" trigger="hover">
 						<div class="pop-item">
-							<img style="margin-right: 17px;" :src="imgUrl+item.hintImage" />
-							<div>
-								<div class="label">{{item.customerLabel}}</div>
+							<img :style="item.hintText?'margin-right: 17px':''" :src="imgUrl+item.hintImage" />
+							<div v-if="item.hintText">
+								<div class="label">{{item.hintText}}</div>
 							</div>
 
 						</div>
-						<div slot="reference"><img :src="imgUrl+item.hintImage" />
+						<div slot="reference" v-if="item.hintImage" ><img :src="imgUrl+item.hintImage" />
 							<div class="text hidden-style">
 								{{item.name}}
 							</div>
@@ -463,6 +463,7 @@
 				font-size: 14px;
 				color: #333333;
 				border-radius: 4px;
+				display: inline-block;
 				&.active {
 					background-image: linear-gradient(90deg, #e1251b 0%, #ea5f0e 53%, #f39800 100%), linear-gradient( #e1251b, #e1251b);
 					background-blend-mode: normal, normal;
