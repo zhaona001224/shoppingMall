@@ -11,9 +11,7 @@
 		<el-card class="box-card">
 			<div class="align-center" style="width: 100%;">
 				<el-form ref="form" :model="form" :rules="rules" label-width="20%" label-position="right">
-
 					<el-form-item v-for="(item,index) in formData" :label="item&&item.name+''" :prop="item&&item.name" :key="index" v-if="item">
-
 						<el-input style="width:800px" v-if="item.data.type=='input'&&item.name!='stock'" :placeholder="'请填写 '+item.name" maxlength="" v-model="form[item.name]">
 						</el-input>
 						<el-input style="width:800px" v-if="item.data.type=='input'&&item.name=='stock'" :placeholder="'请填写 '+item.name" max="999999" maxlength="6" v-model="form[item.name]">

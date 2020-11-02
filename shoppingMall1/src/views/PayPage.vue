@@ -7,7 +7,7 @@
 			<div class="table">
 				<div class="th" v-for="(item,index) in cartList">
 					<!-- {{item.detail}} -->
-					<div style="width: 50%;padding-left: 29px;"><span v-if="item.detail.qty">{{item.detail.qty}}{{item.detail.unit}} - </span>{{item.detail.name}}<span v-if="item.categoryName"> - {{item.categoryName}}</span> - {{item.serveName}}</div>
+					<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}</div>
 					<div style="width: 290px;">
 						<div class="select-num">
 							<span @click="down(item.productId,item.productName)" class="down">-</span>
