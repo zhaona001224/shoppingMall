@@ -4,15 +4,15 @@ import ElementUI from 'element-ui';
 import Vue from 'vue'
 Vue.use(ElementUI);
 import crypto from "crypto";
-//window.imgUrl='http://support.bk.cloudns.cc:8080/api/v1/file?id=';
-//var config="http://support.bk.cloudns.cc:8081";
-//if(window.origin.indexOf('localhost')>-1||window.origin.indexOf('127')>-1){
-//	window.imgUrl='http://216.24.249.93:8080/api/v1/pics?id=';
-//	var config="/api";
-//}
+window.imgUrl='http://support.bk.cloudns.cc:8080/api/v1/file?id=';
+var config="http://support.bk.cloudns.cc:8081";
+if(window.origin.indexOf('localhost')>-1||window.origin.indexOf('127')>-1){
+	window.imgUrl='http://216.24.249.93:8080/api/v1/pics?id=';
+	var config="/api";
+}
 
-window.imgUrl='http://216.24.249.93:8080/api/v1/pics?id=';
-	var config="http://216.24.249.93:8080";
+//window.imgUrl='http://216.24.249.93:8080/api/v1/pics?id=';
+//	var config="http://216.24.249.93:8080";
 /**
  * axios请求拦截器
  * @param {object} config axios请求配置对象
