@@ -1,7 +1,7 @@
 <template>
 
 	<div class="home-container" style="min-width: 1300px;">
-		<div class="top">
+		<div class="top" style="position: fixed;">
 
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo1">
@@ -82,7 +82,7 @@
 			</div>
 		</div>
 		<div class="img" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 65px;" /></div>
-		<div class="select" :style="scrollTop>200?'position: fixed;top:0;z-index:1000;width:100%':''">
+		<div class="select" :style="scrollTop>200?'position: fixed;top:50px;z-index:1000;width:100%':''">
 			<ul>
 				<li :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
 					<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
@@ -502,10 +502,11 @@
 	
 	.top {
 		width: 100%;
-		height: 52px;
+		height: 50px;
 		background-color: #181818;
 		color: #fff;
 		font-size: 14px;
+		z-index: 100;
 		.menu {
 			text-align: right;
 			margin-right: 18%;
@@ -558,6 +559,9 @@
 			width: 230px;
 			color: #fff;
 			position: relative;
+			&:hover{
+				background-color: #29303a;
+			}
 			a {
 				color: #fff;
 				text-decoration: none;
@@ -584,6 +588,7 @@
 				position: absolute;
 				top: 20px;
 			}
+			
 			&.active {
 				background-color: #29303a;
 			}

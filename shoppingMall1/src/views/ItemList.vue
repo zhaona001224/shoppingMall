@@ -1,14 +1,14 @@
 <template>
 	<div>
 		<div style="width: 1200px;margin:100px auto">
-			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} >  {{gameList.itemName||'Items'}}</div>
+			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > {{gameList.itemName||'Items'}}</div>
 
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'" :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
 					<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
 				</div>
-				<div  v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'" :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList/'+$route.params.id)">
+				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'" :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList/'+$route.params.id)">
 					<img src="../assets/image/icon/icon_item.png" /> {{gameList.itemName||'Items'}}
 				</div>
 			</div>
@@ -36,33 +36,33 @@
 						<el-input @input="changeInput" v-model="searchKey" placeholder="Search Item Name" style="width:400px"></el-input><img src="../assets/image/icon/icon_search.png" /></div>
 				</div>
 				<div class="li point" v-for="(item,index) in itemList" :key="item.id">
-					<el-popover placement="right" width="400" trigger="hover">
-						<div class="pop-item">
-							<img style="margin-right: 17px;" :src="imgUrl+item.logo" />
+					<el-popover style="min-width:auto;text-align: center;" placement="right" trigger="hover">
+						<div class="pop-item" v-if="item.hintImage||item.customerLabel">
+							<img :src="imgUrl+item.hintImage" />
 							<div>
 								<div class="title hidden-style">
 									{{item.name}}
 								</div>
 								<div class="text">
-									Price:<span>{{currencyInfo.symbol}}{{(item.price*1*currencyInfo.rate).toFixed(2)}}</span>
+									Price:<span>{{currencyInfo.symbol}}{{(item.price*1*currencyInfo.rate).toFixed(3)}}</span>
 								</div>
 								<div class="label">{{item.customerLabel}}</div>
 							</div>
 
 						</div>
-						<div slot="reference"><img :src="imgUrl+item.hintImage" />
+						<div slot="reference"><img :src="imgUrl+item.logo" />
 							<div class="text hidden-style">
 								{{item.name}}
 							</div>
 							<div class="select-num">
 								<span @click="down(index)" class="down">-</span>
-								<input type="number" min="0" v-model="item.num" class="show">
+								<input type="number" min="1" v-model="item.num" class="show">
 								<span class="up" @click="up(index)">+</span></div>
-							<div class="price">{{currencyInfo.symbol}}{{(item.price*1*currencyInfo.rate).toFixed(2)}}</div>
-							<div style="    position: relative; width: 164px; margin: 0 auto;">
-								<div style="position: absolute;width:70%;height: 32px;" class="add" @click="addCart(item,item.id,item.price,item.name,1,imgUrl+item.hintImage,1)"></div>
-								<div style="position: absolute;width:30%;right:0;height: 32px;" class="go" @click="addCart(item,item.id,item.price,item.name,item.num,imgUrl+item.hintImage)"></div>
-								<img class="point" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />
+							<div class="price">{{currencyInfo.symbol}}{{(item.price*1*currencyInfo.rate).toFixed(3)}}</div>
+							<div style="position: relative;display: flex;justify-content: space-between;padding: 10px 20px; ">
+
+								<span class="add" @click="addCart(item,item.id,item.price,item.name,1,imgUrl+item.hintImage,1)">Buy Now</span>
+								<img style="width: 43px;height: 32px;" src="../assets/image/home/img_buy2.jpg" class="go" @click="addCart(item,item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" />
 							</div>
 						</div>
 					</el-popover>
@@ -72,7 +72,7 @@
 		<div class="footer1">
 			<div class="main-title">Introduction</div>
 			<div class="contain">
-				<img :src="imgUrl+gameList.logo" />
+				<img v-if="gameList.logo" :src="imgUrl+gameList.logo" />
 				<div style="display: inline-block;" class="text" v-html="gameList.description"></div>
 			</div>
 		</div>
@@ -126,13 +126,13 @@
 			},
 			changeInput() {
 				var data = JSON.parse(JSON.stringify(this.itemOriginList));
-
-				this.itemList = data.filter(item => item.name.indexOf(this.searchKey) > -1)
+	
+				this.itemList = data.filter(item => item.name.search(/`{this.searchKey}`/i) > -1)
 			},
-			addCart(item,id, price, name, productNum, img, addType) {
+			addCart(item, id, price, name, productNum, img, addType) {
 				if(addType == 1) {
 					this.ADD_CART({
-						detail:item,
+						detail: item,
 						productId: id,
 						salePrice: price,
 						productName: name,
@@ -143,7 +143,7 @@
 						serveName: this.selectServeData.name,
 						gameId: localStorage.gameId,
 						gameName: localStorage.gameName
-						
+
 					})
 					this.$router.push('/payPage');
 				} else {
@@ -190,9 +190,9 @@
 							var id = item.game.split(',')[0]
 							return id == localStorage.getItem('gameId') && item.online
 						})
-						
+
 						this.imgUrl = window.imgUrl;
-							var resultArray = this.categoryList.sort(
+						var resultArray = this.categoryList.sort(
 							function compareFunction(param1, param2) {
 								return param1.name.trim().localeCompare(param2.name.trim(), "zh");
 							}
@@ -223,14 +223,14 @@
 						this.serveList = response.data.filter((item) => {
 							if(!item.category) {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online&&item.items.length>2
+								return id == localStorage.getItem('gameId') && item.online && item.items.length > 2
 							}
 							if(this.categoryId) {
 								var id = item.category.split(',')[0]
-								return id == this.categoryId && item.online&&item.items.length>2
+								return id == this.categoryId && item.online && item.items.length > 2
 							} else {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online&&item.class=='item,item'&&item.items.length>2
+								return id == localStorage.getItem('gameId') && item.online && item.class == 'item,item' && item.items.length > 2
 							}
 
 						})
@@ -280,7 +280,7 @@
 							})
 						})
 						this.itemList.map((item) => {
-							item.num = 0
+							item.num = 1
 						})
 						this.itemOriginList = this.itemList
 						this.selectId = this.itemList[0] && this.itemList[0].id;
@@ -301,8 +301,8 @@
 							return item.id == localStorage.getItem('gameId')
 						})
 						this.gameList = data[0];
-						if(this.gameList.productSell=='coin,coin'){
-							this.$router.replace('/coinList/'+this.$route.params.id)
+						if(this.gameList.productSell == 'coin,coin') {
+							this.$router.replace('/coinList/' + this.$route.params.id)
 						}
 					} else {
 						this.$message({
@@ -318,16 +318,16 @@
 
 			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
 
-				var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
+			var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 
 			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
 
 			this.isMobile = isIphone || isAndroid;
-			localStorage.setItem('gameId',this.$route.params.id)
+			localStorage.setItem('gameId', this.$route.params.id)
 			//获取game
 			this.getCategory();
 			this.getGame();
-			
+
 			JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 				item = JSON.parse(item);
 				item.showName = item.symbol + item.name;
@@ -379,6 +379,22 @@
 		}
 	}
 	
+	.add {
+		border-radius: 2px;;
+		display: inline-block;
+		width: 106px;
+		height: 32px;
+		font-family: ArialMT;
+		font-size: 14px;
+		text-align: center;
+		line-height: 32px;
+		color: #fff;
+		background: #e1251b;
+	}
+	.go{
+		
+	}
+	
 	.step-line {
 		margin-left: 15px;
 		padding-left: 30px;
@@ -414,11 +430,11 @@
 		flex-wrap: wrap;
 		padding-top: 36px;
 		span {
-					overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		display: block;
-				width: 160px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			display: block;
+			width: 160px;
 			text-align: center;
 			padding: 14px 27px;
 			font-family: ArialMT;
@@ -477,16 +493,18 @@
 		}
 		.li {
 			text-align: center;
-			margin-top: 0;
+			margin-top: 30px;
 			box-sizing: border-box;
 			display: inline-block;
-			width: 245px;
+			width: 230px;
 			background-color: #ffffff;
 			border: solid 1px #dcdcdc;
 			padding: 16px;
+			vertical-align: top;
 			img {
 				width: 56px;
 				height: 56px;
+				border-radius: 5px;
 			}
 			.text {
 				padding: 19px 0 8px;
@@ -538,16 +556,21 @@
 		}
 	}
 	
+	.hidden-style {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		height: 46px;
+		word-wrap: break-word;
+	}
+	
 	.pop-item {
 		overflow: hidden;
 		font-family: ArialMT;
 		font-size: 14px;
 		color: #333;
-		img {
-			width: 140px;
-			height: 140px;
-			float: left;
-		}
 		.title {
 			font-family: Arial-BoldMT;
 			font-size: 14px;

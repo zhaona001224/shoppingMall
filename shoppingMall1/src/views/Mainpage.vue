@@ -35,15 +35,15 @@
 			<div class="contain">
 
 				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&(item.type=='item,item'||item.hintText&&item.hintImage)" @click="goProduct(selectGame)">
-					<el-popover placement="right" :width="item.hintText?'400':''" trigger="hover">
+					<el-popover style="min-width:auto;text-align: center;" placement="right"  trigger="hover">
 						<div class="pop-item">
-							<img :style="item.hintText?'margin-right: 17px':''" :src="imgUrl+item.hintImage" />
+							<img :src="imgUrl+item.hintImage" />
 							<div v-if="item.hintText">
 								<div class="label">{{item.hintText}}</div>
 							</div>
 
 						</div>
-						<div slot="reference" v-if="item.hintImage" ><img :src="imgUrl+item.hintImage" />
+						<div slot="reference" v-if="item.hintImage" ><img :src="imgUrl+item.logo" />
 							<div class="text hidden-style">
 								{{item.name}}
 							</div>
@@ -67,37 +67,37 @@
 
 				<div class="li" style="background: none;border: none;margin:35px">
 					<img src="../assets/image/icon/icon_choose1.png" />
-					<div class="text-title" style="color: #142a43;font-size: 17px;">
+					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						Security Guarantee
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;">
+					<div class="text" style="font-family: ArialMT;font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						Provide 100% secure online payment system. The most professional game service provider guarantee the security of products.
 					</div>
 				</div>
 				<div class="li" style="background: none;border: none;margin:35px">
 					<img src="../assets/image/icon/icon_choose2.png" />
-					<div class="text-title" style="color: #142a43;font-size: 17px;">
+					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						Fast Delivery
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;">
+					<div class="text" style="font-family: ArialMT;font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						95% orders completed in 15 minutes, professional online service, reply to the customer's questions within 20 second.
 					</div>
 				</div>
 				<div class="li" style="background: none;border: none;margin:35px">
 					<img src="../assets/image/icon/icon_choose3.png" />
-					<div class="text-title" style="color: #142a43;font-size: 17px;">
+					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						Cheap Prices
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;">
+					<div class="text" style="font-family: ArialMT;font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						More than 90% of products have cheaper prices than the market, Enjoy VIP member get up to 10% discount plus.Enjoy now.
 					</div>
 				</div>
 				<div class="li" style="background: none;border: none;margin:35px">
 					<img src="../assets/image/icon/icon_choose4.png" />
-					<div class="text-title" style="color: #142a43;font-size: 17px;">
+					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						100% Refund
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;">
+					<div class="text" style="font-family: ArialMT;font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						Received what you purchased or the refund. Once your order is delayed or undeliverable, we are 100% guaranteed to refund your money.
 					</div>
 				</div>
@@ -423,11 +423,6 @@
 		font-family: ArialMT;
 		font-size: 14px;
 		color: #333;
-		img {
-			width: 200px;
-			height: 150px;
-			float: left;
-		}
 		.title {
 			font-family: Arial-BoldMT;
 			font-size: 14px;
