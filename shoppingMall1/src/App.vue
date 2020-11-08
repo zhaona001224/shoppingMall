@@ -41,7 +41,9 @@
 	.point {
 		cursor: pointer;
 	}
-	
+	.el-popover{
+		min-width: auto;;
+	}
 	.el-dropdown-menu.el-popper .el-dropdown-menu__item:focus,
 	.el-dropdown-menu.el-popper .el-dropdown-menu__item:not(.is-disabled):hover {
 		background-color: #fff;

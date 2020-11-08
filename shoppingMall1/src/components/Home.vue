@@ -119,7 +119,7 @@
 		<div class="choose-game" v-if="gamePop">
 			<img @click="gamePop=false" class="close" src="../assets/image/icon/icon_close.png" />
 			<span v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
-				<img :src="imgUrl+item.logo+''" />{{item.name}}
+				{{item.name}}
 			</span>
 		</div>
 		<div class="pop-login" v-if="showLogin">

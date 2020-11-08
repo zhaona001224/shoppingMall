@@ -41,7 +41,7 @@
 					<el-row>
 						<el-col :span="8">
 							<el-form-item :label='$t("language.user.email")' prop="email">
-								<el-input placeholder="" v-model="form.email">
+								<el-input placeholder="" :disabled="login" v-model="form.email">
 								</el-input>
 							</el-form-item>
 						</el-col>
@@ -184,7 +184,7 @@
 		},
 
 		computed: {
-			...mapState(['cartList', 'currencyInfo', 'login']),
+			...mapState(['cartList', 'currencyInfo', 'login','userInfo']),
 			totalPice() {
 				this.totalNum = 0;
 				var price = 0;
@@ -207,6 +207,7 @@
 				}
 				return price.toFixed(2)
 			},
+			
 		},
 		methods: {
 			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART', 'SHOW_LOGIN', 'CLEAR_CART']),
@@ -497,14 +498,21 @@
 			},
 		},
 		created() {
+		
 			this.getCoupn();
 			this.getItem();
 
+		},
+		mounted(){
+				this.form.email=this.userInfo&&this.userInfo.email
 		},
 		watch: {
 			cartList(a, b) {
 				this.couponCode = ''
 				this.apply();
+			},
+			'userInfo.email'(){
+				this.form.email=this.userInfo.email
 			}
 		},
 

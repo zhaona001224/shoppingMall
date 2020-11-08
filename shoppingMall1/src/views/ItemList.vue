@@ -25,7 +25,7 @@
 
 			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy Items</div>
 			<div class="step-line item-contain" :style="isMobile?'min-height: 1000px;':''">
-				<div class="flex-style">
+				<div class="flex-style"> 
 					<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span> {{selectServeData.name}} - </span>
 						<el-select @change="setCurrency" style="width:140px" v-model="selectCurrency" placeholder="">
 							<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.showName" :value="subItem.id">
@@ -72,8 +72,8 @@
 		<div class="footer1">
 			<div class="main-title">Introduction</div>
 			<div class="contain">
-				<img v-if="gameList.logo" :src="imgUrl+gameList.logo" />
-				<div style="display: inline-block;" class="text" v-html="gameList.description"></div>
+
+				<div v-html="gameList.description"></div>
 			</div>
 		</div>
 	</div>
@@ -102,7 +102,7 @@
 			};
 		},
 		computed: {
-			...mapState(['login', 'showMoveImg', 'currencyInfo', 'currencyInfo1'])
+			...mapState(['login', 'showMoveImg', 'currencyInfo', 'currencyInfo1','userInfo'])
 		},
 		methods: {
 			...mapMutations(['ADD_CART', 'CHOOSE_CURRENCY']),
@@ -127,7 +127,7 @@
 			changeInput() {
 				var data = JSON.parse(JSON.stringify(this.itemOriginList));
 	
-				this.itemList = data.filter(item => item.name.search(/`{this.searchKey}`/i) > -1)
+				this.itemList = data.filter(item => item.name.toLowerCase().indexOf(this.searchKey.toLowerCase()) > -1)
 			},
 			addCart(item, id, price, name, productNum, img, addType) {
 				if(addType == 1) {
@@ -501,6 +501,13 @@
 			border: solid 1px #dcdcdc;
 			padding: 16px;
 			vertical-align: top;
+			border-right: 0;
+			&:last-child{
+				border-right: solid 1px #dcdcdc;
+			}
+			&:nth-child(5n+1){
+				border-right: solid 1px #dcdcdc;
+			}
 			img {
 				width: 56px;
 				height: 56px;
@@ -571,6 +578,7 @@
 		font-family: ArialMT;
 		font-size: 14px;
 		color: #333;
+		text-align: center;
 		.title {
 			font-family: Arial-BoldMT;
 			font-size: 14px;
@@ -579,10 +587,11 @@
 			line-height: 24px;
 			letter-spacing: 0px;
 			color: #333333;
+			max-height: 40px;
 		}
 		.text {
-			margin-top: 18px;
-			margin-bottom: 23px;
+			margin-top:0;
+			margin-bottom: 17px;
 			font-family: ArialMT;
 			font-size: 14px;
 			color: #666;
@@ -600,7 +609,7 @@
 			display: flex;
 			width: 1200px;
 			margin: 0 auto;
-			padding: 40px 0;
+			padding: 40px;
 			background: #fff;
 			border-radius: 30px;
 		}

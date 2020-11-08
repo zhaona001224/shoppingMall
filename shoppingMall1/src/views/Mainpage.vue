@@ -215,7 +215,7 @@
 						this.itemList = response.data.filter((item) => {
 							var gameId = item.game.split(',')[0];
 
-							return gameId == this.selectId&&item.online&&item.type=="item,item"
+							return gameId == item.hotitem&&this.selectId&&item.online&&item.type=="item,item"
 						})
 
 					} else {
@@ -423,6 +423,7 @@
 		font-family: ArialMT;
 		font-size: 14px;
 		color: #333;
+		text-align: center;
 		.title {
 			font-family: Arial-BoldMT;
 			font-size: 14px;
