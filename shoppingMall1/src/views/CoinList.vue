@@ -41,7 +41,7 @@
 				</div>
 				<div class="total">
 					<span class="custom-quantity" style="width:400px">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span> <span class="price" style="width: 394px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
-					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(item,selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
+					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 360px;"></span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
@@ -186,7 +186,8 @@
 				if(price == 0 || productNum == 0) {
 					return
 				}
-				item.unit=this.selectData[0].Unit
+				debugger
+				item.unit=item.Unit
 				this.ADD_CART({
 					detail:item,
 					productId: id,
@@ -445,7 +446,7 @@
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
 	.nav {
-		font-family: ArialMT;
+		
 		font-size: 14px;
 		letter-spacing: 0px;
 		color: #666666;
@@ -478,7 +479,7 @@
 	}
 	
 	.step {
-		font-family: ArialMT;
+		
 		font-size: 18px;
 		font-weight: normal;
 		font-stretch: normal;
@@ -512,7 +513,7 @@
 			font-size: 14px;
 			margin-top: 35px;
 			margin-bottom: 14px;
-			font-family: ArialMT;
+			
 		}
 		.item {
 			display: inline-block;
@@ -521,7 +522,7 @@
 			padding: 17px 0;
 			background-color: #ffcbc8;
 			border-radius: 5px;
-			font-family: ArialMT;
+			
 			font-size: 18px;
 			margin-top: 10px;
 			letter-spacing: 0px;
@@ -551,7 +552,7 @@
 			width: 160px;
 			text-align: center;
 			padding: 14px 27px;
-			font-family: ArialMT;
+			
 			font-size: 14px;
 			border: 1px solid #efefef;
 			margin-right: 23px;
@@ -582,7 +583,7 @@
 		.custom-quantity {
 			width: 320px;
 			padding-left: 24px;
-			font-family: ArialMT;
+			
 			font-size: 14px;
 			color: #333333;
 		}
@@ -613,7 +614,7 @@
 				height: 32px;
 				background-color: #4c9adb;
 				border-radius: 4px;
-				font-family: ArialMT;
+				
 				font-size: 14px;
 				line-height: 32px;
 			}

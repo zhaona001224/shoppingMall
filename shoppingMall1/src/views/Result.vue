@@ -39,7 +39,7 @@
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
 	.nav {
-		font-family: ArialMT;
+		
 		font-size: 14px;
 		letter-spacing: 0px;
 		color: #666666;
@@ -74,7 +74,7 @@
 			}
 		}
 		.email{
-			font-family: ArialMT;
+			
 			font-size: 24px;
 			line-height: 40px;
 			letter-spacing: 0px;

@@ -142,7 +142,9 @@
 						serveId: this.selectServeData.id,
 						serveName: this.selectServeData.name,
 						gameId: localStorage.gameId,
-						gameName: localStorage.gameName
+						gameName: localStorage.gameName,
+						categoryName: this.selectCategoryData.name,
+					categoryId: this.selectCategoryData.id
 
 					})
 					this.$router.push('/payPage');
@@ -343,7 +345,7 @@
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
 	.nav {
-		font-family: ArialMT;
+		
 		font-size: 14px;
 		letter-spacing: 0px;
 		color: #666666;
@@ -355,7 +357,7 @@
 	}
 	
 	.step {
-		font-family: ArialMT;
+		
 		font-size: 18px;
 		font-weight: normal;
 		font-stretch: normal;
@@ -384,7 +386,7 @@
 		display: inline-block;
 		width: 106px;
 		height: 32px;
-		font-family: ArialMT;
+		
 		font-size: 14px;
 		text-align: center;
 		line-height: 32px;
@@ -407,7 +409,7 @@
 			padding: 17px 0;
 			background-color: #ffcbc8;
 			border-radius: 5px;
-			font-family: ArialMT;
+			
 			font-size: 18px;
 			margin-top: 10px;
 			letter-spacing: 0px;
@@ -437,7 +439,7 @@
 			width: 160px;
 			text-align: center;
 			padding: 14px 27px;
-			font-family: ArialMT;
+			
 			font-size: 14px;
 			border: 1px solid #efefef;
 			margin-right: 23px;
@@ -488,7 +490,7 @@
 				font-size: 14px;
 				margin-top: 35px;
 				margin-bottom: 14px;
-				font-family: ArialMT;
+				
 			}
 		}
 		.li {
@@ -517,7 +519,7 @@
 				padding: 19px 0 8px;
 				color: #222222;
 				font-size: 20px;
-				font-family: ArialMT;
+				
 			}
 			.select-num {
 				margin: 18px auto 12px;
@@ -575,7 +577,7 @@
 	
 	.pop-item {
 		overflow: hidden;
-		font-family: ArialMT;
+		
 		font-size: 14px;
 		color: #333;
 		text-align: center;
@@ -592,7 +594,7 @@
 		.text {
 			margin-top:0;
 			margin-bottom: 17px;
-			font-family: ArialMT;
+			
 			font-size: 14px;
 			color: #666;
 			span {

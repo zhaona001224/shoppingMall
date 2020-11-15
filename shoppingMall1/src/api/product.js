@@ -4,7 +4,7 @@ export const addCart = (params) => {
   return http.fetchGet('/api/v1/contents'+params,{})
 }
 export const getPay = (params) => {
-  return http.fetchPost('/payment/paypal/pay',params)
+  return http.fetchPost('/payment/paypal/dopay',params)
 }
 export const getPay2 = (params) => {
   return http.fetchPost('/payment/payssion/pay',params)
