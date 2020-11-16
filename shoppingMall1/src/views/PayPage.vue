@@ -16,9 +16,9 @@
 						</div>
 					</div>
 					<div style="width: 220px;text-align: center;color: #f39800;">
-						{{currencyInfo.symbol}}{{(item.salePrice*currencyInfo.rate).toFixed(3)}}
+						{{currencyInfo.symbol}}{{(item.salePrice*currencyInfo.rate).toFixed(2)}}
 					</div>
-					<div class="price" style="width: 220px;">{{currencyInfo.symbol}}{{(item.salePrice&&item.salePrice*item.productNum*currencyInfo.rate).toFixed(3)}}</div>
+					<div class="price" style="width: 220px;">{{currencyInfo.symbol}}{{(item.salePrice&&item.salePrice*item.productNum*currencyInfo.rate).toFixed(2)}}</div>
 					<!--					<div class="price" style="width: 247px;" v-else>{{currencyInfo.symbol}}{{item.totalPrice*currencyInfo.rate}}</div>-->
 
 					<div class="delete point" @click="deletePro(item.productId,item.productName)" style="width:80px;text-align: center;vertical-align: -8px;"><img style="width: 20px;height: 22px;" src="../assets/image/icon/icon_delete.png" /></div>
@@ -31,9 +31,9 @@
 				</div>
 				<div class="count-price">
 					<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></div>
-					<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{(disPrice*currencyInfo.rate).toFixed(3)}}</span></div>
-					<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{(payFeeValue[payList[selectIndex].func-1]*1*(totalPice-(disPrice*1*currencyInfo.rate).toFixed(3)*1)).toFixed(3)}}</span></div>
-					<div>Total Amount: <span class="price">{{currencyInfo.symbol}}{{((totalPice-(disPrice*1*currencyInfo.rate))*(1+payFeeValue[payList[selectIndex].func-1]*1)).toFixed(3)}}</span></div>
+					<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{(disPrice*currencyInfo.rate).toFixed(2)}}</span></div>
+					<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{(payFeeValue[payList[selectIndex].func-1]*1*(totalPice-(disPrice*1*currencyInfo.rate).toFixed(2)*1)).toFixed(2)}}</span></div>
+					<div>Total Amount: <span class="price">{{currencyInfo.symbol}}{{((totalPice*1).toFixed(2)*1-(disPrice*1*currencyInfo.rate.toFixed(2))*1+(totalPice*this.payFeeValue[payList[selectIndex].func-1]*1)).toFixed(2)}}</span></div>
 				</div>
 			</div>
 			<div class="step"><span>1</span>{{$t("language.good.orderInformation")}}</div>
@@ -85,7 +85,7 @@
 					</span>
 			</div>
 			<div class="all">
-				<span>Total Item: <span class="price" style="margin-right: 100px;">{{totalNum}}</span></span><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{((totalPice-(disPrice*1*currencyInfo.rate))*(1+payFeeValue[payList[selectIndex].func-1]*1)).toFixed(3)}}</span></span>
+				<span>Total Item: <span class="price" style="margin-right: 100px;">{{totalNum*1}}</span></span><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{((totalPice*1).toFixed(2)*1-(disPrice*1*currencyInfo.rate.toFixed(2))*1+(totalPice*this.payFeeValue[payList[selectIndex].func-1]*1)).toFixed(2)}}</span></span>
 				<span class="btn point" @click="pay()">Pay  Now</span>
 			</div>
 		</div>
@@ -202,12 +202,12 @@
 				var price = 0;
 				this.cartList.map((item) => {
 										if(item.type == "coin") {
-											var price1 =item.totalPrice*this.currencyInfo.rate.toFixed(3)
+											var price1 =item.totalPrice*this.currencyInfo.rate.toFixed(2)
 										} else {
-											var price1 =item.productNum * item.salePrice*this.currencyInfo.rate.toFixed(3)
+											var price1 =item.productNum * item.salePrice*this.currencyInfo.rate.toFixed(2)
 										}
 					price = price + price1
-					this.totalNum = this.totalNum + item.productNum;
+					this.totalNum = this.totalNum*1 + item.productNum;
 
 				})
 				if(this.couponPrice.price && this.cartList.length > 0) {
@@ -217,7 +217,7 @@
 						this.disPrice = this.couponPrice.price * 1
 					}
 				}
-				return price.toFixed(3)
+				return price.toFixed(2)
 			},
 			
 		},
@@ -252,7 +252,7 @@
 					salePrice: price,
 					productName: name,
 					productImg: img,
-					productNum: productNum,
+					productNum: productNum*1,
 					type: 'coin',
 					serveId: item.serveId,
 					serveName: item.serveName,
