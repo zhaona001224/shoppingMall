@@ -21,7 +21,7 @@
 		margin: 0;
 		overflow-y: auto;
 		min-height: 100%;
-		font-family: font,Arial,Helvetica Neue,Helvetica,sans-serif;
+		font-family: Arial, "Helvetica Neue", Helvetica, sans-serif
 		
 	}
 	li,ul,p{

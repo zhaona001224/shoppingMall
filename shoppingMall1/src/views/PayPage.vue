@@ -5,14 +5,15 @@
 
 			<div class="total head"><span class="custom-quantity">{{$t("language.good.shoppingCart")}}</span></div>
 			<div class="table">
+				{{cartList}}{{payFeeValue}}
 				<div class="th" v-for="(item,index) in cartList">
 					<!-- {{item.detail}} -->
 					<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}</div>
 					<div style="width: 290px;">
 						<div class="select-num">
-							<span @click="down(item.productId,item.productName)" class="down">-</span>
+							<span @click="down(item,item.productId,item.productName)" class="down">-</span>
 							<input type="number" min="0" v-model="item.productNum" class="show">
-							<span class="up" @click="up(item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
+							<span class="up" @click="up(item,item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
 						</div>
 					</div>
 					<div style="width: 220px;text-align: center;color: #f39800;">
@@ -32,8 +33,8 @@
 				<div class="count-price">
 					<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></div>
 					<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{(disPrice*currencyInfo.rate).toFixed(3)}}</span></div>
-					<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{payFee.toFixed(3)}}</span></div>
-					<div>Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice-(disPrice*1*currencyInfo.rate).toFixed(3)}}</span></div>
+					<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{(payFeeValue[payList[selectIndex].func-1]*1*totalPice-(disPrice*1*currencyInfo.rate)).toFixed(3)}}</span></div>
+					<div>Total Amount：<span class="price">{{currencyInfo.symbol}}{{((totalPice-(disPrice*1*currencyInfo.rate))*(1+payFeeValue[payList[selectIndex].func-1]*1)).toFixed(3)}}</span></div>
 				</div>
 			</div>
 			<div class="step"><span>1</span>{{$t("language.good.orderInformation")}}</div>
@@ -42,7 +43,7 @@
 					<el-row>
 						<el-col :span="8">
 							<el-form-item :label='$t("language.user.email")' prop="email">
-								<el-input placeholder="" :disabled="login" v-model="form.email">
+								<el-input placeholder="" :disabled="!!login" v-model="form.email">
 								</el-input>
 							</el-form-item>
 						</el-col>
@@ -85,7 +86,7 @@
 					</span>
 			</div>
 			<div class="all">
-				<span>Total Item: <span class="price" style="margin-right: 100px;">{{totalNum}}</span></span><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></span>
+				<span>Total Item: <span class="price" style="margin-right: 100px;">{{totalNum}}</span></span><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{((totalPice-(disPrice*1*currencyInfo.rate))*(1+payFeeValue[payList[selectIndex].func-1]*1)).toFixed(3)}}</span></span>
 				<span class="btn point" @click="pay()">Pay  Now</span>
 			</div>
 		</div>
@@ -111,35 +112,43 @@
 				payList: [{
 					icon: "https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_credit_logo_h_200x51.png",
 					func: '1',
-					str: 'BILLING'
+					str: 'BILLING',
+					type:'paypal',
 				}, {
 					icon: "https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png",
 					func: '1',
-					str: ''
+					str: '',
+					type:'paypal',
 				}, {
 					icon: "icon_pay2",
 					func: '2',
-					str: 'paysafecard'
+					str: 'paysafecard',
+					type:'payssion',
 				}, {
 					icon: "icon_pay3",
 					func: '2',
-					str: 'ebanking_my'
+					str: 'ebanking_my',
+					type:'payssion',
 				}, {
 					icon: "icon_pay4",
 					func: '2',
-					str: 'dotpay_pl'
+					str: 'dotpay_pl',
+					type:'payssion',
 				}, {
 					icon: "https://www.skrill.com/fileadmin/content/images/brand_centre/Payment_Options_by_Skrill/skrill-powered-visa_120x60.png",
 					func: '3',
-					str: 'ACC,VSA,MSC,VSE,MAE'
+					str: 'ACC,VSA,MSC,VSE,MAE',
+					type:'skrill',
 				}, {
 					icon: "icon_pay6",
 					func: '3',
-					str: 'ACC'
+					str: 'ACC',
+					type:'skrill',
 				}, {
 					icon: "",
 					func: '3',
-					str: 'ACC'
+					str: 'ACC',
+					type:'skrill',
 				}],
 				selectIndex: 0,
 				totalNum: 0,
@@ -181,7 +190,8 @@
 					payer: '',
 					link1: "",
 					link: ""
-				}
+				},
+				payFeeValue:[]
 
 			};
 		},
@@ -208,7 +218,6 @@
 						this.disPrice = this.couponPrice.price * 1
 					}
 				}
-				this.payFee=(this.totalPice-(this.disPrice*1*this.currencyInfo.rate))*this.feeRate[this.selectIndex].value
 				return price.toFixed(3)
 			},
 			
@@ -226,20 +235,33 @@
 				})
 
 			},
-			down(id, productName) {
+			down(item,id, productName) {
+				if(item.productNum==1){
+					this.$message.error("It's the last product");
+					return
+				}
 				this.REDUCE_CART({
 					productId: id,
 					productName: productName
 				})
 
 			},
-			up(id, price, name, img, productNum) {
+			up(item,id, price, name, img, productNum) {
 				this.ADD_CART({
+					detail:item,
 					productId: id,
 					salePrice: price,
 					productName: name,
 					productImg: img,
-					productNum: productNum
+					productNum: productNum,
+					type: 'coin',
+					serveId: item.serveId,
+					serveName: item.serveName,
+					gameId: localStorage.gameId,
+					gameName: localStorage.gameName,
+					categoryName: item.categoryName,
+					categoryId: item.categoryId,
+					totalPrice:price*productNum
 				})
 
 			},
@@ -265,67 +287,81 @@
 				this.$refs.form.validate((valid) => {
 
 					if(valid) {
-						if(this.payList[this.selectIndex].func == 1) {
-							this.pay1(this.payList[this.selectIndex].str);
-						} else if(this.payList[this.selectIndex].func == 2) {
-							this.pay2(this.payList[this.selectIndex].str);
-						} else {
-							this.pay3(this.payList[this.selectIndex].str);
-						}
+						this.pay1();
+						
 					} else {
 						that.$message.error("Please fill in form！");
 					}
 				})
 			},
-			pay1(str) {
+			pay1() {
 
 				var that = this;
 				var itemList = []
 				var totalPrice=0;
 				this.cartList.map((item) => {
 					itemList.push({
-						"name": item.productName,
-						"quantity": item.productNum + '',
-						method: str,
-						"unit_amount": {
-							"currency_code": this.currencyInfo.name,
-							"value": (item.salePrice * this.currencyInfo.rate).toFixed(3) + ''
-						},
-						"description": ''
-
+						game:item.gameName,
+						server:item.serveName,
+						unit_price:(item.salePrice*this.currencyInfo.rate).toFixed(2)*1,
+						"product": item.productName,
+						"quantity": item.productNum*1,
+						"category":item.categoryName,
 					})
 					
 				})
 				
 				var params = {
-					email: this.form.email,
-					payer: "paypal",
-					comments: this.form.payer,
-					method: "BILLING",
-					item_list: [{
-						"reference_id": "",
-						"amount": {
-							"currency_code": this.currencyInfo.name,
-							"value": this.totalPice,
-							"breakdown": {
-								"item_total": {
-									"currency_code": this.currencyInfo.name,
-									"value": this.totalPice,
-								}
-							},
+					 "payment": this.payList[this.selectIndex].type, 
+					  "payment_channel": "BILLING",
+					  amount:((this.totalPice-(this.disPrice*1*this.currencyInfo.rate))*(1+this.payFeeValue[this.payList[this.selectIndex].func-1]*1)).toFixed(2)*1,
+					  "currency":this.currencyInfo.name,
+					   "language": "UK",
+						email: this.form.email,
+						request_info: this.form.payer,
+						contract_info: this.form.link1 + this.form.link,
+						item_list:itemList,
+						sub_total:(this.totalPice*1).toFixed(2)*1,
+						"city": "",
+						"country": "",
+						"first_name":"",
+						"last_name":"",
+						"phone":"18352862123",
+						"coupon_code":this.couponCode||'',
+						"coupon_value":this.disPrice*1*this.currencyInfo.rate.toFixed(2)*1,
+						"payment_fee":(this.totalPice*this.payFeeValue[this.payList[this.selectIndex].func-1]*1).toFixed(2)*1,
+						"logo_url":"",  
+						"address":"",
+						"description":"",  
+						"status":"", 
+					// payer: "paypal",
+					// comments: this.form.payer,
+					// method: "BILLING",
+					// item_list: [{
+					// 	"reference_id": "",
+					// 	"amount": {
+					// 		"currency_code": this.currencyInfo.name,
+					// 		"value": this.totalPice,
+					// 		"breakdown": {
+					// 			"item_total": {
+					// 				"currency_code": this.currencyInfo.name,
+					// 				"value": this.totalPice,
+					// 			}
+					// 		},
 							
-						},
-						"items": itemList,
-							"customer_id": "",
-							"description": this.form.link + this.form.link1,
-							"shipping": {
+					// 	},
+					// 	"items": itemList,
+					// 		"customer_id": "",
+					// 		"description": this.form.link + this.form.link1,
+					// 		"shipping": {
 
-							}
+					// 		}
 
-					}]
+					
 				}
 				getPay(params).then(response => {
 					if(response.retCode == 0) {
+						debugger
 						window.location.href = response.data.redirect_url;
 						this.CLEAR_CART();
 					} else {
@@ -500,20 +536,22 @@
 					}
 				})
 			},
-			PayFee(){
+			getPayFee(){
 				//获取game
 				getTemplete('?type=PaymentSetting&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
 						response.data.map((item)=>{
 							if(item.name=="paypal"){
-								this.feeRate[0]=item
+								
+								this.payFeeValue[0]=item.value
 							}
 							if(item.name=="paysession"){
-								this.feeRate[1]=item
+								this.payFeeValue[1]=item.value
 							}
 							if(item.name=="skrill"){
-								this.feeRate[2]=item
+								this.payFeeValue[2]=item.value
 							}
+							this.$forceUpdate();
 						})
 					} else {
 						this.$message({
@@ -528,7 +566,7 @@
 		
 			this.getCoupn();
 			this.getItem();
-			this.PayFee();
+			this.getPayFee();
 
 		},
 		mounted(){
@@ -553,8 +591,8 @@
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
 	.nav {
-		font-family: ArialMT;
-		font-size: 14px;
+		
+		font-size: 16px;
 		letter-spacing: 0px;
 		color: #666666;
 		margin: 20px 0;
@@ -602,7 +640,7 @@
 		display: flex;
 		height: 60px;
 		line-height: 60px;
-		font-family: ArialMT;
+		
 		font-size: 14px;
 		color: #666;
 		&>div {
@@ -628,7 +666,7 @@
 	}
 	
 	.step {
-		font-family: ArialMT;
+		
 		font-size: 18px;
 		font-weight: normal;
 		font-stretch: normal;
@@ -711,7 +749,7 @@
 	
 	.tip {
 		padding-left: 20px;
-		font-family: ArialMT;
+		
 		font-size: 12px;
 		color: #e7534b;
 		img {

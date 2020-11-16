@@ -70,7 +70,7 @@
 					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						Security Guarantee
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;color: rgba(20, 42, 67, 0.7);">
+					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						Provide 100% secure online payment system. The most professional game service provider guarantee the security of products.
 					</div>
 				</div>
@@ -79,7 +79,7 @@
 					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						Fast Delivery
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;color: rgba(20, 42, 67, 0.7);">
+					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						95% orders completed in 15 minutes, professional online service, reply to the customer's questions within 20 second.
 					</div>
 				</div>
@@ -88,7 +88,7 @@
 					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						Cheap Prices
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;color: rgba(20, 42, 67, 0.7);">
+					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						More than 90% of products have cheaper prices than the market, Enjoy VIP member get up to 10% discount plus.Enjoy now.
 					</div>
 				</div>
@@ -97,7 +97,7 @@
 					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						100% Refund
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;color: rgba(20, 42, 67, 0.7);">
+					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						Received what you purchased or the refund. Once your order is delayed or undeliverable, we are 100% guaranteed to refund your money.
 					</div>
 				</div>
@@ -334,7 +334,7 @@
 					padding: 19px 0 8px;
 					color: #222222;
 					font-size: 20px;
-					font-family: ArialMT;
+					
 				}
 			}
 		}
@@ -401,7 +401,7 @@
 		background-color: #4c9adb;
 		border-radius: 21px;
 		color: #ffffff;
-		font-family: ArialMT;
+		
 		font-size: 14px;
 		line-height: 43px;
 		margin-bottom: 36px;
@@ -412,7 +412,7 @@
 		width: 1200px;
 		text-align: left;
 		font-family: Allstar4;
-		font-weight: 600;
+		font-weight: bold;
 		font-size: 24px;
 		padding: 33px 0;
 		color: #142a43;
@@ -420,7 +420,7 @@
 	
 	.pop-item {
 		overflow: hidden;
-		font-family: ArialMT;
+		
 		font-size: 14px;
 		color: #333;
 		text-align: center;
@@ -436,7 +436,7 @@
 		.text {
 			margin-top: 18px;
 			margin-bottom: 23px;
-			font-family: ArialMT;
+			
 			font-size: 14px;
 			color: #666;
 			span {

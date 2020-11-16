@@ -35,6 +35,8 @@ export default {
 		serveName,
 		gameId,
 		gameName,
+		categoryName,
+		categoryId,
 		totalPrice = 0
 		
 	}) {
@@ -51,6 +53,8 @@ export default {
 			serveName,
 			gameId,
 			gameName,
+			categoryName,
+			categoryId,
 			totalPrice
 		
 		}
@@ -63,6 +67,7 @@ export default {
 					if(item.productNum >= 0) {
 						falg = false
 						item.productNum += productNum * 1
+						item.totalPrice+= totalPrice * 1
 					}
 
 				}
@@ -75,9 +80,10 @@ export default {
 			}
 			goods.productNum = productNum * 1
 			goods.checked = '1'
+		
 			cart.push(goods)
 		}
-
+		debugger
 		state.cartList = cart
 		// 存入localStorage
 		setStore('buyCart', cart)
