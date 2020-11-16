@@ -2,7 +2,7 @@
 	<div style="text-align: center;">
 		<el-carousel v-if="bannerList" style="margin: 40px 8.125% 0;" :interval="3000" type="card" height="477px">
 			<el-carousel-item v-for="item in bannerList" :key="item.id" style="width:50%;box-shadow: 0px 15px 20px -5px rgba(0, 0, 0, 0.3);">
-				<div @click="goProduct(item,1)"  :style="'width:100%;height:472px;background: url('+imgUrl+item.image+');background-size:cover;'"></div>
+				<div @click="goProduct(item,1)" :style="'width:100%;height:472px;background: url('+imgUrl+item.image+');background-size:cover;'"></div>
 			</el-carousel-item>
 		</el-carousel>
 		<div class="img-contain">
@@ -34,16 +34,16 @@
 			</div>
 			<div class="contain">
 
-				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&(item.type=='item,item'||item.hintText&&item.hintImage)" @click="goProduct(selectGame)">
-					<el-popover placement="right" :width="item.hintText?'400':''" trigger="hover">
+				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&(item.type=='item,item'||item.hintText&&item.hintImage)" @click="goItem(selectGame)">
+					<el-popover style="min-width:auto;text-align: center;" placement="right" trigger="hover">
 						<div class="pop-item">
-							<img :style="item.hintText?'margin-right: 17px':''" :src="imgUrl+item.hintImage" />
+							<img :src="imgUrl+item.hintImage" />
 							<div v-if="item.hintText">
 								<div class="label">{{item.hintText}}</div>
 							</div>
 
 						</div>
-						<div slot="reference" v-if="item.hintImage" ><img :src="imgUrl+item.hintImage" />
+						<div slot="reference" v-if="item.hintImage"><img :src="imgUrl+item.logo" />
 							<div class="text hidden-style">
 								{{item.name}}
 							</div>
@@ -67,37 +67,37 @@
 
 				<div class="li" style="background: none;border: none;margin:35px">
 					<img src="../assets/image/icon/icon_choose1.png" />
-					<div class="text-title" style="color: #142a43;font-size: 17px;">
+					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						Security Guarantee
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;">
+					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						Provide 100% secure online payment system. The most professional game service provider guarantee the security of products.
 					</div>
 				</div>
 				<div class="li" style="background: none;border: none;margin:35px">
 					<img src="../assets/image/icon/icon_choose2.png" />
-					<div class="text-title" style="color: #142a43;font-size: 17px;">
+					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						Fast Delivery
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;">
+					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						95% orders completed in 15 minutes, professional online service, reply to the customer's questions within 20 second.
 					</div>
 				</div>
 				<div class="li" style="background: none;border: none;margin:35px">
 					<img src="../assets/image/icon/icon_choose3.png" />
-					<div class="text-title" style="color: #142a43;font-size: 17px;">
+					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						Cheap Prices
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;">
+					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						More than 90% of products have cheaper prices than the market, Enjoy VIP member get up to 10% discount plus.Enjoy now.
 					</div>
 				</div>
 				<div class="li" style="background: none;border: none;margin:35px">
 					<img src="../assets/image/icon/icon_choose4.png" />
-					<div class="text-title" style="color: #142a43;font-size: 17px;">
+					<div class="text-title" style="color: #142a43;font-size: 18px;">
 						100% Refund
 					</div>
-					<div class="text" style="font-family: ArialMT;font-size: 14px;">
+					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
 						Received what you purchased or the refund. Once your order is delayed or undeliverable, we are 100% guaranteed to refund your money.
 					</div>
 				</div>
@@ -124,7 +124,7 @@
 
 			</div>
 		</div>
-	
+
 	</div>
 </template>
 
@@ -146,7 +146,7 @@
 				newPage: 0,
 				itemPage: 1,
 				selectGame: {},
-				
+
 			};
 		},
 		computed: {
@@ -163,26 +163,29 @@
 				this.itemList[index].num = this.itemList[index].num + 1;
 				this.$forceUpdate();
 			},
-			goProduct(item,type) {
-				if(type==1){
-					item.id=item.game.split(',')[0];
-					item.name=item.game.split(',')[1]
+			goProduct(item, type) {
+				if(type == 1) {
+					item.id = item.game.split(',')[0];
+					item.name = item.game.split(',')[1]
 				}
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
-				if(item.productSell=='item,item'){
-					this.$router.push('/itemList/'+localStorage.getItem('gameId'));
-				}else{
-					this.$router.push('/coinList/'+localStorage.getItem('gameId'));
+				if(item.productSell == 'item,item') {
+					this.$router.push('/itemList/' + localStorage.getItem('gameId'));
+				} else {
+					this.$router.push('/coinList/' + localStorage.getItem('gameId'));
 				}
 			},
-			
+			goItem(item, type) {
+				this.$router.push('/itemList/' + localStorage.getItem('gameId'));
+			},
+
 			getGame() {
 				//获取game
 				getTemplete('?type=Game&offset=' + this.gamePage + '&count=8').then(response => {
 					if(response.retCode == 0) {
 						this.gameList = response.data.filter((item) => {
-							return item.hot&& item.online
+							return item.hot && item.online
 						})
 					} else {
 						this.$message({
@@ -215,7 +218,7 @@
 						this.itemList = response.data.filter((item) => {
 							var gameId = item.game.split(',')[0];
 
-							return gameId == this.selectId&&item.online&&item.type=="item,item"
+							return gameId == this.selectId && item.hotItem && item.online && item.type == "item,item"
 						})
 
 					} else {
@@ -231,7 +234,7 @@
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
 						this.gameHotList = response.data.filter((item) => {
-							return item.hotitem&& item.online
+							return item.hotitem && item.online
 						})
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
@@ -271,7 +274,7 @@
 			this.getItem();
 			this.getHotGame();
 			this.getNews();
-			
+
 			//获取banner
 			getTemplete('?type=Carousel&offset=0&count=5').then(response => {
 				if(response.retCode == 0) {
@@ -334,7 +337,6 @@
 					padding: 19px 0 8px;
 					color: #222222;
 					font-size: 20px;
-					font-family: ArialMT;
 				}
 			}
 		}
@@ -401,7 +403,6 @@
 		background-color: #4c9adb;
 		border-radius: 21px;
 		color: #ffffff;
-		font-family: ArialMT;
 		font-size: 14px;
 		line-height: 43px;
 		margin-bottom: 36px;
@@ -412,7 +413,7 @@
 		width: 1200px;
 		text-align: left;
 		font-family: Allstar4;
-		font-weight: 600;
+		font-weight: bold;
 		font-size: 24px;
 		padding: 33px 0;
 		color: #142a43;
@@ -420,14 +421,9 @@
 	
 	.pop-item {
 		overflow: hidden;
-		font-family: ArialMT;
 		font-size: 14px;
 		color: #333;
-		img {
-			width: 200px;
-			height: 150px;
-			float: left;
-		}
+		text-align: center;
 		.title {
 			font-family: Arial-BoldMT;
 			font-size: 14px;
@@ -440,7 +436,6 @@
 		.text {
 			margin-top: 18px;
 			margin-bottom: 23px;
-			font-family: ArialMT;
 			font-size: 14px;
 			color: #666;
 			span {
@@ -547,6 +542,7 @@
 			}
 		}
 	}
+	
 	.hidden-style {
 		overflow: hidden;
 		text-overflow: ellipsis;

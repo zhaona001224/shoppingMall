@@ -21,7 +21,7 @@
 		margin: 0;
 		overflow-y: auto;
 		min-height: 100%;
-		font-family: font,Arial,Helvetica Neue,Helvetica,sans-serif;
+		font-family: Arial, "Helvetica Neue", Helvetica, sans-serif
 		
 	}
 	li,ul,p{
@@ -41,7 +41,9 @@
 	.point {
 		cursor: pointer;
 	}
-	
+	.el-popover{
+		min-width: auto;;
+	}
 	.el-dropdown-menu.el-popper .el-dropdown-menu__item:focus,
 	.el-dropdown-menu.el-popper .el-dropdown-menu__item:not(.is-disabled):hover {
 		background-color: #fff;

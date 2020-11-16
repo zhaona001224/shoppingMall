@@ -3,7 +3,6 @@
 		<div class="login-main">
 			<div class="form-main">
 				<div class="title">管理中心</div>
-
 				<el-form :model="login" :rules="rules" ref="login" status-icon label-position="right" label-width="90px">
 					<el-form-item label="账号" prop="userName">
 						<el-input type="text" v-model="login.userName" placeholder="请输入账号" auto-complete="off"></el-input>

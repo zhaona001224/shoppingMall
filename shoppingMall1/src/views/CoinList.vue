@@ -27,34 +27,35 @@
 			<div class="step-line item-contain" :style="isMobile?'min-height: 1000px;':''">
 				<div class="flex-style">
 					<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span> {{selectServeData.name}} </span>
-						<el-select @change="setCurrency" style="width:140px" v-model="selectCurrency" placeholder="">
-							<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.showName" :value="subItem.id">
-							</el-option>
-						</el-select>
+						
 					</div>
 				</div>
 				<div class="tab point">
 					<span @click="selectId=item.id;totalPrice=0;coinNum=0;filterId()" :class="selectId==item.id?'active':''" v-for="(item,index) in itemList">
 					{{item.name}}
 				</span>
+				<el-select @change="setCurrency" style="width:140px;float:right;margin-top: -9px;" v-model="selectCurrency" placeholder="">
+							<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.showName" :value="subItem.id">
+							</el-option>
+						</el-select>
 				</div>
 				<div class="total">
-					<span class="custom-quantity">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /></span><span class="price">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
-					<span class="option"><span class="buy point" @click="addCart(item,selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
+					<span class="custom-quantity" style="width:400px">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" :min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span> <span class="price" style="width: 394px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
+					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
-				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 200px;">Selltext</span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
+				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 360px;"></span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity hidden-style">{{item.qty||1}}{{selectData[0]&&selectData[0].Unit}} - {{item.name}} - {{selectServeData.name}}</span><span class="price" v-html="item.selltext" style="width:200px"></span></spa><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span><span class="buy point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity hidden-style">{{item.qty||1}} {{selectData[0]&&selectData[0].Unit}} - {{item.name}} - {{selectServeData.name}}</span><span class="price" v-html="item.selltext" style="width:360px"></span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(3)}}</span><span class="option"><span class="point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span><span class="buy point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1,1);">Buy Now</span></span>
 					</div>
 
 				</div>
 			</div>
 		</div>
-		<div class="footer1">
+		<div class="footer1" v-if="gameList.description">
 			<div class="main-title">Introduction</div>
 			<div class="contain">
-				<img :src="imgUrl+gameList.logo" />
-				<div style="display: inline-block;" class="text" v-html="gameList.description"></div>
+
+				<div v-html="gameList.description"></div>
 			</div>
 		</div>
 	</div>
@@ -74,7 +75,7 @@
 				discountList: [],
 				selectType: 'coin',
 				selectId: '',
-				coinNum: 1,
+				coinNum: '',
 				newArray: [],
 				selectData: [],
 				currencyData: [],
@@ -97,6 +98,7 @@
 			...mapMutations(['ADD_CART', 'SHOW_LOGIN', 'CHOOSE_CURRENCY']),
 
 			mapCount(data) {
+	
 				var num = this.coinNum;
 				if(num == 0 || data.length == 0) return
 				data = data.reverse();
@@ -135,13 +137,7 @@
 				this.newArray = JSON.parse(JSON.stringify(this.discountList));
 				this.lowPrice = '';
 				this.plane = [];
-				if(this.coinNum && this.coinNum < this.selectData[0].miniNumber) {
-					this.$message({
-						type: 'error',
-						message: 'The minimum purchase quantity is ' + this.selectData[0].miniNumber
-					});
-					return
-				}
+				
 				var totalPrice = 0;
 				if(this.coinNum > this.newArray[this.newArray.length - 1].qty) {
 					this.totalPrice = this.coinNum * this.newArray[this.newArray.length - 1].price;
@@ -156,7 +152,7 @@
 
 			totalPrice2(data) {
 				var price = 0;
-
+				
 				data.map((item) => {
 
 					if(item.buyNum) {
@@ -184,7 +180,7 @@
 				if(price == 0 || productNum == 0) {
 					return
 				}
-				item.unit=this.selectData[0].Unit
+				item.unit=item.Unit
 				this.ADD_CART({
 					detail:item,
 					productId: id,
@@ -382,7 +378,6 @@
 
 				this.discountList.map((item) => {
 					item.name = this.selectData[0].name;
-
 					if(this.selectData[0].price * 1 - item.discount > 0) {
 						console.log(this.selectData[0].price)
 						item.price = this.selectData[0].price * 1 - item.discount;
@@ -390,8 +385,10 @@
 						item.price = this.selectData[0].price * 1
 					}
 
-					item.totalPrice = (item.price * 1 * (item.qty * 1)).toFixed(2)
+					item.totalPrice = (item.price * 1 * (item.qty * 1)).toFixed(3)
 				})
+				this.coinNum=this.discountList[0].qty*1;
+				this.totalPrice=this.discountList[0].totalPrice;
 			},
 			getDiscount(discountId) {
 				//获取discount
@@ -442,7 +439,7 @@
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
 	.nav {
-		font-family: ArialMT;
+		
 		font-size: 14px;
 		letter-spacing: 0px;
 		color: #666666;
@@ -475,7 +472,7 @@
 	}
 	
 	.step {
-		font-family: ArialMT;
+		
 		font-size: 18px;
 		font-weight: normal;
 		font-stretch: normal;
@@ -509,7 +506,7 @@
 			font-size: 14px;
 			margin-top: 35px;
 			margin-bottom: 14px;
-			font-family: ArialMT;
+			
 		}
 		.item {
 			display: inline-block;
@@ -518,7 +515,7 @@
 			padding: 17px 0;
 			background-color: #ffcbc8;
 			border-radius: 5px;
-			font-family: ArialMT;
+			
 			font-size: 18px;
 			margin-top: 10px;
 			letter-spacing: 0px;
@@ -548,7 +545,7 @@
 			width: 160px;
 			text-align: center;
 			padding: 14px 27px;
-			font-family: ArialMT;
+			
 			font-size: 14px;
 			border: 1px solid #efefef;
 			margin-right: 23px;
@@ -577,9 +574,9 @@
 		background-color: #feba00;
 		    align-items: center;
 		.custom-quantity {
-			width: 460px;
+			width: 320px;
 			padding-left: 24px;
-			font-family: ArialMT;
+			
 			font-size: 14px;
 			color: #333333;
 		}
@@ -601,7 +598,7 @@
 		.option {
 			text-align: right;
 			width: 220px;
-			margin-right: 92px;
+		
 			span {
 				text-align: center;
 				color: #fff;
@@ -610,7 +607,7 @@
 				height: 32px;
 				background-color: #4c9adb;
 				border-radius: 4px;
-				font-family: ArialMT;
+				
 				font-size: 14px;
 				line-height: 32px;
 			}
@@ -684,7 +681,6 @@
 			}
 		}
 	}
-	
 	.footer1 {
 		background-color: #f7f7f7;
 		padding: 96px 0 46px;
@@ -692,7 +688,7 @@
 			display: flex;
 			width: 1200px;
 			margin: 0 auto;
-			padding: 40px 0;
+			padding: 40px;
 			background: #fff;
 			border-radius: 30px;
 		}
@@ -718,4 +714,5 @@
 			}
 		}
 	}
+	
 </style>

@@ -95,7 +95,7 @@
 					padding: 19px 0 8px;
 					color: #222222;
 					font-size: 20px;
-					font-family: ArialMT;
+					
 				}
 			}
 		}

@@ -24,15 +24,29 @@
 		</el-card>
 		<el-card class="box-card">
 			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle">
-				<el-table-column header-align="left" width="60px" sortable prop="id" label="id">
+				<el-table-column header-align="left" width="240px" sortable prop="pay_time" label="pay_time">
 				</el-table-column>
+			
 				<el-table-column header-align="left" width="160px" prop="order_id" label="order_id">
 				</el-table-column>
-
-				<el-table-column prop="payer" label="payer" width="200px">
+				<el-table-column header-align="left" width="300px" label="Products">
 					<template slot-scope="scope">
+						<div :key="subIndex" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">
+		{{subItem.game}} - {{subItem.category}} - {{subItem.server}} - {{subItem.product}}*{{subItem.quantity}} {{subItem.unit}}
+						</div>
+				
+					</template>
+				</el-table-column>
+					<el-table-column header-align="left" width="160px" prop="comments" label="request_info">
+				</el-table-column>
+				<el-table-column header-align="left" width="160px"  label="payer_email">
+					<template slot-scope="scope">
+						
 						<el-popover v-if="scope.row['payer']" placement="right" width="400" trigger="hover">
-							<div class="tool-tip">note</div>
+							<div slot="reference" class="name-wrapper">
+            <el-tag size="medium">{{ scope.row.payer }}</el-tag>
+          </div>
+							<div class="tool-tip">note{{inputVisible}}</div>
 							<el-tag :key="subIndex" v-for="(tag,subIndex) in scope.row['note']" closable :disable-transitions="false" @close="handleClose(scope.$index,subIndex)">
 								{{tag}}
 							</el-tag>
@@ -40,19 +54,15 @@
 							<el-input class="input-new-tag" v-if="inputVisible[scope.$index]==1" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm(scope.$index)" @blur="handleInputBlur(scope.$index)">
 							</el-input>
 							<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
-							<div class="tool-tip" style="margin-top: 20px;" v-if="scope.row['comments']">comments</div>
-							<div v-if="scope.row['comments']">{{scope.row['comments']}}</div>
-							<div slot="reference" class="color">{{scope.row['payer']}}</div>
+							
 						</el-popover>
 					</template>
 				</el-table-column>
-				<el-table-column header-align="left" width="240px" sortable prop="pay_time" label="pay_time">
+				<el-table-column header-align="left" width="240px" sortable prop="ip" label="ip">
 				</el-table-column>
-				<el-table-column header-align="left" prop="description" width="300px" label="description">
-					<template slot-scope="scope">
-						<div v-html="scope.row['description']"></div>
-					</template>
+				<el-table-column header-align="left" width="120px" sortable prop="vendor" label="pay_type">
 				</el-table-column>
+			
 
 				<el-table-column prop="status" label="status" width="200px">
 					<template slot-scope="scope">
@@ -62,24 +72,23 @@
 						</el-select>
 					</template>
 				</el-table-column>
-				<el-table-column header-align="left" sortable prop="total" label="total">
-				</el-table-column>
-				<el-table-column header-align="left" prop="currency" width="120px" label="currency">
-				</el-table-column>
-				<!-- <el-table-column prop="note" label="note" width="300px">
+				<el-table-column header-align="left" sortable label="total">
 					<template slot-scope="scope">
-						<el-tag :key="subIndex" v-for="(tag,subIndex) in scope.row['note']" closable :disable-transitions="false" @close="handleClose(scope.$index,subIndex)">
-							{{tag}}
-						</el-tag>
-
-						<el-input class="input-new-tag" v-if="inputVisible[scope.$index]==1" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm(scope.$index)" @blur="handleInputBlur(scope.$index)">
-						</el-input>
-						<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
+					{{scope.row['total']}}{{scope.row['currency']}}
 					</template>
-				</el-table-column> -->
-				<el-table-column fixed="right" label="operation" width="120px" cell-class-name="center" header-align="center">
+				</el-table-column>
+			
+					<el-table-column prop="bad" label="bad" width="200px">
 					<template slot-scope="scope">
-						<el-button type="text" size="small" @click="handleEdit(scope.row)">Edit</el-button>
+						<el-select :clearable="true" @change="edit(scope.$index,scope.row['id'])" style="width:100px" v-model="scope.row['bad']" placeholder="请选择 status">
+							<el-option v-for="subItem in badList" :key="subItem.value" :label="subItem.name" :value="subItem.value">
+							</el-option>
+						</el-select>
+					</template>
+				</el-table-column>
+					<el-table-column fixed="right" label="operation" width="120px" cell-class-name="center" header-align="center">
+					<template slot-scope="scope">
+						<el-button type="text" size="small" @click="handleEdit(scope.row)">view</el-button>
 						<el-button type="text" class="clip" :data-clipboard-text="getFromData(scope.$index)" size="small" @click="copy(scope.row.id)">Copy</el-button>
 					</template>
 				</el-table-column>
@@ -105,6 +114,13 @@
 				pageSize: 20,
 				total: 0,
 				statusList: [],
+				badList:[{
+					name:'true',
+					value:true
+				},{
+					name:'false',
+					value:false
+				}],
 				notSearch: true,
 				inputValue: '',
 				inputVisible: [],
@@ -146,13 +162,8 @@
 		methods: {
 
 			handleEdit(item) {
-				localStorage.setItem('keyword', this.keyword);
-				localStorage.setItem('checkedStatus', JSON.stringify(this.checkedStatus));
-				if(this.timeRange.length>0){
-					localStorage.setItem('timeRange', this.timeRange[0].getTime()+','+this.timeRange[1].getTime());
-				}
+					window.open ("page.html", "newwindow"+ item.id, "height=100, width=100, top=0, left=0,toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
 				
-				this.$router.push('/Order/Add?id=' + item.id)
 			},
 			getRowStyle({
 				row,
@@ -195,7 +206,7 @@
 
 			}, //导出表格
 			exportTable() {
-				var tableLable = this.originTable;
+						var tableLable = this.originTable;
 				let addobj = {}
 				// 2.1获取表头内容 以rowData形式重新赋值
 				try {
@@ -267,10 +278,21 @@
 			},
 			getFromData(index) {
 				var data = JSON.parse(JSON.stringify(this.originTable[index]));
-				delete data.notify_info
-				delete data.order_detail
-				var str = ""
+						var str1=''
+						JSON.parse(data.description).map((item)=>{
+							str1=str1+item.category+'-'+item.server+'-'+item.product+'*'+item.quantity+'\n '
+						})
+						data={
+							pay_time:data.pay_time,
+							game:JSON.parse(data.description)[0].game,
+							products:str1,
+							payer_email:data.payer,
+							order:data.order_id
+						}
+						console.log(data)
+						var str=''
 				for(var key in data) {
+					debugger
 					data[key] = data[key] + ''
 					// 2.5.1 注意要将本身就有换行或者英文逗号的内容进行变换 否则表格内容会错乱
 					data[key] = data[key].replace(/\n/g, ' ')
@@ -294,17 +316,16 @@
 				this.search();
 			},
 			showInput(index) {
-				this.inputVisible[index] = 1;
-				this.tableData[index].note.splice(index, 0);
-				console.log(this.inputVisible)
-				this.$forceUpdate();
-				this.$nextTick(_ => {
+				this.inputVisible.splice(index, 1,1);
+				this.tableData[index].note=this.tableData[index].note||[]
+				
+				this.$nextTick(()=> {
 					//					debugger
 					this.$refs.saveTagInput.$refs.input.focus();
 				});
 			},
 			handleInputBlur(index) {
-				this.inputVisible[index] = 0;
+				this.inputVisible.splice(index, 1,0);
 				this.tableData[index].note.splice(index, 0);
 				this.$forceUpdate();
 			},
@@ -358,6 +379,7 @@
 				data = this.originTable[index];
 				this.originTable[index].note = this.tableData[index].note && this.tableData[index].note.join(',');
 				this.originTable[index].status = this.tableData[index].status
+				this.originTable[index].bad = this.tableData[index].bad
 				delete data.id
 				that.$post("/admin/v1/content/update?type=Order&id=" + id, data).then(response => {
 					if(response.retCode == 0) {
@@ -583,12 +605,12 @@
 		display: none;
 	}
 	
-	.el-table__row.note td:nth-child(3) {
+	.el-table__row.note td:nth-child(5) {
 		background: #f73131;
 		color: #fff;
 	}
 	
-	.el-table__row.bad td:nth-child(3) {
+	.el-table__row.bad td:nth-child(5) {
 		background: #c00;
 		color: #fff;
 	}
