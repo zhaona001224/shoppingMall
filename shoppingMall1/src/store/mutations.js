@@ -54,7 +54,10 @@ export default {
 			totalPrice
 		
 		}
+		
+		//购物车里只能存在一个游戏
 		if(cart && cart.length) { // 有内容
+			if(gameId!=cart[0].gameId) cart=[]
 			cart.forEach(item => {
 				if(item.productId === productId&&item.productName === productName) {
 					if(item.productNum >= 0) {

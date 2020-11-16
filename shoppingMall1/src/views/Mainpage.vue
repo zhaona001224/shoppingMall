@@ -215,7 +215,7 @@
 						this.itemList = response.data.filter((item) => {
 							var gameId = item.game.split(',')[0];
 
-							return gameId == item.hotitem&&this.selectId&&item.online&&item.type=="item,item"
+							return gameId == this.selectId&&item.hotItem&&item.online&&item.type=="item,item"
 						})
 
 					} else {

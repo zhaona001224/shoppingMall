@@ -16,9 +16,9 @@
 						</div>
 					</div>
 					<div style="width: 220px;text-align: center;color: #f39800;">
-						{{currencyInfo.symbol}}{{(item.salePrice*currencyInfo.rate).toFixed(2)}}
+						{{currencyInfo.symbol}}{{(item.salePrice*currencyInfo.rate).toFixed(3)}}
 					</div>
-					<div class="price" style="width: 220px;">{{currencyInfo.symbol}}{{(item.salePrice&&item.salePrice*item.productNum*currencyInfo.rate).toFixed(2)}}</div>
+					<div class="price" style="width: 220px;">{{currencyInfo.symbol}}{{(item.salePrice&&item.salePrice*item.productNum*currencyInfo.rate).toFixed(3)}}</div>
 					<!--					<div class="price" style="width: 247px;" v-else>{{currencyInfo.symbol}}{{item.totalPrice*currencyInfo.rate}}</div>-->
 
 					<div class="delete point" @click="deletePro(item.productId,item.productName)" style="width:80px;text-align: center;vertical-align: -8px;"><img style="width: 20px;height: 22px;" src="../assets/image/icon/icon_delete.png" /></div>
@@ -31,8 +31,9 @@
 				</div>
 				<div class="count-price">
 					<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></div>
-					<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{(disPrice*currencyInfo.rate).toFixed(2)}}</span></div>
-					<div>Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice-(disPrice*1*currencyInfo.rate).toFixed(2)}}</span></div>
+					<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{(disPrice*currencyInfo.rate).toFixed(3)}}</span></div>
+					<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{payFee.toFixed(3)}}</span></div>
+					<div>Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice-(disPrice*1*currencyInfo.rate).toFixed(3)}}</span></div>
 				</div>
 			</div>
 			<div class="step"><span>1</span>{{$t("language.good.orderInformation")}}</div>
@@ -106,6 +107,7 @@
 				totalAmount: 0,
 				form: {},
 				statusList: [],
+				payFee:0,
 				payList: [{
 					icon: "https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_credit_logo_h_200x51.png",
 					func: '1',
@@ -148,6 +150,7 @@
 				couponPrice: {
 
 				},
+				feeRate:[],
 				productInfo: {},
 				rules: {
 					email: [{
@@ -190,9 +193,9 @@
 				var price = 0;
 				this.cartList.map((item) => {
 										if(item.type == "coin") {
-											var price1 =item.totalPrice*this.currencyInfo.rate.toFixed(2)
+											var price1 =item.totalPrice*this.currencyInfo.rate.toFixed(3)
 										} else {
-											var price1 =item.productNum * item.salePrice*this.currencyInfo.rate.toFixed(2)
+											var price1 =item.productNum * item.salePrice*this.currencyInfo.rate.toFixed(3)
 										}
 					price = price + price1
 					this.totalNum = this.totalNum + item.productNum;
@@ -205,7 +208,8 @@
 						this.disPrice = this.couponPrice.price * 1
 					}
 				}
-				return price.toFixed(2)
+				this.payFee=(this.totalPice-(this.disPrice*1*this.currencyInfo.rate))*this.feeRate[this.selectIndex].value
+				return price.toFixed(3)
 			},
 			
 		},
@@ -285,7 +289,7 @@
 						method: str,
 						"unit_amount": {
 							"currency_code": this.currencyInfo.name,
-							"value": (item.salePrice * this.currencyInfo.rate).toFixed(2) + ''
+							"value": (item.salePrice * this.currencyInfo.rate).toFixed(3) + ''
 						},
 						"description": ''
 
@@ -496,15 +500,41 @@
 					}
 				})
 			},
+			PayFee(){
+				//获取game
+				getTemplete('?type=PaymentSetting&offset=-1&count=-1').then(response => {
+					if(response.retCode == 0) {
+						response.data.map((item)=>{
+							if(item.name=="paypal"){
+								this.feeRate[0]=item
+							}
+							if(item.name=="paysession"){
+								this.feeRate[1]=item
+							}
+							if(item.name=="skrill"){
+								this.feeRate[2]=item
+							}
+						})
+					} else {
+						this.$message({
+							type: 'warning',
+							message: response.message
+						});
+					}
+				})
+			}
 		},
 		created() {
 		
 			this.getCoupn();
 			this.getItem();
+			this.PayFee();
 
 		},
 		mounted(){
-				this.form.email=this.userInfo&&this.userInfo.email
+				this.form.email=this.userInfo&&this.userInfo.email;
+				this.form.link1=this.userInfo&&this.userInfo.social_type;
+				this.form.link=this.userInfo&&this.userInfo.social_link
 		},
 		watch: {
 			cartList(a, b) {
@@ -512,7 +542,9 @@
 				this.apply();
 			},
 			'userInfo.email'(){
-				this.form.email=this.userInfo.email
+				this.form.email=this.userInfo.email;
+				this.form.link1=this.userInfo.social_type;
+				this.form.link=this.userInfo.social_link
 			}
 		},
 

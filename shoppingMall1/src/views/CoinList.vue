@@ -40,12 +40,12 @@
 						</el-select>
 				</div>
 				<div class="total">
-					<span class="custom-quantity" style="width:400px">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span> <span class="price" style="width: 394px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
+					<span class="custom-quantity" style="width:400px">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span> <span class="price" style="width: 394px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(3)}}</span>
 					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(item,selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 360px;"></span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity hidden-style">{{item.qty||1}} {{selectData[0]&&selectData[0].Unit}} - {{item.name}} - {{selectServeData.name}}</span><span class="price" v-html="item.selltext" style="width:360px"></span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span><span class="buy point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity hidden-style">{{item.qty||1}} {{selectData[0]&&selectData[0].Unit}} - {{item.name}} - {{selectServeData.name}}</span><span class="price" v-html="item.selltext" style="width:360px"></span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(3)}}</span><span class="option"><span class="point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span><span class="buy point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1,1);">Buy Now</span></span>
 					</div>
 
 				</div>
@@ -391,7 +391,7 @@
 						item.price = this.selectData[0].price * 1
 					}
 
-					item.totalPrice = (item.price * 1 * (item.qty * 1)).toFixed(2)
+					item.totalPrice = (item.price * 1 * (item.qty * 1)).toFixed(3)
 				})
 				this.coinNum=this.discountList[0].qty*1;
 				this.totalPrice=this.discountList[0].totalPrice;

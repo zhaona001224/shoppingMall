@@ -136,11 +136,11 @@
 			<div class="form-contain" v-if="selectType=='login'">
 				<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
 					<el-form-item :label='$t("language.user.email")' prop="email">
-						<el-input placeholder="" v-model="form.email">
+						<el-input Pleaseholder="" v-model="form.email">
 						</el-input>
 					</el-form-item>
 					<el-form-item :label='$t("language.user.pass")' prop="password">
-						<el-input placeholder="" type="password" v-model="form.password">
+						<el-input Pleaseholder="" type="password" v-model="form.password">
 						</el-input>
 					</el-form-item>
 
@@ -151,19 +151,31 @@
 			<div class="form-contain" v-if="selectType=='register'">
 				<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
 					<el-form-item :label='$t("language.user.email")' prop="email">
-						<el-input placeholder="" v-model="form.email">
+						<el-input Pleaseholder="" v-model="form.email">
 						</el-input>
 					</el-form-item>
 					<el-form-item :label='$t("language.user.pass")' prop="password">
-						<el-input placeholder="" type="password" v-model="form.password">
+						<el-input Pleaseholder="" type="password" v-model="form.password">
 						</el-input>
 					</el-form-item>
 					<el-form-item :label='$t("language.user.repass")' prop="repassword">
-						<el-input placeholder="" type="password" v-model="form.repassword">
+						<el-input Pleaseholder="" type="password" v-model="form.repassword">
 						</el-input>
 					</el-form-item>
-					<el-form-item :label='$t("language.user.facebook")' prop="social">
-						<el-input placeholder="" v-model="form.social">
+					<el-form-item label='Phone' prop="phone">
+						<el-input maxlength=11 Pleaseholder=""  v-model="form.phone">
+						</el-input>
+					</el-form-item>
+
+					<el-form-item label='Social Type:' prop="social_type">
+						<el-select :clearable="true" v-model="form.social_type">
+							<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
+							</el-option>
+						</el-select>
+
+					</el-form-item>
+					<el-form-item label='Social Link:' prop="social_link" class="left">
+						<el-input Pleaseholder="" v-model="form.social_link">
 						</el-input>
 					</el-form-item>
 
@@ -191,34 +203,52 @@
 				countryData: [],
 				currencyData: [],
 				selectCurrency: '',
+				selectList: ['facebook', 'whatsapp', 'twitter'],
 				width: '100%',
 				gamePop: false,
 				totalPrice: 0,
 				selectType: 'login',
-				form: {},
+				form: {
+					social_type: 'facebook'
+				},
 				showCart: true,
 				rules: {
 					email: [{
-							message: "place fill in email",
+							message: "Please fill in email",
 							required: true,
 							trigger: 'blur'
 						},
 						{
-							message: "place fill in correct email",
+							message: "Please fill in correct email",
 							pattern: ptn.email(0, 40),
 							trigger: 'blur'
 						}
 					],
 					password: [{
-						message: "place fill in password",
+						message: "Please fill in password",
 						required: true,
 						trigger: 'blur'
 					}],
 					repassword: [{
-						message: "place fill in repassword",
+						message: "Please fill in repassword",
 						required: true,
 						trigger: 'blur'
-					}]
+					}],
+					phone: [{
+						message: "Please fill in phone",
+						required: true,
+						trigger: 'blur'
+					}],
+					social_type: [{
+						message: "Please select Social Type",
+						required: true,
+						trigger: 'blur'
+					}],
+					social_link: [{
+						message: "Please fill in Social Link",
+						required: true,
+						trigger: 'blur'
+					}],
 
 				},
 			}
@@ -238,7 +268,9 @@
 			...mapMutations(['CHOOSE_GAME', 'RECORD_USERINFO', 'LOGINOUT_USERINFO', 'CHOOSE_CURRENCY', 'CHOOSE_COUNTRY', 'SHOW_LOGIN']),
 			changeType(type) {
 				this.selectType = type;
-				this.form = {}
+				this.form = {
+					social_type: 'facebook'
+				}
 			},
 			setCurrency(symbol, name, rate) {
 				this.CHOOSE_CURRENCY({
@@ -255,7 +287,7 @@
 			forgetPsw() {
 				if(!this.form.email) {
 					this.$message({
-						type: 'place fill in email',
+						type: 'Please fill in email',
 						message: response.Msg
 					});
 					return
@@ -264,7 +296,7 @@
 				if(!re.test(this.form.email)) {
 					this.$message({
 						type: 'warning',
-						message: 'place fill in correct email'
+						message: 'Please fill in correct email'
 					});
 					return
 				}
@@ -335,7 +367,7 @@
 				if(this.$route.path == "/itemList" || this.$route.path == "/coinList") {
 					window.location.reload()
 				} else {
-					this.$router.push('/itemList/'+localStorage.getItem('gameId'));
+					this.$router.push('/itemList/' + localStorage.getItem('gameId'));
 				}
 
 			},
@@ -355,7 +387,9 @@
 								});
 								var user = {
 									token: response.data,
-									email: this.form.email
+									email: this.form.email,
+									social_link:response.social_link,
+									social_type:response.social_type
 								}
 								localStorage.setItem('token', response.data);
 								this.RECORD_USERINFO(user);
@@ -378,7 +412,7 @@
 				if(!this.form.email) {
 					this.$message({
 						type: 'warning',
-						message: 'Place fill in email'
+						message: 'Please fill in email'
 					});
 					return
 				}
@@ -409,12 +443,21 @@
 					});
 					return
 				}
+				if(!(/^1[0-9]{10}$/.test(this.form.phone))) {
+					this.$message({
+						type: 'warning',
+						message: 'Please fill in correct phone'
+					});
+					return ;
+				}
 				this.$refs.form.validate((valid) => {
 					if(valid) {
 						register({
 							email: this.form.email,
 							password: this.form.password,
-							social: this.form.social
+							phone: this.form.phone,
+							social_type: this.form.social_type,
+							social_link: this.form.social_link
 						}).then(response => {
 							if(response.retCode == 0) {
 								this.$message({
@@ -559,7 +602,7 @@
 			width: 230px;
 			color: #fff;
 			position: relative;
-			&:hover{
+			&:hover {
 				background-color: #29303a;
 			}
 			a {
@@ -588,7 +631,6 @@
 				position: absolute;
 				top: 20px;
 			}
-			
 			&.active {
 				background-color: #29303a;
 			}
@@ -645,7 +687,7 @@
 		margin-left: -637px;
 		width: 1274px;
 		background: #282e38;
-		padding:70px 36px;
+		padding: 70px 36px;
 		box-sizing: border-box;
 		display: flex;
 		min-height: 300px;
@@ -688,7 +730,7 @@
 	.pop-login {
 		position: fixed;
 		z-index: 100;
-		top: 20%;
+		top: 10%;
 		left: 50%;
 		margin-left: -395px;
 		width: 789px;
@@ -697,6 +739,7 @@
 		box-shadow: 0px 0px 24px 0px rgba(4, 0, 0, 0.5);
 		border-radius: 10px;
 		text-align: left;
+		z-index: 1000;
 		.close {
 			position: absolute;
 			top: 8px;
@@ -729,7 +772,7 @@
 	}
 	
 	.form-contain {
-		margin-top: 45px;
+		margin-top: 25px;
 		input {
 			width: 280px;
 			height: 40px;
@@ -1048,6 +1091,10 @@
 			color: #333333;
 			font-size: 16px;
 		}
+	}
+	
+	/deep/ .el-form-item {
+		margin-bottom: 16px;
 	}
 	
 	.cart-con:before {

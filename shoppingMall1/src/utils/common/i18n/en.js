@@ -20,7 +20,6 @@ export const language = {
 		pass:'Password',
 		forget:'Forget Password?',
 		repass:'Confirm Password',
-		facebook:'Facebook Account',
 		confirm:'Confirm',
 		key:'Key'
 	},
