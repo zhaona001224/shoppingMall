@@ -5,7 +5,6 @@
 
 			<div class="total head"><span class="custom-quantity">{{$t("language.good.shoppingCart")}}</span></div>
 			<div class="table">
-				{{cartList}}{{payFeeValue}}
 				<div class="th" v-for="(item,index) in cartList">
 					<!-- {{item.detail}} -->
 					<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}</div>
@@ -33,8 +32,8 @@
 				<div class="count-price">
 					<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></div>
 					<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{(disPrice*currencyInfo.rate).toFixed(3)}}</span></div>
-					<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{(payFeeValue[payList[selectIndex].func-1]*1*totalPice-(disPrice*1*currencyInfo.rate)).toFixed(3)}}</span></div>
-					<div>Total Amount：<span class="price">{{currencyInfo.symbol}}{{((totalPice-(disPrice*1*currencyInfo.rate))*(1+payFeeValue[payList[selectIndex].func-1]*1)).toFixed(3)}}</span></div>
+					<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{(payFeeValue[payList[selectIndex].func-1]*1*(totalPice-(disPrice*1*currencyInfo.rate).toFixed(3)*1)).toFixed(3)}}</span></div>
+					<div>Total Amount: <span class="price">{{currencyInfo.symbol}}{{((totalPice-(disPrice*1*currencyInfo.rate))*(1+payFeeValue[payList[selectIndex].func-1]*1)).toFixed(3)}}</span></div>
 				</div>
 			</div>
 			<div class="step"><span>1</span>{{$t("language.good.orderInformation")}}</div>
@@ -310,11 +309,11 @@
 					})
 					
 				})
-				
+				var amount=((this.totalPice*1).toFixed(2)*1-(this.disPrice*1*this.currencyInfo.rate.toFixed(2))*1+(this.totalPice*this.payFeeValue[this.payList[this.selectIndex].func-1]*1)).toFixed(2)*1
 				var params = {
 					 "payment": this.payList[this.selectIndex].type, 
 					  "payment_channel": "BILLING",
-					  amount:((this.totalPice-(this.disPrice*1*this.currencyInfo.rate))*(1+this.payFeeValue[this.payList[this.selectIndex].func-1]*1)).toFixed(2)*1,
+					  amount:amount,
 					  "currency":this.currencyInfo.name,
 					   "language": "UK",
 						email: this.form.email,
@@ -326,37 +325,15 @@
 						"country": "",
 						"first_name":"",
 						"last_name":"",
-						"phone":"18352862123",
+						"phone":"",
 						"coupon_code":this.couponCode||'',
-						"coupon_value":this.disPrice*1*this.currencyInfo.rate.toFixed(2)*1,
+						"coupon_value":(this.disPrice*1*this.currencyInfo.rate.toFixed(2)).toFixed(2)*1,
 						"payment_fee":(this.totalPice*this.payFeeValue[this.payList[this.selectIndex].func-1]*1).toFixed(2)*1,
 						"logo_url":"",  
 						"address":"",
 						"description":"",  
 						"status":"", 
-					// payer: "paypal",
-					// comments: this.form.payer,
-					// method: "BILLING",
-					// item_list: [{
-					// 	"reference_id": "",
-					// 	"amount": {
-					// 		"currency_code": this.currencyInfo.name,
-					// 		"value": this.totalPice,
-					// 		"breakdown": {
-					// 			"item_total": {
-					// 				"currency_code": this.currencyInfo.name,
-					// 				"value": this.totalPice,
-					// 			}
-					// 		},
-							
-					// 	},
-					// 	"items": itemList,
-					// 		"customer_id": "",
-					// 		"description": this.form.link + this.form.link1,
-					// 		"shipping": {
-
-					// 		}
-
+					
 					
 				}
 				getPay(params).then(response => {
@@ -372,70 +349,15 @@
 					}
 				})
 			},
-			pay2(type) {
-				var that = this;
-				var params = {
-					"pm_id": type,
-					amount: this.totalPice+ '',
-					currency: this.currencyInfo.name,
-					"description": this.form.link + this.form.link1,
-					payer_email: this.form.email,
-					payer_name: this.form.payer
-
-				}
-				getPay2(params).then(response => {
-					if(response.retCode == 0) {
-						window.location.href = response.data.redirect_url;
-						this.CLEAR_CART();
-					} else {
-						this.$message({
-							type: 'warning',
-							message: response.message
-						});
-					}
-				})
-
-			},
-			pay3(type) {
-				var that = this;
-
-				var params = {
-					"amount": this.totalPice + '',
-					"currency": this.currencyInfo.name,
-					"description": this.form.link + this.form.link1,
-					"payer_email": this.form.email,
-					"address": "",
-					"city": "",
-					"country": "",
-					"phone_number": "",
-					"payment_methods": "ACC",
-					"firstname": "",
-					"lastname": "",
-					"logo_url": "http://193.22.152.235:8080/admin/v1/file?id=17",
-					"language": "US",
-				}
-				getPay3(params).then(response => {
-					if(response.retCode == 0) {
-						window.location.href = response.data.redirect_url;
-						this.CLEAR_CART();
-
-					} else {
-						this.$message({
-							type: 'warning',
-							message: response.message
-						});
-					}
-				})
-
-			},
-
+			
 			apply() {
+				debugger
 				if(!this.couponCode) {
 					return
 				}
 				var data = this.couponList.filter((item) => {
-
-					return item.code == this.couponCode
+					console.log(this.couponCode)
+					return item.code === this.couponCode
 				})
 
 				if(data.length == 0) {
@@ -455,7 +377,11 @@
 					var startTime = new Date(data[0].starttime + ':00');
 					var endTime = new Date(data[0].endtime + ':00');
 					if(new Date() >= startTime && new Date() <= endTime) {
-						this.couponPrice = data[0]
+						this.couponPrice = data[0];
+						this.$message({
+							type: 'success',
+							message: 'success'
+						});
 					} else {
 						this.couponPrice = 0;
 						this.disPrice = 0;
@@ -572,7 +498,8 @@
 		mounted(){
 				this.form.email=this.userInfo&&this.userInfo.email;
 				this.form.link1=this.userInfo&&this.userInfo.social_type;
-				this.form.link=this.userInfo&&this.userInfo.social_link
+				this.form.link=this.userInfo&&this.userInfo.social_link;
+				console.log(this.userInfo)
 		},
 		watch: {
 			cartList(a, b) {

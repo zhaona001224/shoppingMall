@@ -40,7 +40,7 @@
 						</el-select>
 				</div>
 				<div class="total">
-					<span class="custom-quantity" style="width:400px">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span> <span class="price" style="width: 394px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
+					<span class="custom-quantity" style="width:400px">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" :min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span> <span class="price" style="width: 394px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
 					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 360px;"></span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
@@ -51,11 +51,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="footer1">
+		<div class="footer1" v-if="gameList.description">
 			<div class="main-title">Introduction</div>
 			<div class="contain">
-				<img :src="imgUrl+gameList.logo" />
-				<div style="display: inline-block;" class="text" v-html="gameList.description"></div>
+
+				<div v-html="gameList.description"></div>
 			</div>
 		</div>
 	</div>
@@ -137,13 +137,7 @@
 				this.newArray = JSON.parse(JSON.stringify(this.discountList));
 				this.lowPrice = '';
 				this.plane = [];
-				if(this.coinNum && this.coinNum < this.selectData[0].miniNumber) {
-					this.$message({
-						type: 'error',
-						message: 'The minimum purchase quantity is ' + this.selectData[0].miniNumber
-					});
-					return
-				}
+				
 				var totalPrice = 0;
 				if(this.coinNum > this.newArray[this.newArray.length - 1].qty) {
 					this.totalPrice = this.coinNum * this.newArray[this.newArray.length - 1].price;
@@ -186,7 +180,6 @@
 				if(price == 0 || productNum == 0) {
 					return
 				}
-				debugger
 				item.unit=item.Unit
 				this.ADD_CART({
 					detail:item,
@@ -688,7 +681,6 @@
 			}
 		}
 	}
-	
 	.footer1 {
 		background-color: #f7f7f7;
 		padding: 96px 0 46px;
@@ -696,7 +688,7 @@
 			display: flex;
 			width: 1200px;
 			margin: 0 auto;
-			padding: 40px 0;
+			padding: 40px;
 			background: #fff;
 			border-radius: 30px;
 		}
@@ -722,4 +714,5 @@
 			}
 		}
 	}
+	
 </style>

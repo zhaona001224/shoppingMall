@@ -58,7 +58,7 @@
 								<span @click="down(index)" class="down">-</span>
 								<input type="number" min="1" v-model="item.num" class="show">
 								<span class="up" @click="up(index)">+</span></div>
-							<div class="price">{{currencyInfo.symbol}}{{(item.price*1*currencyInfo.rate).toFixed(3)}}</div>
+							<div class="price">{{currencyInfo.symbol}}{{(item.price*1*currencyInfo.rate).toFixed(3)}} {{item.Unit}}</div>
 							<div style="position: relative;display: flex;justify-content: space-between;padding: 10px 20px; ">
 
 								<span class="add" @click="addCart(item,item.id,item.price,item.name,1,imgUrl+item.hintImage,1)">Buy Now</span>
@@ -69,7 +69,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="footer1">
+		<div class="footer1" v-if="gameList.description">
 			<div class="main-title">Introduction</div>
 			<div class="contain">
 

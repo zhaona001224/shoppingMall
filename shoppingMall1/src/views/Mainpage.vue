@@ -2,7 +2,7 @@
 	<div style="text-align: center;">
 		<el-carousel v-if="bannerList" style="margin: 40px 8.125% 0;" :interval="3000" type="card" height="477px">
 			<el-carousel-item v-for="item in bannerList" :key="item.id" style="width:50%;box-shadow: 0px 15px 20px -5px rgba(0, 0, 0, 0.3);">
-				<div @click="goProduct(item,1)"  :style="'width:100%;height:472px;background: url('+imgUrl+item.image+');background-size:cover;'"></div>
+				<div @click="goProduct(item,1)" :style="'width:100%;height:472px;background: url('+imgUrl+item.image+');background-size:cover;'"></div>
 			</el-carousel-item>
 		</el-carousel>
 		<div class="img-contain">
@@ -34,8 +34,8 @@
 			</div>
 			<div class="contain">
 
-				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&(item.type=='item,item'||item.hintText&&item.hintImage)" @click="goProduct(selectGame)">
-					<el-popover style="min-width:auto;text-align: center;" placement="right"  trigger="hover">
+				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&(item.type=='item,item'||item.hintText&&item.hintImage)" @click="goItem(selectGame)">
+					<el-popover style="min-width:auto;text-align: center;" placement="right" trigger="hover">
 						<div class="pop-item">
 							<img :src="imgUrl+item.hintImage" />
 							<div v-if="item.hintText">
@@ -43,7 +43,7 @@
 							</div>
 
 						</div>
-						<div slot="reference" v-if="item.hintImage" ><img :src="imgUrl+item.logo" />
+						<div slot="reference" v-if="item.hintImage"><img :src="imgUrl+item.logo" />
 							<div class="text hidden-style">
 								{{item.name}}
 							</div>
@@ -124,7 +124,7 @@
 
 			</div>
 		</div>
-	
+
 	</div>
 </template>
 
@@ -146,7 +146,7 @@
 				newPage: 0,
 				itemPage: 1,
 				selectGame: {},
-				
+
 			};
 		},
 		computed: {
@@ -163,26 +163,29 @@
 				this.itemList[index].num = this.itemList[index].num + 1;
 				this.$forceUpdate();
 			},
-			goProduct(item,type) {
-				if(type==1){
-					item.id=item.game.split(',')[0];
-					item.name=item.game.split(',')[1]
+			goProduct(item, type) {
+				if(type == 1) {
+					item.id = item.game.split(',')[0];
+					item.name = item.game.split(',')[1]
 				}
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
-				if(item.productSell=='item,item'){
-					this.$router.push('/itemList/'+localStorage.getItem('gameId'));
-				}else{
-					this.$router.push('/coinList/'+localStorage.getItem('gameId'));
+				if(item.productSell == 'item,item') {
+					this.$router.push('/itemList/' + localStorage.getItem('gameId'));
+				} else {
+					this.$router.push('/coinList/' + localStorage.getItem('gameId'));
 				}
 			},
-			
+			goItem(item, type) {
+				this.$router.push('/itemList/' + localStorage.getItem('gameId'));
+			},
+
 			getGame() {
 				//获取game
 				getTemplete('?type=Game&offset=' + this.gamePage + '&count=8').then(response => {
 					if(response.retCode == 0) {
 						this.gameList = response.data.filter((item) => {
-							return item.hot&& item.online
+							return item.hot && item.online
 						})
 					} else {
 						this.$message({
@@ -215,7 +218,7 @@
 						this.itemList = response.data.filter((item) => {
 							var gameId = item.game.split(',')[0];
 
-							return gameId == this.selectId&&item.hotItem&&item.online&&item.type=="item,item"
+							return gameId == this.selectId && item.hotItem && item.online && item.type == "item,item"
 						})
 
 					} else {
@@ -231,7 +234,7 @@
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
 						this.gameHotList = response.data.filter((item) => {
-							return item.hotitem&& item.online
+							return item.hotitem && item.online
 						})
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
@@ -271,7 +274,7 @@
 			this.getItem();
 			this.getHotGame();
 			this.getNews();
-			
+
 			//获取banner
 			getTemplete('?type=Carousel&offset=0&count=5').then(response => {
 				if(response.retCode == 0) {
@@ -334,7 +337,6 @@
 					padding: 19px 0 8px;
 					color: #222222;
 					font-size: 20px;
-					
 				}
 			}
 		}
@@ -401,7 +403,6 @@
 		background-color: #4c9adb;
 		border-radius: 21px;
 		color: #ffffff;
-		
 		font-size: 14px;
 		line-height: 43px;
 		margin-bottom: 36px;
@@ -420,7 +421,6 @@
 	
 	.pop-item {
 		overflow: hidden;
-		
 		font-size: 14px;
 		color: #333;
 		text-align: center;
@@ -436,7 +436,6 @@
 		.text {
 			margin-top: 18px;
 			margin-bottom: 23px;
-			
 			font-size: 14px;
 			color: #666;
 			span {
@@ -543,6 +542,7 @@
 			}
 		}
 	}
+	
 	.hidden-style {
 		overflow: hidden;
 		text-overflow: ellipsis;
