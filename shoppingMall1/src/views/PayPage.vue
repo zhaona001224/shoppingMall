@@ -224,10 +224,7 @@
 		methods: {
 			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART', 'SHOW_LOGIN', 'CLEAR_CART']),
 			deletePro(id, productName) {
-				if(this.cartList.length==1){
-					this.$message.error("It's the last product");
-					return
-				}
+				
 				this.EDIT_CART({
 					productId: id,
 					productName: productName
@@ -235,10 +232,7 @@
 
 			},
 			down(item,id, productName) {
-				if(item.productNum==1){
-					this.$message.error("It's the last product");
-					return
-				}
+				
 				this.REDUCE_CART({
 					productId: id,
 					productName: productName
