@@ -38,7 +38,7 @@
 
 						<div style="display: inline-block" v-if="item.data.type=='file'" @click='activeKey=item.name'>
 
-							<el-select clearable style="display: inline-block;width: 800px;margin:20px 0 " v-if="item.data.type=='file'&&picType[item.name]==1" v-model="form[item.name]" :placeholder="'请选择'+item.name">
+							<el-select filterable clearable style="display: inline-block;width: 800px;margin:20px 0 " v-if="item.data.type=='file'&&picType[item.name]==1" v-model="form[item.name]" :placeholder="'请选择'+item.name">
 								<el-option v-for="subItem in picSource" :key="subItem.id" :label="subItem.name" :value="subItem.id">
 								</el-option>
 							</el-select>

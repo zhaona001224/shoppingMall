@@ -62,11 +62,12 @@ export default {
 		//购物车里只能存在一个游戏
 		if(cart && cart.length) { // 有内容
 			if(gameId!=cart[0].gameId) cart=[]
+			debugger
 			cart.forEach(item => {
 				if(item.productId === productId&&item.productName === productName) {
 					if(item.productNum >= 0) {
 						falg = false
-						item.productNum += productNum * 1
+						item.productNum =item.productNum*1+ productNum * 1
 						item.totalPrice+= totalPrice * 1
 					}
 
@@ -83,7 +84,6 @@ export default {
 		
 			cart.push(goods)
 		}
-		debugger
 		state.cartList = cart
 		// 存入localStorage
 		setStore('buyCart', cart)

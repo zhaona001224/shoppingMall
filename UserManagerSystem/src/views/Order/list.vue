@@ -26,27 +26,27 @@
 			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle">
 				<el-table-column header-align="left" width="240px" sortable prop="pay_time" label="pay_time">
 				</el-table-column>
-			
+
 				<el-table-column header-align="left" width="160px" prop="order_id" label="order_id">
 				</el-table-column>
 				<el-table-column header-align="left" width="300px" label="Products">
 					<template slot-scope="scope">
 						<div :key="subIndex" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">
-		{{subItem.game}} - {{subItem.category}} - {{subItem.server}} - {{subItem.product}}*{{subItem.quantity}} {{subItem.unit}}
+							{{subItem.game}} - {{subItem.category}} - {{subItem.server}} - {{subItem.product}}*{{subItem.quantity}} {{subItem.unit}}
 						</div>
-				
+
 					</template>
 				</el-table-column>
-					<el-table-column header-align="left" width="160px" prop="comments" label="request_info">
+				<el-table-column header-align="left" width="160px" prop="comments" label="request_info">
 				</el-table-column>
-				<el-table-column header-align="left" width="160px"  label="payer_email">
+				<el-table-column header-align="left" width="160px" label="payer_email">
 					<template slot-scope="scope">
-						
+
 						<el-popover v-if="scope.row['payer']" placement="right" width="400" trigger="hover">
 							<div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.payer }}</el-tag>
-          </div>
-							<div class="tool-tip">note{{inputVisible}}</div>
+								<el-tag size="medium">{{ scope.row.payer }}</el-tag>
+							</div>
+							<div class="tool-tip">note</div>
 							<el-tag :key="subIndex" v-for="(tag,subIndex) in scope.row['note']" closable :disable-transitions="false" @close="handleClose(scope.$index,subIndex)">
 								{{tag}}
 							</el-tag>
@@ -54,7 +54,7 @@
 							<el-input class="input-new-tag" v-if="inputVisible[scope.$index]==1" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm(scope.$index)" @blur="handleInputBlur(scope.$index)">
 							</el-input>
 							<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
-							
+
 						</el-popover>
 					</template>
 				</el-table-column>
@@ -62,7 +62,6 @@
 				</el-table-column>
 				<el-table-column header-align="left" width="120px" sortable prop="vendor" label="pay_type">
 				</el-table-column>
-			
 
 				<el-table-column prop="status" label="status" width="200px">
 					<template slot-scope="scope">
@@ -74,11 +73,11 @@
 				</el-table-column>
 				<el-table-column header-align="left" sortable label="total">
 					<template slot-scope="scope">
-					{{scope.row['total']}}{{scope.row['currency']}}
+						{{scope.row['total']}}{{scope.row['currency']}}
 					</template>
 				</el-table-column>
-			
-					<el-table-column prop="bad" label="bad" width="200px">
+
+				<el-table-column prop="bad" label="bad" width="200px">
 					<template slot-scope="scope">
 						<el-select :clearable="true" @change="edit(scope.$index,scope.row['id'])" style="width:100px" v-model="scope.row['bad']" placeholder="请选择 status">
 							<el-option v-for="subItem in badList" :key="subItem.value" :label="subItem.name" :value="subItem.value">
@@ -86,7 +85,7 @@
 						</el-select>
 					</template>
 				</el-table-column>
-					<el-table-column fixed="right" label="operation" width="120px" cell-class-name="center" header-align="center">
+				<el-table-column fixed="right" label="operation" width="120px" cell-class-name="center" header-align="center">
 					<template slot-scope="scope">
 						<el-button type="text" size="small" @click="handleEdit(scope.row)">view</el-button>
 						<el-button type="text" class="clip" :data-clipboard-text="getFromData(scope.$index)" size="small" @click="copy(scope.row.id)">Copy</el-button>
@@ -98,6 +97,7 @@
 			</el-pagination>
 
 		</el-card>
+
 	</div>
 </template>
 
@@ -113,13 +113,15 @@
 				pageNum: 1,
 				pageSize: 20,
 				total: 0,
+				drawer: false,
+				drawer1: false,
 				statusList: [],
-				badList:[{
-					name:'true',
-					value:true
-				},{
-					name:'false',
-					value:false
+				badList: [{
+					name: 'true',
+					value: true
+				}, {
+					name: 'false',
+					value: false
 				}],
 				notSearch: true,
 				inputValue: '',
@@ -162,8 +164,14 @@
 		methods: {
 
 			handleEdit(item) {
-					window.open ("page.html", "newwindow"+ item.id, "height=100, width=100, top=0, left=0,toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
-				
+				var url = window.location.origin + '/#/Order/add?id=' + item.id
+				if(window.showModelessDialog) { // Internet Explorer
+					showModelessDialog(url, window, "dialogWidth:700px; dialogHeight:580px");
+				} else {
+					window.open(url, "newwindow" + item.id, "height=700, width=580, top=0, left=" + item.id * 5 + ",toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
+
+				}
+
 			},
 			getRowStyle({
 				row,
@@ -206,7 +214,7 @@
 
 			}, //导出表格
 			exportTable() {
-						var tableLable = this.originTable;
+				var tableLable = this.originTable;
 				let addobj = {}
 				// 2.1获取表头内容 以rowData形式重新赋值
 				try {
@@ -278,24 +286,32 @@
 			},
 			getFromData(index) {
 				var data = JSON.parse(JSON.stringify(this.originTable[index]));
-						var str1=''
-						JSON.parse(data.description).map((item)=>{
-							str1=str1+item.category+'-'+item.server+'-'+item.product+'*'+item.quantity+'\n '
-						})
-						data={
-							pay_time:data.pay_time,
-							game:JSON.parse(data.description)[0].game,
-							products:str1,
-							payer_email:data.payer,
-							order:data.order_id
-						}
-						console.log(data)
-						var str=''
+				var str1 = ''
+				JSON.parse(data.description).map((item, index) => {
+					if(index === JSON.parse(data.description).length) {
+						str1 = str1 + item.category + '-' + item.server + '-' + item.product + '*' + item.quantity
+
+					} else {
+						str1 = str1 + item.category + '-' + item.server + '-' + item.product + '*' + item.quantity + '\n '
+
+					}
+				})
+				data = {
+					pay_time: data.pay_time,
+					game: JSON.parse(data.description)[0].game,
+					products: '"' + str1 + '"',
+					gameId: JSON.parse(data.description)[0].game,
+					payer_email: data.payer,
+					order: data.order_id,
+					currency:data.currency,
+					total:data.total
+				}
+				console.log(data)
+				var str = ''
 				for(var key in data) {
-					debugger
 					data[key] = data[key] + ''
 					// 2.5.1 注意要将本身就有换行或者英文逗号的内容进行变换 否则表格内容会错乱
-					data[key] = data[key].replace(/\n/g, ' ')
+					//					data[key] = data[key].replace(/\n/g, ' ')
 					data[key] = data[key].replace(/,/g, '，') // 英文替换为中文
 					str += `${data[key]+ '\t'}`;
 
@@ -309,23 +325,22 @@
 				this.queryTable();
 			},
 			handlecheckedStatusChange(value) {
-					debugger
 				let checkedCount = value.length;
 				this.checkAll = checkedCount === this.statusOptions.length;
 				this.isIndeterminate = checkedCount > 0 && checkedCount < this.statusOptions.length;
 				this.search();
 			},
 			showInput(index) {
-				this.inputVisible.splice(index, 1,1);
-				this.tableData[index].note=this.tableData[index].note||[]
-				
-				this.$nextTick(()=> {
+				this.inputVisible.splice(index, 1, 1);
+				this.tableData[index].note = this.tableData[index].note || []
+
+				this.$nextTick(() => {
 					//					debugger
 					this.$refs.saveTagInput.$refs.input.focus();
 				});
 			},
 			handleInputBlur(index) {
-				this.inputVisible.splice(index, 1,0);
+				this.inputVisible.splice(index, 1, 0);
 				this.tableData[index].note.splice(index, 0);
 				this.$forceUpdate();
 			},
@@ -561,20 +576,19 @@
 				localStorage.setItem('keyword', '');
 
 			}
-			
-			
+
 			this.getDataSource();
-			if(localStorage.getItem('checkedStatus')||localStorage.getItem('timeRange')) {
+			if(localStorage.getItem('checkedStatus') || localStorage.getItem('timeRange')) {
 				this.checkedStatus = localStorage.getItem('checkedStatus') ? JSON.parse(localStorage.getItem('checkedStatus')) : []
-				this.timeRange=localStorage.getItem('timeRange') ? localStorage.getItem('timeRange').split(',') : [];
-				this.timeRange[0]=new Date(parseInt(this.timeRange[0]));
-				this.timeRange[1]=new Date(parseInt(this.timeRange[1]));
+				this.timeRange = localStorage.getItem('timeRange') ? localStorage.getItem('timeRange').split(',') : [];
+				this.timeRange[0] = new Date(parseInt(this.timeRange[0]));
+				this.timeRange[1] = new Date(parseInt(this.timeRange[1]));
 				localStorage.setItem('checkedStatus', '');
 				localStorage.setItem('timeRange', '');
-				setTimeout(()=>{
+				setTimeout(() => {
 					this.handlecheckedStatusChange(this.checkedStatus)
-				},1000)
-				
+				}, 1000)
+
 				return
 			}
 			this.queryTable();
@@ -615,7 +629,7 @@
 		color: #fff;
 	}
 	
-	.el-table__row.comments td:nth-child(3) {
+	.el-table__row.comments td:nth-child(5) {
 		background: blue;
 		color: #fff;
 	}

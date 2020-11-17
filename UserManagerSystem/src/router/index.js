@@ -99,16 +99,20 @@ const routes = [{
 		name: 'Order',
 		component: Home,
 		children: [{
-				path: 'List',
-				name: '订单列表',
-				component: OrderList
-			},
-			{
-				path: 'Add',
-				name: '订单新增',
-				component: OrderAdd
-			}
-		],
+			path: 'List',
+			name: '订单列表',
+			component: OrderList
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		},
+
+	},
+	{
+		path: '/Order/Add',
+		name: 'Order',
+		component: OrderAdd,
+
 		meta: {
 			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		},

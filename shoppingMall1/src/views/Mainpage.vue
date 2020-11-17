@@ -177,7 +177,7 @@
 				}
 			},
 			goItem(item, type) {
-				this.$router.push('/itemList/' + localStorage.getItem('gameId'));
+				this.$router.push('/itemList/' + this.selectId)
 			},
 
 			getGame() {
