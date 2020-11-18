@@ -42,7 +42,14 @@
 								<el-option v-for="subItem in picSource" :key="subItem.id" :label="subItem.name" :value="subItem.id">
 								</el-option>
 							</el-select>
-							<img :src="imgUrl+form[item.name]" v-if="form[item.name]&&picType[item.name]==1" class="avatar" />
+							<div style="position: relative;" v-if="form[item.name]&&picType[item.name]==1">
+
+								<img :src="imgUrl+form[item.name]" class="avatar" />
+								<span style="position: absolute;left: 130px;top:-14px;display: block;" class="el-upload-list__item-delete" @click="form[item.name]=''">
+          <i class="el-icon-delete"></i>
+        </span>
+
+							</div>
 							<el-upload class="avatar-uploader" action="" :http-request="uploadImg" v-if="item.data.type=='file'&&picType[item.name]==2" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
 								<img v-if="form[item.name]" :src="imgUrl+form[item.name]" class="avatar">
 								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -225,10 +232,17 @@
 					}
 
 				}
+
 				this.$refs.form.validate((valid) => {
 					if(valid) {
 
 						if(this.$route.query.id) {
+							for(var key in form) {
+								debugger
+								if(form[key]==='') {
+									form[key] = '--remove--'
+								}
+							}
 							that.$post("/admin/v1/content/update?type=" + this.$route.params.key + "&id=" + this.$route.query.id, form).then(response => {
 								if(response.retCode == 0) {
 									that.$util.successAlert("Modify Success！", '/template/list/' + this.$route.params.key, 'return list');

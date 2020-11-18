@@ -67,123 +67,124 @@
 
 				<el-dropdown class="point" v-if="login" trigger="hover" style="border:none;width:auto;">
 					<span class="el-dropdown-link userinfo-inner">
-             	<div class="menu-cart" style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png"></img>{{userInfo.email}}</div>
+             	<div class="menu-cart" style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png"></img><span class="user-name" :style="userInfo.email?'color:#ffffcc':''">{{userInfo.email}}</span></div>
 
-								<i class="el-icon-caret-bottom"></i>
-								</span>
-					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item @click.native="doLoginOut">
-							<i class="el-icon-circle-close-outline"></i> 退出登录
-						</el-dropdown-item>
-					</el-dropdown-menu>
-				</el-dropdown>
-				<div v-else @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point" style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png"></img>{{$t("language.common.login")}}</div>
-				<div v-if="!login" @click="SHOW_LOGIN(true);changeType('register')" style="border-left: 1px solid #f5f5f5;" class="menu-register point">{{$t("language.common.reister")}}</div>
-			</div>
+			<i class="el-icon-caret-bottom"></i>
+			</span>
+			<el-dropdown-menu slot="dropdown">
+				<el-dropdown-item @click.native="doLoginOut">
+					<i class="el-icon-circle-close-outline"></i><span class="user-name">退出登录</span>
+				</el-dropdown-item>
+			</el-dropdown-menu>
+			</el-dropdown>
+			<div v-else @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user-name" style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png"></img>{{$t("language.common.login")}}</div>
+			<div v-if="!login" @click="SHOW_LOGIN(true);changeType('register')" style="border-left: 1px solid #f5f5f5;" class="menu-register point user-name">{{$t("language.common.reister")}}</div>
 		</div>
-		<div class="img top-img" v-if="$route.fullPath!=='/payPage'" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 65px;" /></div>
-		<div class="select" :style="scrollTop>200||$route.fullPath==='/payPage'?'position: fixed;top:50px;z-index:1000;width:100%':''">
-			<ul>
-				<li :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
-					<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
-				</li>
-				<li @click="$router.push('/')">
-					<a href="javascript:void(0)">Home</a>
-				</li>
-				<li>
-					<a href="javascript:void(0)">About Us</a>
-				</li>
+	</div>
+	<div class="img top-img" v-if="$route.fullPath!=='/payPage'" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 65px;" /></div>
+	<div class="select" :style="scrollTop>200||$route.fullPath==='/payPage'?'position: fixed;top:50px;z-index:1000;width:100%':''">
+		<ul>
+			<li :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
+				<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
+			</li>
+			<li @click="$router.push('/')">
+				<a href="javascript:void(0)">Home</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)">About Us</a>
+			</li>
 
-			</ul>
-		</div>
-		<transition name="fade" mode="out-in">
-			<router-view></router-view>
-		</transition>
-		<div class="footer">
-			<div class="tip">
-				<span>HOME</span>
-				<span>ABOUT US</span>
-				<span>FAQ</span>
-				<span>Sell to Us</span>
-			</div>
-			<div class="img"><img src="../assets/image/home/icon_footer.png" /></div>
-			<div class="icon">
-				<img src="../assets/image/icon/icon_footer1.png" />
-				<img src="../assets/image/icon/icon_footer2.png" />
-				<img src="../assets/image/icon/icon_footer3.png" />
-				<img src="../assets/image/icon/icon_footer4.png" />
-				<img src="../assets/image/icon/icon_footer5.png" />
-			</div>
-			<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">{{$t("language.common.footerTip")}}</div>
-		</div>
-		<div class="choose-game" v-if="gamePop">
-			<img @click="gamePop=false" class="close" src="../assets/image/icon/icon_close.png" />
-			<span v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
+		</ul>
+		<div :class="gamePop?'active choose-game':''" v-if="gamePop" >
+		<!--<img @click="gamePop=false" class="close" src="../assets/image/icon/icon_close.png" />-->
+		<span v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
 				{{item.name}}
 			</span>
+	</div>
+	</div>
+	<transition name="fade" mode="out-in">
+		<router-view></router-view>
+	</transition>
+	<div class="footer">
+		<div class="tip">
+			<span>HOME</span>
+			<span>ABOUT US</span>
+			<span>FAQ</span>
+			<span>Sell to Us</span>
 		</div>
-		<div class="pop-login" v-if="showLogin">
-			<img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png" />
-			<div class="tab">
-				<span @click="changeType('login');" :class="selectType=='login'?'active point':'point'">
+		<div class="img"><img src="../assets/image/home/icon_footer.png" /></div>
+		<div class="icon">
+			<img src="../assets/image/icon/icon_footer1.png" />
+			<img src="../assets/image/icon/icon_footer2.png" />
+			<img src="../assets/image/icon/icon_footer3.png" />
+			<img src="../assets/image/icon/icon_footer4.png" />
+			<img src="../assets/image/icon/icon_footer5.png" />
+		</div>
+		<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">{{$t("language.common.footerTip")}}</div>
+	</div>
+	
+	<div class="pop-login" v-if="showLogin">
+		<img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png" />
+		<div class="tab">
+			<span @click="changeType('login');" :class="selectType=='login'?'active point':'point'">
 					{{$t("language.user.login")}}
 				</span>
-				<span @click="changeType('register')" :class="selectType=='register'?'active point':'point'">
+			<span @click="changeType('register')" :class="selectType=='register'?'active point':'point'">
 					{{$t("language.user.register")}}
 				</span>
 
-			</div>
-			<div class="form-contain" v-if="selectType=='login'">
-				<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
-					<el-form-item :label='$t("language.user.email")' prop="email">
-						<el-input Pleaseholder="" v-model="form.email">
-						</el-input>
-					</el-form-item>
-					<el-form-item :label='$t("language.user.pass")' prop="password">
-						<el-input Pleaseholder="" type="password" v-model="form.password">
-						</el-input>
-					</el-form-item>
-
-				</el-form>
-				<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>
-				<div class="btn point" @click="submit">{{$t("language.user.login")}}</div>
-			</div>
-			<div class="form-contain" v-if="selectType=='register'">
-				<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
-					<el-form-item :label='$t("language.user.email")' prop="email">
-						<el-input Pleaseholder="" v-model="form.email">
-						</el-input>
-					</el-form-item>
-					<el-form-item :label='$t("language.user.pass")' prop="password">
-						<el-input Pleaseholder="" type="password" v-model="form.password">
-						</el-input>
-					</el-form-item>
-					<el-form-item :label='$t("language.user.repass")' prop="repassword">
-						<el-input Pleaseholder="" type="password" v-model="form.repassword">
-						</el-input>
-					</el-form-item>
-					<el-form-item label='Phone' prop="phone">
-						<el-input maxlength=11 Pleaseholder=""  v-model="form.phone">
-						</el-input>
-					</el-form-item>
-
-					<el-form-item label='Social Type:' prop="social_type">
-						<el-select :clearable="true" v-model="form.social_type">
-							<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
-							</el-option>
-						</el-select>
-
-					</el-form-item>
-					<el-form-item label='Social Link:' prop="social_link" class="left">
-						<el-input Pleaseholder="" v-model="form.social_link">
-						</el-input>
-					</el-form-item>
-
-				</el-form>
-				<!--	<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>-->
-				<div class="btn point" @click="register">{{$t("language.user.register")}}</div>
-			</div>
 		</div>
+		<div class="form-contain" v-if="selectType=='login'">
+			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
+				<el-form-item :label='$t("language.user.email")' prop="email">
+					<el-input Pleaseholder="" v-model="form.email">
+					</el-input>
+				</el-form-item>
+				<el-form-item :label='$t("language.user.pass")' prop="password">
+					<el-input Pleaseholder="" type="password" v-model="form.password">
+					</el-input>
+				</el-form-item>
+
+			</el-form>
+			<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>
+			<div class="btn point" @click="submit">{{$t("language.user.login")}}</div>
+		</div>
+		<div class="form-contain" v-if="selectType=='register'">
+			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
+				<el-form-item :label='$t("language.user.email")' prop="email">
+					<el-input Pleaseholder="" v-model="form.email">
+					</el-input>
+				</el-form-item>
+				<el-form-item :label='$t("language.user.pass")' prop="password">
+					<el-input Pleaseholder="" type="password" v-model="form.password">
+					</el-input>
+				</el-form-item>
+				<el-form-item :label='$t("language.user.repass")' prop="repassword">
+					<el-input Pleaseholder="" type="password" v-model="form.repassword">
+					</el-input>
+				</el-form-item>
+				<el-form-item label='Phone' prop="phone">
+					<el-input maxlength=11 Pleaseholder="" v-model="form.phone">
+					</el-input>
+				</el-form-item>
+
+				<el-form-item label='Social Type:' prop="social_type">
+					<el-select :clearable="true" v-model="form.social_type">
+						<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
+						</el-option>
+					</el-select>
+
+				</el-form-item>
+				<el-form-item label='Social Link:' prop="social_link" class="left">
+					<el-input Pleaseholder="" v-model="form.social_link">
+					</el-input>
+				</el-form-item>
+
+			</el-form>
+			<!--	<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>-->
+			<div class="btn point" @click="register">{{$t("language.user.register")}}</div>
+		</div>
+	</div>
 	</div>
 
 </template>
@@ -388,8 +389,8 @@
 								var user = {
 									token: response.data,
 									email: this.form.email,
-									social_link:response.social_link,
-									social_type:response.social_type
+									social_link: response.social_link,
+									social_type: response.social_type
 								}
 								localStorage.setItem('token', response.data);
 								this.RECORD_USERINFO(user);
@@ -448,7 +449,7 @@
 						type: 'warning',
 						message: 'Please fill in correct phone'
 					});
-					return ;
+					return;
 				}
 				this.$refs.form.validate((valid) => {
 					if(valid) {
@@ -479,6 +480,7 @@
 				})
 			},
 			getGame() {
+				if(this.gameList.length > 0) return
 				//获取游戏列表
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
@@ -499,7 +501,7 @@
 		},
 
 		created() {
-		
+			this.getGame();
 			this.imgUrl = window.imgUrl;
 			window.addEventListener('scroll', this.scrollToTop)
 			//			this.width=document.body.clientWidth>1000?document.body.clientWidth+'px':'400px';
@@ -532,7 +534,7 @@
 
 		},
 		mounted() {
-				console.log(this)
+			console.log(this)
 		}
 	}
 </script>
@@ -585,6 +587,7 @@
 	}
 	
 	.select {
+		position: relative;
 		text-align: center;
 		height: 49px;
 		background-color: #212121;
@@ -681,19 +684,27 @@
 	}
 	
 	.choose-game {
-		position: fixed;
-		top: 30%;
+		position: absolute;
+		top: 48px;
 		left: 50%;
 		z-index: 200;
+		transform: scale(.8);
+		opacity: 0;
+		transform-origin: 0 0;
+		transition: all .3s;
 		margin-left: -637px;
 		width: 1274px;
 		background: #282e38;
-		padding: 70px 36px;
+		padding: 30px 36px;
 		box-sizing: border-box;
 		display: flex;
-		min-height: 300px;
 		flex-wrap: wrap;
 		align-items: center;
+		&.active {
+			visibility: visible;
+			opacity: 1;
+			transform: scale(1);
+		}
 		.close {
 			position: absolute;
 			top: 8px;
@@ -717,12 +728,16 @@
 			border: solid 1px rgba(220, 220, 220, 0.1);
 			margin: 0 5px;
 			margin-bottom: 10px;
+			line-height: 40px;
 			img {
 				margin-right: 10px;
 				width: 23px;
 				height: 23px;
 			}
 			&.active {
+				background-color: rgba(220, 220, 220, 0.1);
+			}
+			&:hover {
 				background-color: rgba(220, 220, 220, 0.1);
 			}
 		}
@@ -891,6 +906,12 @@
 			&:before {
 				left: 50%;
 			}
+		}
+	}
+	
+	.user-name {
+		&:hover {
+			color: #ffffcc;
 		}
 	}
 	
