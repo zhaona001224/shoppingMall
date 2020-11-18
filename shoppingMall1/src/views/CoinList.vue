@@ -546,6 +546,9 @@
 			margin-right: 23px;
 			position: relative;
 			margin-bottom: 20px;
+			&:hover{
+				border: 1px solid #e1251b;
+			}
 			&.active {
 				border: 1px solid #e1251b;
 				&::after {

@@ -91,6 +91,16 @@
 					width: 100%;
 					height: 200px;
 				}
+				&:hover {
+					transform: translateY(-3px);
+					box-shadow: 1px 1px 10px #999;
+					.good-price p {
+						display: none;
+					}
+					.ds {
+						display: flex;
+					}
+				}
 				.text {
 					padding: 19px 0 8px;
 					color: #222222;

@@ -107,47 +107,47 @@
 				totalAmount: 0,
 				form: {},
 				statusList: [],
-				payFee:0,
+				payFee: 0,
 				payList: [{
 					icon: "https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_credit_logo_h_200x51.png",
 					func: '1',
 					str: 'BILLING',
-					type:'paypal',
+					type: 'paypal',
 				}, {
 					icon: "https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png",
 					func: '1',
 					str: '',
-					type:'paypal',
+					type: 'paypal',
 				}, {
 					icon: "icon_pay2",
 					func: '2',
 					str: 'paysafecard',
-					type:'payssion',
+					type: 'payssion',
 				}, {
 					icon: "icon_pay3",
 					func: '2',
 					str: 'ebanking_my',
-					type:'payssion',
+					type: 'payssion',
 				}, {
 					icon: "icon_pay4",
 					func: '2',
 					str: 'dotpay_pl',
-					type:'payssion',
+					type: 'payssion',
 				}, {
 					icon: "https://www.skrill.com/fileadmin/content/images/brand_centre/Payment_Options_by_Skrill/skrill-powered-visa_120x60.png",
 					func: '3',
 					str: 'ACC,VSA,MSC,VSE,MAE',
-					type:'skrill',
+					type: 'skrill',
 				}, {
 					icon: "icon_pay6",
 					func: '3',
 					str: 'ACC',
-					type:'skrill',
+					type: 'skrill',
 				}, {
 					icon: "",
 					func: '3',
 					str: 'ACC',
-					type:'skrill',
+					type: 'skrill',
 				}],
 				selectIndex: 0,
 				totalNum: 0,
@@ -158,7 +158,7 @@
 				couponPrice: {
 
 				},
-				feeRate:[],
+				feeRate: [],
 				productInfo: {},
 				rules: {
 					email: [{
@@ -190,24 +190,24 @@
 					link1: "",
 					link: ""
 				},
-				payFeeValue:[]
+				payFeeValue: []
 
 			};
 		},
 
 		computed: {
-			...mapState(['cartList', 'currencyInfo', 'login','userInfo']),
+			...mapState(['cartList', 'currencyInfo', 'login', 'userInfo']),
 			totalPice() {
 				this.totalNum = 0;
 				var price = 0;
 				this.cartList.map((item) => {
-										if(item.type == "coin") {
-											var price1 =item.totalPrice*this.currencyInfo.rate.toFixed(2)
-										} else {
-											var price1 =item.productNum * item.salePrice*this.currencyInfo.rate.toFixed(2)
-										}
+					if(item.type == "coin") {
+						var price1 = item.totalPrice * this.currencyInfo.rate.toFixed(2)
+					} else {
+						var price1 = item.productNum * item.salePrice * this.currencyInfo.rate.toFixed(2)
+					}
 					price = price + price1
-					this.totalNum = this.totalNum*1 + item.productNum;
+					this.totalNum = this.totalNum * 1 + item.productNum;
 
 				})
 				if(this.couponPrice.price && this.cartList.length > 0) {
@@ -219,34 +219,34 @@
 				}
 				return price.toFixed(2)
 			},
-			
+
 		},
 		methods: {
 			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART', 'SHOW_LOGIN', 'CLEAR_CART']),
 			deletePro(id, productName) {
-				
+
 				this.EDIT_CART({
 					productId: id,
 					productName: productName
 				})
 
 			},
-			down(item,id, productName) {
-				
+			down(item, id, productName) {
+
 				this.REDUCE_CART({
 					productId: id,
 					productName: productName
 				})
 
 			},
-			up(item,id, price, name, img, productNum) {
+			up(item, id, price, name, img, productNum) {
 				this.ADD_CART({
-					detail:item,
+					detail: item,
 					productId: id,
 					salePrice: price,
 					productName: name,
 					productImg: img,
-					productNum: productNum*1,
+					productNum: productNum * 1,
 					type: 'coin',
 					serveId: item.serveId,
 					serveName: item.serveName,
@@ -254,7 +254,7 @@
 					gameName: localStorage.gameName,
 					categoryName: item.categoryName,
 					categoryId: item.categoryId,
-					totalPrice:price*productNum
+					totalPrice: price * productNum
 				})
 
 			},
@@ -281,7 +281,7 @@
 
 					if(valid) {
 						this.pay1();
-						
+
 					} else {
 						that.$message.error("Please fill in form！");
 					}
@@ -291,44 +291,43 @@
 
 				var that = this;
 				var itemList = []
-				var totalPrice=0;
+				var totalPrice = 0;
 				this.cartList.map((item) => {
 					itemList.push({
-						game:item.gameName,
-						server:item.serveName,
-						unit_price:(item.salePrice*this.currencyInfo.rate).toFixed(2)*1,
+						game: item.gameName,
+						server: item.serveName,
+						unit_price: (item.salePrice * this.currencyInfo.rate).toFixed(2) * 1,
 						"product": item.productName,
-						"quantity": item.productNum*1,
-						"category":item.categoryName,
+						"quantity": item.productNum * 1,
+						"category": item.categoryName,
 					})
-					
+
 				})
-				var amount=((this.totalPice*1).toFixed(2)*1-(this.disPrice*1*this.currencyInfo.rate.toFixed(2))*1+(this.totalPice*this.payFeeValue[this.payList[this.selectIndex].func-1]*1)).toFixed(2)*1
+				var amount = ((this.totalPice * 1).toFixed(2) * 1 - (this.disPrice * 1 * this.currencyInfo.rate.toFixed(2)) * 1 + (this.totalPice * this.payFeeValue[this.payList[this.selectIndex].func - 1] * 1)).toFixed(2) * 1
 				var params = {
-					 "payment": this.payList[this.selectIndex].type, 
-					  "payment_channel": "BILLING",
-					  amount:amount,
-					  "currency":this.currencyInfo.name,
-					   "language": "UK",
-						email: this.form.email,
-						request_info: this.form.payer,
-						contract_info: this.form.link1 + this.form.link,
-						item_list:itemList,
-						sub_total:(this.totalPice*1).toFixed(2)*1,
-						"city": "",
-						"country": "",
-						"first_name":"",
-						"last_name":"",
-						"phone":"",
-						"coupon_code":this.couponCode||'',
-						"coupon_value":(this.disPrice*1*this.currencyInfo.rate.toFixed(2)).toFixed(2)*1,
-						"payment_fee":(this.totalPice*this.payFeeValue[this.payList[this.selectIndex].func-1]*1).toFixed(2)*1,
-						"logo_url":"",  
-						"address":"",
-						"description":"",  
-						"status":"", 
-					
-					
+					"payment": this.payList[this.selectIndex].type,
+					"payment_channel": "BILLING",
+					amount: amount,
+					"currency": this.currencyInfo.name,
+					"language": "UK",
+					email: this.form.email,
+					request_info: this.form.payer,
+					contract_info: this.form.link1 + this.form.link,
+					item_list: itemList,
+					sub_total: (this.totalPice * 1).toFixed(2) * 1,
+					"city": "",
+					"country": "",
+					"first_name": "",
+					"last_name": "",
+					"phone": "",
+					"coupon_code": this.couponCode || '',
+					"coupon_value": (this.disPrice * 1 * this.currencyInfo.rate.toFixed(2)).toFixed(2) * 1,
+					"payment_fee": (this.totalPice * this.payFeeValue[this.payList[this.selectIndex].func - 1] * 1).toFixed(2) * 1,
+					"logo_url": "",
+					"address": "",
+					"description": "",
+					"status": "",
+
 				}
 				getPay(params).then(response => {
 					if(response.retCode == 0) {
@@ -343,7 +342,7 @@
 					}
 				})
 			},
-			
+
 			apply() {
 				debugger
 				if(!this.couponCode) {
@@ -456,20 +455,20 @@
 					}
 				})
 			},
-			getPayFee(){
+			getPayFee() {
 				//获取game
 				getTemplete('?type=PaymentSetting&offset=-1&count=-1').then(response => {
 					if(response.retCode == 0) {
-						response.data.map((item)=>{
-							if(item.name=="paypal"){
-								
-								this.payFeeValue[0]=item.value
+						response.data.map((item) => {
+							if(item.name == "paypal") {
+
+								this.payFeeValue[0] = item.value
 							}
-							if(item.name=="paysession"){
-								this.payFeeValue[1]=item.value
+							if(item.name == "paysession") {
+								this.payFeeValue[1] = item.value
 							}
-							if(item.name=="skrill"){
-								this.payFeeValue[2]=item.value
+							if(item.name == "skrill") {
+								this.payFeeValue[2] = item.value
 							}
 							this.$forceUpdate();
 						})
@@ -483,27 +482,27 @@
 			}
 		},
 		created() {
-		
+
 			this.getCoupn();
 			this.getItem();
 			this.getPayFee();
 
 		},
-		mounted(){
-				this.form.email=this.userInfo&&this.userInfo.email;
-				this.form.link1=this.userInfo&&this.userInfo.social_type;
-				this.form.link=this.userInfo&&this.userInfo.social_link;
-				console.log(this.userInfo)
+		mounted() {
+			this.form.email = this.userInfo && this.userInfo.email;
+			this.form.link1 = this.userInfo && this.userInfo.social_type;
+			this.form.link = this.userInfo && this.userInfo.social_link;
+			console.log(this.userInfo)
 		},
 		watch: {
 			cartList(a, b) {
 				this.couponCode = ''
 				this.apply();
 			},
-			'userInfo.email'(){
-				this.form.email=this.userInfo.email;
-				this.form.link1=this.userInfo.social_type;
-				this.form.link=this.userInfo.social_link
+			'userInfo.email' () {
+				this.form.email = this.userInfo.email;
+				this.form.link1 = this.userInfo.social_type;
+				this.form.link = this.userInfo.social_link
 			}
 		},
 
@@ -512,7 +511,6 @@
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
 	.nav {
-		
 		font-size: 16px;
 		letter-spacing: 0px;
 		color: #666666;
@@ -561,7 +559,6 @@
 		display: flex;
 		height: 60px;
 		line-height: 60px;
-		
 		font-size: 14px;
 		color: #666;
 		&>div {
@@ -587,7 +584,6 @@
 	}
 	
 	.step {
-		
 		font-size: 18px;
 		font-weight: normal;
 		font-stretch: normal;
@@ -670,7 +666,6 @@
 	
 	.tip {
 		padding-left: 20px;
-		
 		font-size: 12px;
 		color: #e7534b;
 		img {
@@ -742,6 +737,25 @@
 			color: #ffffff;
 			text-align: center;
 			line-height: 68px;
+			&:before {
+				content: '';
+				display: block;
+				background: linear-gradient(to left, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.4) 50%);
+				background-size: 210% 100%;
+				background-position: right bottom;
+				height: 100%;
+				width: 100%;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				left: 0;
+				transition: all 1s;
+				-webkit-transition: all 1s;
+			}
+			&:hover:before {
+				background-position: left bottom;
+			}
 		}
 	}
 	

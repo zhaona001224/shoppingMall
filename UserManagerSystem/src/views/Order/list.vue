@@ -297,14 +297,14 @@
 					}
 				})
 				data = {
-					pay_time: data.pay_time,
-					game: JSON.parse(data.description)[0].game,
+					pay_time: '"' +data.pay_time+ '"',
+					game: JSON.parse(data.description)[0].game+ '"',
 					products: '"' + str1 + '"',
-					gameId: JSON.parse(data.description)[0].game,
-					payer_email: data.payer,
-					order: data.order_id,
-					currency:data.currency,
-					total:data.total
+					gameId: '"' +JSON.parse(data.description)[0].game+ '"',
+					payer_email: '"' +data.payer+ '"',
+					order: '"' +data.order_id+ '"',
+					currency:'"' +data.currency+ '"',
+					total:'"' +data.total+ '"'
 				}
 				console.log(data)
 				var str = ''

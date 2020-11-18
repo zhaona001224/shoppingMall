@@ -124,7 +124,7 @@
 
 			</div>
 		</div>
-
+		<!--<div class="trustedsite-trustmark" data-type="202"></div>-->
 	</div>
 </template>
 
@@ -329,6 +329,16 @@
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
 				padding: 16px;
+				&:hover {
+					transform: translateY(-3px);
+					box-shadow: 1px 1px 10px #999;
+					.good-price p {
+						display: none;
+					}
+					.ds {
+						display: flex;
+					}
+				}
 				img {
 					width: 100%;
 					height: 200px;
@@ -358,6 +368,16 @@
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
 				padding: 16px;
+				&:hover {
+					transform: translateY(-3px);
+					box-shadow: 1px 1px 10px #999;
+					.good-price p {
+						display: none;
+					}
+					.ds {
+						display: flex;
+					}
+				}
 				.title {
 					font-family: MicrosoftYaHei;
 					font-size: 20px;

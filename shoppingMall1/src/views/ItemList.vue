@@ -445,6 +445,9 @@
 			margin-right: 23px;
 			position: relative;
 			margin-bottom: 20px;
+			&:hover{
+				border: 1px solid #e1251b;
+			}
 			&.active {
 				border: 1px solid #e1251b;
 				&::after {
@@ -504,6 +507,16 @@
 			padding: 16px;
 			vertical-align: top;
 			border-right: 0;
+			&:hover {
+					transform: translateY(-3px);
+					box-shadow: 1px 1px 10px #999;
+					.good-price p {
+						display: none;
+					}
+					.ds {
+						display: flex;
+					}
+				}
 			&:last-child{
 				border-right: solid 1px #dcdcdc;
 			}
