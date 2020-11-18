@@ -20,7 +20,7 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div class="menu-cart point user" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">{{$t("language.common.cart")}}
+				<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">{{$t("language.common.cart")}}
 					<div class="nav-user-wrapper pa active">
 						<div class="nav-user-list">
 							<div class="full" v-show="totalNum">
@@ -67,7 +67,7 @@
 
 				<el-dropdown class="point" v-if="login" trigger="hover" style="border:none;width:auto;">
 					<span class="el-dropdown-link userinfo-inner">
-             	<div class="menu-cart" style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png"></img><span class="user-name" :style="userInfo.email?'color:#ffffcc':''">{{userInfo.email}}</span></div>
+             	<div class="menu-cart" style="padding-right: 20px;"><img src="../assets/image/icon/icon-my.png" v-if="userInfo.email"><img v-else src="../assets/image/icon/icon_my.png"><span class="user-name" :style="userInfo.email?'color:#f2a506':''">{{userInfo.email}}</span></div>
 
 			<i class="el-icon-caret-bottom"></i>
 			</span>
@@ -87,15 +87,15 @@
 			<li :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
 				<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
 			</li>
-			<li @click="$router.push('/')">
+			<li class="user-name" @click="$router.push('/')">
 				<a href="javascript:void(0)">Home</a>
 			</li>
-			<li>
+			<li class="user-name">
 				<a href="javascript:void(0)">About Us</a>
 			</li>
 
 		</ul>
-		<div :class="gamePop?'active choose-game':''" v-if="gamePop" >
+		<div :class="gamePop?'active choose-game':'choose-game'" >
 		<!--<img @click="gamePop=false" class="close" src="../assets/image/icon/icon_close.png" />-->
 		<span v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
 				{{item.name}}
@@ -614,7 +614,7 @@
 				text-decoration: none;
 			}
 			&.tri_bottom:before {
-				right: 10px;
+				right: 19px;
 				content: "";
 				width: 0px;
 				height: 0px;
@@ -636,7 +636,8 @@
 				top: 20px;
 			}
 			&.active {
-				background-color: #29303a;
+				background-image: linear-gradient(90deg, #e1251b 0%, #ea5f0e 53%, #f39800 100%), linear-gradient( #e1251b, #e1251b);
+				
 			}
 		}
 	}
@@ -690,6 +691,7 @@
 		z-index: 200;
 		transform: scale(.8);
 		opacity: 0;
+		visibility: hidden;
 		transform-origin: 0 0;
 		transition: all .3s;
 		margin-left: -637px;
@@ -909,11 +911,7 @@
 		}
 	}
 	
-	.user-name {
-		&:hover {
-			color: #ffffcc;
-		}
-	}
+
 	
 	.shop {
 		position: relative;

@@ -1,5 +1,5 @@
 <template>
-	<div id="app" >
+	<div id="app">
 		<transition name="fade" mode="out-in">
 			<router-view :key="$route.fullPath"></router-view>
 		</transition>
@@ -13,21 +13,29 @@
 </script>
 
 <style>
-	@import "/assets/css/public.css" 
-	body,
+	@import "/assets/css/public.css" body,
 	html {
-		
 		padding: 0;
 		margin: 0;
 		overflow-y: auto;
 		min-height: 100%;
 		font-family: Arial, "Helvetica Neue", Helvetica, sans-serif
-		
 	}
-	li,ul,p{
+	
+	li,
+	ul,
+	p {
 		padding: 0;
 		margin: 0;
 	}
+	
+	.user-name:hover { 
+		color: #f2a506;	
+	}
+	.user-name:hover a { 
+		color: #f2a506!important;	
+	}
+	
 	.el-dropdown {
 		margin-top: 12px;
 		width: 97px;
@@ -41,9 +49,12 @@
 	.point {
 		cursor: pointer;
 	}
-	.el-popover{
-		min-width: auto;;
+	
+	.el-popover {
+		min-width: auto;
+		;
 	}
+	
 	.el-dropdown-menu.el-popper .el-dropdown-menu__item:focus,
 	.el-dropdown-menu.el-popper .el-dropdown-menu__item:not(.is-disabled):hover {
 		background-color: #fff;
@@ -55,7 +66,8 @@
 		background-color: #000;
 		color: #fff;
 		padding-top: 0;
-		padding-bottom: 0;;
+		padding-bottom: 0;
+		;
 		/*padding: 0 20px;*/
 	}
 	

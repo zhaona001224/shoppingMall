@@ -401,7 +401,7 @@
 		margin-left: 15px;
 		padding-left: 30px;
 		border-left: 4px solid #fdf2f1;
-		padding-bottom: 50px;
+		padding-bottom: 20px;
 		.item {
 			display: inline-block;
 			text-align: center;
@@ -425,6 +425,7 @@
 				background-color: #e1251b;
 			}
 		}
+		
 	}
 	
 	.serve-contain {
@@ -436,7 +437,7 @@
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			display: block;
-			width: 160px;
+			width: 120px;
 			text-align: center;
 			padding: 14px 27px;
 			

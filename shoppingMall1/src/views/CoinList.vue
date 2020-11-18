@@ -498,7 +498,7 @@
 		margin-left: 15px;
 		padding-left: 30px;
 		border-left: 4px solid #fdf2f1;
-		padding-bottom: 50px;
+		padding-bottom: 20px;
 		.select-title {
 			color: #999;
 			font-size: 14px;
@@ -508,7 +508,7 @@
 		.item {
 			display: inline-block;
 			text-align: center;
-			width: 150px;
+			width: 120px;
 			padding: 17px 0;
 			background-color: #ffcbc8;
 			border-radius: 5px;
