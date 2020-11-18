@@ -36,14 +36,14 @@
 
 				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&(item.type=='item,item'||item.hintText&&item.hintImage)" @click="goItem(selectGame)">
 					<el-popover style="min-width:auto;text-align: center;" placement="right" trigger="hover">
-						<div class="pop-item">
+						<div class="pop-item" v-if="item.hintImage||item.hintText">
 							<img :src="imgUrl+item.hintImage" />
 							<div v-if="item.hintText">
 								<div class="label">{{item.hintText}}</div>
 							</div>
 
 						</div>
-						<div slot="reference" v-if="item.hintImage"><img :src="imgUrl+item.logo" />
+						<div slot="reference" ><img :src="imgUrl+item.logo" />
 							<div class="text hidden-style">
 								{{item.name}}
 							</div>
