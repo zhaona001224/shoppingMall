@@ -6,10 +6,9 @@
 			</el-carousel-item>
 		</el-carousel>
 		<div class="img-contain">
-			<img class="img-style" src="../assets/image/home/img1.gif" />
+			<a href="https://www.mcafeesecure.com/verify?host=egpal.com"><img class="img-style" src="../assets/image/home/img1.gif" /></a>
 			<img class="img-style" src="../assets/image/home/img2.gif" />
-			<img class="img-style" src="../assets/image/home/img3.gif" />
-			<img class="img-style" src="../assets/image/home/img4.gif" />
+			<a href="https://transparencyreport.google.com/safe-browsing/search?url=www.egpal.com"><img class="img-style" src="../assets/image/home/img3.gif" /></a>
 			<img class="img-style" src="../assets/image/home/img5.gif" />
 		</div>
 		<div class="game-contain" v-if="gameList.length>0">
@@ -145,6 +144,7 @@
 	import { getTemplete } from '../api/common.js'
 	import { mapMutations, mapState } from 'vuex'
 	import { getStore } from '../utils/storage'
+	import  '../utils/common/chart'
 	export default {
 		data() {
 			return {
