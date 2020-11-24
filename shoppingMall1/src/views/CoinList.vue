@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div style="width: 1200px;margin:100px auto">
-			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > {{gameList.coinName||'Silver'}}</div>
+			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > {{gameList.coinName}}</div>
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'" :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
@@ -43,7 +43,7 @@
 					<span class="custom-quantity" style="width:400px">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" :min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span> <span class="price" style="width: 394px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
 					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
-				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 360px;"></span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
+				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 220px;"></span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
 					<div class="total head"><span class="custom-quantity hidden-style">{{item.qty||1}} {{selectData[0]&&selectData[0].Unit}} - {{item.name}} - {{selectServeData.name}}</span><span class="price" v-html="item.selltext" style="width:360px"></span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span><span class="buy point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1,1);">Buy Now</span></span>
 					</div>
@@ -498,7 +498,7 @@
 		margin-left: 15px;
 		padding-left: 30px;
 		border-left: 4px solid #fdf2f1;
-		padding-bottom: 50px;
+		padding-bottom: 20px;
 		.select-title {
 			color: #999;
 			font-size: 14px;
@@ -508,7 +508,7 @@
 		.item {
 			display: inline-block;
 			text-align: center;
-			width: 150px;
+			width: 120px;
 			padding: 17px 0;
 			background-color: #ffcbc8;
 			border-radius: 5px;
@@ -572,7 +572,7 @@
 		background-color: #feba00;
 		align-items: center;
 		.custom-quantity {
-			width: 320px;
+			width: 440px;
 			padding-left: 24px;
 			font-size: 14px;
 			color: #333333;
@@ -617,7 +617,7 @@
 		background-color: #e7e7e7;
 		.custom-quantity,
 		.price {
-			font-size: 18px;
+			font-size: 17px;
 			letter-spacing: 0px;
 			color: #333333;
 		}

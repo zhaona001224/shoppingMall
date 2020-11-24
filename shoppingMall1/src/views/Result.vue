@@ -6,7 +6,7 @@
 			<img v-else style="margin-top: 28px;" src="../assets/image/icon/icon_fail.png" />
 			<div class="tip" >{{msg}}</div>
 			<div class="order">Order No:<span>{{orderno}}</span></div>
-			<div class="email">You can check your email<span>{{userInfo.email}}</span> to view the order details</div>
+			<div class="email">You can check your email:<span>{{userInfo.email}}</span> to view the order details</div>
 		</div>
 	</div>
 </template>

@@ -6,10 +6,9 @@
 			</el-carousel-item>
 		</el-carousel>
 		<div class="img-contain">
-			<img class="img-style" src="../assets/image/home/img1.gif" />
+			<a href="https://www.mcafeesecure.com/verify?host=egpal.com"><img class="img-style" src="../assets/image/home/img1.gif" /></a>
 			<img class="img-style" src="../assets/image/home/img2.gif" />
-			<img class="img-style" src="../assets/image/home/img3.gif" />
-			<img class="img-style" src="../assets/image/home/img4.gif" />
+			<a href="https://transparencyreport.google.com/safe-browsing/search?url=www.egpal.com"><img class="img-style" src="../assets/image/home/img3.gif" /></a>
 			<img class="img-style" src="../assets/image/home/img5.gif" />
 		</div>
 		<div class="game-contain" v-if="gameList.length>0">
@@ -28,15 +27,17 @@
 		<div class="item-contain">
 			<div class="main-title hidden-style">{{$t("language.mainPage.itemTitle")}}</div>
 			<div class="tab point">
-				<span @click="selectId=item.id;selectGame=item;getItem()" :class="selectId==item.id?'active':''" v-for="(item,index) in gameHotList">
+				<span class="user-name" @click="selectId=item.id;selectGame=item;getItem()" :class="selectId==item.id?'active':''" v-for="(item,index) in gameHotList">
 					{{item.name}}
 				</span>
 			</div>
 			<div class="contain">
 
 				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&(item.type=='item,item'||item.hintText&&item.hintImage)" @click="goItem(selectGame)">
-					<el-popover style="min-width:auto;text-align: center;" placement="right" trigger="hover">
+					
+					<el-popover v-if="item.hintImage||item.hintText" style="min-width:auto;text-align: center;" placement="right" trigger="hover">
 						<div class="pop-item" v-if="item.hintImage||item.hintText">
+							
 							<img :src="imgUrl+item.hintImage" />
 							<div v-if="item.hintText">
 								<div class="label">{{item.hintText}}</div>
@@ -55,6 +56,17 @@
 							<!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />-->
 						</div>
 					</el-popover>
+					<div v-else slot="reference" ><img :src="imgUrl+item.logo" />
+							<div class="text hidden-style">
+								{{item.name}}
+							</div>
+							<!--<div class="select-num">
+								<span @click="down(index)" class="down">-</span>
+								<input type="number" v-model="item.num" class="show">
+								<span class="up" @click="up(index)">+</span></div>-->
+							<div class="price">{{currencyInfo.symbol}}{{item.price&&item.price*currencyInfo.rate}}</div>
+							<!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />-->
+						</div>
 
 				</div>
 
@@ -132,6 +144,7 @@
 	import { getTemplete } from '../api/common.js'
 	import { mapMutations, mapState } from 'vuex'
 	import { getStore } from '../utils/storage'
+	import  '../utils/common/chart'
 	export default {
 		data() {
 			return {

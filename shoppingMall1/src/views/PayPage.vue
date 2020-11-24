@@ -689,6 +689,10 @@
 				width: 210px;
 				height: 66px;
 			}
+			&:hover{
+				transform: translateY(-3px);
+					box-shadow: 1px 1px 10px #999;
+			}
 			&.active {
 				border: 1px solid #e1251b;
 				&::after {

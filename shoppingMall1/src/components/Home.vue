@@ -1,26 +1,22 @@
 <template>
-
 	<div class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
 		<div class="top" style="position: fixed;top:0;">
-
 			<div class="menu">
-				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo1">
-					<span class="el-dropdown-link">
+				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo1"> <span class="el-dropdown-link">
 					     {{currencyInfo1.symbol}}{{currencyInfo1.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item v-for="(item,index) in currencyData" :key="index" @click.native="setCurrency(JSON.parse(item).symbol,JSON.parse(item).name,JSON.parse(item).rate)">{{JSON.parse(item).symbol}}{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<el-dropdown class="point">
-					<span class="el-dropdown-link">
+				<el-dropdown class="point"> <span class="el-dropdown-link">
 					    {{countryInfo&&countryInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div class="menu-cart point user" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">{{$t("language.common.cart")}}
+				<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">{{$t("language.common.cart")}}
 					<div class="nav-user-wrapper pa active">
 						<div class="nav-user-list">
 							<div class="full" v-show="totalNum">
@@ -30,13 +26,12 @@
 										<li class="clearfix" v-for="(item,i) in cartList" :key="i">
 											<div class="cart-item">
 												<div class="cart-item-inner">
-													<div class="item-thumb">
-														<img :src="item.productImg">
-													</div>
+													<div class="item-thumb"> <img :src="item.productImg"> </div>
 													<div class="item-desc">
-														<div class="cart-cell">
-															{{item.productName}}
-															<span class="price-icon">¥</span><span class="price-num">{{item.salePrice}}</span><span class="item-num">x {{item.productNum}}</span></div>
+														<div class="cart-cell"> {{item.productName}} <span class="price-icon">¥</span><span class="price-num">{{item.salePrice}}</span>
+															<span
+															 class="item-num">x {{item.productNum}}</span>
+														</div>
 													</div>
 													<div class="del-btn del point" @click="">删除</div>
 												</div>
@@ -54,8 +49,7 @@
                           <div classStyle="main-btn"
                                     style="height: 40px;width: 100%;margin: 0;color: #fff;font-size: 14px;line-height: 38px"
                                     text="去购物车" @btnClick=""></div>
-                        </h6>
-								</div>
+                        </h6> </div>
 							</div>
 							<div v-show="!totalNum" style="height: 313px;text-align: center" class="cart-con">
 								<p>您的购物车竟然是空的!</p>
@@ -64,87 +58,69 @@
 					</div>
 				</div>
 				<!--购物车显示块-->
-
 				<el-dropdown class="point" v-if="login" trigger="hover" style="border:none;width:auto;">
-					<span class="el-dropdown-link userinfo-inner">
-             	<div class="menu-cart" style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png"></img><span class="user-name" :style="userInfo.email?'color:#ffffcc':''">{{userInfo.email}}</span></div>
-
-			<i class="el-icon-caret-bottom"></i>
-			</span>
+				<span class="el-dropdown-link userinfo-inner">
+             	<div class="menu-cart" style="padding-right: 20px;"><img src="../assets/image/icon/icon-my.png" v-if="userInfo.email"><img v-else src="../assets/image/icon/icon_my.png"><span class="user-name" :style="userInfo.email?'color:#f2a506':''">{{userInfo.email}}</span></div>
+			<i class="el-icon-caret-bottom"></i> </span>
 			<el-dropdown-menu slot="dropdown">
-				<el-dropdown-item @click.native="doLoginOut">
-					<i class="el-icon-circle-close-outline"></i><span class="user-name">退出登录</span>
-				</el-dropdown-item>
+				<el-dropdown-item @click.native="doLoginOut"> <i class="el-icon-circle-close-outline"></i><span class="user-name">退出登录</span>					</el-dropdown-item>
 			</el-dropdown-menu>
 			</el-dropdown>
-			<div v-else @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user-name" style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png"></img>{{$t("language.common.login")}}</div>
-			<div v-if="!login" @click="SHOW_LOGIN(true);changeType('register')" style="border-left: 1px solid #f5f5f5;" class="menu-register point user-name">{{$t("language.common.reister")}}</div>
+			<div v-else @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user-name"
+			 style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png"></img>{{$t("language.common.login")}}</div>
+			<div v-if="!login" @click="SHOW_LOGIN(true);changeType('register')" style="border-left: 1px solid #f5f5f5;"
+			 class="menu-register point user-name">{{$t("language.common.reister")}}</div>
 		</div>
 	</div>
-	<div class="img top-img" v-if="$route.fullPath!=='/payPage'" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 65px;" /></div>
+	<div class="img top-img" v-if="$route.fullPath!=='/payPage'" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img
+		 src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 65px;"
+		/></div>
 	<div class="select" :style="scrollTop>200||$route.fullPath==='/payPage'?'position: fixed;top:50px;z-index:1000;width:100%':''">
-		<ul>
+		<ul style="text-align: left;">
 			<li :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
 				<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
 			</li>
-			<li @click="$router.push('/')">
+			<li class="user-name" @click="$router.push('/')">
 				<a href="javascript:void(0)">Home</a>
 			</li>
-			<li>
+			<li class="user-name">
 				<a href="javascript:void(0)">About Us</a>
 			</li>
-
 		</ul>
-		<div :class="gamePop?'active choose-game':''" v-if="gamePop" >
-		<!--<img @click="gamePop=false" class="close" src="../assets/image/icon/icon_close.png" />-->
-		<span v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
+		<div :class="gamePop?'active choose-game':'choose-game'">
+			<!--<img @click="gamePop=false" class="close" src="../assets/image/icon/icon_close.png" />--><span v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
 				{{item.name}}
-			</span>
-	</div>
+			</span> </div>
 	</div>
 	<transition name="fade" mode="out-in">
 		<router-view></router-view>
 	</transition>
 	<div class="footer">
-		<div class="tip">
-			<span>HOME</span>
-			<span>ABOUT US</span>
-			<span>FAQ</span>
-			<span>Sell to Us</span>
-		</div>
-		<div class="img"><img src="../assets/image/home/icon_footer.png" /></div>
+		<div class="tip"> <span>HOME</span> <span>Sell to Us</span> <span>FAQ</span> <span>Review</span>			<span>Discount</span> </div>
+		<div class="img">
+			<div class="trustedsite-trustmark" data-type="202"></div>
+			<div class="trustedsite-trustmark" data-type="102"></div> <img src="../assets/image/home/icon_footer.png" /></div>
 		<div class="icon">
-			<img src="../assets/image/icon/icon_footer1.png" />
-			<img src="../assets/image/icon/icon_footer2.png" />
-			<img src="../assets/image/icon/icon_footer3.png" />
-			<img src="../assets/image/icon/icon_footer4.png" />
-			<img src="../assets/image/icon/icon_footer5.png" />
-		</div>
+		<img src="../assets/image/icon/icon_footer1.png" /> <img src="../assets/image/icon/icon_footer2.png"
+			/> <img src="../assets/image/icon/icon_footer3.png" /> <img src="../assets/image/icon/icon_footer4.png"
+			/> <img src="../assets/image/icon/icon_footer5.png" /> </div>
 		<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">{{$t("language.common.footerTip")}}</div>
 	</div>
-	
-	<div class="pop-login" v-if="showLogin">
-		<img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png" />
-		<div class="tab">
-			<span @click="changeType('login');" :class="selectType=='login'?'active point':'point'">
+	<div class="pop-login" v-if="showLogin"> <img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png"
+		/>
+		<div class="tab"> <span @click="changeType('login');" :class="selectType=='login'?'active point':'point'">
 					{{$t("language.user.login")}}
-				</span>
-			<span @click="changeType('register')" :class="selectType=='register'?'active point':'point'">
+				</span> <span @click="changeType('register')" :class="selectType=='register'?'active point':'point'">
 					{{$t("language.user.register")}}
-				</span>
-
-		</div>
+				</span> </div>
 		<div class="form-contain" v-if="selectType=='login'">
 			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
 				<el-form-item :label='$t("language.user.email")' prop="email">
-					<el-input Pleaseholder="" v-model="form.email">
-					</el-input>
+					<el-input Pleaseholder="" v-model="form.email"> </el-input>
 				</el-form-item>
 				<el-form-item :label='$t("language.user.pass")' prop="password">
-					<el-input Pleaseholder="" type="password" v-model="form.password">
-					</el-input>
+					<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
 				</el-form-item>
-
 			</el-form>
 			<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>
 			<div class="btn point" @click="submit">{{$t("language.user.login")}}</div>
@@ -152,43 +128,33 @@
 		<div class="form-contain" v-if="selectType=='register'">
 			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
 				<el-form-item :label='$t("language.user.email")' prop="email">
-					<el-input Pleaseholder="" v-model="form.email">
-					</el-input>
+					<el-input Pleaseholder="" v-model="form.email"> </el-input>
 				</el-form-item>
 				<el-form-item :label='$t("language.user.pass")' prop="password">
-					<el-input Pleaseholder="" type="password" v-model="form.password">
-					</el-input>
+					<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
 				</el-form-item>
 				<el-form-item :label='$t("language.user.repass")' prop="repassword">
-					<el-input Pleaseholder="" type="password" v-model="form.repassword">
-					</el-input>
+					<el-input Pleaseholder="" type="password" v-model="form.repassword"> </el-input>
 				</el-form-item>
 				<el-form-item label='Phone' prop="phone">
-					<el-input maxlength=11 Pleaseholder="" v-model="form.phone">
-					</el-input>
+					<el-input maxlength=11 Pleaseholder="" v-model="form.phone"> </el-input>
 				</el-form-item>
-
 				<el-form-item label='Social Type:' prop="social_type">
 					<el-select :clearable="true" v-model="form.social_type">
 						<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
 						</el-option>
 					</el-select>
-
 				</el-form-item>
 				<el-form-item label='Social Link:' prop="social_link" class="left">
-					<el-input Pleaseholder="" v-model="form.social_link">
-					</el-input>
+					<el-input Pleaseholder="" v-model="form.social_link"> </el-input>
 				</el-form-item>
-
 			</el-form>
 			<!--	<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>-->
 			<div class="btn point" @click="register">{{$t("language.user.register")}}</div>
 		</div>
 	</div>
 	</div>
-
 </template>
-
 <script>
 	import { getTemplete, getConfig } from '../api/common.js'
 	import { login, register, loginOut, recover } from '../api/user.js'
@@ -215,16 +181,14 @@
 				showCart: true,
 				rules: {
 					email: [{
-							message: "Please fill in email",
-							required: true,
-							trigger: 'blur'
-						},
-						{
-							message: "Please fill in correct email",
-							pattern: ptn.email(0, 40),
-							trigger: 'blur'
-						}
-					],
+						message: "Please fill in email",
+						required: true,
+						trigger: 'blur'
+					}, {
+						message: "Please fill in correct email",
+						pattern: ptn.email(0, 40),
+						trigger: 'blur'
+					}],
 					password: [{
 						message: "Please fill in password",
 						required: true,
@@ -250,13 +214,12 @@
 						required: true,
 						trigger: 'blur'
 					}],
-
 				},
 			}
 		},
-
-		computed: {
-			...mapState(["game", "userInfo", "login", 'currencyInfo1', 'cartList', 'countryInfo', 'showLogin']),
+		computed: { ...mapState(["game", "userInfo", "login", 'currencyInfo1',
+				'cartList', 'countryInfo', 'showLogin'
+			]),
 			totalNum() {
 				var totalNum = 0;
 				this.cartList.map((item) => {
@@ -265,8 +228,9 @@
 				return totalNum
 			},
 		},
-		methods: {
-			...mapMutations(['CHOOSE_GAME', 'RECORD_USERINFO', 'LOGINOUT_USERINFO', 'CHOOSE_CURRENCY', 'CHOOSE_COUNTRY', 'SHOW_LOGIN']),
+		methods: { ...mapMutations(['CHOOSE_GAME', 'RECORD_USERINFO',
+				'LOGINOUT_USERINFO', 'CHOOSE_CURRENCY', 'CHOOSE_COUNTRY', 'SHOW_LOGIN'
+			]),
 			changeType(type) {
 				this.selectType = type;
 				this.form = {
@@ -283,10 +247,9 @@
 			setCountry(item) {
 				this.CHOOSE_COUNTRY(JSON.parse(item));
 			},
-
 			//忘记密码
 			forgetPsw() {
-				if(!this.form.email) {
+				if (!this.form.email) {
 					this.$message({
 						type: 'Please fill in email',
 						message: response.Msg
@@ -294,7 +257,7 @@
 					return
 				}
 				var re = /^\w+@[a-z0-9]+\.[a-z]{2,4}$/;
-				if(!re.test(this.form.email)) {
+				if (!re.test(this.form.email)) {
 					this.$message({
 						type: 'warning',
 						message: 'Please fill in correct email'
@@ -304,7 +267,7 @@
 				recover({
 					email: this.form.email
 				}).then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.$message({
 							type: 'success',
 							message: response.Msg
@@ -323,8 +286,7 @@
 				//				} else {
 				//					this.SHOW_LOGIN(true);
 				//				}
-				if(this.cartList.length == 0) {
-
+				if (this.cartList.length == 0) {
 					this.$message({
 						type: 'warning',
 						message: 'Please Select Product'
@@ -332,7 +294,6 @@
 					return
 				}
 				this.$router.push('/payPage');
-
 			},
 			//退出登录
 			doLoginOut() {
@@ -343,17 +304,15 @@
 					type: 'warning'
 				}).then(() => {
 					loginOut("").then(response => {
-						if(response.retCode == 0) {
+						if (response.retCode == 0) {
 							this.LOGINOUT_USERINFO()
 							this.$router.push('/')
 						} else {
-
 							that.$message({
 								type: 'warning',
 								message: response.message
 							});
 						}
-
 					}).catch(() => {
 						this.$message({
 							type: 'info',
@@ -365,23 +324,22 @@
 			chooseGame(item) {
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
-				if(this.$route.path == "/itemList" || this.$route.path == "/coinList") {
+				if (this.$route.path == "/itemList" || this.$route.path == "/coinList") {
 					window.location.reload()
 				} else {
 					this.$router.push('/itemList/' + localStorage.getItem('gameId'));
 				}
-
 			},
 			//登录方法
 			submit() {
 				var that = this;
 				this.$refs.form.validate((valid) => {
-					if(valid) {
+					if (valid) {
 						login({
 							email: this.form.email,
 							password: this.form.password
 						}).then(response => {
-							if(response.retCode == 0) {
+							if (response.retCode == 0) {
 								this.$message({
 									type: 'success',
 									message: 'success'
@@ -410,7 +368,7 @@
 				})
 			},
 			forget() {
-				if(!this.form.email) {
+				if (!this.form.email) {
 					this.$message({
 						type: 'warning',
 						message: 'Please fill in email'
@@ -420,12 +378,11 @@
 				forget({
 					email: this.form.email
 				}).then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.$message({
 							type: 'success',
 							message: 'success'
 						});
-
 					} else {
 						this.$message({
 							type: 'warning',
@@ -437,14 +394,14 @@
 			//注册方法
 			register() {
 				var that = this;
-				if(this.form.password != this.form.repassword) {
+				if (this.form.password != this.form.repassword) {
 					this.$message({
 						type: 'warning',
 						message: 'The two passwords do not match'
 					});
 					return
 				}
-				if(!(/^1[0-9]{10}$/.test(this.form.phone))) {
+				if (!(/^1[0-9]{10}$/.test(this.form.phone))) {
 					this.$message({
 						type: 'warning',
 						message: 'Please fill in correct phone'
@@ -452,7 +409,7 @@
 					return;
 				}
 				this.$refs.form.validate((valid) => {
-					if(valid) {
+					if (valid) {
 						register({
 							email: this.form.email,
 							password: this.form.password,
@@ -460,7 +417,7 @@
 							social_type: this.form.social_type,
 							social_link: this.form.social_link
 						}).then(response => {
-							if(response.retCode == 0) {
+							if (response.retCode == 0) {
 								this.$message({
 									type: 'success',
 									message: 'success'
@@ -480,12 +437,11 @@
 				})
 			},
 			getGame() {
-				if(this.gameList.length > 0) return
+				if (this.gameList.length > 0) return
 				//获取游戏列表
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.gameList = response.data;
-
 					} else {
 						this.$message({
 							type: 'warning',
@@ -495,22 +451,19 @@
 				})
 			},
 			scrollToTop() {　　
-				this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+				this.scrollTop = window.pageYOffset || document.documentElement.scrollTop ||
+					document.body.scrollTop;
 			},
-
 		},
-
 		created() {
 			this.getGame();
 			this.imgUrl = window.imgUrl;
 			window.addEventListener('scroll', this.scrollToTop)
 			//			this.width=document.body.clientWidth>1000?document.body.clientWidth+'px':'400px';
-			if(!localStorage.getItem('currencyInfo1')) {
+			if (!localStorage.getItem('currencyInfo1')) {
 				getConfig().then(response => {
-
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.countryData = response.country;
-
 						this.currencyData = response.currency;
 						this.CHOOSE_CURRENCY({
 							name: JSON.parse(this.currencyData[0]).name,
@@ -531,17 +484,14 @@
 				this.countryData = JSON.parse(localStorage.getItem("countryData"))
 				this.currencyData = JSON.parse(localStorage.getItem("currencyData"))
 			}
-
 		},
 		mounted() {
 			console.log(this)
 		}
 	}
 </script>
-
 <style lang="less">
-	body,
-	html {
+	body, html {
 		padding: 0;
 		margin: 0;
 	}
@@ -614,7 +564,7 @@
 				text-decoration: none;
 			}
 			&.tri_bottom:before {
-				right: 10px;
+				right: 19px;
 				content: "";
 				width: 0px;
 				height: 0px;
@@ -636,7 +586,7 @@
 				top: 20px;
 			}
 			&.active {
-				background-color: #29303a;
+				background-image: linear-gradient(90deg, #e1251b 0%, #ea5f0e 53%, #f39800 100%), linear-gradient( #e1251b, #e1251b);
 			}
 		}
 	}
@@ -686,14 +636,14 @@
 	.choose-game {
 		position: absolute;
 		top: 48px;
-		left: 50%;
+		left: 0;
 		z-index: 200;
 		transform: scale(.8);
 		opacity: 0;
+		visibility: hidden;
 		transform-origin: 0 0;
 		transition: all .3s;
-		margin-left: -637px;
-		width: 1274px;
+		width: 100%;
 		background: #282e38;
 		padding: 30px 36px;
 		box-sizing: border-box;
@@ -842,13 +792,13 @@
 		.clearfix {
 			*zoom: 1;
 		}
-		>a {
+		> a {
 			position: relative;
 			@include wh(36px, 20px);
 			display: block;
 			text-indent: -9999px;
 		}
-		li+li {
+		li + li {
 			text-align: center;
 			position: relative;
 			border-top: 1px solid #f5f5f5;
@@ -865,7 +815,7 @@
 			}
 		}
 		.nav-user-avatar {
-			>div {
+			> div {
 				position: relative;
 				margin: 0 auto 8px;
 				@include wh(46px);
@@ -909,12 +859,6 @@
 		}
 	}
 	
-	.user-name {
-		&:hover {
-			color: #ffffcc;
-		}
-	}
-	
 	.shop {
 		position: relative;
 		float: left;
@@ -934,7 +878,7 @@
 			-webkit-transition: opacity .15s ease-out;
 			transition: opacity .15s ease-out;
 		}
-		>a {
+		> a {
 			position: absolute;
 			left: 0;
 			top: 0;
@@ -951,7 +895,7 @@
 			min-width: 30px;
 			text-indent: 0;
 			line-height: 20px;
-			>i {
+			> i {
 				background: #eb746b;
 				background-image: -webkit-linear-gradient(#eb746b, #e25147);
 				background-image: linear-gradient(#eb746b, #e25147);
@@ -1226,8 +1170,7 @@
 					font-weight: 700;
 					color: #cacaca;
 				}
-				.price-icon,
-				.price-num {
+				.price-icon, .price-num {
 					color: #d44d44;
 				}
 				.price-num {
