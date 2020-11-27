@@ -9,6 +9,7 @@ import ItemList from '../views/ItemList'
 import PayPage from '../views/PayPage'
 import Result from '../views/Result'
 import NewsList from '../views/NewsList'
+import BlankPage from '../views/BlankPage'
 Vue.use(VueRouter);
 
 const routes = [{
@@ -115,6 +116,19 @@ const routes = [{
 			path: '',
 			name: 'News List',
 			component: NewsList
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/BlankPage',
+		name: 'BlankPage',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'BlankPage',
+			component: BlankPage
 		}],
 		meta: {
 			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录

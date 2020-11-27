@@ -41,7 +41,7 @@
 		width: 97px;
 		height: 27px;
 		border: solid 1px rgba(255, 255, 255, 0.3);
-		color: #fff;
+		color: #f2a506;
 		line-height: 27px;
 		text-align: center;
 	}
@@ -57,16 +57,19 @@
 	
 	.el-dropdown-menu.el-popper .el-dropdown-menu__item:focus,
 	.el-dropdown-menu.el-popper .el-dropdown-menu__item:not(.is-disabled):hover {
-		background-color: #fff;
-		color: #000;
+		background-color: #000;
+		color: #f2a506;
 	}
-	
+	.el-popper .popper__arrow{
+		display: none;
+	}
 	.el-dropdown-menu.el-popper,
 	.el-popper .el-dropdown-menu__item {
 		background-color: #000;
 		color: #fff;
 		padding-top: 0;
 		padding-bottom: 0;
+		border: none!important
 		;
 		/*padding: 0 20px;*/
 	}

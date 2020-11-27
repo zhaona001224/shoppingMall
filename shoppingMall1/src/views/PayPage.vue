@@ -2,97 +2,90 @@
 	<div>
 		<div style="width: 1200px;margin:100px auto">
 			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > Shoppingcart</div>
-
-			<div class="total head"><span class="custom-quantity">{{$t("language.good.shoppingCart")}}</span></div>
-			<div class="table">
-				<div class="th" v-for="(item,index) in cartList">
-					<!-- {{item.detail}} -->
-					<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}</div>
-					<div style="width: 290px;">
-						<div class="select-num">
-							<span @click="down(item,item.productId,item.productName)" class="down">-</span>
-							<input type="number" min="0" v-model="item.productNum" class="show">
-							<span class="up" @click="up(item,item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
-						</div>
+			<div
+			 class="total head"><span class="custom-quantity">{{$t("language.good.shoppingCart")}}</span></div>
+		<div class="table">
+			<div class="th" v-for="(item,index) in cartList">
+				<!-- {{item.detail}} -->
+				<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}</div>
+				<div style="width: 290px;">
+					<div class="select-num"> <span @click="down(item,item.productId,item.productName)" class="down">-</span>						<input type="number" min="0" v-model="item.productNum" class="show">
+						<span
+						 class="up" @click="up(item,item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
 					</div>
-					<div style="width: 220px;text-align: center;color: #f39800;">
-						{{currencyInfo.symbol}}{{(item.salePrice*currencyInfo.rate).toFixed(2)}}
-					</div>
-					<div class="price" style="width: 220px;">{{currencyInfo.symbol}}{{(item.salePrice&&item.salePrice*item.productNum*currencyInfo.rate).toFixed(2)}}</div>
-					<!--					<div class="price" style="width: 247px;" v-else>{{currencyInfo.symbol}}{{item.totalPrice*currencyInfo.rate}}</div>-->
-
-					<div class="delete point" @click="deletePro(item.productId,item.productName)" style="width:80px;text-align: center;vertical-align: -8px;"><img style="width: 20px;height: 22px;" src="../assets/image/icon/icon_delete.png" /></div>
 				</div>
-			</div>
-			<div style="display: flex;justify-content: space-between;">
-				<div class="coupon">
-					<el-input @clear="disPrice=0;couponPrice={}" style="dispaly:inline-block;width:200px" placeholder="请输入优惠券码" v-model="couponCode" clearable>
-					</el-input><span class="btn point" @click="apply">Apply</span>
-				</div>
-				<div class="count-price">
-					<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></div>
-					<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{(disPrice*currencyInfo.rate).toFixed(2)}}</span></div>
-					<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{(payFeeValue[payList[selectIndex].func-1]*1*(totalPice-(disPrice*1*currencyInfo.rate).toFixed(2)*1)).toFixed(2)}}</span></div>
-					<div>Total Amount: <span class="price">{{currencyInfo.symbol}}{{((totalPice*1).toFixed(2)*1-(disPrice*1*currencyInfo.rate.toFixed(2))*1+(totalPice*this.payFeeValue[payList[selectIndex].func-1]*1)).toFixed(2)}}</span></div>
-				</div>
-			</div>
-			<div class="step"><span>1</span>{{$t("language.good.orderInformation")}}</div>
-			<div class="step-line">
-				<el-form style="padding-top:30px" ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
-					<el-row>
-						<el-col :span="8">
-							<el-form-item :label='$t("language.user.email")' prop="email">
-								<el-input placeholder="" :disabled="!!login" v-model="form.email">
-								</el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :span="16" style="display: flex;">
-							<el-form-item label='Social Link:' prop="link" style="width:344px">
-								<el-select :clearable="true" v-model="form.link1">
-									<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
-									</el-option>
-								</el-select>
-
-							</el-form-item>
-							<el-form-item prop="link" class="left">
-								<el-input placeholder="" v-model="form.link">
-								</el-input>
-							</el-form-item>
-						</el-col>
-					</el-row>
-
-				</el-form>
-			</div>
-			<div class="step"><span>2</span>{{$t("language.good.playerInformation")}}</div>
-			<div class="step-line ">
-				<el-form style="padding-top:30px" ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
-					<el-row>
-						<el-col :span="8">
-							<el-form-item :label='productInfo.customerLabel' prop="payer">
-								<el-input placeholder="" v-model="form.payer">
-								</el-input>
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</el-form>
-				<div class="tip" v-if="productInfo.customerCaution"><img src="../assets/image/icon/icon_tip.png" />{{productInfo.customerCaution}}</div>
-			</div>
-			<div class="step"><span>3</span>{{$t("language.good.paymentMethod")}}</div>
-
-			<div class="step-line serve-contain" style="border-left: none;">
-				<span v-if="item.icon" v-for="(item,index) in payList" :key="index" @click="selectIndex=index" :class="index==selectIndex?'active point':'point'">
-							<img  :src="item.icon.indexOf('http')>-1?item.icon:require('@/assets/image/payPage/'+item.icon+'.jpg')"/>
-					</span>
-			</div>
-			<div class="all">
-				<span>Total Item: <span class="price" style="margin-right: 100px;">{{totalNum*1}}</span></span><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{((totalPice*1).toFixed(2)*1-(disPrice*1*currencyInfo.rate.toFixed(2))*1+(totalPice*this.payFeeValue[payList[selectIndex].func-1]*1)).toFixed(2)}}</span></span>
-				<span class="btn point" @click="pay()">Pay  Now</span>
+				<div style="width: 220px;text-align: center;color: #f39800;"> {{currencyInfo.symbol}}{{(item.salePrice*currencyInfo.rate).toFixed(2)}} </div>
+				<div class="price" style="width: 220px;">{{currencyInfo.symbol}}{{(item.salePrice&&item.salePrice*item.productNum*currencyInfo.rate).toFixed(2)}}</div>
+				<!--					<div class="price" style="width: 247px;" v-else>{{currencyInfo.symbol}}{{item.totalPrice*currencyInfo.rate}}</div>-->
+				<div class="delete point" @click="deletePro(item.productId,item.productName)"
+				 style="width:80px;text-align: center;vertical-align: -8px;"><img style="width: 20px;height: 22px;" src="../assets/image/icon/icon_delete.png"
+					/></div>
 			</div>
 		</div>
-
+		<div style="display: flex;justify-content: space-between;">
+			<div class="coupon">
+				<el-input @clear="disPrice=0;couponPrice={}" style="dispaly:inline-block;width:200px"
+				 placeholder="请输入优惠券码" v-model="couponCode" clearable> </el-input><span class="btn point" @click="apply">Apply</span> </div>
+			<div class="count-price">
+				<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></div>
+				<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{disPrice}}</span></div>
+				<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{payFee}}</span></div>
+				<div>Total Amount: <span class="price">{{currencyInfo.symbol}}{{(totalPice*1-disPrice*1+payFee*1)}}</span></div>
+			</div>
+		</div>
+		<div class="step"><span>1</span>{{$t("language.good.orderInformation")}}</div>
+		<div class="step-line">
+			<el-form style="padding-top:30px" ref="form" :model="form" :rules="rules" label-width="35%"
+			 label-position="right">
+				<el-row>
+					<el-col :span="8">
+						<el-form-item :label='$t("language.user.email")' prop="email">
+							<el-input placeholder="" :disabled="!!login" v-model="form.email"> </el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="16" style="display: flex;">
+						<el-form-item label='Instance Message:' prop="link" style="margin-left:30px;width:400px">
+							<el-select :clearable="true" v-model="form.link1">
+								<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
+								</el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item prop="link" class="left">
+							<el-input placeholder="" v-model="form.link"> </el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+		</div>
+		<div class="step"><span>2</span>{{$t("language.good.playerInformation")}}</div>
+		<div class="step-line ">
+			<el-form style="padding-top:30px" ref="form" :model="form" :rules="rules" label-width="35%"
+			 label-position="right">
+				<el-row>
+					<el-col :span="8">
+						<el-form-item :label='productInfo.customerLabel' prop="payer">
+							<el-input placeholder="" v-model="form.payer"> </el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
+			<div class="tip" v-if="productInfo.customerCaution"><img src="../assets/image/icon/icon_tip.png" />{{productInfo.customerCaution}}</div>
+		</div>
+		<div class="step"><span>3</span>{{$t("language.good.paymentMethod")}}</div>
+		<div class="step-line serve-contain"
+		 style="border-left: none;display: flex;flex-wrap: wrap;">
+			<div v-for="(item,index) in payList" :key="index" @click="selectIndex=index"> <span :class="index==selectIndex?'active point':'point'">
+							<img  :src="imgUrl+item.img_url"/> </span>
+				<div style="text-align: center;">{{item.name}}</div>
+			</div>
+		</div>
+		<div class="all"> <span>Total Item: <span class="price" style="margin-right: 100px;">{{totalNum*1}}</span></span><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice*1-disPrice*1+payFee*1}}</span></span>
+			<span class="btn point" @click="pay()">Pay  Now</span> </div>
+		<div class="trustedsite-trustmark"
+		 data-type="204"></div>
+	</div>
 	</div>
 </template>
-
 <script>
 	import { getTemplete } from '../api/common.js'
 	import { getPay, getPay2, getPay3 } from '../api/product.js'
@@ -108,70 +101,29 @@
 				form: {},
 				statusList: [],
 				payFee: 0,
-				payList: [{
-					icon: "https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_credit_logo_h_200x51.png",
-					func: '1',
-					str: 'BILLING',
-					type: 'paypal',
-				}, {
-					icon: "https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_200x51.png",
-					func: '1',
-					str: '',
-					type: 'paypal',
-				}, {
-					icon: "icon_pay2",
-					func: '2',
-					str: 'paysafecard',
-					type: 'payssion',
-				}, {
-					icon: "icon_pay3",
-					func: '2',
-					str: 'ebanking_my',
-					type: 'payssion',
-				}, {
-					icon: "icon_pay4",
-					func: '2',
-					str: 'dotpay_pl',
-					type: 'payssion',
-				}, {
-					icon: "https://www.skrill.com/fileadmin/content/images/brand_centre/Payment_Options_by_Skrill/skrill-powered-visa_120x60.png",
-					func: '3',
-					str: 'ACC,VSA,MSC,VSE,MAE',
-					type: 'skrill',
-				}, {
-					icon: "icon_pay6",
-					func: '3',
-					str: 'ACC',
-					type: 'skrill',
-				}, {
-					icon: "",
-					func: '3',
-					str: 'ACC',
-					type: 'skrill',
-				}],
+				payList: [],
+				imgUrl: '',
 				selectIndex: 0,
 				totalNum: 0,
 				couponList: [],
 				couponCode: '',
 				disPrice: 0,
-				selectList: ['facebook', 'whatsapp', 'twitter'],
-				couponPrice: {
-
-				},
+				selectList: ['Discord', 'Skype', 'QQ', 'Wechat', 'Whats app', 'Line',
+					'Instagram', 'Telegram', 'Snapchat', 'Facebook', 'Phone'
+				],
+				couponPrice: {},
 				feeRate: [],
 				productInfo: {},
 				rules: {
 					email: [{
-							message: "Please fill in email",
-							required: true,
-							trigger: 'blur'
-						},
-						{
-							message: "Please fill in correct email",
-							pattern: ptn.email(0, 40),
-							trigger: 'blur'
-						}
-					],
+						message: "Please fill in email",
+						required: true,
+						trigger: 'blur'
+					}, {
+						message: "Please fill in correct email",
+						pattern: ptn.email(0, 40),
+						trigger: 'blur'
+					}],
 					payer: [{
 						message: "Please fill in payer_name",
 						required: true,
@@ -182,7 +134,6 @@
 						required: true,
 						trigger: 'blur'
 					}]
-
 				},
 				form: {
 					email: '',
@@ -191,53 +142,62 @@
 					link: ""
 				},
 				payFeeValue: []
-
 			};
 		},
-
-		computed: {
-			...mapState(['cartList', 'currencyInfo', 'login', 'userInfo']),
+		computed: { ...mapState(['cartList', 'currencyInfo', 'login', 'userInfo']),
 			totalPice() {
 				this.totalNum = 0;
 				var price = 0;
 				this.cartList.map((item) => {
-					if(item.type == "coin") {
+					if (item.type == "coin") {
 						var price1 = item.totalPrice * this.currencyInfo.rate.toFixed(2)
 					} else {
-						var price1 = item.productNum * item.salePrice * this.currencyInfo.rate.toFixed(2)
+						var price1 = item.productNum * item.salePrice * this.currencyInfo.rate.toFixed(
+							2)
 					}
 					price = price + price1
 					this.totalNum = this.totalNum * 1 + item.productNum;
-
 				})
-				if(this.couponPrice.price && this.cartList.length > 0) {
-					if(this.couponPrice.type == 1) {
-						this.disPrice = price * 1 * this.couponPrice.price * 1 / 100
+				if (this.couponPrice.price && this.cartList.length > 0) {
+					if (this.couponPrice.type == 1) {
+						this.disPrice = (price * 1 * this.couponPrice.price * 1 / 100) * 1 * this
+							.currencyInfo.rate.toFixed(2)
 					} else {
-						this.disPrice = this.couponPrice.price * 1
+						this.disPrice = (this.couponPrice.price * 1) * this.currencyInfo.rate.toFixed(
+							2)
+					}
+				}
+				if (this.payList.length > 0) {
+					var payData = this.payList[this.selectIndex]
+					if (this.payList[this.selectIndex].fee_type === 1) {
+						this.payFee = (price * payData.payment_fee).toFixed(2)
+					} else if (this.payList[this.selectIndex].fee_type === 2) {
+						this.payFee = (payData.payment_fee * this.currencyInfo.rate).toFixed(2)
+					} else {
+						if (price >= payData.helper * this.currencyInfo.rate) {
+							this.payFee = 0
+						} else {
+							this.payFee = (payData.payment_fee * this.currencyInfo.rate).toFixed(2)
+						}
 					}
 				}
 				return price.toFixed(2)
 			},
-
 		},
-		methods: {
-			...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART', 'SHOW_LOGIN', 'CLEAR_CART']),
+		methods: { ...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART',
+				'SHOW_LOGIN', 'CLEAR_CART'
+			]),
 			deletePro(id, productName) {
-
 				this.EDIT_CART({
 					productId: id,
 					productName: productName
 				})
-
 			},
 			down(item, id, productName) {
-
 				this.REDUCE_CART({
 					productId: id,
 					productName: productName
 				})
-
 			},
 			up(item, id, price, name, img, productNum) {
 				this.ADD_CART({
@@ -256,39 +216,35 @@
 					categoryId: item.categoryId,
 					totalPrice: price * productNum
 				})
-
 			},
 			pay() {
 				var that = this;
-				if(!this.login) {
+				if (!this.login) {
 					this.SHOW_LOGIN(true);
 					return
 				}
-				if(this.totalNum <= 0) {
+				if (this.totalNum <= 0) {
 					that.$message.error("Please select product！");
 					return
 				}
 				var that = this;
-				if(!this.form.email) {
+				if (!this.form.email) {
 					that.$message.error("Please fill in form！");
 					return
 				}
-				if(!this.form.link) {
+				if (!this.form.link) {
 					that.$message.error("Please fill in form！");
 					return
 				}
 				this.$refs.form.validate((valid) => {
-
-					if(valid) {
+					if (valid) {
 						this.pay1();
-
 					} else {
 						that.$message.error("Please fill in form！");
 					}
 				})
 			},
 			pay1() {
-
 				var that = this;
 				var itemList = []
 				var totalPrice = 0;
@@ -301,12 +257,11 @@
 						"quantity": item.productNum * 1,
 						"category": item.categoryName,
 					})
-
 				})
-				var amount = ((this.totalPice * 1).toFixed(2) * 1 - (this.disPrice * 1 * this.currencyInfo.rate.toFixed(2)) * 1 + (this.totalPice * this.payFeeValue[this.payList[this.selectIndex].func - 1] * 1)).toFixed(2) * 1
+				var amount = this.totalPice - this.disPrice * 1 + this.payFee * 1
 				var params = {
-					"payment": this.payList[this.selectIndex].type,
-					"payment_channel": "BILLING",
+					"payment": this.payList[this.selectIndex].payment,
+					"payment_channel":this.payList[this.selectIndex].channel,
 					amount: amount,
 					"currency": this.currencyInfo.name,
 					"language": "UK",
@@ -321,17 +276,15 @@
 					"last_name": "",
 					"phone": "",
 					"coupon_code": this.couponCode || '',
-					"coupon_value": (this.disPrice * 1 * this.currencyInfo.rate.toFixed(2)).toFixed(2) * 1,
-					"payment_fee": (this.totalPice * this.payFeeValue[this.payList[this.selectIndex].func - 1] * 1).toFixed(2) * 1,
+					"coupon_value": this.disPrice * 1,
+					"payment_fee": this.payFee * 1,
 					"logo_url": "",
 					"address": "",
 					"description": "",
 					"status": "",
-
 				}
 				getPay(params).then(response => {
-					if(response.retCode == 0) {
-						debugger
+					if (response.retCode == 0) {
 						window.location.href = response.data.redirect_url;
 						this.CLEAR_CART();
 					} else {
@@ -342,18 +295,15 @@
 					}
 				})
 			},
-
 			apply() {
-				debugger
-				if(!this.couponCode) {
+				if (!this.couponCode) {
 					return
 				}
 				var data = this.couponList.filter((item) => {
 					console.log(this.couponCode)
 					return item.code === this.couponCode
 				})
-
-				if(data.length == 0) {
+				if (data.length == 0) {
 					this.$message({
 						type: 'warning',
 						message: 'Coupon is not valid'
@@ -366,10 +316,10 @@
 					var id = data[0].game.split(',')[0];
 					return id == item.gameId
 				})
-				if(cart.length > 0) {
+				if (cart.length > 0) {
 					var startTime = new Date(data[0].starttime + ':00');
 					var endTime = new Date(data[0].endtime + ':00');
-					if(new Date() >= startTime && new Date() <= endTime) {
+					if (new Date() >= startTime && new Date() <= endTime) {
 						this.couponPrice = data[0];
 						this.$message({
 							type: 'success',
@@ -391,30 +341,28 @@
 						message: 'Coupon is not valid'
 					});
 				}
-
 			},
 			countNum(num) {
 				this.newArray = JSON.parse(JSON.stringify(this.discountList)).reverse()
 				this.newArray.map((item, index) => {
-					if(num == 0) return
-					if(index == this.newArray.length - 1) {
+					if (num == 0) return
+					if (index == this.newArray.length - 1) {
 						num * 1 < item.qty;
 						item.buyNum = 1;
 						num = 0
 						return
 					}
-					if(num * 1 / item.qty > 1) {
+					if (num * 1 / item.qty > 1) {
 						item.buyNum = parseInt(num * 1 / item.qty);
 						num = num * 1 % item.qty
 					}
-
 				})
 			},
-
 			getItem() { //获取item
 				getTemplete('?type=Product&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
-						var data = response.data && response.data.filter(item => item.id == this.cartList[0].productId);
+					if (response.retCode == 0) {
+						var data = response.data && response.data.filter(item => item.id ==
+							this.cartList[0].productId);
 						this.productInfo = data[0]
 					} else {
 						this.$message({
@@ -427,7 +375,7 @@
 			getCoupn() {
 				//获取game
 				getTemplete('?type=Coupon&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.couponList = response.data
 					} else {
 						this.$message({
@@ -440,12 +388,10 @@
 			getGame() {
 				//获取game
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						var data = response.data.filter((item) => {
-
 							return item.id == localStorage.getItem('gameId')
 						})
-
 						this.gameList = data[0]
 					} else {
 						this.$message({
@@ -457,21 +403,17 @@
 			},
 			getPayFee() {
 				//获取game
-				getTemplete('?type=PaymentSetting&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
-						response.data.map((item) => {
-							if(item.name == "paypal") {
-
-								this.payFeeValue[0] = item.value
-							}
-							if(item.name == "paysession") {
-								this.payFeeValue[1] = item.value
-							}
-							if(item.name == "skrill") {
-								this.payFeeValue[2] = item.value
-							}
-							this.$forceUpdate();
+				getTemplete('?type=Paymentbutton&offset=-1&count=-1').then(response => {
+					if (response.retCode === 0) {
+						this.imgUrl = window.imgUrl
+						this.payList = response.data
+						var array1 = this.payList.filter((item) => item.order)
+						array1 = array1.sort((a, b) => a.order - b.order)
+						var array2 = this.payList.filter((item) => !item.order)
+						array2 = array2.sort(function compareFunction(param1, param2) {
+							return param1.name.trim().localeCompare(param2.name.trim(), "zh");
 						})
+						this.payList = array1.concat(array2)
 					} else {
 						this.$message({
 							type: 'warning',
@@ -479,14 +421,12 @@
 						});
 					}
 				})
-			}
+			},
 		},
 		created() {
-
 			this.getCoupn();
 			this.getItem();
 			this.getPayFee();
-
 		},
 		mounted() {
 			this.form.email = this.userInfo && this.userInfo.email;
@@ -505,7 +445,6 @@
 				this.form.link = this.userInfo.social_link
 			}
 		},
-
 	}
 </script>
 <style lang="less" scoped="">
@@ -545,8 +484,7 @@
 		}
 	}
 	
-	.down,
-	.up {
+	.down, .up {
 		display: inline-block;
 		width: 34px;
 		height: 34px;
@@ -561,7 +499,7 @@
 		line-height: 60px;
 		font-size: 14px;
 		color: #666;
-		&>div {
+		& > div {
 			border-right: 1px solid #e5e5e5;
 			border-bottom: 1px solid #e5e5e5;
 		}
@@ -656,7 +594,7 @@
 		font-size: 16px;
 		color: #333;
 		line-height: 36px;
-		&>div {
+		& > div {
 			padding-left: 30px;
 			span {
 				color: #e1251b;
@@ -682,16 +620,16 @@
 			position: relative;
 			border: 1px solid #e9e9e9;
 			margin: 20px 31px;
-			width: 210px;
+			width: 160px;
 			height: 66px;
 			display: inline-block;
 			img {
-				width: 210px;
+				width: 160px;
 				height: 66px;
 			}
-			&:hover{
+			&:hover {
 				transform: translateY(-3px);
-					box-shadow: 1px 1px 10px #999;
+				box-shadow: 1px 1px 10px #999;
 			}
 			&.active {
 				border: 1px solid #e1251b;

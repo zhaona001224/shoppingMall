@@ -3,10 +3,10 @@
 		<div class="top" style="position: fixed;top:0;">
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo1"> <span class="el-dropdown-link">
-					     {{currencyInfo1.symbol}}{{currencyInfo1.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+					     {{currencyInfo1.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
 					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item v-for="(item,index) in currencyData" :key="index" @click.native="setCurrency(JSON.parse(item).symbol,JSON.parse(item).name,JSON.parse(item).rate)">{{JSON.parse(item).symbol}}{{JSON.parse(item).name}}</el-dropdown-item>
+						<el-dropdown-item v-for="(item,index) in currencyData" :key="index" @click.native="setCurrency(JSON.parse(item).symbol,JSON.parse(item).name,JSON.parse(item).rate)">{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
 				<el-dropdown class="point"> <span class="el-dropdown-link">
@@ -28,10 +28,7 @@
 												<div class="cart-item-inner">
 													<div class="item-thumb"> <img :src="item.productImg"> </div>
 													<div class="item-desc">
-														<div class="cart-cell"> {{item.productName}} <span class="price-icon">¥</span><span class="price-num">{{item.salePrice}}</span>
-															<span
-															 class="item-num">x {{item.productNum}}</span>
-														</div>
+														<div class="cart-cell"> {{item.productName}} <span class="price-icon">¥</span><span class="price-num">{{item.salePrice}}</span>															<span class="item-num">x {{item.productNum}}</span> </div>
 													</div>
 													<div class="del-btn del point" @click="">删除</div>
 												</div>
@@ -73,29 +70,42 @@
 		</div>
 	</div>
 	<div class="img top-img" v-if="$route.fullPath!=='/payPage'" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img
-		 src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 65px;"
+		 src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 90px;width: 240px;"
 		/></div>
 	<div class="select" :style="scrollTop>200||$route.fullPath==='/payPage'?'position: fixed;top:50px;z-index:1000;width:100%':''">
-		<ul style="text-align: left;">
-			<li :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
+		<ul style="text-align: left;width: 1200px;margin:0 auto;display: flex;justify-content: space-between;">
+			<li style="width: 230px;" :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
 				<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
 			</li>
 			<li class="user-name" @click="$router.push('/')">
 				<a href="javascript:void(0)">Home</a>
 			</li>
 			<li class="user-name">
-				<a href="javascript:void(0)">About Us</a>
+				<a href="javascript:void(0)">Sell to US</a>
+			</li>
+			<li class="user-name">
+				<a href="javascript:void(0)">Contact us</a>
+			</li>
+			<li class="user-name">
+				<a href="javascript:void(0)">FAQ</a>
+			</li>
+			<li class="user-name">
+				<a href="javascript:void(0)">Review</a>
+			</li>
+			<li class="user-name">
+				<a href="javascript:void(0)">Discount</a>
 			</li>
 		</ul>
 		<div :class="gamePop?'active choose-game':'choose-game'">
-			<!--<img @click="gamePop=false" class="close" src="../assets/image/icon/icon_close.png" />--><span v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
+			<div style="width: 1200px;margin:0 auto"> <span :class="$route.params.id==item.id?'active':''" v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
 				{{item.name}}
 			</span> </div>
+		</div>
 	</div>
 	<transition name="fade" mode="out-in">
 		<router-view></router-view>
 	</transition>
-	<div class="footer">
+	<div class="footer" v-if="$route.fullPath!=='/BlankPage'">
 		<div class="tip"> <span>HOME</span> <span>Sell to Us</span> <span>FAQ</span> <span>Review</span>			<span>Discount</span> </div>
 		<div class="img">
 			<div class="trustedsite-trustmark" data-type="202"></div>
@@ -136,16 +146,11 @@
 				<el-form-item :label='$t("language.user.repass")' prop="repassword">
 					<el-input Pleaseholder="" type="password" v-model="form.repassword"> </el-input>
 				</el-form-item>
-				<el-form-item label='Phone' prop="phone">
-					<el-input maxlength=11 Pleaseholder="" v-model="form.phone"> </el-input>
-				</el-form-item>
-				<el-form-item label='Social Type:' prop="social_type">
-					<el-select :clearable="true" v-model="form.social_type">
+				<el-form-item label='Instance Message:' prop="social_type">
+					<el-select style="width:130px;margin-right: 10px;" :clearable="true" v-model="form.social_type">
 						<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
 						</el-option>
 					</el-select>
-				</el-form-item>
-				<el-form-item label='Social Link:' prop="social_link" class="left">
 					<el-input Pleaseholder="" v-model="form.social_link"> </el-input>
 				</el-form-item>
 			</el-form>
@@ -170,7 +175,9 @@
 				countryData: [],
 				currencyData: [],
 				selectCurrency: '',
-				selectList: ['facebook', 'whatsapp', 'twitter'],
+				selectList: ['Discord', 'Skype', 'QQ', 'Wechat', 'Whats app', 'Line',
+					'Instagram', 'Telegram', 'Snapchat', 'Facebook', 'Phone'
+				],
 				width: '100%',
 				gamePop: false,
 				totalPrice: 0,
@@ -196,21 +203,6 @@
 					}],
 					repassword: [{
 						message: "Please fill in repassword",
-						required: true,
-						trigger: 'blur'
-					}],
-					phone: [{
-						message: "Please fill in phone",
-						required: true,
-						trigger: 'blur'
-					}],
-					social_type: [{
-						message: "Please select Social Type",
-						required: true,
-						trigger: 'blur'
-					}],
-					social_link: [{
-						message: "Please fill in Social Link",
 						required: true,
 						trigger: 'blur'
 					}],
@@ -460,33 +452,42 @@
 			this.imgUrl = window.imgUrl;
 			window.addEventListener('scroll', this.scrollToTop)
 			//			this.width=document.body.clientWidth>1000?document.body.clientWidth+'px':'400px';
-			if (!localStorage.getItem('currencyInfo1')) {
-				getConfig().then(response => {
-					if (response.retCode == 0) {
-						this.countryData = response.country;
-						this.currencyData = response.currency;
-						this.CHOOSE_CURRENCY({
-							name: JSON.parse(this.currencyData[0]).name,
-							symbol: JSON.parse(this.currencyData[0]).symbol,
-							rate: JSON.parse(this.currencyData[0]).rate
-						})
-						this.CHOOSE_COUNTRY(JSON.parse(this.countryData[0]));
-						localStorage.setItem("countryData", JSON.stringify(response.country));
-						localStorage.setItem("currencyData", JSON.stringify(response.currency));
-					} else {
-						this.$message({
-							type: 'warning',
-							message: response.message
-						});
-					}
-				})
-			} else {
-				this.countryData = JSON.parse(localStorage.getItem("countryData"))
-				this.currencyData = JSON.parse(localStorage.getItem("currencyData"))
-			}
+			getConfig().then(response => {
+				if (response.retCode == 0) {
+					this.countryData = response.country;
+					this.currencyData = response.currency;
+					this.CHOOSE_CURRENCY({
+						name: JSON.parse(this.currencyData[0]).name,
+						symbol: JSON.parse(this.currencyData[0]).symbol,
+						rate: JSON.parse(this.currencyData[0]).rate
+					})
+					this.CHOOSE_COUNTRY(JSON.parse(this.countryData[0]));
+					localStorage.setItem("countryData", JSON.stringify(response.country));
+					localStorage.setItem("currencyData", JSON.stringify(response.currency));
+				} else {
+					this.$message({
+						type: 'warning',
+						message: response.message
+					});
+				}
+			})
 		},
 		mounted() {
-			console.log(this)
+			var a=setInterval(()=> {
+				var deleteNode = document.getElementById("chat-widget-container");
+				var deleteNode2 = document.getElementById("livechat-eye-catcher");
+				if(deleteNode2){
+					clearInterval(a);
+				}
+				if (this.$route.fullPath !== '/Home') {
+					deleteNode?deleteNode.className='style-none':''
+					deleteNode2?deleteNode2.className='style-none':''
+				}else{
+					
+					deleteNode?deleteNode.className='':''
+					deleteNode2?deleteNode2.className='':''
+				}
+			}, 500)
 		}
 	}
 </script>
@@ -553,7 +554,7 @@
 			display: inline-block;
 			height: 48px;
 			text-align: center;
-			width: 230px;
+			min-width: 120px;
 			color: #fff;
 			position: relative;
 			&:hover {
@@ -647,9 +648,11 @@
 		background: #282e38;
 		padding: 30px 36px;
 		box-sizing: border-box;
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
+		& > div {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+		}
 		&.active {
 			visibility: visible;
 			opacity: 1;
@@ -676,7 +679,7 @@
 			width: 228px;
 			background-color: rgba(0, 0, 0, 0.1);
 			border: solid 1px rgba(220, 220, 220, 0.1);
-			margin: 0 5px;
+			margin-right: 10px;
 			margin-bottom: 10px;
 			line-height: 40px;
 			img {
@@ -739,11 +742,19 @@
 	
 	.form-contain {
 		margin-top: 25px;
+		.el-form-item__content {
+			display: flex;
+		}
 		input {
 			width: 280px;
 			height: 40px;
 			background-color: #f5f5f5;
 			border: solid 1px #e5e5e5;
+		}
+		.el-select {
+			input {
+				width: 130px;
+			}
 		}
 		.forget-password {
 			text-decoration: underline;

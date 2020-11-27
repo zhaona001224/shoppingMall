@@ -4,63 +4,60 @@
 			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > {{gameList.coinName}}</div>
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
 			<div class="step-line">
-				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'" :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
-					<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
-				</div>
-				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'" :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList/'+$route.params.id)">
-					<img src="../assets/image/icon/icon_item.png" /> {{gameList.itemName||'Items'}}
-				</div>
+				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'"
+				 :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
+				<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
+					</div>
+				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'"
+				 :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList/'+$route.params.id)">
+				<img src="../assets/image/icon/icon_item.png" /> {{gameList.itemName||'Items'}}
+					</div>
 			</div>
-			<div class="step" v-if="categoryList.length>0"><span>2</span>{{$t("language.good.selectCategory")}}</div>
-			<div class="step-line serve-contain" v-if="categoryList.length>0">
-				<span v-for="(item,index) in categoryList" v-if="categoryList.length>0" :key="item.id" @click="selectCategory(item)" :class="item.id==categoryId?'active point':'point'">{{item.name}}</span>
-				<span v-if="categoryList.length==0" class="active">none</span>
-
-			</div>
-			<div class="step"><span>{{categoryList.length>0?'3':'2'}}</span>{{$t("language.good.selectServe")}}</div>
-			<div class="step-line serve-contain">
-				<span v-for="(item,index) in serveList" :key="item.id" @click="selectServe(item)" :class="item.id==serveId?'active point':'point'">{{item.name}}</span>
-			</div>
-
-			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy {{selectCategoryData.name}} {{selectData[0]&&selectData[0].name}} Silver</div>
-
-			<div class="step-line item-contain" :style="isMobile?'min-height: 1000px;':''">
+			<div class="step" v-if="categoryList.length>0"><span>2</span>Please Select Your {{gameList.categoryHint||'Category'}}</div>
+			<div class="step-line serve-contain"
+			 v-if="categoryList.length>0"> <span v-for="(item,index) in categoryList" v-if="categoryList.length>0" :key="item.id"
+				 @click="selectCategory(item)" :class="item.id==categoryId?'active point':'point'">{{item.name}}</span>				<span v-if="categoryList.length==0" class="active">none</span> </div>
+			<div class="step"><span>{{categoryList.length>0?'3':'2'}}</span>Please Select Your {{gameList.serverHint||'Server'}}</div>
+			<div class="step-line serve-contain"> <span v-for="(item,index) in serveList" :key="item.id" @click="selectServe(item)"
+				 :class="item.id==serveId?'active point':'point'">{{item.name}}</span> </div>
+			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy {{selectCategoryData.name}}
+				{{selectData[0]&&selectData[0].name}} Silver</div>
+			<div class="step-line item-contain"
+			 :style="isMobile?'min-height: 1000px;':''">
 				<div class="flex-style">
-					<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span> {{selectServeData.name}} </span>
-
+					<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span>						{{selectServeData.name}} </span>
 					</div>
 				</div>
-				<div class="tab point">
-					<span @click="selectId=item.id;totalPrice=0;coinNum=0;filterId()" :class="selectId==item.id?'active':''" v-for="(item,index) in itemList">
+				<div class="tab point"> <span @click="selectId=item.id;totalPrice=0;coinNum=0;filterId()" :class="selectId==item.id?'active':''"
+					 v-for="(item,index) in itemList">
 					{{item.name}}
 				</span>
-					<el-select @change="setCurrency" style="width:140px;float:right;margin-top: -9px;" v-model="selectCurrency" placeholder="">
-						<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.showName" :value="subItem.id">
-						</el-option>
+					<el-select @change="setCurrency" style="width:140px;float:right;margin-top: -9px;margin-right: 186px;"
+					 v-model="selectCurrency" placeholder="">
+						<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.showName"
+						 :value="subItem.id"> </el-option>
 					</el-select>
 				</div>
-				<div class="total">
-					<span class="custom-quantity" style="width:400px">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" :min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span> <span class="price" style="width: 394px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>
-					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
+				<div class="total"> <span class="custom-quantity" style="width:400px;font-weight: bold;">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" :min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span>					<span class="price" style="width: 516px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
-				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 220px;"></span><span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
+				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 400px;"></span>					<span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
-					<div class="total head"><span class="custom-quantity hidden-style">{{item.qty||1}} {{selectData[0]&&selectData[0].Unit}} - {{item.name}} - {{selectServeData.name}}</span><span class="price" v-html="item.selltext" style="width:360px"></span><span class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span><span class="option"><span class="point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span><span class="buy point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1,1);">Buy Now</span></span>
+					<div class="total head"><span class="custom-quantity  hidden-style" style="width:530px">{{item.qty||1}} {{selectData[0]&&selectData[0].Unit}} - {{item.name}} - {{selectServeData.name}}</span>						<span class="price" v-html="item.selltext" style="width:320px"></span>
+						<span
+						 class="price">{{currencyInfo.symbol}}{{((item.totalPrice||item.price)*1*currencyInfo.rate).toFixed(2)}}</span>
+							<span class="option"><span class="point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1)">Add Cart</span>							<span class="buy point" @click="addCart(item,selectId,item.totalPrice||item.price,item.name+'*'+item.qty,'',1,1);">Buy Now</span>							</span>
 					</div>
-
 				</div>
 			</div>
 		</div>
 		<div class="footer1" v-if="gameList.description">
 			<div class="main-title">Introduction</div>
 			<div class="contain">
-
 				<div v-html="gameList.description"></div>
 			</div>
 		</div>
 	</div>
 </template>
-
 <script>
 	import { getTemplete } from '../api/common.js'
 	import { mapMutations, mapState } from 'vuex'
@@ -90,22 +87,19 @@
 				totalPrice: 0
 			};
 		},
-		computed: {
-			...mapState(['login', 'showMoveImg', 'showCart', 'currencyInfo', 'currencyInfo1']),
-
+		computed: { ...mapState(['login', 'showMoveImg', 'showCart', 'currencyInfo',
+				'currencyInfo1'
+			]),
 		},
-		methods: {
-			...mapMutations(['ADD_CART', 'SHOW_LOGIN', 'CHOOSE_CURRENCY']),
-
+		methods: { ...mapMutations(['ADD_CART', 'SHOW_LOGIN', 'CHOOSE_CURRENCY']),
 			mapCount(data) {
-
 				var num = this.coinNum;
-				if(num == 0 || data.length == 0) return
+				if (num == 0 || data.length == 0) return
 				data = data.reverse();
 				data.map((item, index) => {
-					if(num == 0) return
-					if(index == data.length - 1) {
-						if(num * 1 <= (item.qty * this.selectData[0].miniNumber)) {
+					if (num == 0) return
+					if (index == data.length - 1) {
+						if (num * 1 <= (item.qty * this.selectData[0].miniNumber)) {
 							item.buyNum = 1;
 							num = 0
 							return
@@ -114,59 +108,51 @@
 							num = 0
 							return
 						}
-
 					}
-					if(num * 1 % (item.qty * this.selectData[0].miniNumber) == 0) {
+					if (num * 1 % (item.qty * this.selectData[0].miniNumber) == 0) {
 						item.buyNum = parseInt(num * 1 / (item.qty * this.selectData[0].miniNumber));
 						num = 0
-
-					} else if(num * 1 % (data[index + 1].qty * this.selectData[0].miniNumber) == 0) {
-						data[index + 1].buyNum = parseInt(num * 1 / (data[index + 1].qty * this.selectData[0].miniNumber));
+					} else if (num * 1 % (data[index + 1].qty * this.selectData[0].miniNumber) ==
+						0) {
+						data[index + 1].buyNum = parseInt(num * 1 / (data[index + 1].qty * this
+							.selectData[0].miniNumber));
 						num = 0
 					} else {
 						item.buyNum = parseInt(num * 1 / (item.qty * this.selectData[0].miniNumber));
 						num = num * 1 % (item.qty * this.selectData[0].miniNumber)
 					}
-
 				})
 				this.totalPrice2(data)
 			},
 			changeNum() {
-
 				var that = this;
 				this.newArray = JSON.parse(JSON.stringify(this.discountList));
 				this.lowPrice = '';
 				this.plane = [];
-
 				var totalPrice = 0;
-				if(this.coinNum > this.newArray[this.newArray.length - 1].qty) {
+				if (this.coinNum > this.newArray[this.newArray.length - 1].qty) {
 					this.totalPrice = this.coinNum * this.newArray[this.newArray.length - 1].price;
 					return
 				}
 				this.newArray.map((item, index) => {
-					if(this.coinNum >= item.qty && this.coinNum < this.newArray[index + 1] && this.newArray[index + 1].qty) {
+					if (this.coinNum >= item.qty && this.coinNum < this.newArray[index + 1] &&
+						this.newArray[index + 1].qty) {
 						this.totalPrice = item.price * this.coinNum
 					}
 				})
 			},
-
 			totalPrice2(data) {
 				var price = 0;
-
 				data.map((item) => {
-
-					if(item.buyNum) {
+					if (item.buyNum) {
 						price = price + item.qty * item.buyNum * 1 * item.price
 					}
-
 				})
-				if(this.lowPrice == 0 || price < this.lowPrice) {
+				if (this.lowPrice == 0 || price < this.lowPrice) {
 					this.lowPrice = price;
 					this.plane = data;
 				}
-
 			},
-
 			setCurrency(a) {
 				var data = this.currencyData.filter(item => item.id == a);
 				this.CHOOSE_CURRENCY({
@@ -177,7 +163,7 @@
 				})
 			},
 			addCart(item, id, price, name, img, productNum, addType, minNum) {
-				if(price == 0 || productNum == 0) {
+				if (price == 0 || productNum == 0) {
 					return
 				}
 				item.unit = item.Unit
@@ -196,40 +182,37 @@
 					categoryName: this.selectCategoryData.name,
 					categoryId: this.selectCategoryData.id
 				})
-				if(addType == 1) {
+				if (addType == 1) {
 					this.$router.push('/payPage');
-				} else if(addType == 2) {
-
-				} else {
+				} else if (addType == 2) {} else {
 					this.$message({
 						type: 'success',
 						message: 'Add Success'
 					});
 				}
-
 			},
 			getCategory() {
 				//获取game
 				getTemplete('?type=Category&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						response.data = response.data || []
 						this.categoryList = response.data.filter((item) => {
 							var id = item.game.split(',')[0]
-							return id == localStorage.getItem('gameId') && item.online && item.class == 'coin,coin'
+							return id == localStorage.getItem('gameId') && item.online && item.class ==
+								'coin,coin'
 						})
 						this.imgUrl = window.imgUrl;
-						if(this.categoryList.length > 0) {
+						if (this.categoryList.length > 0) {
 							this.selectCategoryData = this.categoryList[0];
 							this.categoryId = this.categoryList && this.categoryList[0].id
 							this.getServe();
 						} else {
 							this.getServe();
 						}
-						var resultArray = this.categoryList.sort(
-							function compareFunction(param1, param2) {
-								return param1.name.trim().localeCompare(param2.name.trim(), "zh");
-							}
-						)
+						var resultArray = this.categoryList.sort(function compareFunction(
+							param1, param2) {
+							return param1.name.trim().localeCompare(param2.name.trim(), "zh");
+						})
 						console.log(resultArray)
 						this.categoryList = resultArray;
 					} else {
@@ -243,36 +226,37 @@
 			getServe() {
 				//获取game
 				getTemplete('?type=Server&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						response.data = response.data || []
 						this.serveList = response.data.filter((item) => {
-							if(!item.category) {
+							if (!item.category) {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online && item.coins.length > 2
+								return id == localStorage.getItem('gameId') && item.online && item.coins
+									.length > 2
 							}
-							if(this.categoryId) {
+							if (this.categoryId) {
 								var id = item.category.split(',')[0]
-								return id == this.categoryId && item.online && item.coins.length > 2
+								return id == this.categoryId && item.online && item.coins.length >
+									2
 							} else {
 								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online && item.coins.length > 2
+								return id == localStorage.getItem('gameId') && item.online && item.coins
+									.length > 2
 							}
-
 						})
-
-						var resultArray = this.serveList.sort(
-							function compareFunction(param1, param2) {
-								return param1.name.trim().localeCompare(param2.name.trim(), "zh");
-							}
-						)
-						this.serveList = resultArray;
+						var array1 = this.serveList.filter((item) => item.order)
+						array1 = array1.sort((a, b) => a.order - b.order)
+						var array2 = this.serveList.filter((item) => !item.order)
+						array2 = array2.sort(function compareFunction(param1, param2) {
+							return param1.name.trim().localeCompare(param2.name.trim(), "zh");
+						})
+						this.serveList = array1.concat(array2)
 						this.imgUrl = window.imgUrl;
-						if(this.serveList.length > 0) {
+						if (this.serveList.length > 0) {
 							this.selectServeData = this.serveList[0];
 							this.serveId = this.serveList && this.serveList[0].id
 							this.getItem();
 						}
-
 					} else {
 						this.$message({
 							type: 'warning',
@@ -295,46 +279,49 @@
 			},
 			getItem() { //获取item
 				getTemplete('?type=Product&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.itemList = [];
-
-						this.selectServeData.coins && JSON.parse(this.selectServeData.coins).map((subItem) => {
-							response.data.map((item) => {
-								if(item.id == subItem.split(',')[0] && item.type == "coin,coin") {
-
-									item.price = this.selectServeData.price
-									this.itemList.push(item)
-								}
-
+						this.selectServeData.coins && JSON.parse(this.selectServeData.coins).map(
+							(subItem) => {
+								response.data.map((item) => {
+									if (item.id == subItem.split(',')[0] && item.type == "coin,coin") {
+										item.price = this.selectServeData.price
+										this.itemList.push(item)
+									}
+								})
 							})
-						})
-						if(this.itemList[0]) {
+						if (this.itemList[0]) {
 							this.selectId = this.itemList[0].id;
 							this.filterId();
-
 						} else {
 							this.discountList = [];
 						}
-
 					} else {
 						this.$message({
 							type: 'warning',
 							message: response.message
 						});
 					}
+					
 				})
 			},
 			getGame() {
 				//获取game
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						var data = response.data.filter((item) => {
-
 							return item.id == localStorage.getItem('gameId')
 						})
-
-						this.gameList = data[0];
-						if(this.gameList.productSell == 'item,item') {
+						JSON.parse(localStorage.getItem('currencyData')).map((item) => {
+							item = JSON.parse(item);
+							item.showName = item.symbol + item.name;
+							this.currencyData.push(item)
+						})
+						var name = this.currencyInfo.name || this.currencyInfo1.name
+						var currencyData = this.currencyData.filter(item => item.name == name);
+						this.selectCurrency = currencyData[0].id
+						this.gameList = data[0]
+						if (this.gameList.productSell == 'item,item') {
 							this.$router.replace('/itemList/' + this.$route.params.id)
 						}
 					} else {
@@ -352,18 +339,18 @@
 				this.selectData.map((item) => {
 					item.price = this.selectServeData.price
 				})
-				if(!this.selectData[0].discount) {
+				if (!this.selectData[0].discount) {
 					this.selectData[0].qty = 1;
 					this.discountList = this.selectData;
 					return
 				}
-				var discountId = this.selectData[0].discount && this.selectData[0].discount.split(',')[0];
-				if(this.discountListAll.length > 0) {
+				var discountId = this.selectData[0].discount && this.selectData[0].discount
+					.split(',')[0];
+				if (this.discountListAll.length > 0) {
 					this.filtData(discountId);
 				} else {
 					this.getDiscount(discountId);
 				}
-
 			},
 			filtData(discountId) {
 				var data = this.discountListAll.filter((item) => {
@@ -375,16 +362,14 @@
 					var endTime = new Date(item.endtime + ':00');
 					return new Date() >= startTime && new Date() <= endTime
 				})
-
 				this.discountList.map((item) => {
 					item.name = this.selectData[0].name;
-					if(this.selectData[0].price * 1 - item.discount > 0) {
+					if (this.selectData[0].price * 1 - item.discount > 0) {
 						console.log(this.selectData[0].price)
 						item.price = this.selectData[0].price * 1 - item.discount;
 					} else {
 						item.price = this.selectData[0].price * 1
 					}
-
 					item.totalPrice = (item.price * 1 * (item.qty * 1)).toFixed(2)
 				})
 				this.coinNum = this.discountList[0].qty * 1;
@@ -393,7 +378,7 @@
 			getDiscount(discountId) {
 				//获取discount
 				getTemplete('?type=Discount&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.discountListAll = response.data;
 						this.filtData(discountId);
 					} else {
@@ -407,27 +392,14 @@
 		},
 		created() {
 			var ua = navigator.userAgent;
-
 			var ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
-
 			var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
-
 			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
-
 			this.isMobile = isIphone || isAndroid;
-
 			//获取game
 			localStorage.setItem('gameId', this.$route.params.id)
 			this.getCategory();
 			this.getGame();
-			JSON.parse(localStorage.getItem('currencyData')).map((item) => {
-				item = JSON.parse(item);
-				item.showName = item.symbol + item.name;
-				this.currencyData.push(item)
-			})
-			var name = this.currencyInfo.name || this.currencyInfo1.name
-			var data = this.currencyData.filter(item => item.name == name);
-			this.selectCurrency = data[0].id
 		},
 		watch: {
 			coinNum() {
@@ -463,7 +435,7 @@
 			color: #333333;
 			border-radius: 4px;
 			&.active {
-				background-image: linear-gradient(90deg, #e1251b 0%, #ea5f0e 53%, #f39800 100%), linear-gradient( #e1251b, #e1251b);
+				background: #e1251b;
 				background-blend-mode: normal, normal;
 				color: #fff;
 			}
@@ -538,15 +510,15 @@
 			text-overflow: ellipsis;
 			white-space: nowrap;
 			display: block;
-			width: 160px;
+			width: 140px;
 			text-align: center;
-			padding: 14px 27px;
+			padding: 14px 10px;
 			font-size: 14px;
 			border: 1px solid #efefef;
 			margin-right: 23px;
 			position: relative;
 			margin-bottom: 20px;
-			&:hover{
+			&:hover {
 				border: 1px solid #e1251b;
 			}
 			&.active {
@@ -589,6 +561,7 @@
 			margin-left: 10px;
 			width: 178px;
 			height: 32px;
+			font-weight: bold;
 			background-color: #ffffff;
 			border: solid 1px #e5e5e5;
 		}
@@ -615,8 +588,7 @@
 	
 	.head {
 		background-color: #e7e7e7;
-		.custom-quantity,
-		.price {
+		.custom-quantity, .price {
 			font-size: 17px;
 			letter-spacing: 0px;
 			color: #333333;

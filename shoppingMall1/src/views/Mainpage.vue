@@ -1,150 +1,121 @@
 <template>
 	<div style="text-align: center;">
-		<el-carousel v-if="bannerList" style="margin: 40px 8.125% 0;" :interval="3000" type="card" height="477px">
+		<el-carousel v-if="bannerList" style="margin: 40px 8.125% 0;" :interval="3000" type="card"
+		 height="477px">
 			<el-carousel-item v-for="item in bannerList" :key="item.id" style="width:50%;box-shadow: 0px 15px 20px -5px rgba(0, 0, 0, 0.3);">
 				<div @click="goProduct(item,1)" :style="'width:100%;height:472px;background: url('+imgUrl+item.image+');background-size:cover;'"></div>
 			</el-carousel-item>
 		</el-carousel>
 		<div class="img-contain">
-			<a href="https://www.mcafeesecure.com/verify?host=egpal.com"><img class="img-style" src="../assets/image/home/img1.gif" /></a>
-			<img class="img-style" src="../assets/image/home/img2.gif" />
-			<a href="https://transparencyreport.google.com/safe-browsing/search?url=www.egpal.com"><img class="img-style" src="../assets/image/home/img3.gif" /></a>
-			<img class="img-style" src="../assets/image/home/img5.gif" />
-		</div>
+			<a href="https://www.mcafeesecure.com/verify?host=egpal.com"><img class="img-style" src="../assets/image/home/img1.gif" /></a> <img class="img-style"
+			 src="../assets/image/home/img2.gif" />
+			<a href="https://transparencyreport.google.com/safe-browsing/search?url=www.egpal.com"><img class="img-style" src="../assets/image/home/img3.gif" /></a> <img class="img-style"
+			 src="../assets/image/home/img5.gif" /> </div>
 		<div class="game-contain" v-if="gameList.length>0">
-			<div class="main-title">{{$t("language.mainPage.gameTitle")}}<span class="point" @click="$router.push('/gameList')" style="float: right;font-size: 16px;">More<img  style="margin-left: 10px;" src="../assets/image/icon/icon_more.png"/></span></div>
+			<div class="main-title">{{$t("language.mainPage.gameTitle")}}<span class="point" @click="$router.push('/gameList')"
+				 style="float: right;font-size: 16px;">More<img  style="margin-left: 10px;" src="../assets/image/icon/icon_more.png"/></span></div>
 			<div class="contain">
-				<div class="li point" v-for="(item,index) in gameList" v-if="index<8" :key="item.id" @click="goProduct(item)">
-					<img v-lazy="imgUrl+item.logo" />
-					<div class="text hidden-style">
-						{{item.name}}
-					</div>
+				<div class="li point" v-for="(item,index) in gameList" :key="item.id"
+				 @click="goProduct(item)"> <img v-lazy="imgUrl+item.logo" />
+					<div class="text hidden-style"> {{item.name}} </div>
 				</div>
-
 			</div>
-			<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png" />{{$t("language.mainPage.load")}}</div>
+			<!--<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png"
+				/>{{$t("language.mainPage.load")}}</div>-->
 		</div>
 		<div class="item-contain">
 			<div class="main-title hidden-style">{{$t("language.mainPage.itemTitle")}}</div>
-			<div class="tab point">
-				<span class="user-name" @click="selectId=item.id;selectGame=item;getItem()" :class="selectId==item.id?'active':''" v-for="(item,index) in gameHotList">
+			<div class="tab point"> <span class="user-name" @click="selectId=item.id;selectGame=item;getItem()" :class="selectId==item.id?'active':''"
+				 v-for="(item,index) in gameHotList">
 					{{item.name}}
-				</span>
-			</div>
+				</span> </div>
 			<div class="contain">
-
-				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="index<(itemPage*8-1)&&(item.type=='item,item'||item.hintText&&item.hintImage)" @click="goItem(selectGame)">
-					
-					<el-popover v-if="item.hintImage||item.hintText" style="min-width:auto;text-align: center;" placement="right" trigger="hover">
-						<div class="pop-item" v-if="item.hintImage||item.hintText">
-							
-							<img :src="imgUrl+item.hintImage" />
+				<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="item.type=='item,item'||item.hintText&&item.hintImage"
+				 @click="goItem(selectGame)">
+					<el-popover v-if="item.hintImage||item.hintText" style="min-width:auto;text-align: center;"
+					 placement="right" trigger="hover">
+						<div class="pop-item" v-if="item.hintImage||item.hintText"> <img v-if="item.hintImage" :src="imgUrl+item.hintImage" />
 							<div v-if="item.hintText">
 								<div class="label">{{item.hintText}}</div>
 							</div>
-
 						</div>
-						<div slot="reference" ><img :src="imgUrl+item.logo" />
-							<div class="text hidden-style">
-								{{item.name}}
-							</div>
+						<div slot="reference"><img :src="imgUrl+item.logo" />
+							<div class="text hidden-style"> {{item.name}} </div>
 							<!--<div class="select-num">
 								<span @click="down(index)" class="down">-</span>
 								<input type="number" v-model="item.num" class="show">
 								<span class="up" @click="up(index)">+</span></div>-->
 							<div class="price">{{currencyInfo.symbol}}{{item.price&&item.price*currencyInfo.rate}}</div>
-							<!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />-->
-						</div>
+							<!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />--></div>
 					</el-popover>
-					<div v-else slot="reference" ><img :src="imgUrl+item.logo" />
-							<div class="text hidden-style">
-								{{item.name}}
-							</div>
-							<!--<div class="select-num">
+					<div v-else slot="reference"><img :src="imgUrl+item.logo" />
+						<div class="text hidden-style"> {{item.name}} </div>
+						<!--<div class="select-num">
 								<span @click="down(index)" class="down">-</span>
 								<input type="number" v-model="item.num" class="show">
 								<span class="up" @click="up(index)">+</span></div>-->
-							<div class="price">{{currencyInfo.symbol}}{{item.price&&item.price*currencyInfo.rate}}</div>
-							<!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />-->
-						</div>
-
+						<div class="price">{{currencyInfo.symbol}}{{item.price&&item.price*currencyInfo.rate}}</div>
+						<!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />--></div>
 				</div>
-
 			</div>
-			<div class="load" @click="itemPage=itemPage+1;getItem()" v-if="gameList.length>8&&gamePage<gameList.length/8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png" />{{$t("language.mainPage.load")}}</div>
+			<!--<div class="load" @click="itemPage=itemPage+1;getItem()" v-if="gameList.length>8&&gamePage<gameList.length/8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png"
+				/>{{$t("language.mainPage.load")}}</div>-->
 		</div>
 		<div class="game-contain">
 			<div class="main-title">{{$t("language.mainPage.chooseTitle")}}</div>
 			<div class="contain" style="display: flex;">
-
-				<div class="li" style="background: none;border: none;margin:35px">
-					<img src="../assets/image/icon/icon_choose1.png" />
+				<div class="li" style="background: none;border: none;margin:35px"> <img src="../assets/image/icon/icon_choose1.png" />
 					<div class="text-title" style="color: #142a43;font-size: 18px;">
-						Security Guarantee
-					</div>
+					Security Guarantee </div>
 					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
-						Provide 100% secure online payment system. The most professional game service provider guarantee the security of products.
-					</div>
+					Provide 100% secure online payment system. The most professional game service
+						provider guarantee the security of products. </div>
 				</div>
-				<div class="li" style="background: none;border: none;margin:35px">
-					<img src="../assets/image/icon/icon_choose2.png" />
+				<div class="li" style="background: none;border: none;margin:35px"> <img src="../assets/image/icon/icon_choose2.png" />
 					<div class="text-title" style="color: #142a43;font-size: 18px;">
-						Fast Delivery
-					</div>
+					Fast Delivery </div>
 					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
-						95% orders completed in 15 minutes, professional online service, reply to the customer's questions within 20 second.
-					</div>
+					95% orders completed in 15 minutes, professional online service, reply to the
+						customer's questions within 20 second. </div>
 				</div>
-				<div class="li" style="background: none;border: none;margin:35px">
-					<img src="../assets/image/icon/icon_choose3.png" />
+				<div class="li" style="background: none;border: none;margin:35px"> <img src="../assets/image/icon/icon_choose3.png" />
 					<div class="text-title" style="color: #142a43;font-size: 18px;">
-						Cheap Prices
-					</div>
+					Cheap Prices </div>
 					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
-						More than 90% of products have cheaper prices than the market, Enjoy VIP member get up to 10% discount plus.Enjoy now.
-					</div>
+					More than 90% of products have cheaper prices than the market, Enjoy VIP member
+						get up to 10% discount plus.Enjoy now. </div>
 				</div>
-				<div class="li" style="background: none;border: none;margin:35px">
-					<img src="../assets/image/icon/icon_choose4.png" />
+				<div class="li" style="background: none;border: none;margin:35px"> <img src="../assets/image/icon/icon_choose4.png" />
 					<div class="text-title" style="color: #142a43;font-size: 18px;">
-						100% Refund
-					</div>
+					100% Refund </div>
 					<div class="text" style="font-size: 14px;color: rgba(20, 42, 67, 0.7);">
-						Received what you purchased or the refund. Once your order is delayed or undeliverable, we are 100% guaranteed to refund your money.
-					</div>
+					Received what you purchased or the refund. Once your order is delayed or undeliverable,
+						we are 100% guaranteed to refund your money. </div>
 				</div>
-
 			</div>
-			<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png" />{{$t("language.mainPage.load")}}</div>
+			<!--<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png"
+				/>{{$t("language.mainPage.load")}}</div>-->
 		</div>
 		<div class="new-contain" v-if="newsList.length>0">
-			<div class="main-title">{{$t("language.mainPage.News")}}<span class="point" @click="$router.push('/newsList')" style="float: right;font-size: 16px;">More<img style="margin-left: 10px;" src="../assets/image/icon/icon_more.png"/></span></div>
+			<div class="main-title">{{$t("language.mainPage.News")}}<span class="point" @click="$router.push('/newsList')"
+				 style="float: right;font-size: 16px;">More<img style="margin-left: 10px;" src="../assets/image/icon/icon_more.png"/></span></div>
 			<div class="contain">
-
 				<div class="li" v-for="(item,index) in newsList" v-if="index<8" :key="item.id">
-					<div class="title">
-						{{item.title}}
-					</div>
-					<div class="text" style="height: 140px;overflow: hidden;" v-html="item.text">
-
-					</div>
-					<div class="date">
-						{{item.updated}}
-					</div>
+					<div class="title"> {{item.title}} </div>
+					<div class="text" style="height: 140px;overflow: hidden;"
+					 v-html="item.text"> </div>
+					<div class="date"> {{item.updated}} </div>
 					<div class="line"></div>
 				</div>
-
 			</div>
 		</div>
-		<!--<div class="trustedsite-trustmark" data-type="202"></div>-->
-	</div>
+		<!--<div class="trustedsite-trustmark" data-type="202"></div>--></div>
 </template>
-
 <script>
 	import { getTemplete } from '../api/common.js'
 	import { mapMutations, mapState } from 'vuex'
 	import { getStore } from '../utils/storage'
-	import  '../utils/common/chart'
+	import '../utils/common/chart'
 	export default {
 		data() {
 			return {
@@ -159,16 +130,13 @@
 				newPage: 0,
 				itemPage: 1,
 				selectGame: {},
-
 			};
 		},
-		computed: {
-			...mapState(['login', 'showMoveImg', 'currencyInfo'])
+		computed: { ...mapState(['login', 'showMoveImg', 'currencyInfo'])
 		},
-		methods: {
-			...mapMutations(['ADD_CART']),
+		methods: { ...mapMutations(['ADD_CART']),
 			down(index) {
-				if(this.itemList[index].num == 0) return
+				if (this.itemList[index].num == 0) return
 				this.itemList[index].num = this.itemList[index].num - 1;
 				this.$forceUpdate();
 			},
@@ -177,13 +145,13 @@
 				this.$forceUpdate();
 			},
 			goProduct(item, type) {
-				if(type == 1) {
+				if (type == 1) {
 					item.id = item.game.split(',')[0];
 					item.name = item.game.split(',')[1]
 				}
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
-				if(item.productSell == 'item,item') {
+				if (item.productSell == 'item,item') {
 					this.$router.push('/itemList/' + localStorage.getItem('gameId'));
 				} else {
 					this.$router.push('/coinList/' + localStorage.getItem('gameId'));
@@ -192,29 +160,30 @@
 			goItem(item, type) {
 				this.$router.push('/itemList/' + this.selectId)
 			},
-
 			getGame() {
 				//获取game
-				getTemplete('?type=Game&offset=' + this.gamePage + '&count=8').then(response => {
-					if(response.retCode == 0) {
-						this.gameList = response.data.filter((item) => {
-							return item.hot && item.online
-						})
-					} else {
-						this.$message({
-							type: 'warning',
-							message: response.message
-						});
-					}
-				})
+				getTemplete('?type=Game&offset=-1&count=-1').then(
+					response => {
+						if (response.retCode == 0) {
+							this.gameList = response.data.filter((item) => {
+								return item.hot && item.online
+							})
+						} else {
+							this.$message({
+								type: 'warning',
+								message: response.message
+							});
+						}
+					})
 			},
 			getNews() {
 				//获取news
 				getTemplete('?type=News&offset=' + this.newPage + '&count=8').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.newsList = response.data;
 						this.newsList && this.newsList.map((item) => {
-							item.updated = this.$util.formatTime(item.updated, 'YYYY-MM-DD HH:mm:ss');
+							item.updated = this.$util.formatTime(item.updated,
+								'YYYY-MM-DD HH:mm:ss');
 						})
 					} else {
 						this.$message({
@@ -227,13 +196,12 @@
 			getItem() {
 				//获取item
 				getTemplete('?type=Product&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.itemList = response.data.filter((item) => {
 							var gameId = item.game.split(',')[0];
-
-							return gameId == this.selectId && item.hotItem && item.online && item.type == "item,item"
+							return gameId == this.selectId && item.hotItem && item.online &&
+								item.type == "item,item"
 						})
-
 					} else {
 						this.$message({
 							type: 'warning',
@@ -245,7 +213,7 @@
 			getHotGame() {
 				//获取game
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
-					if(response.retCode == 0) {
+					if (response.retCode == 0) {
 						this.gameHotList = response.data.filter((item) => {
 							return item.hotitem && item.online
 						})
@@ -261,7 +229,7 @@
 				})
 			},
 			addCart(id, price, name, productNum, img) {
-				if(productNum == 0) {
+				if (productNum == 0) {
 					this.$message({
 						type: 'warning',
 						message: "Please Select"
@@ -279,18 +247,20 @@
 					type: 'success',
 					message: 'Add Success'
 				});
-
 			}
+		},
+		mounted(){
+	
 		},
 		created() {
 			this.getGame();
 			this.getItem();
 			this.getHotGame();
 			this.getNews();
-
+		
 			//获取banner
 			getTemplete('?type=Carousel&offset=0&count=5').then(response => {
-				if(response.retCode == 0) {
+				if (response.retCode == 0) {
 					this.bannerList = response.data;
 					this.imgUrl = window.imgUrl;
 				} else {
@@ -300,9 +270,7 @@
 					});
 				}
 			})
-
 		}
-
 	}
 </script>
 <style lang="less" scoped="">
@@ -445,7 +413,7 @@
 		margin: 0 auto;
 		width: 1200px;
 		text-align: left;
-		font-family: Allstar4;
+		font-family: Helvetica;
 		font-weight: bold;
 		font-size: 24px;
 		padding: 33px 0;
@@ -528,8 +496,8 @@
 					}
 				}
 				img {
-					width: 100%;
-					height: 98px;
+					max-width: 120px;
+					max-height: 120px;
 				}
 				.select-num {
 					margin: 18px auto 12px;
@@ -552,8 +520,7 @@
 						border: none;
 					}
 				}
-				.down,
-				.up {
+				.down, .up {
 					display: inline-block;
 					width: 24px;
 					height: 24px;
