@@ -238,7 +238,6 @@
 
 						if(this.$route.query.id) {
 							for(var key in form) {
-								debugger
 								if(form[key]==='') {
 									form[key] = '--remove--'
 								}
