@@ -76,10 +76,10 @@
 		 style="border-left: none;display: flex;flex-wrap: wrap;">
 			<div v-for="(item,index) in payList" :key="index" @click="selectIndex=index"> <span :class="index==selectIndex?'active point':'point'">
 							<img  :src="imgUrl+item.img_url"/> </span>
-				<div style="text-align: center;">{{item.name}}</div>
+				<div style="text-align: center;">{{item.payment}}</div>
 			</div>
 		</div>
-		<div class="all"> <span>Total Item: <span class="price" style="margin-right: 100px;">{{totalNum*1}}</span></span><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice*1-disPrice*1+payFee*1}}</span></span>
+		<div class="all"><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice*1-disPrice*1+payFee*1}}</span></span>
 			<span class="btn point" @click="pay()">Pay  Now</span> </div>
 		<div class="trustedsite-trustmark"
 		 data-type="204"></div>
@@ -283,10 +283,11 @@
 					"description": "",
 					"status": "",
 				}
-				getPay(params).then(response => {
+				getPay(this.payList[this.selectIndex].payment,params).then(response => {
+					debugger
 					if (response.retCode == 0) {
-						window.location.href = response.data.redirect_url;
-						this.CLEAR_CART();
+						// window.location.href = response.data.redirect_url;
+						// this.CLEAR_CART();
 					} else {
 						this.$message({
 							type: 'warning',

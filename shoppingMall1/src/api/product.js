@@ -3,12 +3,6 @@ import http from './axios'
 export const addCart = (params) => {
   return http.fetchGet('/api/v1/contents'+params,{})
 }
-export const getPay = (params) => {
-  return http.fetchPost('/payment/paypal/dopay',params)
-}
-export const getPay2 = (params) => {
-  return http.fetchPost('/payment/payssion/pay',params)
-}
-export const getPay3 = (params) => {
-  return http.fetchPost('/payment/skrill/pay',params)
+export const getPay = (str,params) => {
+  return http.fetchPost('/payment/'+str+'/dopay',params)
 }
