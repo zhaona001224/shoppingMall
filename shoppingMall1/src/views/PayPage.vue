@@ -244,6 +244,7 @@
 					}
 				})
 			},
+			
 			pay1() {
 				var that = this;
 				var itemList = []

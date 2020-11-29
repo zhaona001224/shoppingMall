@@ -10,8 +10,16 @@ import PayPage from '../views/PayPage'
 import Result from '../views/Result'
 import NewsList from '../views/NewsList'
 import BlankPage from '../views/BlankPage'
+import NewDetail from '../views/NewDetail'
+import AboutUs from '../views/AboutUs'
+import FAQ from '../views/FAQ'
+import DeliveryPolicy from '../views/DeliveryPolicy'
+import DMCANotice from '../views/DMCANotice'
+import ReturnPolicy from '../views/ReturnPolicy'
+import TermsCon from '../views/TermsCon'
+import PrivacyPolicy from '../views/PrivacyPolicy'
+import Profile from '../views/Profile'
 Vue.use(VueRouter);
-
 const routes = [{
 		path: '*',
 		redirect: '/Home'
@@ -134,6 +142,124 @@ const routes = [{
 			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
+	{
+		path: '/NewDetail',
+		name: 'NewDetail',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'NewDetail',
+			component: NewDetail
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/AboutUs',
+		name: 'AboutUs',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'AboutUs',
+			component: AboutUs
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/FAQ',
+		name: 'FAQ',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'FAQ',
+			component: FAQ
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/DeliveryPolicy',
+		name: 'DeliveryPolicy',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'DeliveryPolicy',
+			component: DeliveryPolicy
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/DMCANotice',
+		name: 'DMCANotice',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'DMCANotice',
+			component: DMCANotice
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/ReturnPolicy',
+		name: 'ReturnPolicy',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'ReturnPolicy',
+			component: ReturnPolicy
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/PrivacyPolicy',
+		name: 'PrivacyPolicy',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'PrivacyPolicy',
+			component: PrivacyPolicy
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/TermsCon',
+		name: 'TermsCon',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'TermsCon',
+			component: TermsCon
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Profile',
+		name: 'Profile',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'Profile',
+			component: Profile
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+
 
 ];
 

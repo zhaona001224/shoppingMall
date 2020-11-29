@@ -60,11 +60,13 @@
              	<div class="menu-cart" style="padding-right: 20px;"><img src="../assets/image/icon/icon-my.png" v-if="userInfo.email"><img v-else src="../assets/image/icon/icon_my.png"><span class="user-name" :style="userInfo.email?'color:#f2a506':''">{{userInfo.email}}</span></div>
 			<i class="el-icon-caret-bottom"></i> </span>
 			<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item @click.native="$router.push('/Profile')"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Profile</span>					</el-dropdown-item>
+								<el-dropdown-item @click.native="$router.push('/HistoryOrder')"> <i class="el-icon-circle-close-outline"></i><span class="user-name">History Order</span>					</el-dropdown-item>
 				<el-dropdown-item @click.native="doLoginOut"> <i class="el-icon-circle-close-outline"></i><span class="user-name">退出登录</span>					</el-dropdown-item>
 			</el-dropdown-menu>
 			</el-dropdown>
 			<div v-else @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user-name"
-			 style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png"></img>{{$t("language.common.login")}}</div>
+			 style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png">{{$t("language.common.login")}}</div>
 			<div v-if="!login" @click="SHOW_LOGIN(true);changeType('register')" style="border-left: 1px solid #f5f5f5;"
 			 class="menu-register point user-name">{{$t("language.common.reister")}}</div>
 		</div>
@@ -106,15 +108,18 @@
 		<router-view></router-view>
 	</transition>
 	<div class="footer" v-if="$route.fullPath!=='/BlankPage'">
-		<div class="tip"> <span>HOME</span> <span>Sell to Us</span> <span>FAQ</span> <span>Review</span>			<span>Discount</span> </div>
-		<div class="img">
+		<div class="tip"> <span class="point" @click="$router.push('/AboutUs')">About US</span> <span class="point" @click="$router.push('/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span> <span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span><span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span><span> Contact US</span> </div>
+		<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
+		<!-- <div class="img">
 			<div class="trustedsite-trustmark" data-type="202"></div>
-			<div class="trustedsite-trustmark" data-type="102"></div> <img src="../assets/image/home/icon_footer.png" /></div>
+			<div class="trustedsite-trustmark" data-type="102"></div> </div>
 		<div class="icon">
 		<img src="../assets/image/icon/icon_footer1.png" /> <img src="../assets/image/icon/icon_footer2.png"
 			/> <img src="../assets/image/icon/icon_footer3.png" /> <img src="../assets/image/icon/icon_footer4.png"
-			/> <img src="../assets/image/icon/icon_footer5.png" /> </div>
-		<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">{{$t("language.common.footerTip")}}</div>
+			/> <img src="../assets/image/icon/icon_footer5.png" /> </div> -->
+		<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Trademarks are the copyright and property of their respective owners.</div>
+				<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">The use of this Website constitutes the acceptance of the <span style="color:red" class="point" @click="$router.push('/TermsCon')">Terms& Conditions</span> and <span  @click="$router.push('/PrivacyPolicy')" class="point" style="color:red">Privacy Policy</span>  </div>
+						<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
 	</div>
 	<div class="pop-login" v-if="showLogin"> <img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png"
 		/>
@@ -614,14 +619,8 @@
 			}
 		}
 		.img {
-			width: 515px;
-			height: 53px;
-			background: #000;
 			margin: 32px auto;
-			img {
-				width: 500px;
-				height: 50px;
-			}
+
 		}
 		.icon {
 			margin: 32px auto 28px;

@@ -348,7 +348,7 @@
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
 	.nav {
-		font-size: 14px;
+		font-size: 16px;
 		letter-spacing: 0px;
 		color: #666666;
 		margin: 20px 0;
