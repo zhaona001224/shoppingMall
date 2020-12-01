@@ -285,7 +285,6 @@
 					"status": "",
 				}
 				getPay(this.payList[this.selectIndex].payment,params).then(response => {
-					debugger
 					if (response.retCode == 0) {
 						// window.location.href = response.data.redirect_url;
 						// this.CLEAR_CART();

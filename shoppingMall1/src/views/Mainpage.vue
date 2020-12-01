@@ -173,7 +173,7 @@
           <div style="display: flex; align-items: flex-end; color: #fff">
             <img
               style="width: 60px; height: 60px;margin-right:10px"
-              src="../assets/image/icon/icon_choose1.png"
+              src="../assets/image/icon/icon_choose2.png"
             />
             <div class="text-title" style="font-size: 16px;text-align:left">
               <div>Fast </div>
@@ -200,7 +200,7 @@
           <div style="display: flex; align-items: flex-end; color: #fff">
            <img
               style="width: 60px; height: 60px;margin-right:10px"
-              src="../assets/image/icon/icon_choose1.png"
+              src="../assets/image/icon/icon_choose3.png"
             />
             <div class="text-title" style="font-size: 16px;text-align:left">
               <div>Refund </div>
@@ -226,7 +226,7 @@
           <div style="display: flex; align-items: flex-end; color: #fff">
             <img
               style="width: 60px; height: 60px;margin-right:10px"
-              src="../assets/image/icon/icon_choose1.png"
+              src="../assets/image/icon/icon_choose4.png"
             />
             <div class="text-title" style="font-size: 16px;text-align:left">
               <div>24/7</div>
@@ -436,19 +436,6 @@ export default {
     this.getItem();
     this.getHotGame();
     this.getNews();
-
-    //获取banner
-    getTemplete("?type=Carousel&offset=0&count=5").then((response) => {
-      if (response.retCode == 0) {
-        this.bannerList = response.data;
-        this.imgUrl = window.imgUrl;
-      } else {
-        this.$message({
-          type: "warning",
-          message: response.message,
-        });
-      }
-    });
   },
 };
 </script>

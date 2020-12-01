@@ -73,10 +73,6 @@
       Unusual purchase pattern from you. (large amount or high frequency of
       purchase)
     </div>
-    <div class="content">
-      There are some buyers under 18 years old who pay with their parents's
-      payment cards without the permission.
-    </div>
     <div class="content">High chargeback rate coming from your country.</div>
     <div class="content">
       Due to many fraud cases, we want to ensure you being the rightful owner of

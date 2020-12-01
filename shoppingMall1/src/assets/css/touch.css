@@ -1,0 +1,16 @@
+@media (max-width: 800px) {
+	.head-fixed-bar {
+		height: 46px;
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: #f1f1f1;
+		z-index: 200;
+	}
+	.container {
+		padding-right: 15px;
+		padding-left: 15px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+}

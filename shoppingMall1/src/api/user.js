@@ -15,3 +15,7 @@ export const loginOut = () => {
 export const recover = (params) => {
   return http.fetchPost('/api/v1/forgot',params)
 }
+//恢复
+export const update = (params) => {
+  return http.fetchPost('/api/v1/user/update',params)
+}

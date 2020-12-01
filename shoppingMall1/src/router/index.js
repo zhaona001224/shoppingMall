@@ -19,6 +19,7 @@ import ReturnPolicy from '../views/ReturnPolicy'
 import TermsCon from '../views/TermsCon'
 import PrivacyPolicy from '../views/PrivacyPolicy'
 import Profile from '../views/Profile'
+import HistoryOrder from '../views/HistoryOrder'
 Vue.use(VueRouter);
 const routes = [{
 		path: '*',
@@ -130,7 +131,7 @@ const routes = [{
 		}
 	},
 	{
-		path: '/BlankPage',
+		path: '/BlankPage/:id',
 		name: 'BlankPage',
 		component: Home,
 		children: [{
@@ -259,6 +260,19 @@ const routes = [{
 			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
+	{
+		path: '/HistoryOrder',
+		name: 'HistoryOrder',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'HistoryOrder',
+			component: HistoryOrder
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	}
 
 
 ];

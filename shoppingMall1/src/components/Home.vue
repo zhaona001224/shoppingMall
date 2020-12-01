@@ -1,5 +1,5 @@
 <template>
-	<div class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
+	<div v-if="clientSize>700" class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
 		<div class="top" style="position: fixed;top:0;">
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo1"> <span class="el-dropdown-link">
@@ -60,9 +60,10 @@
              	<div class="menu-cart" style="padding-right: 20px;"><img src="../assets/image/icon/icon-my.png" v-if="userInfo.email"><img v-else src="../assets/image/icon/icon_my.png"><span class="user-name" :style="userInfo.email?'color:#f2a506':''">{{userInfo.email}}</span></div>
 			<i class="el-icon-caret-bottom"></i> </span>
 			<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item @click.native="$router.push('/Profile')"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Profile</span>					</el-dropdown-item>
-								<el-dropdown-item @click.native="$router.push('/HistoryOrder')"> <i class="el-icon-circle-close-outline"></i><span class="user-name">History Order</span>					</el-dropdown-item>
-				<el-dropdown-item @click.native="doLoginOut"> <i class="el-icon-circle-close-outline"></i><span class="user-name">退出登录</span>					</el-dropdown-item>
+				<el-dropdown-item @click.native="$router.push('/Profile')"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Profile</span>					</el-dropdown-item>
+				<el-dropdown-item @click.native="$router.push('/HistoryOrder')">
+				<i class="el-icon-circle-close-outline"></i><span class="user-name">My Order</span>					</el-dropdown-item>
+				<el-dropdown-item @click.native="doLoginOut"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Login Out</span>					</el-dropdown-item>
 			</el-dropdown-menu>
 			</el-dropdown>
 			<div v-else @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user-name"
@@ -76,58 +77,66 @@
 		/></div>
 	<div class="select" :style="scrollTop>200||$route.fullPath==='/payPage'?'position: fixed;top:50px;z-index:1000;width:100%':''">
 		<ul style="text-align: left;width: 1200px;margin:0 auto;display: flex;justify-content: space-between;">
-			<li style="width: 230px;" :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
+			<li style="width: 230px;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
+			 @click="getGame();gamePop=!gamePop">
 				<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
 			</li>
 			<li class="user-name" @click="$router.push('/')">
 				<a href="javascript:void(0)">Home</a>
 			</li>
 			<li class="user-name">
-				<a href="javascript:void(0)">Sell to US</a>
+				<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Sell to US</a>
 			</li>
 			<li class="user-name">
-				<a href="javascript:void(0)">Contact us</a>
+				<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Contact us</a>
 			</li>
 			<li class="user-name">
-				<a href="javascript:void(0)">FAQ</a>
+				<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
 			</li>
 			<li class="user-name">
-				<a href="javascript:void(0)">Review</a>
-			</li>
-			<li class="user-name">
-				<a href="javascript:void(0)">Discount</a>
+				<a href="javascript:void(0)" @click="$router.push('/BlankPage/2')">Discount</a>
 			</li>
 		</ul>
 		<div :class="gamePop?'active choose-game':'choose-game'">
-			<div style="width: 1200px;margin:0 auto"> <span :class="$route.params.id==item.id?'active':''" v-if="item.online" v-for="(item,index) in gameList" @click="chooseGame(item)">
-				{{item.name}}
-			</span> </div>
+			<div style="width: 1200px;margin:0 auto"> <span :class="$route.params.id==item.id?'active':''" v-if="item.online" v-for="(item,index) in gameList"
+				 @click="chooseGame(item)">
+					{{item.name}}
+				</span> </div>
 		</div>
 	</div>
 	<transition name="fade" mode="out-in">
 		<router-view></router-view>
 	</transition>
 	<div class="footer" v-if="$route.fullPath!=='/BlankPage'">
-		<div class="tip"> <span class="point" @click="$router.push('/AboutUs')">About US</span> <span class="point" @click="$router.push('/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span> <span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span><span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span><span> Contact US</span> </div>
+		<div class="tip"> <span class="point" @click="$router.push('/AboutUs')">About US</span> <span class="point"
+			 @click="$router.push('/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span>			<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>			<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
+			<span
+			 @click="$router.push('/BlankPage/1')" class="point"> Contact US</span>
+		</div>
 		<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
 		<!-- <div class="img">
-			<div class="trustedsite-trustmark" data-type="202"></div>
-			<div class="trustedsite-trustmark" data-type="102"></div> </div>
-		<div class="icon">
-		<img src="../assets/image/icon/icon_footer1.png" /> <img src="../assets/image/icon/icon_footer2.png"
-			/> <img src="../assets/image/icon/icon_footer3.png" /> <img src="../assets/image/icon/icon_footer4.png"
-			/> <img src="../assets/image/icon/icon_footer5.png" /> </div> -->
+				<div class="trustedsite-trustmark" data-type="202"></div>
+				<div class="trustedsite-trustmark" data-type="102"></div> </div>
+			<div class="icon">
+			<img src="../assets/image/icon/icon_footer1.png" /> <img src="../assets/image/icon/icon_footer2.png"
+				/> <img src="../assets/image/icon/icon_footer3.png" /> <img src="../assets/image/icon/icon_footer4.png"
+				/> <img src="../assets/image/icon/icon_footer5.png" /> </div> -->
 		<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Trademarks are the copyright and property of their respective owners.</div>
-				<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">The use of this Website constitutes the acceptance of the <span style="color:red" class="point" @click="$router.push('/TermsCon')">Terms& Conditions</span> and <span  @click="$router.push('/PrivacyPolicy')" class="point" style="color:red">Privacy Policy</span>  </div>
-						<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
+		<div
+		 style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">The use of this Website constitutes the acceptance of the <span style="color:red"
+			 class="point" @click="$router.push('/TermsCon')">Terms&Conditions</span> and
+			<span @click="$router.push('/PrivacyPolicy')" class="point" style="color:red">Privacy Policy</span>			</div>
+	<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
+	<div class="tip" style="margin:15px auto;">
+	<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>		</div>
 	</div>
 	<div class="pop-login" v-if="showLogin"> <img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png"
 		/>
 		<div class="tab"> <span @click="changeType('login');" :class="selectType=='login'?'active point':'point'">
-					{{$t("language.user.login")}}
-				</span> <span @click="changeType('register')" :class="selectType=='register'?'active point':'point'">
-					{{$t("language.user.register")}}
-				</span> </div>
+						{{$t("language.user.login")}}
+					</span> <span @click="changeType('register')" :class="selectType=='register'?'active point':'point'">
+						{{$t("language.user.register")}}
+					</span> </div>
 		<div class="form-contain" v-if="selectType=='login'">
 			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
 				<el-form-item :label='$t("language.user.email")' prop="email">
@@ -164,6 +173,98 @@
 		</div>
 	</div>
 	</div>
+	<div v-else class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
+		<div class="head-fixed-bar full-width">
+			<div class="container"> <span class="welcome"><h1>Cheap <abbr title=" FF14 "> FF14 </abbr> Gil With Fast Service </h1></span>
+				<div class="head-top-right">
+					<ul class="member-entry hidden-xs">
+						<li>
+							<a class="btn-signup " href="/signup.html">JoinFree</a>
+						</li>
+						<li>
+							<a href="/signin.html">Sign In</a>
+						</li>
+					</ul>
+					<div class="dropdown float-block currency-list">
+						<a id="rateFlag" class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+						 aria-expanded="false"> EUR<span class="caret"></span> </a>
+						<ul class="dropdown-menu dropdown-menu-right"
+						 aria-labelledby="rateFlag">
+							<li id="ra1">
+								<a href="javascript:changeRate(1,'gold');">USD</a>
+							</li>
+							<li id="ra2" class="hidden">
+								<a href="javascript:changeRate(2,'gold');">EUR</a>
+							</li>
+							<li id="ra3">
+								<a href="javascript:changeRate(3,'gold');">GBP</a>
+							</li>
+							<li id="ra4">
+								<a href="javascript:changeRate(4,'gold');">CAD</a>
+							</li>
+							<li id="ra5">
+								<a href="javascript:changeRate(5,'gold');">AUD</a>
+							</li>
+							<li id="ra7">
+								<a href="javascript:changeRate(7,'gold');">DKK</a>
+							</li>
+							<li id="ra9">
+								<a href="javascript:changeRate(9,'gold');">NOK</a>
+							</li>
+							<li id="ra10">
+								<a href="javascript:changeRate(10,'gold');">SGD</a>
+							</li>
+							<li id="ra12">
+								<a href="javascript:changeRate(12,'gold');">SEK</a>
+							</li>
+							<li id="ra13">
+								<a href="javascript:changeRate(13,'gold');">CNY</a>
+							</li>
+						</ul>
+					</div>
+					<div class="dropdown float-block lang-list">
+						<a id="change-lang" class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">
+						<img src="/images/lang-en.jpg" alt="EN"> EN<span class="caret"></span> </a>
+						<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="change-lang">
+							<li>
+								<a href="https://fr.u7buy.com"><img src="/upfiles/lang/201603310220341.jpg" alt="FR"> FR </a>
+							</li>
+							<li>
+								<a href="https://www.u7buy.de"><img src="/upfiles/lang/201603310220464.jpg" alt="DE"> DE </a>
+							</li>
+							<li>
+								<a href="https://nl.u7buy.com"><img src="/upfiles/lang/201701032328303.jpg" alt="NL"> NL </a>
+							</li>
+							<li>
+								<a href="https://es.u7buy.com"><img src="/upfiles/lang/201703072108118.jpg" alt="ES"> ES </a>
+							</li>
+							<li>
+								<a href="https://it.u7buy.com"><img src="/upfiles/lang/201703232033394.jpg" alt="IT"> IT </a>
+							</li>
+							<li>
+								<a href="https://pt.u7buy.com"><img src="/upfiles/lang/201805312031094.png" alt="PT"> PT </a>
+							</li>
+							<li>
+								<a href="https://ar.u7buy.com"><img src="/upfiles/lang/201901040059545.jpg" alt="AR"> AR </a>
+							</li>
+							<li>
+								<a href="https://zh.u7buy.com"><img src="/upfiles/lang/201904020128241.jpg" alt="ZH"> ZH </a>
+							</li>
+							<li>
+								<a href="https://se.u7buy.com"><img src="/upfiles/lang/201904152056088.jpg" alt="SE"> SE </a>
+							</li>
+							<li>
+								<a href="https://no.u7buy.com"><img src="/upfiles/lang/201911260008422.jpg" alt="NO"> NO </a>
+							</li>
+							<li>
+								<a href="https://da.u7buy.com"><img src="/upfiles/lang/201911261907296.jpg" alt="DA"> DA </a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 <script>
 	import { getTemplete, getConfig } from '../api/common.js'
@@ -177,6 +278,7 @@
 				gameList: [],
 				imgUrl: '',
 				scrollTop: 0,
+				gameConfig: [],
 				countryData: [],
 				currencyData: [],
 				selectCurrency: '',
@@ -215,7 +317,7 @@
 			}
 		},
 		computed: { ...mapState(["game", "userInfo", "login", 'currencyInfo1',
-				'cartList', 'countryInfo', 'showLogin'
+				'cartList', 'countryInfo', 'showLogin', 'clientSize'
 			]),
 			totalNum() {
 				var totalNum = 0;
@@ -226,7 +328,8 @@
 			},
 		},
 		methods: { ...mapMutations(['CHOOSE_GAME', 'RECORD_USERINFO',
-				'LOGINOUT_USERINFO', 'CHOOSE_CURRENCY', 'CHOOSE_COUNTRY', 'SHOW_LOGIN'
+				'LOGINOUT_USERINFO', 'CHOOSE_CURRENCY', 'CHOOSE_COUNTRY', 'SHOW_LOGIN',
+				'CHANGE_SIZE'
 			]),
 			changeType(type) {
 				this.selectType = type;
@@ -453,8 +556,13 @@
 			},
 		},
 		created() {
+			var that = this;
 			this.getGame();
 			this.imgUrl = window.imgUrl;
+			window.onresize = () => {
+				that.CHANGE_SIZE(document.body.clientWidth)
+				console.log(this.clientSize)
+			};
 			window.addEventListener('scroll', this.scrollToTop)
 			//			this.width=document.body.clientWidth>1000?document.body.clientWidth+'px':'400px';
 			getConfig().then(response => {
@@ -476,21 +584,40 @@
 					});
 				}
 			})
+			getTemplete('?type=DirectGame').then(response => {
+				if (response.retCode == 0) {
+					this.gameConfig = response.data
+					response.data.map((item) => {
+						item.id = item.game.split(',')[0]
+					})
+					var array1 = this.gameConfig.filter((item) => item.order)
+					array1 = array1.sort((a, b) => a.order - b.order)
+					var array2 = this.gameConfig.filter((item) => !item.order)
+					array2 = array2.sort(function compareFunction(param1, param2) {
+						return param1.name.trim().localeCompare(param2.name.trim(), "zh");
+					})
+					this.gameConfig = array1.concat(array2)
+				} else {
+					this.$message({
+						type: 'warning',
+						message: response.message
+					});
+				}
+			})
 		},
 		mounted() {
-			var a=setInterval(()=> {
+			var a = setInterval(() => {
 				var deleteNode = document.getElementById("chat-widget-container");
 				var deleteNode2 = document.getElementById("livechat-eye-catcher");
-				if(deleteNode2){
+				if (deleteNode2) {
 					clearInterval(a);
 				}
 				if (this.$route.fullPath !== '/Home') {
-					deleteNode?deleteNode.className='style-none':''
-					deleteNode2?deleteNode2.className='style-none':''
-				}else{
-					
-					deleteNode?deleteNode.className='':''
-					deleteNode2?deleteNode2.className='':''
+					deleteNode ? deleteNode.className = 'style-none' : ''
+					deleteNode2 ? deleteNode2.className = 'style-none' : ''
+				} else {
+					deleteNode ? deleteNode.className = '' : ''
+					deleteNode2 ? deleteNode2.className = '' : ''
 				}
 			}, 500)
 		}
@@ -620,7 +747,6 @@
 		}
 		.img {
 			margin: 32px auto;
-
 		}
 		.icon {
 			margin: 32px auto 28px;

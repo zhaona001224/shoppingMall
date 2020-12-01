@@ -7,3 +7,7 @@ export const getTemplete = (params) => {
 export const getConfig = (params) => {
   return http.fetchPost('/api/v1/config',{})
 }
+// 获取订单列表
+export const getOrder = (params) => {
+  return http.fetchGet('/admin/v1/contents/search'+params,{})
+}

@@ -12,7 +12,8 @@ const state = {
 	currencyInfo:localStorage.getItem('currencyInfo')&&JSON.parse(localStorage.getItem('currencyInfo')),
 	currencyInfo1:localStorage.getItem('currencyInfo1')&&JSON.parse(localStorage.getItem('currencyInfo1')),
 	countryInfo:localStorage.getItem('countryInfo')&&JSON.parse(localStorage.getItem('countryInfo')),
-    showLogin:false
+    showLogin:false,
+    clientSize:1900
 }
 
 export default new Vuex.Store({
