@@ -13,7 +13,9 @@
 </script>
 
 <style>
-	@import "/assets/css/public.css" body,
+	@import "/assets/css/public.css" 
+	@import "/assets/css/touch.css" 
+	body,
 	html {
 		padding: 0;
 		margin: 0;

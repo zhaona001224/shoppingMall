@@ -106,7 +106,7 @@
 		methods: { ...mapMutations(['ADD_CART', 'CHOOSE_CURRENCY']),
 			down(index) {
 				if (this.itemList[index].num == 0) return
-				if (this.itemList[index].num === this.itemList[index].num) {
+				if (this.itemList[index].num === this.itemList[index].miniNumber) {
 					this.$message({
 						type: 'error',
 						message: "It's already the minimum quantity"
@@ -348,7 +348,7 @@
 <style lang="less" scoped="">
 	@import "../assets/css/public.css";
 	.nav {
-		font-size: 14px;
+		font-size: 16px;
 		letter-spacing: 0px;
 		color: #666666;
 		margin: 20px 0;

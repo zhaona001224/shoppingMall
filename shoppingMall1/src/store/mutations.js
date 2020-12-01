@@ -11,7 +11,8 @@ import {
 	CHOOSE_CURRENCY,
 	CHOOSE_COUNTRY,
 	SHOW_LOGIN,
-	CLEAR_CART
+	CLEAR_CART,
+	CHANGE_SIZE
 } from './mutation-types'
 import { setStore, getStore } from '../utils/storage'
 export default {
@@ -233,7 +234,11 @@ export default {
 	//是否展示登录弹框
 	[SHOW_LOGIN](state, info) {
 		state.showLogin = info
-	}
+	},
+	[CHANGE_SIZE](state, info) {
+		state.clientSize = info
+		setStore('clientSize', info);
+	},
 }
 
 // WEBPACK FOOTER //

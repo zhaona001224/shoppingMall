@@ -7,7 +7,8 @@ export default new Vuex.Store({
     token: null,  //登录token
     userName: "",
     screenHeight: window.screen.height,
-    imgUrl:window.imgUrl
+    imgUrl:window.imgUrl,
+    clientSize:1900
   },
   mutations: {
 
