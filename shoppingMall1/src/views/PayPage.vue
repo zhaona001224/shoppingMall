@@ -76,7 +76,7 @@
 		 style="border-left: none;display: flex;flex-wrap: wrap;">
 			<div v-for="(item,index) in payList" :key="index" @click="selectIndex=index"> <span :class="index==selectIndex?'active point':'point'">
 							<img  :src="imgUrl+item.img_url"/> </span>
-				<div style="text-align: center;">{{item.payment}}</div>
+				<div style="text-align: center;">{{item.note}}</div>
 			</div>
 		</div>
 		<div class="all"><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice*1-disPrice*1+payFee*1}}</span></span>
@@ -286,6 +286,7 @@
 				}
 				getPay(this.payList[this.selectIndex].payment,params).then(response => {
 					if (response.retCode == 0) {
+						debugger
 						 window.location.href = response.data.redirect_url;
 						 this.CLEAR_CART();
 					} else {

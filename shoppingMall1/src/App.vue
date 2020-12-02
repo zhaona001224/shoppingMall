@@ -38,7 +38,7 @@
 		color: #f2a506!important;	
 	}
 	
-	.el-dropdown {
+	.point.el-dropdown {
 		margin-top: 12px;
 		width: 97px;
 		height: 27px;
