@@ -268,7 +268,7 @@
 					"language": "UK",
 					email: this.form.email,
 					request_info: this.form.payer,
-					contract_info: this.form.link1 + this.form.link,
+					contact_info: this.form.link1 + this.form.link,
 					item_list: itemList,
 					sub_total: (this.totalPice * 1).toFixed(2) * 1,
 					"city": "",
