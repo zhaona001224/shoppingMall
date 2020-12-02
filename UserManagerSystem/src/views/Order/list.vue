@@ -159,10 +159,10 @@
 				localStorage.setItem('selectData',JSON.stringify(item))
 				var url = window.location.origin + '/#/Order/add?id=' + item.id
 				if (window.showModelessDialog) { // Internet Explorer
-					showModelessDialog(url, window, "dialogWidth:880px; dialogHeight:700px");
+					showModelessDialog(url, window, "dialogWidth:880px; dialogHeight:900px");
 				} else {
 					window.open(url, "newwindow" + item.id,
-						"height=700, width=880, top=0, left=" + item.id * 5 +
+						"height=900, width=880, top=0, left=" + item.id * 5 +
 						",toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no"
 					)
 				}
