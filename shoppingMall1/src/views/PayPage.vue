@@ -286,8 +286,8 @@
 				}
 				getPay(this.payList[this.selectIndex].payment,params).then(response => {
 					if (response.retCode == 0) {
-						// window.location.href = response.data.redirect_url;
-						// this.CLEAR_CART();
+						 window.location.href = response.data.redirect_url;
+						 this.CLEAR_CART();
 					} else {
 						this.$message({
 							type: 'warning',
@@ -415,6 +415,9 @@
 							return param1.name.trim().localeCompare(param2.name.trim(), "zh");
 						})
 						this.payList = array1.concat(array2)
+						this.payList.map((item)=>{
+							item.payment=item.payment.split(',')[0]
+						})
 					} else {
 						this.$message({
 							type: 'warning',
