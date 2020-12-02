@@ -436,6 +436,18 @@ export default {
     this.getItem();
     this.getHotGame();
     this.getNews();
+    //获取banner
+			getTemplete('?type=Carousel&offset=0&count=5').then(response => {
+				if(response.retCode == 0) {
+					this.bannerList = response.data;
+					this.imgUrl = window.imgUrl;
+				} else {
+					this.$message({
+						type: 'warning',
+						message: response.message
+					});
+				}
+			})
   },
 };
 </script>

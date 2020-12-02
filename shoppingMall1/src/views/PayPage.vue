@@ -268,7 +268,7 @@
 					"language": "UK",
 					email: this.form.email,
 					request_info: this.form.payer,
-					contract_info: this.form.link1 + this.form.link,
+					contact_info: this.form.link1 + this.form.link,
 					item_list: itemList,
 					sub_total: (this.totalPice * 1).toFixed(2) * 1,
 					"city": "",
@@ -286,8 +286,8 @@
 				}
 				getPay(this.payList[this.selectIndex].payment,params).then(response => {
 					if (response.retCode == 0) {
-						// window.location.href = response.data.redirect_url;
-						// this.CLEAR_CART();
+						 window.location.href = response.data.redirect_url;
+						 this.CLEAR_CART();
 					} else {
 						this.$message({
 							type: 'warning',
@@ -415,6 +415,9 @@
 							return param1.name.trim().localeCompare(param2.name.trim(), "zh");
 						})
 						this.payList = array1.concat(array2)
+						this.payList.map((item)=>{
+							item.payment=item.payment.split(',')[0]
+						})
 					} else {
 						this.$message({
 							type: 'warning',

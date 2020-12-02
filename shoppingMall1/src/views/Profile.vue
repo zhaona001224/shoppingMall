@@ -18,7 +18,7 @@
 					<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
 					</el-option>
 				</el-select>
-				<el-input Pleaseholder="" v-model="form.social_link"> </el-input>
+				<el-input Pleaseholder="" v-model="userInfo.social_link"> </el-input>
 			</el-form-item>
 			</el-form>
 			<div style="text-align:center"> <span class="btn point" @click="submit()">Confirm</span></div>
@@ -73,7 +73,7 @@
 				update({
 					email: this.form.email,
 					new_password: this.form.new_password,
-					social_link: this.form.social_link,
+					social_link: this.userInfo.social_link,
 					social_type: this.form.social_type
 				}).then(response => {
 					if (response.retCode == 0) {
@@ -101,10 +101,16 @@
 			}
 		},
 		mounted() {
-			var data= JSON.parse(localStorage.getItem('userInfo'))
-			this.form.email =data &&data.email;
-			this.form.social_type =data &&data.social_type;
-			this.form.social_link =data&&data.social_link;
+			this.form.email = this.userInfo && this.userInfo.email;
+			this.form.social_type = this.userInfo && this.userInfo.social_type;
+		
+		},
+		watch: {
+			'userInfo.email' () {
+				this.form.email = this.userInfo.email;
+				this.form.social_type = this.userInfo && this.userInfo.social_type;
+				this.form.social_link = this.userInfo && this.userInfo.social_link;
+			}
 		},
 		computed: { ...mapState(["userInfo"])
 		},
