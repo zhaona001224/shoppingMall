@@ -40,7 +40,7 @@
 				<el-row>
 					<el-col :span="8">
 						<el-form-item :label='$t("language.user.email")' prop="email">
-							<el-input placeholder="" :disabled="!!login" v-model="form.email"> </el-input>
+							<el-input placeholder=""  v-model="form.email"> </el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="16" style="display: flex;">
@@ -286,7 +286,6 @@
 				}
 				getPay(this.payList[this.selectIndex].payment,params).then(response => {
 					if (response.retCode == 0) {
-						debugger
 						 window.location.href = response.data.redirect_url;
 						 this.CLEAR_CART();
 					} else {
