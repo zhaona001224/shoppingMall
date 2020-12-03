@@ -40,7 +40,7 @@
 				<el-row>
 					<el-col :span="8">
 						<el-form-item :label='$t("language.user.email")' prop="email">
-							<el-input placeholder="" :disabled="!!login" v-model="form.email"> </el-input>
+							<el-input placeholder=""  v-model="form.email"> </el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="16" style="display: flex;">
@@ -76,7 +76,7 @@
 		 style="border-left: none;display: flex;flex-wrap: wrap;">
 			<div v-for="(item,index) in payList" :key="index" @click="selectIndex=index"> <span :class="index==selectIndex?'active point':'point'">
 							<img  :src="imgUrl+item.img_url"/> </span>
-				<div style="text-align: center;">{{item.payment}}</div>
+				<div style="text-align: center;">{{item.note}}</div>
 			</div>
 		</div>
 		<div class="all"><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice*1-disPrice*1+payFee*1}}</span></span>
