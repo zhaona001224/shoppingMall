@@ -5,13 +5,13 @@
 		 show-summary :data="tableData" width="100%">
 			<el-table-column header-align="left" width="240px" sortable prop="pay_time" label="pay_time">
 			</el-table-column>
-			<el-table-column header-align="left" width="200px" label="Products">
+			<el-table-column header-align="left" width="200px" label="Game">
 				<template slot-scope="scope">
 					<div :key="subIndex" v-if="subIndex===0" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">
 					{{subItem.game}} </div>
 				</template>
 			</el-table-column>
-			<el-table-column header-align="left" width="400px" label="Products">
+			<el-table-column header-align="left" width="400px" label="Product">
 				<template slot-scope="scope">
 					<div :key="subIndex" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">
 					{{subItem.cateogry?subItem.cateogry+' - ':''}}{{subItem.server?subItem.server+' - ':''}}{{subItem.product }}({{subItem.quantity}}*{{subItem.unit_price}}) </div>
