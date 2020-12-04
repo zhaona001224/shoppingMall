@@ -34,7 +34,7 @@
 				</span>
 					<el-select @change="setCurrency" style="width:140px;float:right;margin-top: -9px;margin-right: 186px;"
 					 v-model="selectCurrency" placeholder="">
-						<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.name"
+						<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.showName"
 						 :value="subItem.id"> </el-option>
 					</el-select>
 				</div>
@@ -312,7 +312,7 @@
 						var data = response.data.filter((item) => {
 							return item.id == localStorage.getItem('gameId')
 						})
-						this.currencyData=JSON.parse(localStorage.getItem('currencyData')).map((item) => {
+						JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 							item = JSON.parse(item);
 							item.showName = item.name;
 							this.currencyData.push(item)
@@ -429,6 +429,7 @@
 		padding-top: 40px;
 		padding-bottom: 13px;
 		margin-bottom: 13px;
+		overflow: hidden;
 		span {
 			padding: 15px 23px;
 			font-size: 14px;
