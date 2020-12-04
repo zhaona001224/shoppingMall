@@ -11,7 +11,7 @@
 					{{subItem.game}} </div>
 				</template>
 			</el-table-column>
-			<el-table-column header-align="left" width="400px" label="Products">
+			<el-table-column header-align="left" width="400px" label="Product">
 				<template slot-scope="scope">
 					<div :key="subIndex" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">
 					{{subItem.cateogry?subItem.cateogry+' - ':''}}{{subItem.server?subItem.server+' - ':''}}{{subItem.product }}({{subItem.quantity}}*{{subItem.unit_price}}) </div>
