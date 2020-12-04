@@ -63,7 +63,7 @@
 			},
 			getOrder() {
 				// + this.userInfo.email
-				getOrder("?type=Order&count=-1&q=lq@163.com", {}).then(response => {
+				getOrder("?type=Order&count=-1&q="+this.userInfo.email, {}).then(response => {
 					if (response.retCode == 0) {
 						this.notSearch = true;
 						this.tableData = response.data || [];
