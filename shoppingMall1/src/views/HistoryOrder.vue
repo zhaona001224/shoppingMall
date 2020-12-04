@@ -3,7 +3,7 @@
 		<div class="nav"> <img src="../assets/image/icon/icon_home.png" />Home >My Order </div>
 		<el-table
 		 show-summary :data="tableData" width="100%">
-			<el-table-column header-align="left" width="240px" sortable prop="pay_time" label="pay_time">
+			<el-table-column header-align="left" width="240px" sortable prop="updated" label="pay_time">
 			</el-table-column>
 			<el-table-column header-align="left" width="200px" label="Game">
 				<template slot-scope="scope">
