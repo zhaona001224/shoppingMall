@@ -313,7 +313,7 @@
 						})
 						JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 							item = JSON.parse(item);
-							item.showName = item.symbol + item.name;
+							item.showName = item.name;
 							this.currencyData.push(item)
 						})
 						var name = this.currencyInfo.name || this.currencyInfo1.name

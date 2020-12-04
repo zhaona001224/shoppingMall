@@ -173,7 +173,7 @@
 		</div>
 	</div>
 	</div>
-	<div v-else class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
+	<div v-else class="home-container" >
 		<div class="head-fixed-bar full-width">
 			<div class="container"> <span class="welcome"><h1>Cheap <abbr title=" FF14 "> FF14 </abbr> Gil With Fast Service </h1></span>
 				<div class="head-top-right">
@@ -628,7 +628,7 @@
 		padding: 0;
 		margin: 0;
 	}
-	
+
 	.top {
 		width: 100%;
 		height: 50px;

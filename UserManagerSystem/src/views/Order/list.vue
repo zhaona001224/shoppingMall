@@ -539,6 +539,7 @@
 				localStorage.setItem('keyword', '');
 			}
 			this.getDataSource();
+			debugger
 			if (localStorage.getItem('checkedStatus') || localStorage.getItem(
 					'timeRange')) {
 				this.checkedStatus = localStorage.getItem('checkedStatus') ? JSON.parse(

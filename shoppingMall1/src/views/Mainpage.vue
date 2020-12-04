@@ -47,7 +47,7 @@
         /></span>
       </div>
       <div class="contain">
-        <div
+        <div v-if="index<=7"
           class="li point"
           v-for="(item, index) in gameList"
           :key="item.id"
@@ -86,8 +86,9 @@
           v-if="item.type == 'item,item' || (item.hintText && item.hintImage)"
           @click="goItem(selectGame)"
         >
-          <el-popover
-            v-if="item.hintImage || item.hintText"
+        <div    v-if="item.hintImage || item.hintText">
+        	 <el-popover
+         
             style="min-width: auto; text-align: center"
             placement="right"
             trigger="hover"
@@ -100,7 +101,11 @@
             </div>
             <div slot="reference">
               <img :src="imgUrl + item.logo" />
-              <div class="text hidden-style">{{ item.name }}</div>
+             
+              <!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />-->
+            </div>
+          </el-popover>
+        	 <div class="text hidden-style">{{ item.name }}</div>
               <!--<div class="select-num">
 								<span @click="down(index)" class="down">-</span>
 								<input type="number" v-model="item.num" class="show">
@@ -109,9 +114,8 @@
                 {{ currencyInfo.symbol
                 }}{{ item.price && item.price * currencyInfo.rate }}
               </div>
-              <!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />-->
-            </div>
-          </el-popover>
+        </div>
+         
           <div v-else slot="reference">
             <img :src="imgUrl + item.logo" />
             <div class="text hidden-style">{{ item.name }}</div>
@@ -681,7 +685,7 @@ export default {
       width: 220px;
       background-color: #ffffff;
       border: solid 1px #dcdcdc;
-      padding: 15px 30px;
+      padding: 15px 0;
       &:hover {
         transform: translateY(-3px);
         box-shadow: 1px 1px 10px #999;
