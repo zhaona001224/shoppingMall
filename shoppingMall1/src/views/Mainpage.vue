@@ -673,7 +673,7 @@ export default {
     margin: 0 auto;
     text-align: left;
     .text {
-      font-size: 24px;
+      font-size: 14px;
       margin-top: 20px;
     }
     .li {
@@ -750,5 +750,6 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: block;
+ 
 }
 </style>

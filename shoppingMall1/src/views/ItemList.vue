@@ -527,8 +527,7 @@
 			}
 			.text {
 				padding: 19px 0 8px;
-				color: #222222;
-				font-size: 20px;
+				font-size: 12px;
 			}
 			.select-num {
 				margin: 18px auto 12px;
@@ -538,7 +537,7 @@
 				border: solid 1px #dcdcdc;
 				color: #808080;
 				width: 136px;
-				input {
+				input {font-size: 20px;
 					text-align: center;
 					width: 90px;
 					height: 24px;
@@ -579,8 +578,9 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
-		height: 46px;
+		height: 32px;
 		word-wrap: break-word;
+		font-size: 10px;
 	}
 	
 	.pop-item {
@@ -623,7 +623,7 @@
 		}
 		.main-title {
 			margin: 0 auto 27px;
-			width: 1200px;
+			width: 1200px;font-size: 20px;
 			text-align: left;
 			font-family: Allstar4;
 			font-size: 24px;
