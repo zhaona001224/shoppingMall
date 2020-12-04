@@ -16,24 +16,24 @@
 			<el-row style="height:40px">
 				<el-col :span="12">
 					<el-form-item label="Comments :">
-						<div style="margin-right: 40px;">{{JSON.parse(extraData.notify_info).request_info}}</div>
+						<div style="margin-right: 40px;">{{extraData.notify_info&&JSON.parse(extraData.notify_info).request_info}}</div>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="contactInfo :">
-						<div style="margin-right: 40px;">{{JSON.parse(extraData.notify_info).contact_info}}</div>
+						<div style="margin-right: 40px;">{{extraData.notify_info&&JSON.parse(extraData.notify_info).contact_info}}</div>
 					</el-form-item>
 				</el-col>
 			</el-row>
 			<el-row style="height:40px" v-if="extraData.vendor==='paypal'">
 				<el-col :span="12">
 					<el-form-item label="First Name:">
-						<div style="margin-right: 40px;">{{payer_info.payer_name.given_name}}</div>
+						<div style="margin-right: 40px;">{{payer_info.payer_name&&payer_info.payer_name.given_name}}</div>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="Last Name:">
-						<div style="margin-right: 40px;">{{payer_info.payer_name.surname}}</div>
+						<div style="margin-right: 40px;">{{payer_info.payer_name&&payer_info.payer_name.surname}}</div>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -52,24 +52,24 @@
 			<el-row style="height:40px" v-if="extraData.vendor==='paypal'">
 				<el-col :span="12">
 					<el-form-item label="Address Street:">
-						<div style="margin-right: 40px;">{{shipping_info.address.line1}}</div>
+						<div style="margin-right: 40px;">{{shipping_info.address&&shipping_info.address.line1}}</div>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="Address City:">
-						<div style="margin-right: 40px;">{{shipping_info.address.city}}</div>
+						<div style="margin-right: 40px;">{{shipping_info.address&&shipping_info.address.city}}</div>
 					</el-form-item>
 				</el-col>
 			</el-row>
 			<el-row style="height:40px" v-if="extraData.vendor==='paypal'">
 				<el-col :span="12">
 					<el-form-item label="Address postCode:">
-						<div style="margin-right: 40px;">{{shipping_info.address.postal_code}}</div>
+						<div style="margin-right: 40px;">{{shipping_info.address&&shipping_info.address.postal_code}}</div>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="Address Country:">
-						<div style="margin-right: 40px;">{{shipping_info.address.country_code}}</div>
+						<div style="margin-right: 40px;">{{shipping_info.address&&shipping_info.address.country_code}}</div>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -119,23 +119,23 @@
 						<div style="margin-right: 40px;">{{transaction_info.transaction_status}}</div>
 					</el-form-item>
 				</el-col>
-			</el-row>
-			<el-row style="height:40px">
-				<el-form-item label="Payment Date:">
-					<div style="margin-right: 40px;">{{dateFormat(transaction_info.transaction_updated_date, 'yyyy-MM-dd HH:mm:ss')}}</div>
+				<el-col :span="12">
+					<el-form-item label="Payment Date:">
+					<div style="margin-right: 40px;">{{transaction_info.transaction_updated_date&&dateFormat(transaction_info.transaction_updated_date, 'yyyy-MM-dd HH:mm:ss')}}</div>
 				</el-form-item>
+				</el-col>
 			</el-row>
 		</el-form>
 		<el-form ref="form" style="background: #efefef;padding:20px;margin-top: 20px;">
 			<el-row style="height:40px">
 				<el-col :span="12">
 					<el-form-item label="Currency:">
-						<div style="margin-right: 40px;">{{extraData.vendor==='paypal'?transaction_info.transaction_amount.currency_code:JSON.parse(extraData.notify_info).currency}}</div>
+						<div style="margin-right: 40px;">{{extraData.vendor==='paypal'?transaction_info.transaction_amount&&transaction_info.transaction_amount.currency_code:extraData.notify_info&&JSON.parse(extraData.notify_info).currency}}</div>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="Gross Amount:">
-						<div style="margin-right: 40px;">{{extraData.vendor==='paypal'?transaction_info.transaction_amount.value:JSON.parse(extraData.notify_info).amount}}</div>
+						<div style="margin-right: 40px;">{{extraData.vendor==='paypal'?transaction_info.transaction_amount&&transaction_info.transaction_amount.value:extraData.notify_info&&JSON.parse(extraData.notify_info).amount}}</div>
 					</el-form-item>
 				</el-col>
 			</el-row>
@@ -143,7 +143,7 @@
 			<el-row style="height:40px">
 				<el-col :span="12">
 					<el-form-item label="Payment Fee:">
-						<div style="margin-right: 40px;">{{extraData.vendor==='paypal'?transaction_info.fee_amount.value:JSON.parse(extraData.notify_info).payment_fee}}</div>
+						<div style="margin-right: 40px;">{{extraData.vendor==='paypal'?transaction_info.fee_amount&&transaction_info.fee_amount.value:extraData.notify_info&&JSON.parse(extraData.notify_info).payment_fee}}</div>
 					</el-form-item>
 				</el-col>
 			</el-row>

@@ -125,7 +125,9 @@
 		<div
 		 style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">The use of this Website constitutes the acceptance of the <span style="color:red"
 			 class="point" @click="$router.push('/TermsCon')">Terms&Conditions</span> and
-			<span @click="$router.push('/PrivacyPolicy')" class="point" style="color:red">Privacy Policy</span>			</div>
+			<span
+			 @click="$router.push('/PrivacyPolicy')" class="point" style="color:red">Privacy Policy</span>
+	</div>
 	<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
 	<div class="tip" style="margin:15px auto;">
 	<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>		</div>
@@ -173,7 +175,7 @@
 		</div>
 	</div>
 	</div>
-	<div v-else class="home-container" >
+	<div v-else class="home-container">
 		<div class="head-fixed-bar full-width">
 			<div class="container"> <span class="welcome"><h1>Cheap <abbr title=" FF14 "> FF14 </abbr> Gil With Fast Service </h1></span>
 				<div class="head-top-right">
@@ -341,7 +343,8 @@
 				this.CHOOSE_CURRENCY({
 					name: name,
 					symbol: symbol,
-					rate: rate
+					rate: rate,
+					type: 2
 				})
 			},
 			setCountry(item) {
@@ -569,12 +572,15 @@
 				if (response.retCode == 0) {
 					this.countryData = response.country;
 					this.currencyData = response.currency;
-					this.CHOOSE_CURRENCY({
-						name: JSON.parse(this.currencyData[0]).name,
-						symbol: JSON.parse(this.currencyData[0]).symbol,
-						rate: JSON.parse(this.currencyData[0]).rate
-					})
-					this.CHOOSE_COUNTRY(JSON.parse(this.countryData[0]));
+					if (!this.currencyInfo1.name) {
+						this.CHOOSE_CURRENCY({
+							name: JSON.parse(this.currencyData[0]).name,
+							symbol: JSON.parse(this.currencyData[0]).symbol,
+							rate: JSON.parse(this.currencyData[0]).rate,
+							type: 2
+						})
+						this.CHOOSE_COUNTRY(JSON.parse(this.countryData[0]));
+					}
 					localStorage.setItem("countryData", JSON.stringify(response.country));
 					localStorage.setItem("currencyData", JSON.stringify(response.currency));
 				} else {
@@ -628,7 +634,7 @@
 		padding: 0;
 		margin: 0;
 	}
-
+	
 	.top {
 		width: 100%;
 		height: 50px;
