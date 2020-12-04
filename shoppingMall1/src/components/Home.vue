@@ -85,10 +85,10 @@
 				<a href="javascript:void(0)">Home</a>
 			</li>
 			<li class="user-name">
-				<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Sell to US</a>
+				<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Sell to US</a>
 			</li>
 			<li class="user-name">
-				<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Contact us</a>
+				<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Contact us</a>
 			</li>
 			<li class="user-name">
 				<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
@@ -111,7 +111,7 @@
 		<div class="tip"> <span class="point" @click="$router.push('/AboutUs')">About US</span> <span class="point"
 			 @click="$router.push('/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span>			<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>			<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
 			<span
-			 @click="$router.push('/BlankPage/1')" class="point"> Contact US</span>
+			 @click="$router.push('/BlankPage/3')" class="point"> Contact US</span>
 		</div>
 		<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
 		<!-- <div class="img">
@@ -173,7 +173,7 @@
 		</div>
 	</div>
 	</div>
-	<div v-else class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
+	<div v-else class="home-container" >
 		<div class="head-fixed-bar full-width">
 			<div class="container"> <span class="welcome"><h1>Cheap <abbr title=" FF14 "> FF14 </abbr> Gil With Fast Service </h1></span>
 				<div class="head-top-right">
@@ -628,7 +628,7 @@
 		padding: 0;
 		margin: 0;
 	}
-	
+
 	.top {
 		width: 100%;
 		height: 50px;

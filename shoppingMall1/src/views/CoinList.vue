@@ -314,7 +314,7 @@
 						})
 						JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 							item = JSON.parse(item);
-							item.showName = item.symbol + item.name;
+							item.showName = item.name;
 							this.currencyData.push(item)
 						})
 						var name = this.currencyInfo.name || this.currencyInfo1.name
@@ -429,6 +429,7 @@
 		padding-top: 40px;
 		padding-bottom: 13px;
 		margin-bottom: 13px;
+		overflow: hidden;
 		span {
 			padding: 15px 23px;
 			font-size: 14px;

@@ -26,14 +26,14 @@
 		</el-card>
 		<el-card class="box-card">
 			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle">
-				<el-table-column header-align="left" width="240px" sortable prop="pay_time" label="pay_time">
+				<el-table-column header-align="left" width="240px" sortable prop="updated" label="pay_time">
 				</el-table-column>
 				<el-table-column header-align="left" width="160px" prop="order_id"
 				 label="order_id"> </el-table-column>
-				<el-table-column header-align="left" width="300px" label="Products">
-					<template slot-scope="scope">
-						<div v-if="subIndex===0" :key="subIndex" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">
-						{{subItem.game}} </div>
+				<el-table-column header-align="left" width="300px" label="Game">
+					<template slot-scope="scope" >
+						{{scope.row['description']&&JSON.parse(scope.row['description'])[0].game}}
+				
 					</template>
 				</el-table-column>
 				<el-table-column header-align="left" width="160px" prop="comments" label="request_info">
@@ -84,7 +84,7 @@
 				 header-align="center">
 					<template slot-scope="scope">
 						<el-button type="text" size="small" @click="handleEdit(scope.row)">view</el-button>
-						<el-button type="text" class="clip" :data-clipboard-text="getFromData(scope.$index)"
+						<el-button type="text" class="clip" :data-clipboard-text="getFormData(scope.$index)"
 						 size="small" @click="copy(scope.row.id)">Copy</el-button>
 					</template>
 				</el-table-column>
@@ -271,20 +271,21 @@
 					}         
 				return format;      
 			},
-			getFromData(index) {
+			getFormData(index) {
 				var data = JSON.parse(JSON.stringify(this.originTable[index]));
 				var str1 = ''
 				var str = ''
-				JSON.parse(data.description).map((item, index) => {
+				data.description&&JSON.parse(data.description).map((item, index) => {
 					var category=item.category?(item.category+'-'):''
 					var server=item.server?(item.server+'-'):''
 					str1 = category +server + item.product +
 							'*' + item.quantity
+					var game=data.description?JSON.parse(data.description)[0].game:''
 					var data2 = {
 						pay_time: '"' + data.pay_time + '"',
 						game:  '"' +item.game + '"',
 						products: '"' + str1 + '"',
-						gameId: '"' + JSON.parse(data.description)[0].game + '"',
+						gameId: '"' + game + '"',
 						payer_email: '"' + data.payer + '"',
 						order: '"' + data.order_id + '"',
 						currency: '",,' + data.currency + '"',
@@ -300,7 +301,6 @@
 					}
 					str=str+'\n'
 				})
-				console.log(str)
 				return str
 			},
 			handleCheckAllChange(val) {
@@ -539,6 +539,7 @@
 				localStorage.setItem('keyword', '');
 			}
 			this.getDataSource();
+
 			if (localStorage.getItem('checkedStatus') || localStorage.getItem(
 					'timeRange')) {
 				this.checkedStatus = localStorage.getItem('checkedStatus') ? JSON.parse(

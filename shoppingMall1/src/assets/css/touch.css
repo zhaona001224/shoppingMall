@@ -1,16 +1,32 @@
-@media (max-width: 800px) {
-	.head-fixed-bar {
-		height: 46px;
-		position: fixed;
-		top: 0;
-		left: 0;
-		background-color: #f1f1f1;
-		z-index: 200;
+	@media (max-width: 800px) {
+		.head-fixed-bar {
+			height: 46px;
+			position: fixed;
+			top: 0;
+			left: 0;
+			background-color: #f1f1f1;
+			z-index: 200;
+		}
+		.container {
+			padding-right: 15px;
+			padding-left: 15px;
+			margin-right: auto;
+			margin-left: auto;
+		}
+		.welcome {
+			max-width: 30%;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.welcome h1 {
+			color: #666;
+			font-size: 1.4rem;
+			font-weight: normal;
+			line-height: 44px;
+		}
+		.head-top-right {
+			float: right;
+			display: block;
+		}
 	}
-	.container {
-		padding-right: 15px;
-		padding-left: 15px;
-		margin-right: auto;
-		margin-left: auto;
-	}
-}

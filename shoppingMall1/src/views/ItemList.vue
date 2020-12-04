@@ -37,25 +37,25 @@
 				 style="width:400px"></el-input><img src="../assets/image/icon/icon_search.png" /></div>
 		</div>
 		<div class="li point" v-for="(item,index) in itemList" :key="item.id">
-			<el-popover v-if="item.hintImage||item.hintText" style="min-width:auto;text-align: center;"
-			 placement="right" trigger="hover">
-				<div class="pop-item"> <img v-if="item.hintImage" :src="imgUrl+item.hintImage" />
-					<div>
-						<div class="title hidden-style" style="height: auto;"> {{item.name}} </div>
-						<div class="label">{{item.hintText}}</div>
+			<div v-if="item.hintImage||item.hintText">
+				<el-popover style="min-width:auto;text-align: center;" placement="right" trigger="hover">
+					<div class="pop-item"> <img v-if="item.hintImage" :src="imgUrl+item.hintImage" />
+						<div>
+							<div class="title hidden-style" style="height: auto;"> {{item.name}} </div>
+							<div class="label">{{item.hintText}}</div>
+						</div>
 					</div>
-				</div>
-				<div slot="reference"><img :src="imgUrl+item.logo" />
-					<div class="text hidden-style"> {{item.name}} </div>
-					<div class="select-num"> <span @click="down(index)" class="down">-</span> <input type="number" :min="item.miniNumber"
-						 v-model="item.num" class="show"> <span class="up" @click="up(index)">+</span></div>
-					<div class="price">{{currencyInfo.symbol}}{{(item.price*item.num*currencyInfo.rate).toFixed(2)}}</div>
-					<div style="position: relative;display: flex;justify-content: space-between;padding: 10px 20px; ">
-					<span class="add" @click="addCart(item,item.id,item.price,item.name,1,imgUrl+item.hintImage,1)">Buy Now</span>						<img style="width: 43px;height: 32px;" src="../assets/image/home/img_buy2.jpg"
-						 class="go" @click="addCart(item,item.id,item.price,item.name,item.num,imgUrl+item.hintImage)"
-						/> </div>
-				</div>
-			</el-popover>
+					<div slot="reference"><img :src="imgUrl+item.logo" /> </div>
+				</el-popover>
+				<div class="text hidden-style">{{item.name}} </div>
+				<div class="select-num"> <span @click="down(index)" class="down">-</span> <input type="number" :min="item.miniNumber"
+					 v-model="item.num" class="show"> <span class="up" @click="up(index)">+</span></div>
+				<div class="price">{{currencyInfo.symbol}}{{(item.price*item.num*currencyInfo.rate).toFixed(2)}}</div>
+				<div style="position: relative;display: flex;justify-content: space-between;padding: 10px 20px; ">
+				<span class="add" @click="addCart(item,item.id,item.price,item.name,1,imgUrl+item.hintImage,1)">Buy Now</span>					<img style="width: 43px;height: 32px;" src="../assets/image/home/img_buy2.jpg"
+					 class="go" @click="addCart(item,item.id,item.price,item.name,item.num,imgUrl+item.hintImage)"
+					/> </div>
+			</div>
 			<div v-else><img :src="imgUrl+item.logo" />
 				<div class="text hidden-style"> {{item.name}} </div>
 				<div class="select-num"> <span @click="down(index)" class="down">-</span> <input type="number" :min="item.miniNumber"
@@ -313,7 +313,7 @@
 						})
 						JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 							item = JSON.parse(item);
-							item.showName = item.symbol + item.name;
+							item.showName = item.name;
 							this.currencyData.push(item)
 						})
 						var name = this.currencyInfo.name || this.currencyInfo1.name

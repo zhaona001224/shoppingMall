@@ -21,8 +21,8 @@
 		},
 		created() {
 			//获取banner
-			getTemplete("?type=Site&id="+this.$route.params.id).then((response) => {
-				this.data=response.data[0]
+			getTemplete("?type=Site").then((response) => {
+				this.data=response.data[this.$route.params.id*1-1]
 			});
 		}
 	}
