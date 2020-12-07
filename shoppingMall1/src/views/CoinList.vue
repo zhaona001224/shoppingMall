@@ -21,7 +21,7 @@
 			<div class="step-line serve-contain"> <span v-for="(item,index) in serveList" :key="item.id" @click="selectServe(item)"
 				 :class="item.id==serveId?'active point':'point'">{{item.name}}</span> </div>
 			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy {{selectCategoryData.name}}
-				{{selectData[0]&&selectData[0].name}} Silver</div>
+				{{selectData[0]&&selectData[0].name}} </div>
 			<div class="step-line item-contain"
 			 :style="isMobile?'min-height: 1000px;':''">
 				<div class="flex-style">
@@ -396,8 +396,7 @@
 			var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
 			this.isMobile = isIphone || isAndroid;
-			//获取game
-			localStorage.setItem('gameId', this.$route.params.id)
+			//获取gameSilver
 			this.getCategory();
 			this.getGame();
 		},
@@ -551,7 +550,7 @@
 			color: #333333;
 		}
 		.price {
-			font-family: Arial-BoldMT;
+			font-family: 'Avenir', Helvetica, Arial, sans-serif;
 			font-size: 18px;
 			font-weight: normal;
 			font-stretch: normal;
@@ -590,7 +589,7 @@
 	.head {
 		background-color: #e7e7e7;
 		.custom-quantity, .price {
-			font-size: 17px;
+			font-size: 17px;hidden-style
 			letter-spacing: 0px;
 			color: #333333;
 		}

@@ -527,7 +527,7 @@
 			}
 			.text {
 				padding: 19px 0 8px;
-				font-size: 12px;
+				font-size: 14px;
 			}
 			.select-num {
 				margin: 18px auto 12px;
