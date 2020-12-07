@@ -16,7 +16,7 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">{{$t("language.common.cart")}}
+				<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">
 					<div class="nav-user-wrapper pa active">
 						<div class="nav-user-list">
 							<div class="full" v-show="totalNum">
@@ -176,96 +176,146 @@
 	</div>
 	</div>
 	<div v-else class="home-container">
-		<div class="head-fixed-bar full-width">
-			<div class="container"> <span class="welcome"><h1>Cheap <abbr title=" FF14 "> FF14 </abbr> Gil With Fast Service </h1></span>
-				<div class="head-top-right">
-					<ul class="member-entry hidden-xs">
-						<li>
-							<a class="btn-signup " href="/signup.html">JoinFree</a>
-						</li>
-						<li>
-							<a href="/signin.html">Sign In</a>
-						</li>
-					</ul>
-					<div class="dropdown float-block currency-list">
-						<a id="rateFlag" class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
-						 aria-expanded="false"> EUR<span class="caret"></span> </a>
-						<ul class="dropdown-menu dropdown-menu-right"
-						 aria-labelledby="rateFlag">
-							<li id="ra1">
-								<a href="javascript:changeRate(1,'gold');">USD</a>
-							</li>
-							<li id="ra2" class="hidden">
-								<a href="javascript:changeRate(2,'gold');">EUR</a>
-							</li>
-							<li id="ra3">
-								<a href="javascript:changeRate(3,'gold');">GBP</a>
-							</li>
-							<li id="ra4">
-								<a href="javascript:changeRate(4,'gold');">CAD</a>
-							</li>
-							<li id="ra5">
-								<a href="javascript:changeRate(5,'gold');">AUD</a>
-							</li>
-							<li id="ra7">
-								<a href="javascript:changeRate(7,'gold');">DKK</a>
-							</li>
-							<li id="ra9">
-								<a href="javascript:changeRate(9,'gold');">NOK</a>
-							</li>
-							<li id="ra10">
-								<a href="javascript:changeRate(10,'gold');">SGD</a>
-							</li>
-							<li id="ra12">
-								<a href="javascript:changeRate(12,'gold');">SEK</a>
-							</li>
-							<li id="ra13">
-								<a href="javascript:changeRate(13,'gold');">CNY</a>
-							</li>
-						</ul>
-					</div>
-					<div class="dropdown float-block lang-list">
-						<a id="change-lang" class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">
-						<img src="/images/lang-en.jpg" alt="EN"> EN<span class="caret"></span> </a>
-						<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="change-lang">
-							<li>
-								<a href="https://fr.u7buy.com"><img src="/upfiles/lang/201603310220341.jpg" alt="FR"> FR </a>
-							</li>
-							<li>
-								<a href="https://www.u7buy.de"><img src="/upfiles/lang/201603310220464.jpg" alt="DE"> DE </a>
-							</li>
-							<li>
-								<a href="https://nl.u7buy.com"><img src="/upfiles/lang/201701032328303.jpg" alt="NL"> NL </a>
-							</li>
-							<li>
-								<a href="https://es.u7buy.com"><img src="/upfiles/lang/201703072108118.jpg" alt="ES"> ES </a>
-							</li>
-							<li>
-								<a href="https://it.u7buy.com"><img src="/upfiles/lang/201703232033394.jpg" alt="IT"> IT </a>
-							</li>
-							<li>
-								<a href="https://pt.u7buy.com"><img src="/upfiles/lang/201805312031094.png" alt="PT"> PT </a>
-							</li>
-							<li>
-								<a href="https://ar.u7buy.com"><img src="/upfiles/lang/201901040059545.jpg" alt="AR"> AR </a>
-							</li>
-							<li>
-								<a href="https://zh.u7buy.com"><img src="/upfiles/lang/201904020128241.jpg" alt="ZH"> ZH </a>
-							</li>
-							<li>
-								<a href="https://se.u7buy.com"><img src="/upfiles/lang/201904152056088.jpg" alt="SE"> SE </a>
-							</li>
-							<li>
-								<a href="https://no.u7buy.com"><img src="/upfiles/lang/201911260008422.jpg" alt="NO"> NO </a>
-							</li>
-							<li>
-								<a href="https://da.u7buy.com"><img src="/upfiles/lang/201911261907296.jpg" alt="DA"> DA </a>
-							</li>
-						</ul>
-					</div>
-				</div>
+		<div class="top" style="position: fixed;top:0;">
+			<div class="left-img">
+				<div style="width: 0.44rem;height:0.44rem;background: rgb(242, 165, 6);"> <img style="padding-top:0.07rem;padding-left:0.07rem;width: 0.3rem;height: 0.3rem;"
+					 src="../assets/image/icon/icon-menu.png" /> </div> <img style="width: 1.1rem;"
+				 src="../assets/image/home/logo.png" /> </div>
+			<div class="menu">
+				<el-dropdown class="point" style="margin-right: 4px;" v-if="currencyInfo1"> <span class="el-dropdown-link">
+					     {{currencyInfo1.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+					</span>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item v-for="(item,index) in currencyData" :key="index" @click.native="setCurrency(JSON.parse(item).symbol,JSON.parse(item).name,JSON.parse(item).rate)">{{JSON.parse(item).name}}</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
+				<el-dropdown class="point"> <span class="el-dropdown-link">
+					    {{countryInfo&&countryInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+					</span>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
+				<div class="menu-cart point user user-name" style="background: #434d53;" v-if="login"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_my.png">					</div>
+				
+				<div class="menu-cart point user user-name" style="background: #de6262;" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_my.png">					</div>
+				<!--购物车显示块-->
+				<!--<el-dropdown class="menu-cart point" style="background: #de6262;" v-if="login"
+				 trigger="hover"> <img src="../assets/image/icon/icon-my.png" v-if="userInfo.email"><img v-else
+					 src="../assets/image/icon/icon_my.png"> <i class="el-icon-caret-bottom"></i>
+					<el-dropdown-menu slot="dropdown" style="padding:0">
+						<el-dropdown-item @click.native="$router.push('/Profile')"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Profile</span>							</el-dropdown-item>
+						<el-dropdown-item @click.native="$router.push('/HistoryOrder')">
+						<i class="el-icon-circle-close-outline"></i><span class="user-name">My Order</span>							</el-dropdown-item>
+						<el-dropdown-item @click.native="doLoginOut"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Login Out</span>							</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>-->
+				<!--<div v-else @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user-name"
+				 style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png">{{$t("language.common.login")}}</div>
+				<div v-if="!login" @click="SHOW_LOGIN(true);changeType('register')" style="border-left: 1px solid #f5f5f5;"
+				 class="menu-register point user-name">{{$t("language.common.reister")}}</div>-->
 			</div>
 		</div>
+		<div class="img top-img" v-if="$route.fullPath!=='/payPage'" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img
+			 src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 90px;width: 240px;"
+			/></div>
+		<div class="select" :style="scrollTop>200||$route.fullPath==='/payPage'?'position: fixed;top:50px;z-index:1000;width:100%':''">
+			<ul style="text-align: left;width: 1200px;margin:0 auto;display: flex;justify-content: space-between;">
+				<li style="width: 230px;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
+				 @click="getGame();gamePop=!gamePop">
+					<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
+				</li>
+				<li class="user-name" @click="$router.push('/')">
+					<a href="javascript:void(0)">Home</a>
+				</li>
+				<li class="user-name">
+					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Sell to US</a>
+				</li>
+				<li class="user-name">
+					<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Contact us</a>
+				</li>
+				<li class="user-name">
+					<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
+				</li>
+				<li class="user-name">
+					<a href="javascript:void(0)" @click="$router.push('/BlankPage/2')">Discount</a>
+				</li>
+			</ul>
+			<div :class="gamePop?'active choose-game':'choose-game'">
+				<div style="width: 1200px;margin:0 auto"> <span :class="$route.params.id==item.id?'active':''" v-if="item.online" v-for="(item,index) in gameList"
+					 @click="chooseGame(item)">
+					{{item.name}}
+				</span> </div>
+			</div>
+		</div>
+		<transition name="fade" mode="out-in">
+			<router-view></router-view>
+		</transition>
+		<div class="footer" v-if="$route.fullPath!=='/BlankPage'">
+			<div class="tip"> <span class="point" @click="$router.push('/AboutUs')">About US</span> <span class="point"
+				 @click="$router.push('/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span>				<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>				<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
+				<span
+				 @click="$router.push('/BlankPage/3')" class="point"> Contact US</span>
+			</div>
+			<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
+			<!-- <div class="img">
+				<div class="trustedsite-trustmark" data-type="202"></div>
+				<div class="trustedsite-trustmark" data-type="102"></div> </div>
+			<div class="icon">
+			<img src="../assets/image/icon/icon_footer1.png" /> <img src="../assets/image/icon/icon_footer2.png"
+				/> <img src="../assets/image/icon/icon_footer3.png" /> <img src="../assets/image/icon/icon_footer4.png"
+				/> <img src="../assets/image/icon/icon_footer5.png" /> </div> -->
+			<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Trademarks are the copyright and property of their respective owners.</div>
+			<div
+			 style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">The use of this Website constitutes the acceptance of the <span style="color:red"
+				 class="point" @click="$router.push('/TermsCon')">Terms&Conditions</span> and
+				<span @click="$router.push('/PrivacyPolicy')" class="point" style="color:red">Privacy Policy</span>				</div>
+		<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
+		<div class="tip" style="margin:15px auto;">
+		<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>			</div>
+	</div>
+	<div class="pop-login" v-if="showLogin"> <img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png"
+		/>
+		<div class="tab"> <span @click="changeType('login');" :class="selectType=='login'?'active point':'point'">
+						{{$t("language.user.login")}}
+					</span> <span @click="changeType('register')" :class="selectType=='register'?'active point':'point'">
+						{{$t("language.user.register")}}
+					</span> </div>
+		<div class="form-contain" v-if="selectType=='login'">
+			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
+				<el-form-item :label='$t("language.user.email")' prop="email">
+					<el-input Pleaseholder="" v-model="form.email"> </el-input>
+				</el-form-item>
+				<el-form-item :label='$t("language.user.pass")' prop="password">
+					<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
+				</el-form-item>
+			</el-form>
+			<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>
+			<div class="btn point" @click="submit">{{$t("language.user.login")}}</div>
+		</div>
+		<div class="form-contain" v-if="selectType=='register'">
+			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
+				<el-form-item :label='$t("language.user.email")' prop="email">
+					<el-input Pleaseholder="" v-model="form.email"> </el-input>
+				</el-form-item>
+				<el-form-item :label='$t("language.user.pass")' prop="password">
+					<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
+				</el-form-item>
+				<el-form-item :label='$t("language.user.repass")' prop="repassword">
+					<el-input Pleaseholder="" type="password" v-model="form.repassword"> </el-input>
+				</el-form-item>
+				<el-form-item label='Instance Message:' prop="social_type">
+					<el-select style="width:130px;margin-right: 10px;" :clearable="true" v-model="form.social_type">
+						<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
+						</el-option>
+					</el-select>
+					<el-input Pleaseholder="" v-model="form.social_link"> </el-input>
+				</el-form-item>
+			</el-form>
+			<!--	<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>-->
+			<div class="btn point" @click="register">{{$t("language.user.register")}}</div>
+		</div>
+	</div>
 	</div>
 </template>
 <script>
@@ -562,10 +612,6 @@
 			var that = this;
 			this.getGame();
 			this.imgUrl = window.imgUrl;
-			window.onresize = () => {
-				that.CHANGE_SIZE(document.body.clientWidth)
-				console.log(this.clientSize)
-			};
 			window.addEventListener('scroll', this.scrollToTop)
 			//			this.width=document.body.clientWidth>1000?document.body.clientWidth+'px':'400px';
 			getConfig().then(response => {

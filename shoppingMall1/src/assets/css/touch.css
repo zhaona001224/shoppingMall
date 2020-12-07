@@ -1,32 +1,45 @@
-	@media (max-width: 800px) {
-		.head-fixed-bar {
-			height: 46px;
-			position: fixed;
-			top: 0;
-			left: 0;
-			background-color: #f1f1f1;
-			z-index: 200;
+	@media (max-width: 900px) {
+		.home-container .top {
+			display: flex;
+			background: #fff;
+			height: 0.44rem;
 		}
-		.container {
-			padding-right: 15px;
-			padding-left: 15px;
-			margin-right: auto;
-			margin-left: auto;
+		.home-container .top .left-img {
+			display: flex;
+			align-items: center;
 		}
-		.welcome {
-			max-width: 30%;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			overflow: hidden;
+		.home-container .top .menu {
+			background: #f1f1f1;
+			margin-right: 0;
+			display: flex;
+			align-items: center;
 		}
-		.welcome h1 {
-			color: #666;
-			font-size: 1.4rem;
-			font-weight: normal;
-			line-height: 44px;
-		}
-		.head-top-right {
-			float: right;
+		.home-container .point.el-dropdown.point {
+			background-color: #fff;
+			border-radius: 0.04rem;
+			border: 1px solid #ddd;
 			display: block;
+			padding: 1px 0.12rem;
+			width: auto;
+			color: #333;
+			margin-top: 0;
+		}
+		.home-container .top .menu .menu-cart {
+			width: 0.44rem;
+			height: 0.44rem;
+			background: rgb(242, 165, 6);
+			margin-left: 0;
+		}
+		.home-container .top .menu .menu-cart img {
+			width: 0.3rem;
+			height: 0.3rem;
+			padding-top: 0.07rem;
+			padding-left: 0.07rem;
+		}
+		.home-container .top .menu .menu-cart.user img{
+			width: 0.2rem;
+			height: 0.2rem;
+			padding-top: 0.12rem;
+			padding-left: 0.12rem;
 		}
 	}

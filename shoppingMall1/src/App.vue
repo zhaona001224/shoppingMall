@@ -5,18 +5,30 @@
 		</transition>
 	</div>
 </template>
-
 <script>
+	import { mapMutations, mapState } from 'vuex'
 	export default {
-		name: 'App'
+		name: 'App',
+		methods: { ...mapMutations(['CHANGE_SIZE'])
+		},
+		beforeMount() {
+			this.CHANGE_SIZE(document.body.clientWidth)
+		},
+		
+		beforeCreate() {
+			
+			var deviceWidth = document.documentElement.clientWidth;
+			if (deviceWidth > 750) {
+				deviceWidth = 7.5 * 50
+			}
+			document.documentElement.style.fontSize = deviceWidth / 3.75 + 'px'
+		}
 	}
 </script>
-
 <style>
 	@import "/assets/css/public.css";
 	@import "/assets/css/touch.css";
-	body,
-	html {
+	body, html {
 		padding: 0;
 		margin: 0;
 		overflow-y: auto;
@@ -24,18 +36,17 @@
 		font-family: Arial, "Helvetica Neue", Helvetica, sans-serif
 	}
 	
-	li,
-	ul,
-	p {
+	li, ul, p {
 		padding: 0;
 		margin: 0;
 	}
 	
-	.user-name:hover { 
-		color: #f2a506;	
+	.user-name:hover {
+		color: #f2a506;
 	}
-	.user-name:hover a { 
-		color: #f2a506!important;	
+	
+	.user-name:hover a {
+		color: #f2a506!important;
 	}
 	
 	.point.el-dropdown {
@@ -57,22 +68,21 @@
 		;
 	}
 	
-	.el-dropdown-menu.el-popper .el-dropdown-menu__item:focus,
-	.el-dropdown-menu.el-popper .el-dropdown-menu__item:not(.is-disabled):hover {
+	.el-dropdown-menu.el-popper .el-dropdown-menu__item:focus, .el-dropdown-menu.el-popper .el-dropdown-menu__item:not(.is-disabled):hover {
 		background-color: #000;
 		color: #f2a506;
 	}
-	.el-popper .popper__arrow{
+	
+	.el-popper .popper__arrow {
 		display: none;
 	}
-	.el-dropdown-menu.el-popper,
-	.el-popper .el-dropdown-menu__item {
+	
+	.el-dropdown-menu.el-popper, .el-popper .el-dropdown-menu__item {
 		background-color: #000;
 		color: #fff;
 		padding-top: 0;
 		padding-bottom: 0;
-		border: none!important
-		;
+		border: none!important;
 		/*padding: 0 20px;*/
 	}
 	
