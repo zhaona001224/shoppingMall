@@ -5,7 +5,7 @@
       style="margin: 40px 8.125% 0"
       :interval="3000"
       type="card"
-      height="477px"
+      height="300px"
     >
       <el-carousel-item
         v-for="item in bannerList"
@@ -15,7 +15,7 @@
         <div
           @click="goProduct(item, 1)"
           :style="
-            'width:100%;height:472px;background: url(' +
+            'width:100%;height:300px;background: url(' +
             imgUrl +
             item.image +
             ');background-size:cover;'
@@ -37,14 +37,7 @@
     <div class="game-contain" v-if="gameList.length > 0">
       <div class="main-title">
         {{ $t("language.mainPage.gameTitle")
-        }}<span
-          class="point"
-          @click="$router.push('/gameList')"
-          style="float: right; font-size: 16px"
-          >More<img
-            style="margin-left: 10px"
-            src="../assets/image/icon/icon_more.png"
-        /></span>
+        }}
       </div>
       <div class="contain">
         <div v-if="index<=7"
@@ -277,7 +270,7 @@
             v-html="item.text"
           ></div>
           <div class="date">{{ item.updated }}</div>
-          <div class="line"></div>
+          
         </div>
       </div>
     </div>
@@ -460,7 +453,7 @@ export default {
 .img-contain {
   width: 1200px;
   display: inline-block;
-  margin: 30px auto 53px;
+  margin: 1px auto 1px;
   border-radius: 2px;
   box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.2);
   .img-style {
@@ -494,10 +487,10 @@ export default {
   .contain {
     width: 1274px;
     margin: 0 auto;
-    text-align: left;
+    text-align: center;
     .li {
       text-align: center;
-      margin: 36px;
+      margin: 10px;
       margin-top: 0;
       box-sizing: border-box;
       display: inline-block;
@@ -516,11 +509,11 @@ export default {
         }
       }
       img {
-        width: 140px;
+        width: 210px;
         height: 140px;
       }
       .text {
-        padding: 19px 0 8px;
+        padding: 10px 0 0px;
         color: #222222;
         font-size: 20px;
       }
@@ -544,6 +537,7 @@ export default {
       background-color: #ffffff;
       border: solid 1px #dcdcdc;
       padding: 16px;
+      
       &:hover {
         transform: translateY(-3px);
         box-shadow: 1px 1px 10px #999;
@@ -560,19 +554,20 @@ export default {
         color: #333333;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        white-space: wrap;
       }
       .text {
-        font-family: MicrosoftYaHeiLight;
-        font-size: 16px;
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        font-size: 14px;
         font-weight: normal;
         font-stretch: normal;
         line-height: 24px;
         letter-spacing: 0px;
+        
         color: #666666;
       }
       .date {
-        font-family: MicrosoftYaHeiLight;
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
         font-size: 17px;
         font-weight: normal;
         font-style: italic;
@@ -651,7 +646,8 @@ export default {
     margin-bottom: 13px;
     span {
       padding: 15px 23px;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: 900;
       color: #333333;
       border-radius: 4px;
       display: inline-block;
@@ -697,8 +693,8 @@ export default {
         }
       }
       img {
-        max-width: 120px;
-        max-height: 120px;
+        max-width: 56px;
+        max-height: 56px;
       }
       .select-num {
         margin: 18px auto 12px;
@@ -732,7 +728,7 @@ export default {
       }
       .price {
         text-align: center;
-        font-family: Arial-BoldMT;
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
         font-size: 20px;
         font-weight: normal;
         font-stretch: normal;
