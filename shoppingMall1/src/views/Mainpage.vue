@@ -62,7 +62,7 @@
 								<span @click="down(index)" class="down">-</span>
 								<input type="number" v-model="item.num" class="show">
 								<span class="up" @click="up(index)">+</span></div>-->
-						<div class="price"> {{ currencyInfo.symbol }}{{ item.price && item.price * currencyInfo.rate }}
+						<div class="price"> {{ currencyInfo.symbol }}{{ (item.price && item.price * currencyInfo.rate).toFixed(2) }}
 							</div>
 						<!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />--></div>
 				</div>

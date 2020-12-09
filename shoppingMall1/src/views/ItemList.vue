@@ -108,10 +108,10 @@
 		methods: { ...mapMutations(['ADD_CART', 'CHOOSE_CURRENCY']),
 			down(index) {
 				if (this.itemList[index].num == 0) return
-				if (this.itemList[index].num === this.itemList[index].miniNumber) {
+				if (this.itemList[index].num <= this.itemList[index].miniNumber) {
 					this.$message({
 						type: 'error',
-						message: "It's already the minimum quantity"
+						message: "The minimum quantity is "+this.itemList[index].miniNumber
 					});
 					return
 				}

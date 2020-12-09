@@ -553,13 +553,13 @@
 					});
 					return
 				}
-				if (!(/^1[0-9]{10}$/.test(this.form.phone))) {
-					this.$message({
-						type: 'warning',
-						message: 'Please fill in correct phone'
-					});
-					return;
-				}
+//				if (!(/^1[0-9]{10}$/.test(this.form.phone))) {
+//					this.$message({
+//						type: 'warning',
+//						message: 'Please fill in correct phone'
+//					});
+//					return;
+//				}
 				this.$refs.form.validate((valid) => {
 					if (valid) {
 						register({
