@@ -38,7 +38,7 @@
 						 :value="subItem.id"> </el-option>
 					</el-select>
 				</div>
-				<div class="total"> <span class="custom-quantity" style="width:400px;font-weight: bold;">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" :min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span>					<span class="price" style="width: 516px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
+				<div class="total"> <span class="custom-quantity" style="width:400px;font-weight: bold;">Custom Quantity:<input @change="changeNum" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" :min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span>					<span class="price" style="width: 516px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(3)}}</span>					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 400px;"></span>					<span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">
@@ -88,7 +88,7 @@
 			};
 		},
 		computed: { ...mapState(['login', 'showMoveImg', 'showCart', 'currencyInfo',
-				'currencyInfo1'
+				'currencyInfo'
 			]),
 		},
 		methods: { ...mapMutations(['ADD_CART', 'SHOW_LOGIN', 'CHOOSE_CURRENCY']),
@@ -317,7 +317,7 @@
 							item.showName = item.name;
 							this.currencyData.push(item)
 						})
-						var name = this.currencyInfo.name || this.currencyInfo1.name
+						var name = this.currencyInfo.name || this.currencyInfo.name
 						var currencyData = this.currencyData.filter(item => item.name == name);
 						this.selectCurrency = currencyData[0].id
 						this.gameList = data[0]

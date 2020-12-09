@@ -70,7 +70,6 @@
 				</el-form>
 			</div>
 		</el-card>
-		{{form}}
 	</div>
 </template>
 

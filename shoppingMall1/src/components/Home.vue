@@ -2,8 +2,8 @@
 	<div v-if="clientSize>700" class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
 		<div class="top" style="position: fixed;top:0;">
 			<div class="menu">
-				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo1"> <span class="el-dropdown-link">
-					     {{currencyInfo1.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo"> <span class="el-dropdown-link">
+					     {{currencyInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item v-for="(item,index) in currencyData" :key="index" @click.native="setCurrency(JSON.parse(item).symbol,JSON.parse(item).name,JSON.parse(item).rate)">{{JSON.parse(item).name}}</el-dropdown-item>
@@ -179,11 +179,11 @@
 		<div class="top" style="position: fixed;top:0;">
 			<div class="left-img">
 				<div style="width: 0.44rem;height:0.44rem;background: rgb(242, 165, 6);"> <img style="padding-top:0.07rem;padding-left:0.07rem;width: 0.3rem;height: 0.3rem;"
-					 src="../assets/image/icon/icon-menu.png" /> </div> <img style="width: 1.1rem;"
+					 src="../assets/image/icon/icon-menu.png" /> </div> <img style="width: 0.8rem;"
 				 src="../assets/image/home/logo.png" /> </div>
 			<div class="menu">
-				<el-dropdown class="point" style="margin-right: 4px;" v-if="currencyInfo1"> <span class="el-dropdown-link">
-					     {{currencyInfo1.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+				<el-dropdown class="point" style="margin-right: 4px;" v-if="currencyInfo"> <span class="el-dropdown-link">
+					     {{currencyInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item v-for="(item,index) in currencyData" :key="index" @click.native="setCurrency(JSON.parse(item).symbol,JSON.parse(item).name,JSON.parse(item).rate)">{{JSON.parse(item).name}}</el-dropdown-item>
@@ -196,9 +196,9 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div class="menu-cart point user user-name" style="background: #434d53;" v-if="login"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_my.png">					</div>
-				
-				<div class="menu-cart point user user-name" style="background: #de6262;" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_my.png">					</div>
+				<div class="menu-cart point user user-name" style="background: #434d53;" v-if="login"><img src="../assets/image/icon/icon_my.png"> </div>
+				<div class="menu-cart point user user-name"
+				 style="background: #de6262;" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">					</div>
 				<!--购物车显示块-->
 				<!--<el-dropdown class="menu-cart point" style="background: #de6262;" v-if="login"
 				 trigger="hover"> <img src="../assets/image/icon/icon-my.png" v-if="userInfo.email"><img v-else
@@ -213,36 +213,35 @@
 				<!--<div v-else @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user-name"
 				 style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png">{{$t("language.common.login")}}</div>
 				<div v-if="!login" @click="SHOW_LOGIN(true);changeType('register')" style="border-left: 1px solid #f5f5f5;"
-				 class="menu-register point user-name">{{$t("language.common.reister")}}</div>-->
-			</div>
+				 class="menu-register point user-name">{{$t("language.common.reister")}}</div>--></div>
 		</div>
-		<div class="img top-img" v-if="$route.fullPath!=='/payPage'" style="font-size: 0;position: relative;"><img style="width: 100%;height: 195px;" src="../assets/image/home/img_top.jpg"><img
-			 src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 90px;width: 240px;"
-			/></div>
-		<div class="select" :style="scrollTop>200||$route.fullPath==='/payPage'?'position: fixed;top:50px;z-index:1000;width:100%':''">
-			<ul style="text-align: left;width: 1200px;margin:0 auto;display: flex;justify-content: space-between;">
-				<li style="width: 230px;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
+		<div class="select" :style="scrollTop>50?'position: fixed;top:50px;z-index:1000;width:100%':''">
+			<ul class="select-ul" style="text-align: left;margin:0 auto;display: flex;">
+				<li style="width: 1.3rem;max-width: auto;flex-shrink: 0;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
 				 @click="getGame();gamePop=!gamePop">
-					<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
+					<a href="javascript:void(0)">All Games</a>
 				</li>
 				<li class="user-name" @click="$router.push('/')">
 					<a href="javascript:void(0)">Home</a>
 				</li>
 				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Sell to US</a>
+					<a href="javascript:void(0)" @click="$router.push('/BlankPage/2')">Discount</a>
 				</li>
 				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Contact us</a>
+					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">My order</a>
+				</li>
+				<li class="user-name">
+					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Sell to US</a>
 				</li>
 				<li class="user-name">
 					<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
 				</li>
 				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/2')">Discount</a>
+					<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Contact us</a>
 				</li>
 			</ul>
 			<div :class="gamePop?'active choose-game':'choose-game'">
-				<div style="width: 1200px;margin:0 auto"> <span :class="$route.params.id==item.id?'active':''" v-if="item.online" v-for="(item,index) in gameList"
+				<div style="width:100%;margin:0 auto"> <span :class="$route.params.id==item.id?'active':''" v-if="item.online" v-for="(item,index) in gameList"
 					 @click="chooseGame(item)">
 					{{item.name}}
 				</span> </div>
@@ -368,7 +367,7 @@
 				},
 			}
 		},
-		computed: { ...mapState(["game", "userInfo", "login", 'currencyInfo1',
+		computed: { ...mapState(["game", "userInfo", "login", 'currencyInfo',
 				'cartList', 'countryInfo', 'showLogin', 'clientSize'
 			]),
 			totalNum() {
@@ -380,8 +379,8 @@
 			},
 		},
 		methods: { ...mapMutations(['CHOOSE_GAME', 'RECORD_USERINFO',
-				'LOGINOUT_USERINFO', 'CHOOSE_CURRENCY', 'CHOOSE_COUNTRY', 'SHOW_LOGIN',
-				'CHANGE_SIZE'
+				'LOGINOUT_USERINFO', 'CHOOSE_CURRENCY', 'CHOOSE_COUNTRY', 'SHOW_LOGIN', ,
+				'CLEAR_CART'
 			]),
 			changeType(type) {
 				this.selectType = type;
@@ -594,6 +593,11 @@
 				//获取游戏列表
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
 					if (response.retCode == 0) {
+						if (!window.interVal) {
+							window.interVal = setInterval(() => {
+								this.CLEAR_CART();
+							}, 1200000)
+						}
 						this.gameList = response.data;
 					} else {
 						this.$message({
@@ -618,7 +622,7 @@
 				if (response.retCode == 0) {
 					this.countryData = response.country;
 					this.currencyData = response.currency;
-					if (!this.currencyInfo1.name) {
+					if (!this.currencyInfo.name) {
 						this.CHOOSE_CURRENCY({
 							name: JSON.parse(this.currencyData[0]).name,
 							symbol: JSON.parse(this.currencyData[0]).symbol,

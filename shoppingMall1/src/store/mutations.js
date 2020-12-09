@@ -194,16 +194,16 @@ export default {
 	[CHOOSE_CURRENCY](state, info) {
 		if(!state.currencyInfo) {
 			state.currencyInfo = info;
-			state.currencyInfo1=info;
+			state.currencyInfo=info;
 			setStore('currencyInfo', info);
-			setStore('currencyInfo1', info);
+			setStore('currencyInfo', info);
 		} else {
 			if(info.type == 1) {
 				state.currencyInfo = info
 				setStore('currencyInfo', info);
 			} else {
-				state.currencyInfo1=info;
-				setStore('currencyInfo1', info);
+				state.currencyInfo=info;
+				setStore('currencyInfo', info);
 			}
 		}
 

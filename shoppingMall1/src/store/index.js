@@ -10,7 +10,7 @@ const state = {
 	userInfo: localStorage.getItem('userInfo')&&JSON.parse(localStorage.getItem('userInfo')), // 用户信息
 	cartList: localStorage.getItem('buyCart')&&JSON.parse(localStorage.getItem('buyCart'))||[], // 加入购物车列表
 	currencyInfo:localStorage.getItem('currencyInfo')&&JSON.parse(localStorage.getItem('currencyInfo')),
-	currencyInfo1:localStorage.getItem('currencyInfo1')&&JSON.parse(localStorage.getItem('currencyInfo1')),
+	currencyInfo:localStorage.getItem('currencyInfo')&&JSON.parse(localStorage.getItem('currencyInfo')),
 	countryInfo:localStorage.getItem('countryInfo')&&JSON.parse(localStorage.getItem('countryInfo')),
     showLogin:false,
     clientSize:1900

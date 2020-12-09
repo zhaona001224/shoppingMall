@@ -9,10 +9,9 @@
 				<!-- {{item.detail}} -->
 				<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}</div>
 				<div style="width: 290px;">
-					<div class="select-num"> <span @click="down(item,item.productId,item.productName)" class="down">-</span>						<input type="number" min="0" v-model="item.productNum" class="show">
-						<span
-						 class="up" @click="up(item,item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>
-					</div>
+					<div class="select-num"> <span @click="down(item,item.productId,item.productName)" class="down">-</span>						<input @change="changeNum(index)" type="number" onkeyup="this.value=this.value.replace(/\D/g,'')"
+						 onafterpaste="this.value=this.value.replace(/\D/g,'')" :min="item.detail?item.detail.miniNumber:0"
+						 v-model="item.productNum" class="show"> <span class="up" @click="up(item,item.productId,item.salePrice,item.productName,item.productImg,1)">+</span>						</div>
 				</div>
 				<div style="width: 220px;text-align: center;color: #f39800;"> {{currencyInfo.symbol}}{{(item.salePrice*currencyInfo.rate).toFixed(2)}} </div>
 				<div class="price" style="width: 220px;">{{currencyInfo.symbol}}{{(item.salePrice&&item.salePrice*item.productNum*currencyInfo.rate).toFixed(2)}}</div>
@@ -27,10 +26,10 @@
 				<el-input @clear="disPrice=0;couponPrice={}" style="dispaly:inline-block;width:200px"
 				 placeholder="请输入优惠券码" v-model="couponCode" clearable> </el-input><span class="btn point" @click="apply">Apply</span> </div>
 			<div class="count-price">
-				<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPice}}</span></div>
+				<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPrice}}</span></div>
 				<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{disPrice}}</span></div>
 				<div>Payment Fee: <span class="price">{{currencyInfo.symbol}}{{payFee}}</span></div>
-				<div>Total Amount: <span class="price">{{currencyInfo.symbol}}{{(totalPice*1-disPrice*1+payFee*1)}}</span></div>
+				<div>Total Amount: <span class="price">{{currencyInfo.symbol}}{{(totalPrice*1-disPrice*1+payFee*1).toFixed(2)}}</span></div>
 			</div>
 		</div>
 		<div class="step"><span>1</span>{{$t("language.good.orderInformation")}}</div>
@@ -40,7 +39,7 @@
 				<el-row>
 					<el-col :span="8">
 						<el-form-item :label='$t("language.user.email")' prop="email">
-							<el-input placeholder=""  v-model="form.email"> </el-input>
+							<el-input placeholder="" v-model="form.email"> </el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="16" style="display: flex;">
@@ -79,7 +78,7 @@
 				<div style="text-align: center;">{{item.note}}</div>
 			</div>
 		</div>
-		<div class="all"><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{totalPice*1-disPrice*1+payFee*1}}</span></span>
+		<div class="all"><span> Total Amount：<span class="price">{{currencyInfo.symbol}}{{(totalPrice*1-disPrice*1+payFee*1).toFixed(2)}}</span></span>
 			<span class="btn point" @click="pay()">Pay  Now</span> </div>
 		<div class="trustedsite-trustmark"
 		 data-type="204"></div>
@@ -145,7 +144,7 @@
 			};
 		},
 		computed: { ...mapState(['cartList', 'currencyInfo', 'login', 'userInfo']),
-			totalPice() {
+			totalPrice() {
 				this.totalNum = 0;
 				var price = 0;
 				this.cartList.map((item) => {
@@ -156,14 +155,14 @@
 							2)
 					}
 					price = price + price1
-					this.totalNum = this.totalNum * 1 + item.productNum;
+					this.totalNum = this.totalNum * 1 + item.productNum
 				})
 				if (this.couponPrice.price && this.cartList.length > 0) {
 					if (this.couponPrice.type == 1) {
-						this.disPrice = (price * 1 * this.couponPrice.price * 1 / 100) * 1 * this
-							.currencyInfo.rate.toFixed(2)
+						this.disPrice = ((price * 1 * this.couponPrice.price * 1 / 100) * 1 * this
+							.currencyInfo.rate).toFixed(2)
 					} else {
-						this.disPrice = (this.couponPrice.price * 1) * this.currencyInfo.rate.toFixed(
+						this.disPrice = ((this.couponPrice.price * 1) * this.currencyInfo.rate).toFixed(
 							2)
 					}
 				}
@@ -192,6 +191,19 @@
 					productId: id,
 					productName: productName
 				})
+			},
+			changeNum(index, num) {
+				if (this.cartList[index].detail && this.cartList[index].productNum*1 < this.cartList[
+						index].detail.miniNumber) {
+					this.$message({
+						type: 'error',
+						message: "The minimum quantity is "+this.cartList[
+						index].detail.miniNumber
+					});
+					this.cartList[index].productNum = this.cartList[index].detail.miniNumber *
+						1;
+					return
+				}
 			},
 			down(item, id, productName) {
 				this.REDUCE_CART({
@@ -227,6 +239,10 @@
 					that.$message.error("Please select product！");
 					return
 				}
+				if (this.totalPrice <= 0) {
+					that.$message.error("Please select product！");
+					return
+				}
 				var that = this;
 				if (!this.form.email) {
 					that.$message.error("Please fill in form！");
@@ -244,7 +260,6 @@
 					}
 				})
 			},
-			
 			pay1() {
 				var that = this;
 				var itemList = []
@@ -259,10 +274,10 @@
 						"category": item.categoryName,
 					})
 				})
-				var amount = this.totalPice - this.disPrice * 1 + this.payFee * 1
+				var amount = this.totalPrice - this.disPrice * 1 + this.payFee * 1
 				var params = {
 					"payment": this.payList[this.selectIndex].payment,
-					"payment_channel":this.payList[this.selectIndex].channel,
+					"payment_channel": this.payList[this.selectIndex].channel,
 					amount: amount,
 					"currency": this.currencyInfo.name,
 					"language": "UK",
@@ -270,7 +285,7 @@
 					request_info: this.form.payer,
 					contact_info: this.form.link1 + this.form.link,
 					item_list: itemList,
-					sub_total: (this.totalPice * 1).toFixed(2) * 1,
+					sub_total: (this.totalPrice * 1).toFixed(2) * 1,
 					"city": "",
 					"country": "",
 					"first_name": "",
@@ -284,10 +299,10 @@
 					"description": "",
 					"status": "",
 				}
-				getPay(this.payList[this.selectIndex].payment,params).then(response => {
+				getPay(this.payList[this.selectIndex].payment, params).then(response => {
 					if (response.retCode == 0) {
-						 window.location.href = response.data.redirect_url;
-						 this.CLEAR_CART();
+						window.location.href = response.data.redirect_url;
+						this.CLEAR_CART();
 					} else {
 						this.$message({
 							type: 'warning',
@@ -308,6 +323,24 @@
 					this.$message({
 						type: 'warning',
 						message: 'Coupon is not valid'
+					});
+					this.couponPrice = 0;
+					this.disPrice = 0;
+					return
+				}
+				if (data.length == 0) {
+					this.$message({
+						type: 'warning',
+						message: 'Coupon is not valid'
+					});
+					this.couponPrice = 0;
+					this.disPrice = 0;
+					return
+				}
+				if (this.totalPrice*1<data[0].initial_amount * this.currencyInfo.rate) {
+					this.$message({
+						type: 'warning',
+						message: 'Coupon is not valid right now，total amount >'+data[0].initial_amount * this.currencyInfo.rate
 					});
 					this.couponPrice = 0;
 					this.disPrice = 0;
@@ -334,14 +367,7 @@
 							message: 'Coupon is not valid'
 						});
 					}
-				} else {
-					this.couponPrice = 0;
-					this.disPrice = 0;
-					this.$message({
-						type: 'warning',
-						message: 'Coupon is not valid'
-					});
-				}
+				} 
 			},
 			countNum(num) {
 				this.newArray = JSON.parse(JSON.stringify(this.discountList)).reverse()
@@ -415,8 +441,8 @@
 							return param1.name.trim().localeCompare(param2.name.trim(), "zh");
 						})
 						this.payList = array1.concat(array2)
-						this.payList.map((item)=>{
-							item.payment=item.payment.split(',')[0]
+						this.payList.map((item) => {
+							item.payment = item.payment.split(',')[0]
 						})
 					} else {
 						this.$message({

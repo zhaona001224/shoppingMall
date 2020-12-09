@@ -54,7 +54,7 @@ axios.interceptors.response.use(response => {
 	return response.data;
 }, error => { //响应错误处理
 	i--
-	if (i <= 0) {
+	if (i <= 1) {
 		loading.close();
 	}
 	return Promise.reject(error);

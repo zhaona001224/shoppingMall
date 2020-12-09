@@ -14,14 +14,15 @@
 		beforeMount() {
 			this.CHANGE_SIZE(document.body.clientWidth)
 		},
-		
 		beforeCreate() {
-			
 			var deviceWidth = document.documentElement.clientWidth;
-			if (deviceWidth > 750) {
-				deviceWidth = 7.5 * 50
+			if (deviceWidth <750) {
+				
+				document.documentElement.style.fontSize = deviceWidth / 3.75 + 'px'
+			}else{
+				document.documentElement.style.fontSize = ''
+			
 			}
-			document.documentElement.style.fontSize = deviceWidth / 3.75 + 'px'
 		}
 	}
 </script>
@@ -101,5 +102,9 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		color: #2c3e50;
+	}
+	
+	.el-loading-spinner i {
+		font-size: 20px;
 	}
 </style>
