@@ -28,8 +28,8 @@
 			<div class="select-title">You Have Selected:<span style="color: #333;">{{selectCategoryData.name}} <span v-if="selectCategoryData.name">-</span>				{{selectServeData.name}} - </span>
 				<el-select @change="setCurrency" style="width:140px"
 				 v-model="currencyInfo.name" placeholder="">
-					<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.showName" :label="subItem.showName"
-					 :value="subItem.showName"> </el-option>
+					<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.showName"
+					 :label="subItem.showName" :value="subItem.showName"> </el-option>
 				</el-select>
 			</div>
 			<div class="search">
@@ -51,7 +51,7 @@
 				<div class="select-num"> <span @click="down(index)" class="down">-</span> <input type="number" :min="item.miniNumber"
 					 v-model="item.num" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"
 					 class="show" @change="up(index,item.num)"> <span class="up" @click="up(index,1)">+</span></div>
-				<div class="price">{{currencyInfo.symbol}}{{(item.price*item.num*currencyInfo.rate).toFixed(3)}}</div>
+				<div class="price">{{currencyInfo.symbol}}{{getPrice(item.price*item.num*currencyInfo.rate)}}</div>
 				<div style="position: relative;display: flex;justify-content: space-between;padding: 10px 20px; ">
 				<span class="add" @click="addCart(item,item.id,item.price,item.name,1,imgUrl+item.hintImage,1)">Buy Now</span>					<img style="width: 43px;height: 32px;" src="../assets/image/home/img_buy2.jpg"
 					 class="go" @click="addCart(item,item.id,item.price,item.name,item.num,imgUrl+item.hintImage)"
@@ -62,7 +62,7 @@
 				<div class="select-num"> <span @click="down(index)" class="down">-</span> <input type="number" :min="item.miniNumber"
 					 v-model="item.num" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"
 					 class="show" @change="up(index,item.num)"> <span class="up" @click="up(index,1)">+</span></div>
-				<div class="price">{{currencyInfo.symbol}}{{(item.price*item.num*currencyInfo.rate).toFixed(3)}}</div>
+				<div class="price">{{currencyInfo.symbol}}{{getPrice(item.price*item.num*currencyInfo.rate)}}</div>
 				<div style="position: relative;display: flex;justify-content: space-between;padding: 10px 20px; ">
 				<span class="add" @click="addCart(item,item.id,item.price,item.name,1,imgUrl+item.hintImage,1)">Buy Now</span>					<img style="width: 43px;height: 32px;" src="../assets/image/home/img_buy2.jpg"
 					 class="go" @click="addCart(item,item.id,item.price,item.name,item.num,imgUrl+item.hintImage)"
@@ -103,7 +103,7 @@
 		},
 		computed: { ...mapState(['login', 'showMoveImg', 'currencyInfo',
 				'currencyInfo', 'userInfo'
-			])
+			]),
 		},
 		methods: { ...mapMutations(['ADD_CART', 'CHOOSE_CURRENCY']),
 			down(index) {
@@ -111,12 +111,28 @@
 				if (this.itemList[index].num <= this.itemList[index].miniNumber) {
 					this.$message({
 						type: 'error',
-						message: "The minimum quantity is "+this.itemList[index].miniNumber
+						message: "The minimum quantity is " + this.itemList[index].miniNumber
 					});
 					return
 				}
 				this.itemList[index].num = this.itemList[index].num * 1 - 1;
 				this.$forceUpdate();
+			},
+			getPrice(price) {
+				price = price + ''
+				var priceStr1 = price.split('.')[0]
+				var priceStr = price.split('.')[1]
+				if (priceStr) {
+					if (priceStr.length === 1) {
+						return ((price*1).toFixed(2))
+					} else if (priceStr.length === 2) {
+						return ((price*1).toFixed(3))
+					} else {
+						return ((price*1).toFixed(3))
+					}
+				} else {
+					return ((price*1).toFixed(2))
+				}
 			},
 			up(index, num) {
 				if (num === 1) {
@@ -125,7 +141,7 @@
 					if (num < this.itemList[index].miniNumber) {
 						this.$message({
 							type: 'error',
-							message: "The minimum quantity is "+this.itemList[index].miniNumber
+							message: "The minimum quantity is " + this.itemList[index].miniNumber
 						});
 						this.itemList[index].num = this.itemList[index].miniNumber * 1;
 						this.$forceUpdate();
@@ -331,9 +347,9 @@
 							item.showName = item.name;
 							this.currencyData.push(item)
 						})
-//						var name = this.currencyInfo.name
-//						var currencyData = this.currencyData.filter(item => item.name == name);
-//						this.selectCurrency = currencyData[0].id
+						//						var name = this.currencyInfo.name
+						//						var currencyData = this.currencyData.filter(item => item.name == name);
+						//						this.selectCurrency = currencyData[0].id
 						this.gameList = data[0];
 						if (this.gameList.productSell == 'coin,coin') {
 							this.$router.replace('/coinList/' + this.$route.params.id)

@@ -149,9 +149,9 @@
 				var price = 0;
 				this.cartList.map((item) => {
 					if (item.type == "coin") {
-						var price1 = item.totalPrice * this.currencyInfo.rate.toFixed(2)
+						var price1 = (item.totalPrice * this.currencyInfo.rate).toFixed(2)
 					} else {
-						var price1 = item.productNum * item.salePrice * this.currencyInfo.rate.toFixed(
+						var price1 = (item.productNum * item.salePrice * this.currencyInfo.rate).toFixed(
 							2)
 					}
 					price = price + price1

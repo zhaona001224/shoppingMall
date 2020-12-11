@@ -39,7 +39,7 @@
 					</el-select>
 				</div>
 				<div class="total"> <span class="custom-quantity" style="width:400px;font-weight: bold;">Custom Quantity:<input  onafterpaste="this.value=this.value.replace(/\D/g,'')"
-					 @change="changeNum(coinNum)" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" :min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span>					<span class="price" style="width: 516px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(3)}}</span>					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
+					 @change="changeNum(coinNum)" :placeholder="selectData[0]?selectData[0].miniNumber:''" type="number" :min='selectData[0]&&selectData[0].miniNumber' class="input-style" v-model="coinNum" /> {{selectData[0]&&selectData[0].Unit}}</span>					<span class="price" style="width: 516px;text-align:right">{{currencyInfo.symbol}}{{(totalPrice*1*currencyInfo.rate).toFixed(2)}}</span>					<span class="option"><span class="buy point" style="margin-right:62px" @click="addCart(selectData[0],selectId,totalPrice,selectData[0]&&selectData[0].name+'*'+coinNum,'',1,1);">Buy Now</span></span>
 				</div>
 				<div class="total head"><span class="custom-quantity">Product</span><span class="price" style="width: 400px;"></span>					<span class="price">Price</span><span class="option" style="text-align: center;">Action</span></div>
 				<div class="li" v-for="(item,index) in discountList" :key="item.id">

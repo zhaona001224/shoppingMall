@@ -18,10 +18,12 @@
 			 src="../assets/image/home/img5.gif" /> </div>
 		<div class="game-contain" v-if="gameList.length > 0">
 			<div class="main-title"> {{ $t("language.mainPage.gameTitle") }} </div>
-			<div class="contain">
-				<div v-if="index<=7" class="li point" v-for="(item, index) in gameList" :key="item.id"
-				 @click="goProduct(item)"> <img v-lazy="imgUrl + item.logo" />
-					<div class="text hidden-style">{{ item.name }}</div>
+			<div class='tabs-wrapper' ref='tabsWrapper'>
+				<div class="contain">
+					<div v-if="index<=7" class="li point" v-for="(item, index) in gameList" :key="item.id"
+					 @click="goProduct(item)"> <img v-lazy="imgUrl + item.logo" />
+						<div class="text hidden-style">{{ item.name }}</div>
+					</div>
 				</div>
 			</div>
 			<!--<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png"
@@ -62,8 +64,8 @@
 								<span @click="down(index)" class="down">-</span>
 								<input type="number" v-model="item.num" class="show">
 								<span class="up" @click="up(index)">+</span></div>-->
-						<div class="price"> {{ currencyInfo.symbol }}{{ (item.price && item.price * currencyInfo.rate).toFixed(2) }}
-							</div>
+						<div class="price"> {{ currencyInfo.symbol }}{{ (item.price && item.price * currencyInfo.rate).toFixed(2)
+							}} </div>
 						<!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../assets/image/home/img_buy.jpg" />--></div>
 				</div>
 			</div>
@@ -143,7 +145,7 @@
 				<div class="li point" @click="goDetail(item)" v-for="(item, index) in newsList"
 				 v-if="index < 4" :key="item.id">
 					<div class="title">{{ item.title }}</div>
-					<div class="text" style="height: 140px; overflow: hidden"
+					<div class="text" style="height: 100px; overflow: hidden"
 					 v-html="item.text"></div>
 					<div class="date">{{ item.updated }}</div>
 				</div>
@@ -155,6 +157,7 @@
 	import { getTemplete } from "../api/common.js";
 	import { mapMutations, mapState } from "vuex";
 	import { getStore } from "../utils/storage";
+	import BScroll from 'better-scroll';
 	import "../utils/common/chart";
 	export default {
 		data() {
@@ -188,7 +191,7 @@
 				localStorage.setItem("newData", JSON.stringify(item));
 				this.$router.push("/newDetail");
 			},
-			goNewBank(link){
+			goNewBank(link) {
 				window.open(link);
 			},
 			goProduct(item, type) {
@@ -267,6 +270,16 @@
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
 						this.getItem();
+						this.$nextTick(() => {
+							if (!this.scroll) {
+								this.scroll = new BScroll(this.$refs.tabsWrapper, {
+									scrollX: true,
+									eventPassthrough: 'vertical',
+								})
+							} else {
+								this.scroll.refresh()
+							}
+						})
 					} else {
 						this.$message({
 							type: "warning",
@@ -402,12 +415,15 @@
 			margin: 0 auto;
 			text-align: left;
 			.li {
+				position: relative;
 				text-align: center;
 				margin: 36px;
 				margin-top: 0;
 				box-sizing: border-box;
 				display: inline-block;
 				width: 246px;
+				height: 310px;
+				overflow: hidden;
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
 				padding: 16px;
@@ -424,15 +440,8 @@
 				.title {
 					font-family: MicrosoftYaHei;
 					font-size: 20px;
-					height: 55px;
+					height: auto;
 					color: #333333;
-					text-overflow: -o-ellipsis-lastline;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
 				}
 				.text {
 					font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -444,6 +453,9 @@
 					color: #666666;
 				}
 				.date {
+					position: absolute;
+					bottom: 20px;
+					right: 20px;
 					font-family: 'Avenir', Helvetica, Arial, sans-serif;
 					font-size: 17px;
 					font-weight: normal;
@@ -545,14 +557,15 @@
 			}
 			.li {
 				text-align: center;
-				margin: 12px;
-				margin-top: 0;
+				margin-top: 30px;
 				box-sizing: border-box;
 				display: inline-block;
-				width: 220px;
+				width: 230px;
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
-				padding: 15px 0;
+				padding: 16px;
+				vertical-align: top;
+				border-right: 0;
 				&:hover {
 					transform: translateY(-3px);
 					box-shadow: 1px 1px 10px #999;
@@ -563,49 +576,31 @@
 						display: flex;
 					}
 				}
+				&:last-child {
+					border-right: solid 1px #dcdcdc;
+				}
+				&:nth-child(5n+1) {
+					border-right: solid 1px #dcdcdc;
+				}
 				img {
-					max-width: 56px;
-					max-height: 56px;
+					width: 56px;
+					height: 56px;
+					border-radius: 5px;
 				}
-				.select-num {
-					margin: 18px auto 12px;
-					display: flex;
-					align-items: center;
-					border-radius: 3px;
-					border: solid 1px #dcdcdc;
-					color: #808080;
-					width: 136px;
-					input {
-						text-align: center;
-						width: 90px;
-						height: 24px;
-						background-color: #fff;
-						line-height: 18px;
-						font-size: 14px;
-						padding: 0;
-						color: #666;
-						position: relative;
-						border: none;
-					}
-				}
-				.down, .up {
-					display: inline-block;
-					width: 24px;
-					height: 24px;
-					line-height: 24px;
-					background-color: #e7e7e7;
-					cursor: pointer;
+				.text {
+					padding: 10px 0 8px;
+					font-size: 14px;
 				}
 				.price {
 					text-align: center;
-					font-family: 'Avenir', Helvetica, Arial, sans-serif;
+					font-family: Arial-BoldMT;
 					font-size: 20px;
 					font-weight: normal;
 					font-stretch: normal;
 					line-height: 18px;
 					letter-spacing: 0px;
 					color: #f39800;
-					margin: 12px 0;
+					margin-bottom: 12px;
 				}
 			}
 		}

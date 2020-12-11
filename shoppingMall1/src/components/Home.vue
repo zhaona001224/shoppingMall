@@ -233,9 +233,9 @@
 				<li class="user-name">
 					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Sell to US</a>
 				</li>
-				<li class="user-name">
+				<!--<li class="user-name">
 					<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
-				</li>
+				</li>-->
 				<li class="user-name">
 					<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Contact us</a>
 				</li>
