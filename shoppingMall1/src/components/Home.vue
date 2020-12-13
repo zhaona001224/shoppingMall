@@ -1,5 +1,5 @@
 <template>
-	<div v-if="clientSize>700" class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
+	<div class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
 		<div class="top" style="position: fixed;top:0;">
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo"> <span class="el-dropdown-link">
@@ -131,147 +131,6 @@
 	<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
 	<div class="tip" style="margin:15px auto;">
 	<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>		</div>
-	</div>
-	<div class="pop-login" v-if="showLogin"> <img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png"
-		/>
-		<div class="tab"> <span @click="changeType('login');" :class="selectType=='login'?'active point':'point'">
-						{{$t("language.user.login")}}
-					</span> <span @click="changeType('register')" :class="selectType=='register'?'active point':'point'">
-						{{$t("language.user.register")}}
-					</span> </div>
-		<div class="form-contain" v-if="selectType=='login'">
-			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
-				<el-form-item :label='$t("language.user.email")' prop="email">
-					<el-input Pleaseholder="" v-model="form.email"> </el-input>
-				</el-form-item>
-				<el-form-item :label='$t("language.user.pass")' prop="password">
-					<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
-				</el-form-item>
-			</el-form>
-			<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>
-			<div class="btn point" @click="submit">{{$t("language.user.login")}}</div>
-		</div>
-		<div class="form-contain" v-if="selectType=='register'">
-			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
-				<el-form-item :label='$t("language.user.email")' prop="email">
-					<el-input Pleaseholder="" v-model="form.email"> </el-input>
-				</el-form-item>
-				<el-form-item :label='$t("language.user.pass")' prop="password">
-					<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
-				</el-form-item>
-				<el-form-item :label='$t("language.user.repass")' prop="repassword">
-					<el-input Pleaseholder="" type="password" v-model="form.repassword"> </el-input>
-				</el-form-item>
-				<el-form-item label='Instance Message:' prop="social_type">
-					<el-select style="width:130px;margin-right: 10px;" :clearable="true" v-model="form.social_type">
-						<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
-						</el-option>
-					</el-select>
-					<el-input Pleaseholder="" v-model="form.social_link"> </el-input>
-				</el-form-item>
-			</el-form>
-			<!--	<div class="forget-password point" @click="forgetPsw">{{$t("language.user.forget")}}</div>-->
-			<div class="btn point" @click="register">{{$t("language.user.register")}}</div>
-		</div>
-	</div>
-	</div>
-	<div v-else class="home-container">
-		<div class="top" style="position: fixed;top:0;">
-			<div class="left-img">
-				<div style="width: 0.44rem;height:0.44rem;background: rgb(242, 165, 6);"> <img style="padding-top:0.07rem;padding-left:0.07rem;width: 0.3rem;height: 0.3rem;"
-					 src="../assets/image/icon/icon-menu.png" /> </div> <img style="width: 0.8rem;"
-				 src="../assets/image/home/logo.png" /> </div>
-			<div class="menu">
-				<el-dropdown class="point" style="margin-right: 4px;" v-if="currencyInfo"> <span class="el-dropdown-link">
-					     {{currencyInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
-					</span>
-					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item v-for="(item,index) in currencyData" :key="index" @click.native="setCurrency(JSON.parse(item).symbol,JSON.parse(item).name,JSON.parse(item).rate)">{{JSON.parse(item).name}}</el-dropdown-item>
-					</el-dropdown-menu>
-				</el-dropdown>
-				<el-dropdown class="point"> <span class="el-dropdown-link">
-					    {{countryInfo&&countryInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
-					</span>
-					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
-					</el-dropdown-menu>
-				</el-dropdown>
-				<div class="menu-cart point user user-name" style="background: #434d53;" v-if="login"><img src="../assets/image/icon/icon_my.png"> </div>
-				<div class="menu-cart point user user-name"
-				 style="background: #de6262;" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">					</div>
-				<!--购物车显示块-->
-				<!--<el-dropdown class="menu-cart point" style="background: #de6262;" v-if="login"
-				 trigger="hover"> <img src="../assets/image/icon/icon-my.png" v-if="userInfo.email"><img v-else
-					 src="../assets/image/icon/icon_my.png"> <i class="el-icon-caret-bottom"></i>
-					<el-dropdown-menu slot="dropdown" style="padding:0">
-						<el-dropdown-item @click.native="$router.push('/Profile')"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Profile</span>							</el-dropdown-item>
-						<el-dropdown-item @click.native="$router.push('/HistoryOrder')">
-						<i class="el-icon-circle-close-outline"></i><span class="user-name">My Order</span>							</el-dropdown-item>
-						<el-dropdown-item @click.native="doLoginOut"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Login Out</span>							</el-dropdown-item>
-					</el-dropdown-menu>
-				</el-dropdown>-->
-				<!--<div v-else @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user-name"
-				 style="padding-right: 20px;"><img src="../assets/image/icon/icon_my.png">{{$t("language.common.login")}}</div>
-				<div v-if="!login" @click="SHOW_LOGIN(true);changeType('register')" style="border-left: 1px solid #f5f5f5;"
-				 class="menu-register point user-name">{{$t("language.common.reister")}}</div>--></div>
-		</div>
-		<div class="select" :style="scrollTop>50?'position: fixed;top:50px;z-index:1000;width:100%':''">
-			<ul class="select-ul" style="text-align: left;margin:0 auto;display: flex;">
-				<li style="width: 1.3rem;max-width: auto;flex-shrink: 0;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
-				 @click="getGame();gamePop=!gamePop">
-					<a href="javascript:void(0)">All Games</a>
-				</li>
-				<li class="user-name" @click="$router.push('/')">
-					<a href="javascript:void(0)">Home</a>
-				</li>
-				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/2')">Discount</a>
-				</li>
-				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">My order</a>
-				</li>
-				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Sell to US</a>
-				</li>
-				<!--<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
-				</li>-->
-				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Contact us</a>
-				</li>
-			</ul>
-			<div :class="gamePop?'active choose-game':'choose-game'">
-				<div style="width:100%;margin:0 auto"> <span :class="$route.params.id==item.id?'active':''" v-if="item.online" v-for="(item,index) in gameList"
-					 @click="chooseGame(item)">
-					{{item.name}}
-				</span> </div>
-			</div>
-		</div>
-		<transition name="fade" mode="out-in">
-			<router-view></router-view>
-		</transition>
-		<div class="footer" v-if="$route.fullPath!=='/BlankPage'">
-			<div class="tip"> <span class="point" @click="$router.push('/AboutUs')">About US</span> <span class="point"
-				 @click="$router.push('/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span>				<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>				<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
-				<span
-				 @click="$router.push('/BlankPage/3')" class="point"> Contact US</span>
-			</div>
-			<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
-			<!-- <div class="img">
-				<div class="trustedsite-trustmark" data-type="202"></div>
-				<div class="trustedsite-trustmark" data-type="102"></div> </div>
-			<div class="icon">
-			<img src="../assets/image/icon/icon_footer1.png" /> <img src="../assets/image/icon/icon_footer2.png"
-				/> <img src="../assets/image/icon/icon_footer3.png" /> <img src="../assets/image/icon/icon_footer4.png"
-				/> <img src="../assets/image/icon/icon_footer5.png" /> </div> -->
-			<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Trademarks are the copyright and property of their respective owners.</div>
-			<div
-			 style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">The use of this Website constitutes the acceptance of the <span style="color:red"
-				 class="point" @click="$router.push('/TermsCon')">Terms&Conditions</span> and
-				<span @click="$router.push('/PrivacyPolicy')" class="point" style="color:red">Privacy Policy</span>				</div>
-		<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
-		<div class="tip" style="margin:15px auto;">
-		<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>			</div>
 	</div>
 	<div class="pop-login" v-if="showLogin"> <img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png"
 		/>
@@ -622,7 +481,7 @@
 				if (response.retCode == 0) {
 					this.countryData = response.country;
 					this.currencyData = response.currency;
-					if (!this.currencyInfo.name) {
+					if (!this.currencyInfo) {
 						this.CHOOSE_CURRENCY({
 							name: JSON.parse(this.currencyData[0]).name,
 							symbol: JSON.parse(this.currencyData[0]).symbol,

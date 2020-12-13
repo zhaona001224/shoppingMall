@@ -20,12 +20,15 @@ import TermsCon from '../views/TermsCon'
 import PrivacyPolicy from '../views/PrivacyPolicy'
 import Profile from '../views/Profile'
 import HistoryOrder from '../views/HistoryOrder'
+import MobileHome from '../components/MobileHome'
+import MobileMainpage from '../views/Mobile/Mainpage'
 Vue.use(VueRouter);
 const routes = [{
 		path: '*',
 		redirect: '/Home'
 
 	},
+	
 	{
 		path: '/Home',
 		name: 'Mainpage',
@@ -272,7 +275,20 @@ const routes = [{
 		meta: {
 			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
-	}
+	},
+	{
+		path: '/Mobile/Home',
+		name: 'MobileMainpage',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileMainpage',
+			component: MobileMainpage
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
 
 
 ];

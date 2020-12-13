@@ -18,14 +18,12 @@
 			 src="../assets/image/home/img5.gif" /> </div>
 		<div class="game-contain" v-if="gameList.length > 0">
 			<div class="main-title"> {{ $t("language.mainPage.gameTitle") }} </div>
-			<div class='tabs-wrapper' ref='tabsWrapper'>
-				<div class="contain">
+			<div class="contain">
 					<div v-if="index<=7" class="li point" v-for="(item, index) in gameList" :key="item.id"
 					 @click="goProduct(item)"> <img v-lazy="imgUrl + item.logo" />
 						<div class="text hidden-style">{{ item.name }}</div>
 					</div>
 				</div>
-			</div>
 			<!--<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png"
 				/>{{$t("language.mainPage.load")}}</div>--></div>
 		<div class="item-contain">
@@ -157,7 +155,6 @@
 	import { getTemplete } from "../api/common.js";
 	import { mapMutations, mapState } from "vuex";
 	import { getStore } from "../utils/storage";
-	import BScroll from 'better-scroll';
 	import "../utils/common/chart";
 	export default {
 		data() {
@@ -270,16 +267,7 @@
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
 						this.getItem();
-						this.$nextTick(() => {
-							if (!this.scroll) {
-								this.scroll = new BScroll(this.$refs.tabsWrapper, {
-									scrollX: true,
-									eventPassthrough: 'vertical',
-								})
-							} else {
-								this.scroll.refresh()
-							}
-						})
+						
 					} else {
 						this.$message({
 							type: "warning",
@@ -377,11 +365,11 @@
 			text-align: center;
 			.li {
 				text-align: center;
-				margin: 10px;
+				margin: 26px;
 				margin-top: 0;
 				box-sizing: border-box;
 				display: inline-block;
-				width: 246px;
+				width: 260px;
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
 				padding: 16px;
@@ -579,7 +567,7 @@
 				&:last-child {
 					border-right: solid 1px #dcdcdc;
 				}
-				&:nth-child(5n+1) {
+				&:nth-child(5n) {
 					border-right: solid 1px #dcdcdc;
 				}
 				img {
