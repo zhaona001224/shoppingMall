@@ -3,7 +3,7 @@
 		<div class="top" style="position: fixed;top:0;">
 			<div class="left-img">
 				<div style="width: 0.44rem;height:0.44rem;background: rgb(242, 165, 6);"> <img style="padding-top:0.07rem;padding-left:0.07rem;width: 0.3rem;height: 0.3rem;"
-					 src="../assets/image/icon/icon-menu.png" /> </div> <img style="width: 0.8rem;"
+					 src="../assets/image/icon/icon-menu.png" /> </div> <img style="width: 0.8rem;margin-left: 0.1rem;"
 				 src="../assets/image/home/logo.png" /> </div>
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 4px;" v-if="currencyInfo"> <span class="el-dropdown-link">
@@ -25,11 +25,12 @@
 				 style="background: #de6262;" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">					</div>
 			</div>
 		</div>
-		<div class="select" :style="scrollTop>50?'position: fixed;top:50px;z-index:1000;width:100%':''">
+		<div class="select" ref="tabsWrapper" :style="scrollTop>50?'position: fixed;top:0.44rem;z-index:1000;width:100%':'padding-top: 0.44rem;'">
 			<ul class="select-ul" style="text-align: left;margin:0 auto;display: flex;">
-				<li style="width: 1.3rem;max-width: auto;flex-shrink: 0;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
+				<li style="width: 1.1rem;flex-shrink: 0;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
 				 @click="getGame();gamePop=!gamePop">
-					<a href="javascript:void(0)">All Games</a>
+					<a href="javascript:void(0)"><img style="width: 0.2rem;height: 0.2rem;margin-left: -0.2rem;margin-right: 2px;vertical-align: -4px;"
+						 src="../assets/image/home/icon_hot.png" />All Games</a>
 				</li>
 				<li class="user-name" @click="$router.push('/')">
 					<a href="javascript:void(0)">Home</a>
@@ -76,19 +77,19 @@
 				/> <img src="../assets/image/icon/icon_footer5.png" /> </div> -->
 			<div style="margin:0 auto;width:100%;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Trademarks are the copyright and property of their respective owners.</div>
 			<div
-			 style="margin:0 auto;width:100%;font-size: 12px;color: rgba(245, 245, 245, 0.3);">The use of this Website constitutes the acceptance of the <span style="color:red"
+			 style="margin:0 auto;width:100%;font-size: 12px;color: rgba(245, 245, 245, 0.3);">The use of this Website constitutes the acceptance of the <span style="color:rgba(2, 145, 205)"
 				 class="point" @click="$router.push('/TermsCon')">Terms&Conditions</span> and
-				<span @click="$router.push('/PrivacyPolicy')" class="point" style="color:red">Privacy Policy</span>				</div>
+				<span @click="$router.push('/PrivacyPolicy')" class="point" style="color:rgba(2, 145, 205)">Privacy Policy</span>				</div>
 		<div style="margin:0 auto;width:100%;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
 		<div class="tip" style="margin:15px auto;">
 		<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>			</div>
-	
-
 	</div>
 	<div class="fix-bottom">
-		<div class="menu-cart point user user-name"
-				@click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">					</div>
-
+		<div class="left">
+			<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/home/icon_red.png">				</div>
+			<div class="price">{{totalAmout}} {{currencyInfo.name}}</div>
+		</div>
+		<div class="btn">Check Out</div>
 	</div>
 	<div class="pop-login" v-if="showLogin"> <img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png"
 		/>
@@ -138,6 +139,7 @@
 	import { getTemplete, getConfig } from '../api/common.js'
 	import { login, register, loginOut, recover } from '../api/user.js'
 	import { mapMutations, mapState } from 'vuex'
+		import BScroll from "better-scroll";
 	import { ptn } from '@/utils/common/validate'
 	export default {
 		name: "app",
@@ -149,6 +151,7 @@
 				gameConfig: [],
 				countryData: [],
 				currencyData: [],
+				totalAmout: 0,
 				selectCurrency: '',
 				selectList: ['Discord', 'Skype', 'QQ', 'Wechat', 'Whats app', 'Line',
 					'Instagram', 'Telegram', 'Snapchat', 'Facebook', 'Phone'
@@ -370,13 +373,13 @@
 					});
 					return
 				}
-//				if (!(/^1[0-9]{10}$/.test(this.form.phone))) {
-//					this.$message({
-//						type: 'warning',
-//						message: 'Please fill in correct phone'
-//					});
-//					return;
-//				}
+				//				if (!(/^1[0-9]{10}$/.test(this.form.phone))) {
+				//					this.$message({
+				//						type: 'warning',
+				//						message: 'Please fill in correct phone'
+				//					});
+				//					return;
+				//				}
 				this.$refs.form.validate((valid) => {
 					if (valid) {
 						register({
@@ -493,7 +496,25 @@
 					deleteNode2 ? deleteNode2.className = '' : ''
 				}
 			}, 500)
-		}
+			this.$nextTick(() => {
+				if (!this.scroll) {
+					this.scroll = new BScroll(this.$refs.tabsWrapper, {
+						scrollX: true,
+						eventPassthrough: "vertical",
+					});
+				} else {
+					this.scroll.refresh();
+				}
+			});
+		},
+		watch: {
+			'cartList' () {
+				this.totalAmout = 0
+				cartList.map((item) => {
+					this.totalAmout = +item.totalPrice
+				})
+			}
+		},
 	}
 </script>
 <style lang="less">
@@ -501,93 +522,97 @@
 		padding: 0;
 		margin: 0;
 	}
-	.home-container{
+	
+	.home-container {
 		font-size: 0.13rem;
 	}
+	
 	.home-container .top {
 		z-index: 1000;
-		background: #fff;
-		width:100%;
-			display: flex;
-			height: 0.44rem;
-			justify-content: space-between;
-		}
-		.home-container .top .left-img {
-			display: flex;
-			align-items: center;
-		}
-		.home-container .top .menu {
-			background: #f1f1f1;
-			margin-right: 0;
-			display: flex;
-			align-items: center;
-		}
-		.home-container .point.el-dropdown.point {
-			background-color: #fff;
-			border-radius: 0.04rem;
-			border: 1px solid #ddd;
-			display: block;
-			padding: 1px 4px;
-			width: auto;
-			color: #333;
-			margin-top: 0;
-		}
-		.home-container .top .menu .menu-cart {
-			width: 0.44rem;
-			height: 0.44rem;
-			background: rgb(242, 165, 6);
-			margin-left: 0;
-		}
-		.home-container .top .menu .menu-cart img {
-			width: 0.3rem;
-			height: 0.3rem;
-			padding-top: 0.07rem;
-			padding-left: 0.07rem;
-		}
-		.home-container .top .menu .menu-cart.user img {
-			width: 0.2rem;
-			height: 0.2rem;
-			padding-top: 0.12rem;
-			padding-left: 0.12rem;
-		}
-		.home-container .top .menu .menu-cart.user .num {
-			position: absolute;
-			right: 0;
-			top: 0;
-		}
-		.home-container .select {
-			margin-top: 0.44rem;
-			overflow-x: auto;
-			max-width: 100%;
-		}
-		.home-container .select li {
-			width: 1.2rem;
-			font-size: 0.14rem;
-			min-width: 0.2rem;
-		}
-		.select-ul {
-			width: 600px;
-			flex-wrap: nowrap;
-		}
-		
-		.select {
+		background: #f1f1f1;
+		width: 100%;
+		display: flex;
+		height: 0.44rem;
+		justify-content: space-between;
+	}
+	
+	.home-container .top .left-img {
+		display: flex;
+		align-items: center;
+	}
+	
+	.home-container .top .menu {
+		margin-right: 0;
+		display: flex;
+		align-items: center;
+	}
+	
+	.home-container .point.el-dropdown.point {
+		background-color: #fff;
+		border-radius: 0.02rem;
+		border: 1px solid #ddd;
+		display: block;
+		padding: 1px 4px;
+		width: auto;
+		color: #333;
+		margin-top: 0;
+	}
+	
+	.home-container .top .menu .menu-cart {
+		width: 0.44rem;
+		height: 0.44rem;
+		background: rgb(242, 165, 6);
+		margin-left: 0;
+	}
+	
+	.home-container .top .menu .menu-cart img {
+		width: 0.3rem;
+		height: 0.3rem;
+		padding-top: 0.07rem;
+		padding-left: 0.07rem;
+	}
+	
+	.home-container .top .menu .menu-cart.user img {
+		width: 0.2rem;
+		height: 0.2rem;
+		padding-top: 0.12rem;
+		padding-left: 0.12rem;
+	}
+	
+	.home-container .top .menu .menu-cart.user .num {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+	
+	.home-container .select {
+		width: 100%;
+		overflow: hidden;
+	}
+	
+	.select-ul {
+		width: 5rem;
+		flex-wrap: nowrap;
+	}
+	
+	.select {
 		position: relative;
 		text-align: center;
-		height: 49px;
+		height: 0.44rem;
 		background-color: #212121;
-		line-height: 49px;
+		line-height: 0.44rem;
 		li {
 			cursor: pointer;
+			padding: 0 0.1rem;
 			font-family: microsoft yahei;
 			font-family: font, Arial, Helvetica Neue, Helvetica, sans-serif;
-			font-size: 16px;
-			line-height: 48px;
+			font-size: 0.14rem;
+			line-height: 0.44rem;
 			letter-spacing: 0px;
 			color: #ffffff;
 			display: inline-block;
-			height: 48px;
+			height: 0.44rem;
 			text-align: center;
-			min-width: 120px;
 			color: #fff;
 			position: relative;
 			&:hover {
@@ -598,7 +623,7 @@
 				text-decoration: none;
 			}
 			&.tri_bottom:before {
-				right: 19px;
+				right: 0.1rem;
 				content: "";
 				width: 0px;
 				height: 0px;
@@ -606,10 +631,10 @@
 				border-left: 6px solid transparent;
 				border-right: 6px solid transparent;
 				position: absolute;
-				top: 21px;
+				top: 0.18rem;
 			}
 			&.tri_top:before {
-				right: 19px;
+				right:  0.1rem;
 				content: "";
 				width: 0px;
 				height: 0px;
@@ -617,19 +642,20 @@
 				border-left: 6px solid transparent;
 				border-right: 6px solid transparent;
 				position: absolute;
-				top: 20px;
+				top: 0.18rem;
 			}
 			&.active {
 				background-image: linear-gradient(90deg, #e1251b 0%, #ea5f0e 53%, #f39800 100%), linear-gradient( #e1251b, #e1251b);
 			}
 		}
 	}
+	
 	.footer {
 		text-align: center;
 		width: 100%;
 		padding: 15px;
 		background-color: #181818;
-		height:auto;
+		height: auto;
 		box-sizing: border-box;
 		padding-bottom: 0.6rem;
 		.tip {
@@ -640,7 +666,7 @@
 				color: rgba(245, 245, 245, 0.8);
 				text-align: center;
 				font-size: 0.13rem;
-				padding:0 0.1rem;
+				padding: 0 0.1rem;
 				text-align: center;
 				border-right: 1px solid rgba(245, 245, 245, 0.3);
 				&:last-child {
@@ -649,8 +675,8 @@
 			}
 		}
 		img {
-			width:100%;
-			margin:0.16rem auto;
+			width: 100%;
+			margin: 0.16rem auto;
 		}
 		.icon {
 			margin: 32px auto 28px;
@@ -663,4 +689,49 @@
 		}
 	}
 	
+	.fix-bottom {
+		position: fixed;
+		width: 100%;
+		bottom: 0;
+		display: flex;
+		height: 50px;
+		background: #fff;
+		align-items: center;
+		justify-content: space-between;
+		.left {
+			margin-left: 15px;
+			display: flex;
+			align-items: center;
+			.user-name {
+				position: relative;
+				.num {
+					position: absolute;
+					right: -2px;
+					top: -2px;
+					color: #666;
+					font-size: 0.16rem;
+					font-weight: 700;
+				}
+				img {
+					width: 0.26rem;
+					height: 0.26rem;
+				}
+			}
+			.price {
+				color: #666;
+				font-weight: bold;
+				font-size: 0.16rem;
+				margin-left: 0.4rem;
+			}
+		}
+		.btn {
+			width: 1rem;
+			height: 50px;
+			color: #fff;
+			font-size: 0.16rem;
+			text-align: center;
+			line-height: 0.5rem;
+			background-image: linear-gradient(90deg, #e1251b 0%, #ea5f0e 53%, #f39800 100%), linear-gradient( #e1251b, #e1251b);
+		}
+	}
 </style>

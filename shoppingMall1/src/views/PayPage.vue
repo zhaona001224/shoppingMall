@@ -180,7 +180,7 @@
 						}
 					}
 				}
-				return price.toFixed(2)
+				return (price*1).toFixed(2)
 			},
 		},
 		methods: { ...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART',
