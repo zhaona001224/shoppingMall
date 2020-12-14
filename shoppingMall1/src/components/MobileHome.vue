@@ -442,7 +442,7 @@
 				if (response.retCode == 0) {
 					this.countryData = response.country;
 					this.currencyData = response.currency;
-					if (!this.currencyInfo.name) {
+					if (!this.currencyInfo) {
 						this.CHOOSE_CURRENCY({
 							name: JSON.parse(this.currencyData[0]).name,
 							symbol: JSON.parse(this.currencyData[0]).symbol,
@@ -649,7 +649,15 @@
 			}
 		}
 	}
-	
+	.choose-game{
+		position: absolute;
+		left: 0;
+		top:0.88rem;
+		width:100%;
+		height:3rem;
+		z-index:200;
+		background: #363e43;
+	}
 	.footer {
 		text-align: center;
 		width: 100%;

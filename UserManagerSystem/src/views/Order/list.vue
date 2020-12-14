@@ -278,17 +278,17 @@
 				data.description&&JSON.parse(data.description).map((item, index) => {
 					var category=item.category?(item.category+'-'):''
 					var server=item.server?(item.server+'-'):''
-					str1 = category +server + item.product +
-							'*' + item.quantity
-					var game=data.description?JSON.parse(data.description)[0].game:''
+					str1 = category+'-'+server + item.product 
+							
 					var data2 = {
-						pay_time: '"' + data.pay_time + '"',
+						pay_time: '"' + data.updated.split(' ')[0] + '"',
 						game:  '"' +item.game + '"',
 						products: '"' + str1 + '"',
-						gameId: '"' + game + '"',
-						payer_email: '"' + data.payer + '"',
+						gameId: '"' + item.unit_price + '"',
 						order: '"' + data.order_id + '"',
-						currency: '",,' + data.currency + '"',
+						kong1:'"'+'"',
+						kong2: '"'+'"',
+						currency:'"' + data.currency + '"',
 						total:'"' + data.total + '"'
 					}
 					
@@ -421,12 +421,6 @@
 					if (response.retCode == 0) {
 						this.notSearch = true;
 						this.tableData = response.data || [];
-						this.originTable = JSON.parse(JSON.stringify(this.tableData));
-						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
-						this.tableData.sort((a, b) => {
-							//排序基于的数据
-							return b.updated - a.updated;
-						})
 						this.tableData && this.tableData.map((item) => {
 							item.updated = this.$util.formatTime(item.updated,
 								'YYYY-MM-DD HH:mm:ss');
@@ -436,6 +430,13 @@
 							item.request_time = item.request_time ? this.dateFormat(item.request_time,
 								'yyyy-MM-dd HH:mm:ss') : ''
 						})
+						this.originTable = JSON.parse(JSON.stringify(this.tableData));
+						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
+						this.tableData.sort((a, b) => {
+							//排序基于的数据
+							return b.updated - a.updated;
+						})
+						
 						this.tableData1 = JSON.parse(JSON.stringify(this.tableData))
 						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
 						if (this.keyword) {
@@ -495,8 +496,7 @@
 					str + "&status=public&start=" + start + "&end=" + end, {}).then(response => {
 					if (response.retCode == 0) {
 						this.tableData = response.data || [];
-						this.originTable = JSON.parse(JSON.stringify(this.tableData));
-						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
+						
 						this.tableData.sort((a, b) => {
 							//排序基于的数据
 							return b.updated - a.updated;
@@ -509,6 +509,8 @@
 							item.request_time = item.request_time ? this.dateFormat(item.request_time,
 								'yyyy-MM-dd HH:mm:ss') : ''
 						})
+						this.originTable = JSON.parse(JSON.stringify(this.tableData));
+						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
 						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
 						this.tableData1 = JSON.parse(JSON.stringify(this.tableData));
 						if (this.keyword) {
