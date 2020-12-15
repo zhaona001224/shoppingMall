@@ -1,10 +1,11 @@
 <template>
-	<div class="home-container">
+	<div class="home-container" style="padding-top: 0.88rem;">
 		<div class="top" style="position: fixed;top:0;">
 			<div class="left-img">
 				<div style="width: 0.44rem;height:0.44rem;background: rgb(242, 165, 6);"> <img style="padding-top:0.07rem;padding-left:0.07rem;width: 0.3rem;height: 0.3rem;"
-					 src="../assets/image/icon/icon-menu.png" /> </div> <img style="width: 0.8rem;margin-left: 0.1rem;"
-				 src="../assets/image/home/logo.png" /> </div>
+					 @click="menuPop=!menuPop" src="../assets/image/icon/icon-menu.png" /> </div>
+				<img style="width: 0.8rem;margin-left: 0.1rem;" src="../assets/image/home/logo.png"
+				/> </div>
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 4px;" v-if="currencyInfo"> <span class="el-dropdown-link">
 					     {{currencyInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -25,11 +26,11 @@
 				 style="background: #de6262;" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">					</div>
 			</div>
 		</div>
-		<div class="select" ref="tabsWrapper" :style="scrollTop>50?'position: fixed;top:0.44rem;z-index:1000;width:100%':'padding-top: 0.44rem;'">
+		<div class="select" ref="tabsWrapper" style="position: fixed;top:0.44rem;z-index:1000;width:100%">
 			<ul class="select-ul" style="text-align: left;margin:0 auto;display: flex;">
 				<li style="width: 1.1rem;flex-shrink: 0;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
 				 @click="getGame();gamePop=!gamePop">
-					<a href="javascript:void(0)"><img style="width: 0.2rem;height: 0.2rem;margin-left: -0.2rem;margin-right: 2px;vertical-align: -4px;"
+					<a href="javascript:void(0)"><img style="width: 0.18rem;height: 0.2rem;margin-left: -0.2rem;margin-right: 2px;vertical-align: -4px;"
 						 src="../assets/image/home/icon_hot.png" />All Games</a>
 				</li>
 				<li class="user-name" @click="$router.push('/')">
@@ -51,16 +52,43 @@
 					<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Contact us</a>
 				</li>
 			</ul>
-			<div :class="gamePop?'active choose-game':'choose-game'">
-				<div style="width:100%;margin:0 auto"> <span :class="$route.params.id==item.id?'active':''" v-if="item.online" v-for="(item,index) in gameList"
-					 @click="chooseGame(item)">
-					{{item.name}}
-				</span> </div>
-			</div>
+			<div :class="gamePop?'active choose-game':'choose-game'"> </div>
 		</div>
+		<el-carousel v-if="gamePop" height="300px" :autoplay="false" arrow="always">
+			<el-carousel-item v-for="item in result" :key="item.id">
+				<div class="game-ul"> <span :class="$route.params.id==subItem.id?'active':''" v-if="subItem.online"
+					 v-for="(subItem,index) in gameList" @click="chooseGame(subItem)">
+					·{{subItem.name}}
+				</span> </div>
+			</el-carousel-item>
+		</el-carousel>
 		<transition name="fade" mode="out-in">
 			<router-view></router-view>
 		</transition>
+
+			<nav :class="menuPop?'menu-style active':'menu-style'">
+			<ul class="list-inline nav-main">
+				<li class="nav-primary">
+					<a href="javascript:void(0)" target="_blank"> Home </a>
+				</li>
+				<li class="nav-primary">
+					<a href="javascript:void(0)" target="_blank"> My Order </a>
+				</li>
+				<li class="nav-primary">
+					<a href="javascript:void(0)" target="_blank"> Discount </a>
+				</li>
+				<li class="nav-primary">
+					<a href="javascript:void(0)" target="_blank"> News </a>
+				</li>
+				<li class="nav-primary">
+					<a href="javascript:void(0)" target="_blank"> Sell to US </a>
+				</li>
+				<li class="nav-primary">
+					<a href="javascript:void(0)" target="_blank"> Contact US </a>
+				</li>
+			</ul>
+		</nav>
+		
 		<div class="footer" v-if="$route.fullPath!=='/BlankPage'">
 			<div class="tip"> <span class="point" @click="$router.push('/AboutUs')">About US</span> <span class="point"
 				 @click="$router.push('/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span>				<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>				<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
@@ -139,7 +167,7 @@
 	import { getTemplete, getConfig } from '../api/common.js'
 	import { login, register, loginOut, recover } from '../api/user.js'
 	import { mapMutations, mapState } from 'vuex'
-		import BScroll from "better-scroll";
+	import BScroll from "better-scroll";
 	import { ptn } from '@/utils/common/validate'
 	export default {
 		name: "app",
@@ -151,6 +179,7 @@
 				gameConfig: [],
 				countryData: [],
 				currencyData: [],
+				result: [],
 				totalAmout: 0,
 				selectCurrency: '',
 				selectList: ['Discord', 'Skype', 'QQ', 'Wechat', 'Whats app', 'Line',
@@ -185,6 +214,7 @@
 						trigger: 'blur'
 					}],
 				},
+				menuPop: false
 			}
 		},
 		computed: { ...mapState(["game", "userInfo", "login", 'currencyInfo',
@@ -192,7 +222,7 @@
 			]),
 			totalNum() {
 				var totalNum = 0;
-				this.cartList.map((item) => {
+				this.cartLis&&this.cartList.map((item) => {
 					totalNum = totalNum + item.productNum;
 				})
 				return totalNum
@@ -419,6 +449,14 @@
 							}, 1200000)
 						}
 						this.gameList = response.data;
+						var array = response.data
+						var result = [];
+						for (var x = 0; x < Math.ceil(array.length / 12); x++) {
+							var start = x * 12;
+							var end = start + 12;
+							result.push(array.slice(start, end));
+						}
+						this.result = result
 					} else {
 						this.$message({
 							type: 'warning',
@@ -461,6 +499,16 @@
 				}
 			})
 			getTemplete('?type=DirectGame').then(response => {
+				this.$nextTick(() => {
+				if (!this.scroll) {
+					this.scroll = new BScroll(this.$refs.tabsWrapper, {
+						scrollX: true,
+						eventPassthrough: "vertical",
+					});
+				} else {
+					this.scroll.refresh();
+				}
+			});
 				if (response.retCode == 0) {
 					this.gameConfig = response.data
 					response.data.map((item) => {
@@ -496,16 +544,7 @@
 					deleteNode2 ? deleteNode2.className = '' : ''
 				}
 			}, 500)
-			this.$nextTick(() => {
-				if (!this.scroll) {
-					this.scroll = new BScroll(this.$refs.tabsWrapper, {
-						scrollX: true,
-						eventPassthrough: "vertical",
-					});
-				} else {
-					this.scroll.refresh();
-				}
-			});
+			
 		},
 		watch: {
 			'cartList' () {
@@ -518,7 +557,7 @@
 	}
 </script>
 <style lang="less" scoped="">
-	body, html {
+body, html {
 		padding: 0;
 		margin: 0;
 	}
@@ -547,6 +586,14 @@
 		align-items: center;
 	}
 	
+	/deep/ .el-carousel__arrow--right {
+		right: 0px;
+	}
+	
+	/deep/ .el-carousel__arrow--left {
+		left: 0px;
+	}
+	
 	.home-container .point.el-dropdown.point {
 		background-color: #fff;
 		border-radius: 0.02rem;
@@ -556,6 +603,7 @@
 		width: auto;
 		color: #333;
 		margin-top: 0;
+		padding-left: 0.1rem;
 	}
 	
 	.home-container .top .menu .menu-cart {
@@ -583,6 +631,16 @@
 		position: absolute;
 		right: 0;
 		top: 0;
+		position: absolute;
+		right: 0.01rem;
+		top: 0.01rem;
+		width: 0.2rem;
+		height: 0.2rem;
+		text-align: center;
+		line-height: 0.2rem;
+		background-color: #e1251b;
+		border-radius: 50%;
+		color: #fff;
 	}
 	
 	.home-container .select {
@@ -634,7 +692,7 @@
 				top: 0.18rem;
 			}
 			&.tri_top:before {
-				right:  0.1rem;
+				right: 0.1rem;
 				content: "";
 				width: 0px;
 				height: 0px;
@@ -649,15 +707,73 @@
 			}
 		}
 	}
-	.choose-game{
-		position: absolute;
+	
+	.el-carousel--horizontal, .menu-style {
+		position: fixed;
 		left: 0;
-		top:0.88rem;
-		width:100%;
-		height:3rem;
-		z-index:200;
+		top: 0.87rem;
+		z-index: 20000;
+		width: 100%;
 		background: #363e43;
 	}
+	
+	.menu-style {
+		height: 0;
+		transform-origin: 0 0;
+		transition: all .5s;
+		overflow-y: auto;
+		&.active {
+			height: 2.7rem;
+			transform: scale(1);
+		}
+	}
+	
+	
+	
+	.menu-style .nav-main {
+		background-color: #434d53;
+		max-height: 5rem;
+		overflow-y: scroll;
+		
+		li {
+			display: block;
+			padding: 0;
+			border-top: 1px solid #363e43;
+			a {
+				padding: 0 15px;
+				line-height: 44px;
+				font-size: 0.15rem;
+				font-weight: bold;
+				font-family: 'Barlow', Helvetica;
+				text-decoration: none;
+				outline: none;
+				color: #fff;
+			}
+		}
+	}
+	
+	.el-carousel__indicator.el-carousel__indicator--horizontal {
+		display: none;
+	}
+	
+	.game-ul {
+		padding: 20px 25px;
+		font-size: 0.15rem;
+		height: 3.5rem;
+		color: #fff;
+		display: flex;
+		flex-wrap: wrap;
+		span {
+			text-align: left;
+			width: 50%;
+			flex-shrink: 0;
+			line-height: 0.3rem;
+			&.active {
+				background: #29303a;
+			}
+		}
+	}
+	
 	.footer {
 		text-align: center;
 		width: 100%;
@@ -702,7 +818,7 @@
 		width: 100%;
 		bottom: 0;
 		display: flex;
-		height: 50px;
+		height: 0.5rem;
 		background: #fff;
 		align-items: center;
 		justify-content: space-between;
@@ -714,11 +830,18 @@
 				position: relative;
 				.num {
 					position: absolute;
-					right: -2px;
-					top: -2px;
+					right: -8px;
+					top: -8px;
 					color: #666;
-					font-size: 0.16rem;
-					font-weight: 700;
+					font-size: 0.13rem;
+					position: absolute;
+					width: 0.2rem;
+					height: 0.2rem;
+					text-align: center;
+					line-height: 0.2rem;
+					background-color: #e1251b;
+					border-radius: 50%;
+					color: #fff;
 				}
 				img {
 					width: 0.26rem;
@@ -734,7 +857,7 @@
 		}
 		.btn {
 			width: 1rem;
-			height: 50px;
+			height: 0.5rem;
 			color: #fff;
 			font-size: 0.16rem;
 			text-align: center;

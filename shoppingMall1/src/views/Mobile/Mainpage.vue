@@ -213,7 +213,7 @@
 								} else {
 									this.scroll1.refresh();
 								}
-							}, 1000)
+							}, 2000)
 						});
 					} else {
 						this.$message({
