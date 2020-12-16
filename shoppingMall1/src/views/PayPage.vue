@@ -149,10 +149,10 @@
 				var price = 0;
 				this.cartList.map((item) => {
 					if (item.type == "coin") {
-						var price1 = (item.totalPrice * this.currencyInfo.rate).toFixed(2)
+						var price1 = (item.totalPrice * this.currencyInfo.rate).toFixed(2)*1
 					} else {
 						var price1 = (item.productNum * item.salePrice * this.currencyInfo.rate).toFixed(
-							2)
+							2)*1
 					}
 					price = price + price1
 					this.totalNum = this.totalNum * 1 + item.productNum
@@ -160,10 +160,10 @@
 				if (this.couponPrice.price && this.cartList.length > 0) {
 					if (this.couponPrice.type == 1) {
 						this.disPrice = ((price * 1 * this.couponPrice.price * 1 / 100) * 1 * this
-							.currencyInfo.rate).toFixed(2)
+							.currencyInfo.rate).toFixed(2)*1
 					} else {
 						this.disPrice = ((this.couponPrice.price * 1) * this.currencyInfo.rate).toFixed(
-							2)
+							2)*1
 					}
 				}
 				if (this.payList.length > 0) {
@@ -180,7 +180,8 @@
 						}
 					}
 				}
-				return (price*1).toFixed(2)
+				
+				return (price*1).toFixed(2)*1
 			},
 		},
 		methods: { ...mapMutations(['ADD_CART', 'REDUCE_CART', 'EDIT_CART',
@@ -367,7 +368,12 @@
 							message: 'Coupon is not valid'
 						});
 					}
-				} 
+				}else{
+					this.$message({
+						type: 'warning',
+						message: 'Coupon is not valid'
+					});
+				}
 			},
 			countNum(num) {
 				this.newArray = JSON.parse(JSON.stringify(this.discountList)).reverse()
