@@ -54,7 +54,7 @@
 							<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
 						</el-popover>
 						
-							<el-tag size="medium">{{ scope.row.user }}</el-tag>
+						<el-tag size="medium">{{ scope.row.user }}</el-tag>
 					
 
 					</template>
