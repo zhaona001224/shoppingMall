@@ -14,13 +14,13 @@
 			<el-table-column header-align="left" width="400px" label="Product">
 				<template slot-scope="scope">
 					<div :key="subIndex" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">
-					{{subItem.cateogry?subItem.cateogry+' - ':''}}{{subItem.server?subItem.server+' - ':''}}{{subItem.product }}({{subItem.quantity}}*{{subItem.unit_price}}) </div>
+					{{subItem.cateogry?subItem.cateogry+' - ':''}}{{subItem.server?subItem.server+' - ':''}}{{subItem.product }} </div>
 				</template>
 			</el-table-column>
 			<el-table-column header-align="left" width="130px" label="Total" prop="total">
 				
 			</el-table-column>
-			<el-table-column header-align="left" width="230px" prop="vendor" label="payment">
+			<el-table-column header-align="left" width="230px" prop="status" label="status">
 			</el-table-column>
 			</el-table>
 	</div>
@@ -64,6 +64,7 @@
 			getOrder() {
 				// + this.userInfo.email
 				getOrder("?type=Order&count=-1&q="+this.userInfo.email, {}).then(response => {
+					console.log(response.data);
 					if (response.retCode == 0) {
 						this.notSearch = true;
 						this.tableData = response.data || [];
