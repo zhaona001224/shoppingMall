@@ -1,15 +1,17 @@
-body,
-html {
+body, html {
 	padding: 0;
 	margin: 0;
+}
 
-}
 @font-face {
-    font-family: font;
-    src: url(Roboto-Regular.woff) format("truetype");
+	font-family: font;
+	src: url(Roboto-Regular.woff) format("truetype");
 }
- .el-dropdown {
- 	margin-top: 12px;
+
+
+
+.el-dropdown {
+	margin-top: 12px;
 	width: 97px;
 	height: 27px;
 	border: solid 1px rgba(255, 255, 255, 0.3);
@@ -17,24 +19,30 @@ html {
 	line-height: 27px;
 	text-align: center;
 }
-.point{
+
+.point {
 	cursor: pointer;
 }
-.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover{
+
+.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
 	background-color: #fff;
-    color: #000;
+	color: #000;
 }
-.el-dropdown-menu,.el-dropdown-menu__item{
+
+.el-dropdown-menu, .el-dropdown-menu__item {
 	background-color: #000;
 	color: #fff;
 	/*padding: 0 20px;*/
 }
+
 .el-popper[x-placement^=bottom] .popper__arrow::after {
-    top: 1px;
-    margin-left: -6px;
-    border-top-width: 0;
-    border-bottom-color: #000;
+	top: 1px;
+	margin-left: -6px;
+	border-top-width: 0;
+	border-bottom-color: #000;
 }
+
+
 /*.el-popper[x-placement^=bottom] .popper__arrow{
 	    border-bottom-color: #000;
 }*/

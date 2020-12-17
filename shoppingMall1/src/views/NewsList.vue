@@ -6,7 +6,7 @@
           class="li point"
           @click="goDetail(item)"
           v-for="(item, index) in newsList"
-          v-if="index < 8"
+          
           :key="item.id"
         >
           <div class="title">
