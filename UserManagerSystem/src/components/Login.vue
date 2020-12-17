@@ -55,7 +55,6 @@
 
 			return {
 				reload: false,
-				isLoading: false,
 				checked: true,
 				isShowTip: false,
 

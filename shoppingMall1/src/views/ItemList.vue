@@ -126,7 +126,7 @@
 					if (priceStr.length === 1) {
 						return ((price*1).toFixed(2))
 					} else if (priceStr.length === 2) {
-						return ((price*1).toFixed(3))
+						return price
 					} else {
 						return ((price*1).toFixed(3))
 					}
@@ -369,6 +369,7 @@
 			var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
 			this.isMobile = isIphone || isAndroid;
+			this.gameName=localStorage.getItem('gameName')
 			localStorage.setItem('gameId', this.$route.params.id)
 			//获取game
 			this.getCategory();

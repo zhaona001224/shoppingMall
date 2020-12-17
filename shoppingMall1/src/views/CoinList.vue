@@ -484,7 +484,7 @@
 		.select-title {
 			color: #999;
 			font-size: 14px;
-			margin-top: 35px;
+			padding-top: 35px;
 			margin-bottom: 14px;
 		}
 		.item {

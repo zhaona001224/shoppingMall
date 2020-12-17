@@ -24,6 +24,17 @@ import MobileHome from '../components/MobileHome'
 import MobileMainpage from '../views/Mobile/Mainpage'
 import MobileNewsList from '../views/Mobile/NewsList'
 import MobileNewDetail from '../views/Mobile/NewDetail'
+import MobileResult from '../views/Mobile/Result'
+import MobileAboutUs from '../views/Mobile/AboutUs'
+import MobileBlankPage from '../views/Mobile/BlankPage'
+import MobileFAQ from '../views/Mobile/FAQ'
+import MobileDeliveryPolicy from '../views/Mobile/DeliveryPolicy'
+import MobileDMCANotice from '../views/Mobile/DMCANotice'
+import MobileReturnPolicy from '../views/Mobile/ReturnPolicy'
+import MobileTermsCon from '../views/Mobile/TermsCon'
+import MobilePrivacyPolicy from '../views/Mobile/PrivacyPolicy'
+import MobileProfile from '../views/Mobile/Profile'
+import MobileHistoryOrder from '../views/Mobile/HistoryOrder'
 Vue.use(VueRouter);
 const routes = [{
 		path: '*',
@@ -312,6 +323,149 @@ const routes = [{
 			path: '',
 			name: 'MobileNewDetail',
 			component: MobileNewDetail
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/Result',
+		name: 'MobileResult',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileResult',
+			component: MobileResult
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/AboutUs',
+		name: 'MobileAboutUs',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileAboutUs',
+			component: MobileAboutUs
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/BlankPage/:id',
+		name: 'MobileBlankPage',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileBlankPage',
+			component: MobileBlankPage
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/FAQ',
+		name: 'MobileFAQ',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileFAQ',
+			component: MobileFAQ
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/DeliveryPolicy',
+		name: 'MobileDeliveryPolicy',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileDeliveryPolicy',
+			component: MobileDeliveryPolicy
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/DMCANotice',
+		name: 'MobileDMCANotice',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'MobileDMCANotice',
+			component: MobileDMCANotice
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/ReturnPolicy',
+		name: 'MobileReturnPolicy',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'MobileReturnPolicy',
+			component: MobileReturnPolicy
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/PrivacyPolicy',
+		name: 'MobilePrivacyPolicy',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'MobilePrivacyPolicy',
+			component: MobilePrivacyPolicy
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/TermsCon',
+		name: 'MobileTermsCon',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'MobileTermsCon',
+			component: MobileTermsCon
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/Profile',
+		name: 'MobileProfile',
+		component: Home,
+		children: [{
+			path: '',
+			name: 'MobileProfile',
+			component: MobileProfile
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/HistoryOrder',
+		name: 'MobileHistoryOrder',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileHistoryOrder',
+			component: MobileHistoryOrder
 		}],
 		meta: {
 			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录

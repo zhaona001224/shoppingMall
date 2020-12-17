@@ -42,9 +42,6 @@
 				<li class="user-name">
 					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">My order</a>
 				</li>
-				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Sell to US</a>
-				</li>
 				<!--<li class="user-name">
 					<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
 				</li>-->
@@ -69,31 +66,31 @@
 			<nav :class="menuPop?'menu-style active':'menu-style'">
 			<ul class="list-inline nav-main">
 				<li class="nav-primary">
-					<a href="javascript:void(0)" target="_blank"> Home </a>
+					<a href="javascript:void(0)" MobileNewDetail> Home </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" target="_blank"> My Order </a>
+					<a href="javascript:void(0)" MobileNewDetail @click="$router.push('/MobileBlankNewsList')"> My Order </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" target="_blank"> Discount </a>
+					<a href="javascript:void(0)" MobileNewDetail @click="$router.push('/MobileBlankPage/2')"> Discount </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" @click="$router.push('/newsList')"> News </a>
+					<a href="javascript:void(0)" @click="$router.push('/MobileNewsList')"> News </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" target="_blank"> Sell to US </a>
+					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')" MobileNewDetail> Sell to US </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" target="_blank"> Contact US </a>
+					<a href="javascript:void(0)" @click="$router.push('/MobileBlankPage/3')"  MobileNewDetail> Contact US </a>
 				</li>
 			</ul>
 		</nav>
 		
-		<div class="footer" v-if="$route.fullPath!=='/BlankPage'">
-			<div class="tip"> <span class="point" @click="$router.push('/AboutUs')">About US</span> <span class="point"
-				 @click="$router.push('/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span>				<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>				<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
+		<div class="footer" v-if="$route.fullPath!='/BlankPage'">
+			<div class="tip"> <span class="point" @click="$router.push('/MobileAboutUs')">About US</span> <span class="point"
+				 @click="$router.push('/MobileFAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span>				<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>				<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
 				<span
-				 @click="$router.push('/BlankPage/3')" class="point"> Contact US</span>
+				 @click="$router.push('/MobileBlankPage/3')" class="point"> Contact US</span>
 			</div>
 			<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
 			<!-- <div class="img">
@@ -112,13 +109,14 @@
 		<div class="tip" style="margin:15px auto;">
 		<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>			</div>
 	</div>
-	<div class="fix-bottom">
+	<div class="fix-bottom" v-if="$route.fullPath!=='/Mobile/payPage'||$route.fullPath!=='/Mobile/Result'">
 		<div class="left">
 			<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/home/icon_red.png">				</div>
 			<div class="price">{{totalAmout}} {{currencyInfo.name}}</div>
 		</div>
 		<div class="btn">Check Out</div>
 	</div>
+	
 	
 	</div>
 </template>

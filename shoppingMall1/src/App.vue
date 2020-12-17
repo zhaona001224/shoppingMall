@@ -77,6 +77,45 @@
 		color: #f2a506;
 	}
 	
+	.common-page {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 15px;
+		padding-bottom: 30px;
+	}
+	 .common-page   table{
+		width: 100%;
+		overflow: hidden;
+	}
+	.common-page .title {
+		margin: 30px 0 30px;
+		font-size: 22px;
+		font-weight: 600;
+	}
+	
+	.common-page .sub-title {
+		margin: 20px 0 20px;
+		font-size: 18px;
+		font-weight: 600;
+	}
+	
+	.common-page .nav {
+		font-size: 16px;
+		letter-spacing: 0px;
+		color: #666666;
+		margin: 20px 0;
+	}
+	
+	.common-page img {
+		width: 18px;
+		height: 18px;
+	}
+	
+	.common-page .content {
+		color: #333;
+		margin-bottom: 30px;
+	}
+	
 	.user-name:hover a {
 		color: #f2a506 !important;
 	}
@@ -156,10 +195,10 @@
 		text-decoration: none;
 		outline: none;
 	}
-	@media (max-width: 750px){
+	
+	@media (max-width: 750px) {
 		#app {
 			font-family: 'Barlow', Helvetica;
 		}
 	}
-
 </style>

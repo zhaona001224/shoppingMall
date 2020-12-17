@@ -19,11 +19,11 @@
 		<div class="game-contain" v-if="gameList.length > 0">
 			<div class="main-title"> {{ $t("language.mainPage.gameTitle") }} </div>
 			<div class="contain">
-					<div v-if="index<=7" class="li point" v-for="(item, index) in gameList" :key="item.id"
-					 @click="goProduct(item)"> <img v-lazy="imgUrl + item.logo" />
-						<div class="text hidden-style">{{ item.name }}</div>
-					</div>
+				<div v-if="index<=7" class="li point" v-for="(item, index) in gameList" :key="item.id"
+				 @click="goProduct(item)"> <img v-lazy="imgUrl + item.logo" />
+					<div class="text hidden-style">{{ item.name }}</div>
 				</div>
+			</div>
 			<!--<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png"
 				/>{{$t("language.mainPage.load")}}</div>--></div>
 		<div class="item-contain">
@@ -37,7 +37,7 @@
         </span> </div>
 			<div class="contain">
 				<div class="li point" v-for="(item, index) in itemList" :key="item.id" v-if="item.type == 'item,item' || (item.hintText && item.hintImage)"
-				 @click="goItem(selectGame)">
+				 @click="goItem(item)">
 					<div v-if="item.hintImage || item.hintText">
 						<el-popover style="min-width: auto; text-align: center" placement="right" trigger="hover">
 							<div class="pop-item" v-if="item.hintImage || item.hintText"> <img v-if="item.hintImage" :src="imgUrl + item.hintImage" />
@@ -205,6 +205,10 @@
 				}
 			},
 			goItem(item, type) {
+				item.id = item.game.split(",")[0];
+				item.name = item.game.split(",")[1];
+				localStorage.setItem("gameId", item.id);
+				localStorage.setItem("gameName", item.name);
 				this.$router.push("/itemList/" + this.selectId);
 			},
 			getGame() {
@@ -267,7 +271,6 @@
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
 						this.getItem();
-						
 					} else {
 						this.$message({
 							type: "warning",
