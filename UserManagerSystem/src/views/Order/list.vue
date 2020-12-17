@@ -25,12 +25,12 @@
 			</el-row>
 		</el-card>
 		<el-card class="box-card">
-			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle">
-				<el-table-column header-align="left" width="240px" sortable prop="updated" label="pay_time">
+			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle" :default-sort="{prop:'updated',order:'descending'}">
+				<el-table-column header-align="left" width="160px" sortable prop="updated" label="pay_time">
 				</el-table-column>
-				<el-table-column header-align="left" width="160px" prop="order_id"
+				<el-table-column header-align="left" width="120px" prop="order_id"
 				 label="order_id"> </el-table-column>
-				<el-table-column header-align="left" width="300px" label="Game">
+				<el-table-column header-align="left" width="160px" label="Game">
 					<template slot-scope="scope" >
 						{{scope.row['description']&&JSON.parse(scope.row['description'])[0].game}}
 				
@@ -38,7 +38,7 @@
 				</el-table-column>
 				<el-table-column header-align="left" width="160px" prop="comments" label="request_info">
 				</el-table-column>
-				<el-table-column header-align="left" width="160px" label="payer_email">
+				<el-table-column header-align="left" width="300px" label="payer_email">
 					<template slot-scope="scope">
 						<el-popover v-if="scope.row['payer']" placement="right" width="400" trigger="hover">
 							<div slot="reference" class="name-wrapper">
@@ -53,13 +53,17 @@
 							 @blur="handleInputBlur(scope.$index)"> </el-input>
 							<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
 						</el-popover>
+						
+						<el-tag size="medium">{{ scope.row.user }}</el-tag>
+					
+
 					</template>
 				</el-table-column>
-				<el-table-column header-align="left" width="240px" sortable prop="ip" label="ip">
+				<el-table-column header-align="left" width="120px" sortable prop="ip" label="ip">
 				</el-table-column>
-				<el-table-column header-align="left" width="120px" sortable
-				 prop="vendor" label="pay_type"> </el-table-column>
-				<el-table-column prop="status" label="status" width="200px">
+				<el-table-column header-align="left" width="100px" sortable
+				 prop="vendor" label="type"> </el-table-column>
+				<el-table-column prop="status" label="status" width="160px">
 					<template slot-scope="scope">
 						<el-select :clearable="true" @change="edit(scope.$index,scope.row['id'])" style="width:100px"
 						 v-model="scope.row['status']" placeholder="请选择 status">
@@ -71,7 +75,7 @@
 				<el-table-column header-align="left" sortable label="total">
 					<template slot-scope="scope"> {{scope.row['total']}}{{scope.row['currency']}} </template>
 				</el-table-column>
-				<el-table-column prop="bad" label="bad" width="200px">
+				<!--el-table-column  prop="bad" label="bad" width="200px">
 					<template slot-scope="scope">
 						<el-select :clearable="true" @change="edit(scope.$index,scope.row['id'])" style="width:100px"
 						 v-model="scope.row['bad']" placeholder="请选择 status">
@@ -79,7 +83,7 @@
 							 :value="subItem.value"> </el-option>
 						</el-select>
 					</template>
-				</el-table-column>
+				</!--el-table-column-->
 				<el-table-column fixed="right" label="operation" width="120px" cell-class-name="center"
 				 header-align="center">
 					<template slot-scope="scope">
@@ -295,7 +299,7 @@
 						pay_time: '"' + data.updated.split(' ')[0] + '"',
 						game:  '"' +item.game + '"',
 						products: '"' + str1 + '"',
-						gameId: item.unit_price ,
+						gameId: item.quantity ,
 						order: '"' + data.order_id + '"',
 						kong1:'""',
 						kong2: '""',
@@ -411,6 +415,7 @@
 			},
 			copy(id) {
 				var that = this;
+				
 				var clipboard1 = new this.clipboard('.clip')
 				clipboard1.on('success', e => {
 					this.$message({
@@ -603,7 +608,7 @@
 	}
 	
 	.el-table__row.comments td:nth-child(5) {
-		background: blue;
+		background:  #E3EDCD;
 		color: #fff;
 	}
 	

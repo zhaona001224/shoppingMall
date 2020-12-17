@@ -1,6 +1,6 @@
 <template>
 	<div style="width: 1200px; margin: 100px auto;">
-		<div class="nav"> <img src="../assets/image/icon/icon_home.png" />Home >DMCA Notice </div>
+		<div class="nav"> <img src="../assets/image/icon/icon_home.png" />Home >Profile </div>
 		<el-form
 		 style="width: 800px; margin: 40px auto 0" ref="form" :model="form" :rules="rules"
 		 label-width="200px">
