@@ -64,7 +64,7 @@
 			getOrder() {
 				// + this.userInfo.email
 				getOrder("?type=Order&count=-1&q="+this.userInfo.email, {}).then(response => {
-					console.log(response.data);
+					
 					if (response.retCode == 0) {
 						this.notSearch = true;
 						this.tableData = response.data || [];

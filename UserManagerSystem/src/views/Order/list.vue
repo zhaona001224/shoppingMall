@@ -25,7 +25,7 @@
 			</el-row>
 		</el-card>
 		<el-card class="box-card">
-			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle">
+			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle" :default-sort="{prop:'updated',order:'descending'}">
 				<el-table-column header-align="left" width="160px" sortable prop="updated" label="pay_time">
 				</el-table-column>
 				<el-table-column header-align="left" width="120px" prop="order_id"
@@ -53,9 +53,9 @@
 							 @blur="handleInputBlur(scope.$index)"> </el-input>
 							<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
 						</el-popover>
-						<el-popver>
-						<el-tag size="medium">{{ scope.row.user }}</el-tag>
-						</el-popver>
+						
+							<el-tag size="medium">{{ scope.row.user }}</el-tag>
+					
 
 					</template>
 				</el-table-column>
