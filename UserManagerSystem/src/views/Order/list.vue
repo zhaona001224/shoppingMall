@@ -84,7 +84,7 @@
 				 header-align="center">
 					<template slot-scope="scope">
 						<el-button type="text" size="small" @click="handleEdit(scope.row)">view</el-button>
-						<el-button type="text" class="clip" :data-clipboard-text="getFormData(scope.$index)"
+						<el-button type="text" class="clip" :data-clipboard-text="getFormData(scope.row.id)"
 						 size="small" @click="copy(scope.row.id)">Copy</el-button>
 					</template>
 				</el-table-column>
@@ -271,8 +271,14 @@
 					}         
 				return format;      
 			},
-			getFormData(index) {
-				var data = JSON.parse(JSON.stringify(this.originTable[index]));
+			getFormData(id) {
+				var index=0;
+				this.tableData&&this.tableData.map((item,subIndex)=>{
+					if(item.id==id){
+						index=subIndex
+					}
+				})
+				var data = JSON.parse(JSON.stringify(this.tableData[index]));
 				var str1 = ''
 				var str = ''
 				data.description&&JSON.parse(data.description).map((item, index) => {

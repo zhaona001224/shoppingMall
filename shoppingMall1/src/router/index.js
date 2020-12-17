@@ -22,6 +22,8 @@ import Profile from '../views/Profile'
 import HistoryOrder from '../views/HistoryOrder'
 import MobileHome from '../components/MobileHome'
 import MobileMainpage from '../views/Mobile/Mainpage'
+import MobileNewsList from '../views/Mobile/NewsList'
+import MobileNewDetail from '../views/Mobile/NewDetail'
 Vue.use(VueRouter);
 const routes = [{
 		path: '*',
@@ -284,6 +286,32 @@ const routes = [{
 			path: '',
 			name: 'MobileMainpage',
 			component: MobileMainpage
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/NewsList',
+		name: 'MobileNewsList',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileNewsList',
+			component: MobileNewsList
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/NewDetail',
+		name: 'MobileNewDetail',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileNewDetail',
+			component: MobileNewDetail
 		}],
 		meta: {
 			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
