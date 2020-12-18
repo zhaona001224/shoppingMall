@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 1200px; margin: 100px auto">
+  <div class="common-page">
     <div class="common-breadcrumb">
 			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
 							Privacy Policy
