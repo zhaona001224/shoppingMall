@@ -95,7 +95,7 @@
 				</el-col>
 				<el-col :span="12">
 					<el-form-item label="Address Status:">
-						<div style="margin-right: 40px;">{{payer_info.payer_status==="Y"?'confirmed ':'unconfirmed'}}</div>
+						<div style="margin-right: 40px;">{{payer_info.address_status==="Y"?'confirmed ':'unconfirmed'}}</div>
 					</el-form-item>
 				</el-col>
 			</el-row>
