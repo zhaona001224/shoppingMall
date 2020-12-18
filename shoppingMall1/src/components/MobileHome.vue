@@ -37,16 +37,16 @@
 					<a href="javascript:void(0)">Home</a>
 				</li>
 				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/2')">Discount</a>
+					<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/2')">Discount</a>
 				</li>
 				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">My order</a>
+					<a href="javascript:void(0)" @click="$router.push('/Mobile/HistoryOrder')">My order</a>
 				</li>
 				<!--<li class="user-name">
 					<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
 				</li>-->
 				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Contact us</a>
+					<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/3')">Contact us</a>
 				</li>
 			</ul>
 			<div :class="gamePop?'active choose-game':'choose-game'"> </div>
@@ -69,28 +69,28 @@
 					<a href="javascript:void(0)" MobileNewDetail> Home </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" MobileNewDetail @click="$router.push('/MobileBlankNewsList')"> My Order </a>
+					<a href="javascript:void(0)" MobileNewDetail @click="$router.push('/Mobile/HistoryOrder')"> My Order </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" MobileNewDetail @click="$router.push('/MobileBlankPage/2')"> Discount </a>
+					<a href="javascript:void(0)" MobileNewDetail @click="$router.push('/Mobile/BlankPage/2')"> Discount </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" @click="$router.push('/MobileNewsList')"> News </a>
+					<a href="javascript:void(0)" @click="$router.push('/Mobile/NewsList')"> News </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')" MobileNewDetail> Sell to US </a>
+					<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/1')" MobileNewDetail> Sell to US </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" @click="$router.push('/MobileBlankPage/3')"  MobileNewDetail> Contact US </a>
+					<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/3')"  MobileNewDetail> Contact US </a>
 				</li>
 			</ul>
 		</nav>
 		
 		<div class="footer" v-if="$route.fullPath!='/BlankPage'">
-			<div class="tip"> <span class="point" @click="$router.push('/MobileAboutUs')">About US</span> <span class="point"
-				 @click="$router.push('/MobileFAQ')">FAQ  </span> <span class="point" @click="$router.push('/DeliveryPolicy')"> Delivery Policy</span>				<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>				<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
+			<div class="tip"> <span class="point" @click="$router.push('/Mobile/AboutUs')">About US</span> <span class="point"
+				 @click="$router.push('/Mobile/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/Mobile/DeliveryPolicy')"> Delivery Policy</span>				<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>				<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
 				<span
-				 @click="$router.push('/MobileBlankPage/3')" class="point"> Contact US</span>
+				 @click="$router.push('/Mobile/BlankPage/3')" class="point"> Contact US</span>
 			</div>
 			<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
 			<!-- <div class="img">
@@ -179,7 +179,7 @@
 			]),
 			totalNum() {
 				var totalNum = 0;
-				this.cartLis&&this.cartList.map((item) => {
+				this.cartList&&this.cartList.map((item) => {
 					totalNum = totalNum + item.productNum;
 				})
 				return totalNum
@@ -506,7 +506,7 @@
 		watch: {
 			'cartList' () {
 				this.totalAmout = 0
-				cartList.map((item) => {
+				this.cartList&&this.cartList.map((item) => {
 					this.totalAmout = +item.totalPrice
 				})
 			}

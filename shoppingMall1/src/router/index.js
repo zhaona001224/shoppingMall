@@ -396,7 +396,7 @@ const routes = [{
 	{
 		path: '/Mobile/DMCANotice',
 		name: 'MobileDMCANotice',
-		component: Home,
+		component: MobileHome,
 		children: [{
 			path: '',
 			name: 'MobileDMCANotice',
@@ -409,7 +409,7 @@ const routes = [{
 	{
 		path: '/Mobile/ReturnPolicy',
 		name: 'MobileReturnPolicy',
-		component: Home,
+		component: MobileHome,
 		children: [{
 			path: '',
 			name: 'MobileReturnPolicy',
@@ -422,7 +422,7 @@ const routes = [{
 	{
 		path: '/Mobile/PrivacyPolicy',
 		name: 'MobilePrivacyPolicy',
-		component: Home,
+		component: MobileHome,
 		children: [{
 			path: '',
 			name: 'MobilePrivacyPolicy',
@@ -435,7 +435,7 @@ const routes = [{
 	{
 		path: '/Mobile/TermsCon',
 		name: 'MobileTermsCon',
-		component: Home,
+		component: MobileHome,
 		children: [{
 			path: '',
 			name: 'MobileTermsCon',
@@ -448,7 +448,7 @@ const routes = [{
 	{
 		path: '/Mobile/Profile',
 		name: 'MobileProfile',
-		component: Home,
+		component: MobileHome,
 		children: [{
 			path: '',
 			name: 'MobileProfile',
