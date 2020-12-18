@@ -748,6 +748,7 @@ body, html {
 				text-align: center;
 				font-size: 0.13rem;
 				padding: 0 0.1rem;
+				width: auto;
 				text-align: center;
 				border-right: 1px solid rgba(245, 245, 245, 0.3);
 				&:last-child {
@@ -755,9 +756,12 @@ body, html {
 				}
 			}
 		}
+		.img{
+			margin:0
+		}
 		img {
 			width: 100%;
-			margin: 0.16rem auto;
+			margin: 0.12rem auto;
 		}
 		.icon {
 			margin: 32px auto 28px;
@@ -784,6 +788,7 @@ body, html {
 			display: flex;
 			align-items: center;
 			.user-name {
+				margin-left: 0;
 				position: relative;
 				.num {
 					position: absolute;

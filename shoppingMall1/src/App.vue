@@ -83,10 +83,12 @@
 		padding: 0 15px;
 		padding-bottom: 30px;
 	}
-	 .common-page   table{
+	
+	.common-page table {
 		width: 100%;
 		overflow: hidden;
 	}
+	
 	.common-page .title {
 		margin: 30px 0 30px;
 		font-size: 22px;
@@ -199,6 +201,16 @@
 	@media (max-width: 750px) {
 		#app {
 			font-family: 'Barlow', Helvetica;
+		}
+		.el-table td, .el-table th {
+			padding: 0.06rem 0!important;
+			font-size: 0.12rem;
+			
+		}
+		.el-table .cell{
+			line-height: 1.2;
+			padding: 0;
+			text-align: center;
 		}
 	}
 </style>

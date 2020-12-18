@@ -4,26 +4,26 @@
 			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
 							My Order
 					</span> </div>
-					<el-table
-		 show-summary :data="tableData" width="100%">
-			<el-table-column header-align="left" width="120px" sortable prop="updated" label="pay_time">
+		<el-table class="table-style"
+		 show-summary :data="tableData" >
+			<el-table-column header-align="left"  sortable prop="updated" label="pay_time">
 			</el-table-column>
-			<el-table-column header-align="left" width="100px" label="Game">
+			<el-table-column header-align="left"  label="Game">
 				<template slot-scope="scope">
 					<div :key="subIndex" v-if="subIndex===0" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">
 					{{subItem.game}} </div>
 				</template>
 			</el-table-column>
-			<el-table-column header-align="left" width="200px" label="Product">
+			<el-table-column header-align="left"  label="Product">
 				<template slot-scope="scope">
 					<div :key="subIndex" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">
-					{{subItem.cateogry?subItem.cateogry+' - ':''}}{{subItem.server?subItem.server+' - ':''}}{{subItem.product }}({{subItem.quantity}}*{{subItem.unit_price}}) </div>
+					{{subItem.cateogry?subItem.cateogry+' - ':''}}{{subItem.server?subItem.server+' - ':''}}{{subItem.product }} </div>
 				</template>
 			</el-table-column>
-			<el-table-column header-align="left" width="100px" label="Total" prop="total">
+			<el-table-column header-align="left" width="60"  label="Total" prop="total">
 				
 			</el-table-column>
-			<el-table-column header-align="left" width="80px" prop="vendor" label="payment">
+			<el-table-column header-align="left" width="60"  prop="status" label="status">
 			</el-table-column>
 			</el-table>
 	</div>
@@ -145,20 +145,8 @@
 		font-size: 18px;
 		font-weight: 600;
 	}
-	
-	.nav {
-		font-size: 16px;
-		letter-spacing: 0px;
-		color: #666666;
-		margin: 20px 0;
-		img {
-			width: 18px;
-			height: 18px;
-		}
-	}
-	
-	.content {
-		color: #333;
-		margin-bottom: 30px;
-	}
+  /deep/ .table-style .el-table td, .el-table th{
+	padding: 0;
+}
+
 </style>
