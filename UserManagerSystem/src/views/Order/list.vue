@@ -286,7 +286,7 @@
 				var str1 = ''
 				var str = ''
 				data.description&&JSON.parse(data.description).map((item, index) => {
-					console.log(item);
+					console.log(data)
 					var subtotal = 0;
 					if (item.unit_price && item.quantity){
 						subtotal = item.unit_price*item.quantity
@@ -294,12 +294,13 @@
 					var category=item.category?(item.category+'-'):''
 					var server=item.server?(item.server+'-'):''
 					str1 = category+	server + item.product 
-							
+					
 					var data2 = {
 						pay_time: '"' + data.updated.split(' ')[0] + '"',
 						game:  '"' +item.game + '"',
 						products: '"' + str1 + '"',
 						gameId: item.quantity ,
+						request_info:'"'+data.comments+'"',
 						order: '"' + data.order_id + '"',
 						kong1:'""',
 						kong2: '""',
@@ -316,7 +317,7 @@
 					}
 					str=str+'\n'
 				})
-				str += '""	""	""	0	""	""	""	""	0';  //for hack operation
+				str += '""	""	""	0	""	""	""	""	""	0';  //for hack operation
 				return str
 			},
 			handleCheckAllChange(val) {
