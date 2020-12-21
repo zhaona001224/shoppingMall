@@ -25,8 +25,8 @@
 			</el-row>
 		</el-card>
 		<el-card class="box-card">
-			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle" :default-sort="{prop:'updated',order:'descending'}">
-				<el-table-column header-align="left" width="160px" sortable prop="updated" label="pay_time">
+			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle" :default-sort="{prop:'airtime',order:'descending'}">
+				<el-table-column header-align="left" width="160px" sortable prop="airtime" label="pay_time">
 				</el-table-column>
 				<el-table-column header-align="left" width="120px" prop="order_id"
 				 label="order_id"> </el-table-column>
@@ -59,7 +59,7 @@
 
 					</template>
 				</el-table-column>
-				<el-table-column header-align="left" width="120px" sortable prop="ip" label="ip">
+				<el-table-column header-align="left" width="120px"  prop="ip" label="ip">
 				</el-table-column>
 				<el-table-column header-align="left" width="100px" sortable
 				 prop="vendor" label="type"> </el-table-column>
@@ -286,7 +286,7 @@
 				var str1 = ''
 				var str = ''
 				data.description&&JSON.parse(data.description).map((item, index) => {
-					console.log(data)
+				//	console.log(data)
 					var subtotal = 0;
 					if (item.unit_price && item.quantity){
 						subtotal = item.unit_price*item.quantity
@@ -447,6 +447,8 @@
 							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
 							item.request_time = item.request_time ? this.dateFormat(item.request_time,
 								'yyyy-MM-dd HH:mm:ss') : ''
+							//console.log(item.pay_time);
+							item.airtime = this.$util.formatTime(this.getTimeFromString(item.pay_time),'YYYY-MM-DD HH:mm:ss');
 						})
 						this.originTable = JSON.parse(JSON.stringify(this.tableData));
 						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
@@ -467,6 +469,22 @@
 						});
 					}
 				})
+			},
+			getTimeFromString(str) {
+				if (str&&str.indexOf(",")>0 && str.indexOf("HKT")>0){
+					var sep=str.split(",");
+					// console.log(sep[1]);
+					var 	spacearray=sep[1].split(" ");
+						spacearray.pop();
+						//console.log(spacearray);
+					var	target = spacearray.join(" ");
+						//console.log(target);
+					var 	tt = Date.parse(target);
+					//	console.log(tt);
+						return tt
+				}else {
+					return Date.parse(str)
+				}
 			},
 			getDataSource() {
 				var that = this;
