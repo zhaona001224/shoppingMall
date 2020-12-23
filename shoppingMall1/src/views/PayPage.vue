@@ -7,7 +7,7 @@
 		<div class="table">
 			<div class="th" v-for="(item,index) in cartList">
 				<!-- {{item.detail}} -->
-				<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}<span v-if="item.detail.unit">{{item.detail.unit}}</span></div>
+				<div style="width: 50%;padding-left: 29px;">{{item.gameName}}-{{item.categoryName}}-{{item.serveName}}-{{item.productName}}<span v-if="item.detail&&item.detail.unit">{{item.detail.unit}}</span></div>
 				<div style="width: 290px;">
 					<div class="select-num"> <span @click="down(item,item.productId,item.productName)" class="down">-</span>						<input @change="changeNum(index)" type="number" onkeyup="this.value=this.value.replace(/\D/g,'')"
 						 onafterpaste="this.value=this.value.replace(/\D/g,'')" :min="item.detail?item.detail.miniNumber:0"
