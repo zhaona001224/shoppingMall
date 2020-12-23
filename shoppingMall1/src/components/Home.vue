@@ -76,7 +76,7 @@
 		 src="../assets/image/home/logo.png" style="position: absolute;left:17.56%;top: 90px;width: 240px;"
 		/></div>
 	<div class="select" :style="scrollTop>200||$route.fullPath==='/payPage'?'position: fixed;top:50px;z-index:1000;width:100%':''">
-		<ul style="text-align: left;width: 1200px;margin:0 auto;display: flex;justify-content: space-between;">
+		<ul style="text-align: left;width: 1200px;margin:0 auto;display: flex;">
 			<li style="width: 230px;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
 			 @click="getGame();gamePop=!gamePop">
 				<a href="javascript:void(0)">{{$t("language.common.tab1")}}</a>
@@ -129,7 +129,7 @@
 			 @click="$router.push('/PrivacyPolicy')" class="point" style="color:red">Privacy Policy</span>
 	</div>
 	<div style="margin:0 auto;width:930px;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
-	<div class="tip" style="margin:15px auto;">
+	<div class="tip" style="margin-top: 15px;">
 	<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>		</div>
 	</div>
 	<div class="pop-login" v-if="showLogin"> <img @click="SHOW_LOGIN(false)" class="close point" src="../assets/image/icon/icon_close.png"
@@ -642,9 +642,8 @@
 	.footer {
 		text-align: center;
 		width: 100%;
-		padding: 50px 0 60px;
+		padding: 50px 0 30px;
 		background-color: #181818;
-		height: 326px;
 		box-sizing: border-box;
 		.tip {
 			span {

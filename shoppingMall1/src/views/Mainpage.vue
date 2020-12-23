@@ -1,10 +1,10 @@
 <template>
 	<div class="main-page" style="text-align: center">
-		<el-carousel v-if="bannerList" style="margin: 40px 8.125% 0" :interval="3000" :type="clientSize>700?'card':''"
-		 height="300px">
+		<el-carousel v-if="bannerList" style="width:1200px;margin: 20px auto 0" :interval="3000" type="card"
+		 height="400px">
 			<el-carousel-item v-for="item in bannerList" :key="item.id" style="width: 50%; box-shadow: 0px 15px 20px -5px rgba(0, 0, 0, 0.3)">
 				<div @click="item.link?goNewBank(item.link):goProduct(item, 1)" :style="
-            'width:100%;height:300px;background: url(' +
+            'width:100%;height:400px;background: url(' +
             imgUrl +
             item.image +
             ');background-size:cover;'
@@ -12,10 +12,10 @@
 			</el-carousel-item>
 		</el-carousel>
 		<div class="img-contain">
-			<a href="https://www.mcafeesecure.com/verify?host=egpal.com"><img class="img-style" src="../assets/image/home/img1.gif" /></a> <img class="img-style"
-			 src="../assets/image/home/img2.gif" />
-			<a href="https://transparencyreport.google.com/safe-browsing/search?url=www.egpal.com"><img class="img-style" src="../assets/image/home/img3.gif" /></a> <img class="img-style"
-			 src="../assets/image/home/img5.gif" /> </div>
+			<a href="https://www.mcafeesecure.com/verify?host=egpal.com"><img class="img-style" style="border-right: 1px solid #dcdcdc;"  src="../assets/image/home/img1.gif" /></a> <img class="img-style"
+			 src="../assets/image/home/img2.gif" style="border-right: 1px solid #dcdcdc;" />
+			<a href="https://transparencyreport.google.com/safe-browsing/search?url=www.egpal.com"><img class="img-style"  style="border-right: 1px solid #dcdcdc;"  src="../assets/image/home/img3.gif" /></a> <img class="img-style"
+			 src="../assets/image/home/img5.gif"  /> </div>
 		<div class="game-contain" v-if="gameList.length > 0">
 			<div class="main-title"> {{ $t("language.mainPage.gameTitle") }} </div>
 			<div class="contain">
@@ -328,16 +328,13 @@
 		display: inline-block;
 		margin: 1px auto 1px;
 		border-radius: 2px;
-		box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.2);
+
 		.img-style {
 			display: inline-block;
-			height: 36px;
+			height: 48px;
 			margin: 20px 0;
 			padding: 0 61.5px;
-			border-right: 1px solid #dcdcdc;
-			&:last-child {
-				border-right: none;
-			}
+			
 		}
 	}
 	
@@ -363,19 +360,25 @@
 		width: 100%;
 		background-color: #f7f7f8;
 		.contain {
-			width: 1274px;
+			width: 1200px;
 			margin: 0 auto;
 			text-align: center;
+			display: flex;
+			flex-wrap: wrap;
 			.li {
 				text-align: center;
-				margin: 26px;
+				margin: 26px 0;
+				margin-right: 12px;
 				margin-top: 0;
 				box-sizing: border-box;
 				display: inline-block;
-				width: 260px;
+				width: 230px;
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
-				padding: 16px;
+				padding-bottom: 12px;
+				&:nth-child(5n) {
+					margin-right: 0;
+				}
 				&:hover {
 					transform: translateY(-3px);
 					box-shadow: 1px 1px 10px #999;
@@ -387,8 +390,8 @@
 					}
 				}
 				img {
-					width: 210px;
-					height: 140px;
+					width: 230px;
+					height: 160px;
 				}
 				.text {
 					padding: 10px 0 0px;
@@ -402,22 +405,28 @@
 	.new-contain {
 		background-color: #f7f7f8;
 		.contain {
-			width: 1274px;
+			width: 1200px;
 			margin: 0 auto;
 			text-align: left;
+			display: flex;
+			flex-wrap: wrap;
 			.li {
 				position: relative;
 				text-align: center;
-				margin: 36px;
+				margin: 36px 0;
+				margin-right: 20px;
 				margin-top: 0;
 				box-sizing: border-box;
 				display: inline-block;
-				width: 246px;
+				width: 285px;
 				height: 310px;
 				overflow: hidden;
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
 				padding: 16px;
+				&:nth-child(4n) {
+					margin-right: 0;
+				}
 				&:hover {
 					transform: translateY(-3px);
 					box-shadow: 1px 1px 10px #999;
@@ -486,7 +495,7 @@
 		font-family: Helvetica;
 		font-weight: bold;
 		font-size: 24px;
-		padding: 33px 0;
+		padding: 20px 0;
 		color: #142a43;
 	}
 	
@@ -522,8 +531,7 @@
 			width: 1200px;
 			margin: 0 auto;
 			border-bottom: 2px solid #fe852d;
-			padding-bottom: 13px;
-			margin-bottom: 13px;
+			padding-bottom: 20px;
 			span {
 				padding: 15px 23px;
 				font-size: 16px;
@@ -539,8 +547,10 @@
 			}
 		}
 		.contain {
-			width: 1224px;
+			width: 1200px;
 			margin: 0 auto;
+			display: flex;
+			flex-wrap: wrap;
 			text-align: left;
 			.text {
 				font-size: 14px;
@@ -548,15 +558,18 @@
 			}
 			.li {
 				text-align: center;
-				margin-top: 30px;
+				margin-top: 20px;
 				box-sizing: border-box;
 				display: inline-block;
-				width: 230px;
+				width: 240px;
 				background-color: #ffffff;
 				border: solid 1px #dcdcdc;
 				padding: 16px;
 				vertical-align: top;
 				border-right: 0;
+				&:nth-child(5n) {
+					margin-right: 0;
+				}
 				&:hover {
 					transform: translateY(-3px);
 					box-shadow: 1px 1px 10px #999;

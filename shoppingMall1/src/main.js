@@ -20,7 +20,23 @@ Vue.config.productionTip = false;
 Vue.use(VueLazyload, {
 	loading: '/static/timg.gif'
 })
-/* eslint-disable no-new */
+router.beforeEach((to, from, next) => {
+	// 判断该路由是否需要登录权限
+	if(to.matched[0]&&to.matched[0].meta.requireAuth&&document.documentElement.clientWidth<=750) {
+		if(localStorage.getItem('token')) {
+			next();
+		} else {
+			next({
+				path: '/Mobile/Login',
+				query: {
+					redirect: to.fullPath
+				} // 将跳转的路由path作为参数，登录成功后跳转到该路由
+			})
+		}
+	} else {
+		next();
+	}
+})
 new Vue({
 	el: '#app',
 	store,

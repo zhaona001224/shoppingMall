@@ -26,7 +26,6 @@ export default new Vuex.Store({
       localStorage.removeItem('configData');
       document.cookie=''
       state.token = null;
-      
     },
     [types.CONFIGDATA]: (state, data) => {
       localStorage.configData = data;

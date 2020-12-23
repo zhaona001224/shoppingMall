@@ -21,7 +21,7 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div class="menu-cart point user user-name" style="background: #434d53;"><img src="../assets/image/icon/icon_my.png"> </div>
+				<div @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user user-name" style="background: #434d53;"><img src="../assets/image/icon/icon_my.png"> </div>
 				<div class="menu-cart point user user-name"
 				 style="background: #de6262;" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">					</div>
 			</div>
@@ -66,13 +66,13 @@
 			<nav :class="menuPop?'menu-style active':'menu-style'">
 			<ul class="list-inline nav-main">
 				<li class="nav-primary">
-					<a href="javascript:void(0)" MobileNewDetail> Home </a>
+					<a href="javascript:void(0)" > Home </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" MobileNewDetail @click="$router.push('/Mobile/HistoryOrder')"> My Order </a>
+					<a href="javascript:void(0)" @click="$router.push('/Mobile/HistoryOrder')"> My Order </a>
 				</li>
 				<li class="nav-primary">
-					<a href="javascript:void(0)" MobileNewDetail @click="$router.push('/Mobile/BlankPage/2')"> Discount </a>
+					<a href="javascript:void(0)"  @click="$router.push('/Mobile/BlankPage/2')"> Discount </a>
 				</li>
 				<li class="nav-primary">
 					<a href="javascript:void(0)" @click="$router.push('/Mobile/NewsList')"> News </a>
@@ -86,7 +86,7 @@
 			</ul>
 		</nav>
 		
-		<div class="footer" v-if="$route.fullPath!='/BlankPage'">
+		<div class="footer" >
 			<div class="tip"> <span class="point" @click="$router.push('/Mobile/AboutUs')">About US</span> <span class="point"
 				 @click="$router.push('/Mobile/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/Mobile/DeliveryPolicy')"> Delivery Policy</span>				<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>				<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
 				<span
@@ -109,14 +109,13 @@
 		<div class="tip" style="margin:15px auto;">
 		<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>			</div>
 	</div>
-	<div class="fix-bottom" v-if="$route.fullPath!=='/Mobile/payPage'||$route.fullPath!=='/Mobile/Result'">
+	<div class="fix-bottom" v-if="$route.fullPath!=='/Mobile/payPage'&&$route.fullPath!=='/Mobile/Result'&&$route.fullPath!=='/Mobile/Login'">
 		<div class="left">
 			<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/home/icon_red.png">				</div>
 			<div class="price">{{totalAmout}} {{currencyInfo.name}}</div>
 		</div>
 		<div class="btn">Check Out</div>
 	</div>
-	
 	
 	</div>
 </template>
@@ -150,27 +149,7 @@
 					social_type: 'facebook'
 				},
 				showCart: true,
-				rules: {
-					email: [{
-						message: "Please fill in email",
-						required: true,
-						trigger: 'blur'
-					}, {
-						message: "Please fill in correct email",
-						pattern: ptn.email(0, 40),
-						trigger: 'blur'
-					}],
-					password: [{
-						message: "Please fill in password",
-						required: true,
-						trigger: 'blur'
-					}],
-					repassword: [{
-						message: "Please fill in repassword",
-						required: true,
-						trigger: 'blur'
-					}],
-				},
+				
 				menuPop: false
 			}
 		},
@@ -189,12 +168,6 @@
 				'LOGINOUT_USERINFO', 'CHOOSE_CURRENCY', 'CHOOSE_COUNTRY', 'SHOW_LOGIN', ,
 				'CLEAR_CART'
 			]),
-			changeType(type) {
-				this.selectType = type;
-				this.form = {
-					social_type: 'facebook'
-				}
-			},
 			setCurrency(symbol, name, rate) {
 				this.CHOOSE_CURRENCY({
 					name: name,
@@ -206,39 +179,7 @@
 			setCountry(item) {
 				this.CHOOSE_COUNTRY(JSON.parse(item));
 			},
-			//忘记密码
-			forgetPsw() {
-				if (!this.form.email) {
-					this.$message({
-						type: 'Please fill in email',
-						message: response.Msg
-					});
-					return
-				}
-				var re = /^\w+@[a-z0-9]+\.[a-z]{2,4}$/;
-				if (!re.test(this.form.email)) {
-					this.$message({
-						type: 'warning',
-						message: 'Please fill in correct email'
-					});
-					return
-				}
-				recover({
-					email: this.form.email
-				}).then(response => {
-					if (response.retCode == 0) {
-						this.$message({
-							type: 'success',
-							message: response.Msg
-						});
-					} else {
-						this.$message({
-							type: 'warning',
-							message: response.Msg
-						});
-					}
-				})
-			},
+			
 			goPayPage() {
 				//				if(this.login) {
 				//					this.$router.push('/payPage');
@@ -827,4 +768,5 @@ body, html {
 			background-image: linear-gradient(90deg, #e1251b 0%, #ea5f0e 53%, #f39800 100%), linear-gradient( #e1251b, #e1251b);
 		}
 	}
+	
 </style>

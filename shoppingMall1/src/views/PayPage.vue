@@ -583,9 +583,9 @@
 	
 	.step-line {
 		margin-left: 15px;
-		padding-left: 30px;
+		padding-left: 20px;
 		border-left: 4px solid #fdf2f1;
-		padding-bottom: 40px;
+		padding-bottom:20px;
 	}
 	
 	.head {
@@ -651,11 +651,11 @@
 	}
 	
 	.serve-contain {
-		padding-top: 36px;
+		padding-top: 20px;
 		span {
 			position: relative;
 			border: 1px solid #e9e9e9;
-			margin: 20px 31px;
+			margin: 10px;
 			width: 160px;
 			height: 66px;
 			display: inline-block;
@@ -684,9 +684,9 @@
 	
 	.all {
 		position: relative;
-		margin-top: 65px;
+		margin-top: 30px;
 		width: 1201px;
-		padding: 0 57px;
+		padding: 0 30px;
 		height: 68px;
 		line-height: 68px;
 		box-sizing: border-box;

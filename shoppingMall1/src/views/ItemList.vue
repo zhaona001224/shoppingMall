@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<div style="width: 1200px;margin:100px auto">
+		<div style="width: 1200px;margin:40px auto">
 			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > {{gameList.itemName||'Items'}}</div>
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
-			<div class="step-line">
+			<div class="step-line" style="padding-bottom: 20px;">
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'"
 				 :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
 				<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
@@ -426,14 +426,11 @@
 		color: #fff;
 		background: #e1251b;
 	}
-	
-	.go {}
-	
 	.step-line {
 		margin-left: 15px;
-		padding-left: 30px;
+		padding-left: 20px;
 		border-left: 4px solid #fdf2f1;
-		padding-bottom: 20px;
+
 		.item {
 			display: inline-block;
 			text-align: center;
@@ -461,7 +458,7 @@
 	.serve-contain {
 		display: flex;
 		flex-wrap: wrap;
-		padding-top: 36px;
+		padding-top: 20px;
 		span {
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -472,7 +469,7 @@
 			padding: 14px 10px;
 			font-size: 14px;
 			border: 1px solid #efefef;
-			margin-right: 23px;
+			margin-right: 20px;
 			position: relative;
 			margin-bottom: 20px;
 			&:hover {
@@ -511,7 +508,7 @@
 					border: solid 1px #e5e5e5;
 				}
 				img {
-					top: 36px;
+					top: 28px;
 					width: 18px;
 					height: 18px;
 					position: absolute;
@@ -521,16 +518,16 @@
 			.select-title {
 				color: #999;
 				font-size: 14px;
-				margin-top: 35px;
+				margin-top: 20px;
 				margin-bottom: 14px;
 			}
 		}
 		.li {
 			text-align: center;
-			margin-top: 30px;
+			margin-top: 20px;
 			box-sizing: border-box;
 			display: inline-block;
-			width: 230px;
+			width: 232px;
 			background-color: #ffffff;
 			border: solid 1px #dcdcdc;
 			padding: 16px;
@@ -645,17 +642,18 @@
 	
 	.footer1 {
 		background-color: #f7f7f7;
-		padding: 96px 0 46px;
+		padding: 20px 0 46px;
 		.contain {
 			display: flex;
 			width: 1200px;
+			box-sizing: border-box;
 			margin: 0 auto;
-			padding: 40px;
+			padding: 20px;
 			background: #fff;
 			border-radius: 30px;
 		}
 		.main-title {
-			margin: 0 auto 27px;
+			margin: 0 auto 20px;
 			width: 1200px;
 			font-size: 20px;
 			text-align: left;
@@ -677,10 +675,5 @@
 			}
 		}
 	}
-	
-	@media only screen and (max-width: 1200px) {
-		.footer1 {
-			height: calc(100vh - 1460px);
-		}
-	}
+
 </style>

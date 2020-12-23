@@ -205,12 +205,17 @@
 		.el-table td, .el-table th {
 			padding: 0.06rem 0!important;
 			font-size: 0.12rem;
-			
 		}
-		.el-table .cell{
+		.el-table .cell {
 			line-height: 1.2;
 			padding: 0;
 			text-align: center;
+		}
+		/deep/ .el-message.el-message--warning {
+			min-width: 200px;
+		}
+		/deep/ .el-message__icon.el-icon-warning {
+			font-size: 0.1rem!important;
 		}
 	}
 </style>

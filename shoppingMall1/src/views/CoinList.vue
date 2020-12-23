@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<div style="width: 1200px;margin:100px auto">
+		<div style="width: 1200px;margin:60px auto">
 			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > {{gameList.coinName}}</div>
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
-			<div class="step-line">
+			<div class="step-line" style="padding-bottom: 20px;">
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'"
 				 :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
 				<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
@@ -432,15 +432,15 @@
 	
 	.tab {
 		text-align: left;
-		width: 1200px;
+		width: 1162px;
 		margin: 0 auto;
 		border-bottom: 2px solid #fe852d;
-		padding-top: 40px;
-		padding-bottom: 13px;
-		margin-bottom: 13px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		margin-bottom: 20px;
 		overflow: hidden;
 		span {
-			padding: 15px 23px;
+			padding: 15px 20px;
 			font-size: 14px;
 			color: #333333;
 			border-radius: 4px;
@@ -478,13 +478,12 @@
 	
 	.step-line {
 		margin-left: 15px;
-		padding-left: 30px;
+		padding-left: 20px;
 		border-left: 4px solid #fdf2f1;
-		padding-bottom: 20px;
 		.select-title {
 			color: #999;
 			font-size: 14px;
-			padding-top: 35px;
+			padding-top: 20px;
 			margin-bottom: 14px;
 		}
 		.item {
@@ -498,7 +497,7 @@
 			margin-top: 10px;
 			letter-spacing: 0px;
 			color: #ffffff;
-			margin-right: 30px;
+			margin-right: 20px;
 			img {
 				margin: 0 auto;
 				display: block;
@@ -514,7 +513,7 @@
 	.serve-contain {
 		display: flex;
 		flex-wrap: wrap;
-		padding-top: 36px;
+		padding-top: 20px;
 		span {
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -525,7 +524,7 @@
 			padding: 14px 10px;
 			font-size: 14px;
 			border: 1px solid #efefef;
-			margin-right: 23px;
+			margin-right: 20px;
 			position: relative;
 			margin-bottom: 20px;
 			&:hover {
@@ -549,13 +548,13 @@
 	.total {
 		display: flex;
 		justify-content: space-between;
-		width: 1200px;
+		width: 1162px;
 		min-height: 52px;
 		background-color: #feba00;
 		align-items: center;
 		.custom-quantity {
 			width: 440px;
-			padding-left: 24px;
+			padding-left: 20px;
 			font-size: 14px;
 			color: #333333;
 		}
@@ -627,7 +626,7 @@
 	
 	.footer {
 		background-color: #f7f7f7;
-		padding: 96px 0 46px;
+		padding: 20px 0 46px;
 		.contain {
 			display: flex;
 			width: 1200px;
@@ -637,7 +636,7 @@
 			border-radius: 30px;
 		}
 		.main-title {
-			margin: 0 auto 27px;
+			margin: 0 auto 20px;
 			width: 1200px;
 			text-align: left;
 			font-family: Allstar4;
@@ -661,17 +660,18 @@
 	
 	.footer1 {
 		background-color: #f7f7f7;
-		padding: 96px 0 46px;
+		padding: 20px 0 46px;
 		.contain {
 			display: flex;
 			width: 1200px;
+			box-sizing: border-box;
 			margin: 0 auto;
-			padding: 40px;
+			padding: 20px;
 			background: #fff;
 			border-radius: 30px;
 		}
 		.main-title {
-			margin: 0 auto 27px;
+			margin: 0 auto 20px;
 			width: 1200px;
 			text-align: left;
 			font-family: Allstar4;
