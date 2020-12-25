@@ -20,6 +20,9 @@ Vue.config.productionTip = false;
 Vue.use(VueLazyload, {
 	loading: '/static/timg.gif'
 })
+import Vant from 'vant';
+import 'vant/lib/index.css';
+Vue.use(Vant);
 router.beforeEach((to, from, next) => {
 	// 判断该路由是否需要登录权限
 	if(to.matched[0]&&to.matched[0].meta.requireAuth&&document.documentElement.clientWidth<=750) {

@@ -8,9 +8,7 @@ body, html {
 	src: url(Roboto-Regular.woff) format("truetype");
 }
 
-
-
-.el-dropdown {
+.el-dropdown.point {
 	margin-top: 12px;
 	width: 97px;
 	height: 27px;
@@ -40,6 +38,28 @@ body, html {
 	margin-left: -6px;
 	border-top-width: 0;
 	border-bottom-color: #000;
+}
+
+.el-dropdown-menu.menu-li {
+	width: calc(100% - 0.5rem);
+	left: 0.25rem!important;
+	margin: 0;
+	background: #f5f5f5;
+}
+
+.el-dropdown-menu.menu-li li {
+	height: 0.35rem;
+	background: #f5f5f5;
+	color: #333;
+	border: none;
+}
+	a:focus, input:focus, p:focus, div:focus,span:focus {
+			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+		}
+.el-dropdown-menu.menu-li li:not(.is-disabled):hover {
+	background: #fff;
+	color: #333;
 }
 
 

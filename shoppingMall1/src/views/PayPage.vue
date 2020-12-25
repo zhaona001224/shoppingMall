@@ -283,7 +283,7 @@
 					"currency": this.currencyInfo.name,
 					"language": "UK",
 					email: this.form.email,
-					request_info: this.form.payer,
+					request_info: this.productInfo.customerLabel+':'+this.form.payer,
 					contact_info: this.form.link1 + this.form.link,
 					item_list: itemList,
 					sub_total: (this.totalPrice * 1).toFixed(2) * 1,
@@ -300,8 +300,10 @@
 					"description": "",
 					"status": "",
 				}
+			
 				getPay(this.payList[this.selectIndex].payment, params).then(response => {
 					if (response.retCode == 0) {
+							debugger
 						window.location.href = response.data.redirect_url;
 						this.CLEAR_CART();
 					} else {

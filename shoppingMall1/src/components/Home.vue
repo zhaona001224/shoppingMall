@@ -1,5 +1,5 @@
 <template>
-	<div class="home-container" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
+	<div class="home-container pc" :style="$route.fullPath==='/payPage'?'min-width: 1300px;;padding-top:50px':'min-width: 1300px;'">
 		<div class="top" style="position: fixed;top:0;">
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 19px;" v-if="currencyInfo"> <span class="el-dropdown-link">
@@ -544,7 +544,7 @@
 		margin: 0;
 	}
 	
-	.top {
+	.pc .top {
 		width: 100%;
 		height: 50px;
 		background-color: #181818;

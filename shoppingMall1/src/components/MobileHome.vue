@@ -1,13 +1,9 @@
 <template>
-	<div class="home-container" style="padding-top: 0.88rem;">
+	<div class="home-container" style="padding-top: 0.71rem;">
 		<div class="top" style="position: fixed;top:0;">
-			<div class="left-img">
-				<div style="width: 0.44rem;height:0.44rem;background: rgb(242, 165, 6);"> <img style="padding-top:0.07rem;padding-left:0.07rem;width: 0.3rem;height: 0.3rem;"
-					 @click="menuPop=!menuPop" src="../assets/image/icon/icon-menu.png" /> </div>
-				<img style="width: 0.8rem;margin-left: 0.1rem;" src="../assets/image/home/logo.png"
-				/> </div>
+			<div class="left-img"> <img style="width: 1.03rem;" src="../assets/image/home/mobile-logo.png" /> </div>
 			<div class="menu">
-				<el-dropdown class="point" style="margin-right: 4px;" v-if="currencyInfo"> <span class="el-dropdown-link">
+				<el-dropdown class="point" style="margin-right: 8.5px;" v-if="currencyInfo"> <span class="el-dropdown-link">
 					     {{currencyInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
 					<el-dropdown-menu slot="dropdown">
@@ -21,102 +17,105 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div @click="SHOW_LOGIN(true);changeType('login')" class="menu-cart point user user-name" style="background: #434d53;"><img src="../assets/image/icon/icon_my.png"> </div>
-				<div class="menu-cart point user user-name"
-				 style="background: #de6262;" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">					</div>
-			</div>
+				<div @click="SHOW_LOGIN(true);changeType('login')" style="margin-left: 0.25rem;"
+				 class="menu-cart"><img style="width: 0.185rem;" src="../assets/image/home/mobile-my.png"> </div>
+				<div
+				 class="menu-cart" style="margin-left: 0.14rem;"> <img @click="menuPop=!menuPop" src="../assets/image/home/mobild-menu.png" style="width: 0.2rem;"
+					/> </div>
 		</div>
-		<div class="select" ref="tabsWrapper" style="position: fixed;top:0.44rem;z-index:1000;width:100%">
-			<ul class="select-ul" style="text-align: left;margin:0 auto;display: flex;">
-				<li style="width: 1.1rem;flex-shrink: 0;" :class="gamePop?'active tri_top point':'active tri_bottom point'"
-				 @click="getGame();gamePop=!gamePop">
-					<a href="javascript:void(0)"><img style="width: 0.18rem;height: 0.2rem;margin-left: -0.2rem;margin-right: 2px;vertical-align: -4px;"
-						 src="../assets/image/home/icon_hot.png" />All Games</a>
-				</li>
-				<li class="user-name" @click="$router.push('/')">
-					<a href="javascript:void(0)">Home</a>
-				</li>
-				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/2')">Discount</a>
-				</li>
-				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/Mobile/HistoryOrder')">My order</a>
-				</li>
-				<!--<li class="user-name">
+	</div>
+	<div class="select" ref="tabsWrapper" style="position: fixed;top:0.36rem;z-index:1000;width:100%">
+		<ul class="select-ul" style="text-align: left;margin:0 auto;display: flex;">
+			<li style="width: 1.1rem;flex-shrink: 0;margin:0;height: 0.35rem;line-height: 0.35rem;border-right:0"
+			 :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
+				<a href="javascript:void(0)"><img style="width: 0.18rem;height: 0.2rem;margin-left: -0.2rem;margin-right: 2px;vertical-align: -4px;"
+					 src="../assets/image/home/icon_hot.png" />All Games</a>
+			</li>
+			<li class="user-name" @click="$router.push('/')">
+				<a href="javascript:void(0)">Home</a>
+			</li>
+			<li class="user-name">
+				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/2')">Discount</a>
+			</li>
+			<li class="user-name">
+				<a href="javascript:void(0)" @click="$router.push('/Mobile/HistoryOrder')">My order</a>
+			</li>
+			<!--<li class="user-name">
 					<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
 				</li>-->
-				<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/3')">Contact us</a>
-				</li>
-			</ul>
-			<div :class="gamePop?'active choose-game':'choose-game'"> </div>
-		</div>
-		<el-carousel v-if="gamePop" height="300px" :autoplay="false" arrow="always">
-			<el-carousel-item v-for="item in result" :key="item.id">
-				<div class="game-ul"> <span :class="$route.params.id==subItem.id?'active':''" v-if="subItem.online"
-					 v-for="(subItem,index) in gameList" @click="chooseGame(subItem)">
+			<li class="user-name">
+				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/3')">Contact us</a>
+			</li>
+		</ul>
+		<div :class="gamePop?'active choose-game':'choose-game'"> </div>
+	</div>
+	<el-carousel v-if="gamePop" height="300px" :autoplay="false" arrow="always">
+		<el-carousel-item v-for="item in result" :key="item.id">
+			<div class="game-ul"> <span :class="$route.params.id==subItem.id?'active':''" v-if="subItem.online"
+				 v-for="(subItem,index) in gameList" @click="chooseGame(subItem)">
 					·{{subItem.name}}
 				</span> </div>
-			</el-carousel-item>
-		</el-carousel>
-		<transition name="fade" mode="out-in">
-			<router-view></router-view>
-		</transition>
-
-			<nav :class="menuPop?'menu-style active':'menu-style'">
-			<ul class="list-inline nav-main">
-				<li class="nav-primary">
-					<a href="javascript:void(0)" > Home </a>
-				</li>
-				<li class="nav-primary">
-					<a href="javascript:void(0)" @click="$router.push('/Mobile/HistoryOrder')"> My Order </a>
-				</li>
-				<li class="nav-primary">
-					<a href="javascript:void(0)"  @click="$router.push('/Mobile/BlankPage/2')"> Discount </a>
-				</li>
-				<li class="nav-primary">
-					<a href="javascript:void(0)" @click="$router.push('/Mobile/NewsList')"> News </a>
-				</li>
-				<li class="nav-primary">
-					<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/1')" MobileNewDetail> Sell to US </a>
-				</li>
-				<li class="nav-primary">
-					<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/3')"  MobileNewDetail> Contact US </a>
-				</li>
-			</ul>
-		</nav>
-		
-		<div class="footer" >
-			<div class="tip"> <span class="point" @click="$router.push('/Mobile/AboutUs')">About US</span> <span class="point"
-				 @click="$router.push('/Mobile/FAQ')">FAQ  </span> <span class="point" @click="$router.push('/Mobile/DeliveryPolicy')"> Delivery Policy</span>				<span class="point" @click="$router.push('/ReturnPolicy')">Return Policy</span>				<span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>
-				<span
-				 @click="$router.push('/Mobile/BlankPage/3')" class="point"> Contact US</span>
-			</div>
-			<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
-			<!-- <div class="img">
+		</el-carousel-item>
+	</el-carousel>
+	<transition name="fade" mode="out-in">
+		<router-view></router-view>
+	</transition>
+	<nav :class="menuPop?'menu-style active':'menu-style'">
+		<ul class="list-inline nav-main">
+			<li class="nav-primary">
+				<a href="javascript:void(0)"> Home </a>
+			</li>
+			<li class="nav-primary">
+				<a href="javascript:void(0)" @click="$router.push('/Mobile/HistoryOrder')"> My Order </a>
+			</li>
+			<li class="nav-primary">
+				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/2')"> Discount </a>
+			</li>
+			<li class="nav-primary">
+				<a href="javascript:void(0)" @click="$router.push('/Mobile/NewsList')"> News </a>
+			</li>
+			<li class="nav-primary">
+				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/1')" MobileNewDetail>
+				Sell to US </a>
+			</li>
+			<li class="nav-primary">
+				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/3')" MobileNewDetail>
+				Contact US </a>
+			</li>
+		</ul>
+	</nav>
+	<div class="footer">
+		<div class="tip special"> <span class="point" @click="$router.push('/Mobile/AboutUs')">About US</span>
+			<span
+			 class="point" @click="$router.push('/Mobile/DeliveryPolicy')"> Delivery Policy</span> <span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>				<span class="point" @click="$router.push('/Mobile/FAQ')">FAQ </span> <span class="point"
+				 @click="$router.push('/ReturnPolicy')">Return Policy</span> <span @click="$router.push('/Mobile/BlankPage/3')"
+				 class="point"> Contact US</span> </div>
+		<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
+		<!-- <div class="img">
 				<div class="trustedsite-trustmark" data-type="202"></div>
 				<div class="trustedsite-trustmark" data-type="102"></div> </div>
 			<div class="icon">
 			<img src="../assets/image/icon/icon_footer1.png" /> <img src="../assets/image/icon/icon_footer2.png"
 				/> <img src="../assets/image/icon/icon_footer3.png" /> <img src="../assets/image/icon/icon_footer4.png"
 				/> <img src="../assets/image/icon/icon_footer5.png" /> </div> -->
-			<div style="margin:0 auto;width:100%;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Trademarks are the copyright and property of their respective owners.</div>
-			<div
-			 style="margin:0 auto;width:100%;font-size: 12px;color: rgba(245, 245, 245, 0.3);">The use of this Website constitutes the acceptance of the <span style="color:rgba(2, 145, 205)"
-				 class="point" @click="$router.push('/TermsCon')">Terms&Conditions</span> and
-				<span @click="$router.push('/PrivacyPolicy')" class="point" style="color:rgba(2, 145, 205)">Privacy Policy</span>				</div>
-		<div style="margin:0 auto;width:100%;font-size: 12px;color: rgba(245, 245, 245, 0.3);">Copyright © 2006-2020, J&S Network Technology Limited</div>
-		<div class="tip" style="margin:15px auto;">
-		<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>			</div>
+		<div style="margin:0 auto;width:100%;font-size: 12px;color: #4a4a4a;">Trademarks are the copyright and property of their respective owners.</div>
+		<div
+		 style="margin:0 auto;width:100%;font-size: 12px;color: #4a4a4a;">The use of this Website constitutes the acceptance of the <span style="color:rgba(2, 145, 205)"
+			 class="point" @click="$router.push('/TermsCon')">Terms&Conditions</span> and
+			<span
+			 @click="$router.push('/PrivacyPolicy')" class="point" style="color:rgba(2, 145, 205)">Privacy Policy</span>
+	</div>
+	<div style="margin:0 auto;width:100%;font-size: 12px;color: #4a4a4a;">Copyright © 2006-2020, J&S Network Technology Limited</div>
+	<div class="tip" style="margin:0.2rem auto;opacity: 0.4;">
+	<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>		</div>
 	</div>
 	<div class="fix-bottom" v-if="$route.fullPath!=='/Mobile/payPage'&&$route.fullPath!=='/Mobile/Result'&&$route.fullPath!=='/Mobile/Login'">
 		<div class="left">
-			<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/home/icon_red.png">				</div>
-			<div class="price">{{totalAmout}} {{currencyInfo.name}}</div>
+			<div class="menu-cart" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/mobile/car.png">				</div>
+			<div class="price">{{totalAmout}} <span class="unit">{{currencyInfo.name}}</span></div>
 		</div>
 		<div class="btn">Check Out</div>
 	</div>
-	
 	</div>
 </template>
 <script>
@@ -125,6 +124,7 @@
 	import { mapMutations, mapState } from 'vuex'
 	import BScroll from "better-scroll";
 	import { ptn } from '@/utils/common/validate'
+	import { Swipe, SwipeItem } from 'vant';
 	export default {
 		name: "app",
 		data() {
@@ -149,7 +149,6 @@
 					social_type: 'facebook'
 				},
 				showCart: true,
-				
 				menuPop: false
 			}
 		},
@@ -158,7 +157,7 @@
 			]),
 			totalNum() {
 				var totalNum = 0;
-				this.cartList&&this.cartList.map((item) => {
+				this.cartList && this.cartList.map((item) => {
 					totalNum = totalNum + item.productNum;
 				})
 				return totalNum
@@ -179,7 +178,6 @@
 			setCountry(item) {
 				this.CHOOSE_COUNTRY(JSON.parse(item));
 			},
-			
 			goPayPage() {
 				//				if(this.login) {
 				//					this.$router.push('/payPage');
@@ -398,15 +396,15 @@
 			})
 			getTemplete('?type=DirectGame').then(response => {
 				this.$nextTick(() => {
-				if (!this.scroll) {
-					this.scroll = new BScroll(this.$refs.tabsWrapper, {
-						scrollX: true,
-						eventPassthrough: "vertical",
-					});
-				} else {
-					this.scroll.refresh();
-				}
-			});
+					if (!this.scroll) {
+						this.scroll = new BScroll(this.$refs.tabsWrapper, {
+							scrollX: true,
+							eventPassthrough: "vertical",
+						});
+					} else {
+						this.scroll.refresh();
+					}
+				});
 				if (response.retCode == 0) {
 					this.gameConfig = response.data
 					response.data.map((item) => {
@@ -442,12 +440,11 @@
 					deleteNode2 ? deleteNode2.className = '' : ''
 				}
 			}, 500)
-			
 		},
 		watch: {
 			'cartList' () {
 				this.totalAmout = 0
-				this.cartList&&this.cartList.map((item) => {
+				this.cartList && this.cartList.map((item) => {
 					this.totalAmout = +item.totalPrice
 				})
 			}
@@ -455,7 +452,7 @@
 	}
 </script>
 <style lang="less" scoped="">
-body, html {
+	body, html {
 		padding: 0;
 		margin: 0;
 	}
@@ -465,11 +462,13 @@ body, html {
 	}
 	
 	.home-container .top {
+		padding: 5px 6px;
+		box-sizing: border-box;
 		z-index: 1000;
 		background: #f1f1f1;
 		width: 100%;
 		display: flex;
-		height: 0.44rem;
+		height: 0.36rem;
 		justify-content: space-between;
 	}
 	
@@ -495,55 +494,17 @@ body, html {
 	.home-container .point.el-dropdown.point {
 		background-color: #fff;
 		border-radius: 0.02rem;
-		border: 1px solid #ddd;
+		border: solid 1px #e5e5e5;
 		display: block;
-		padding: 1px 4px;
-		width: auto;
-		color: #333;
+		min-width: 0.6rem;
+		color: #212121;
 		margin-top: 0;
-		padding-left: 0.1rem;
+		width: auto;
 	}
 	
 	.home-container .top .menu .menu-cart {
-		width: 0.44rem;
-		height: 0.44rem;
-		background: rgb(242, 165, 6);
-		margin-left: 0;
-	}
-	
-	.home-container .top .menu .menu-cart img {
-		width: 0.3rem;
-		height: 0.3rem;
-		padding-top: 0.07rem;
-		padding-left: 0.07rem;
-	}
-	
-	.home-container .top .menu .menu-cart.user img {
-		width: 0.2rem;
-		height: 0.2rem;
-		padding-top: 0.12rem;
-		padding-left: 0.12rem;
-	}
-	
-	.home-container .top .menu .menu-cart.user .num {
-		position: absolute;
-		right: 0;
-		top: 0;
-		position: absolute;
-		right: 0.01rem;
-		top: 0.01rem;
-		width: 0.2rem;
-		height: 0.2rem;
-		text-align: center;
-		line-height: 0.2rem;
-		background-color: #e1251b;
-		border-radius: 50%;
-		color: #fff;
-	}
-	
-	.home-container .select {
-		width: 100%;
-		overflow: hidden;
+		display: flex;
+		align-items: center;
 	}
 	
 	.select-ul {
@@ -552,25 +513,26 @@ body, html {
 	}
 	
 	.select {
+		width: 100%;
+		overflow: hidden;
 		position: relative;
 		text-align: center;
-		height: 0.44rem;
 		background-color: #212121;
-		line-height: 0.44rem;
 		li {
 			cursor: pointer;
-			padding: 0 0.1rem;
-			font-family: microsoft yahei;
-			font-family: font, Arial, Helvetica Neue, Helvetica, sans-serif;
+			padding: 0 0.2rem;
+			font-family: PingFang-SC-Bold;
 			font-size: 0.14rem;
-			line-height: 0.44rem;
+			line-height: 0.26rem;
 			letter-spacing: 0px;
 			color: #ffffff;
+			margin: 0.045rem 0;
 			display: inline-block;
-			height: 0.44rem;
+			height: 0.26rem;
 			text-align: center;
 			color: #fff;
 			position: relative;
+			border-right: solid 1px #ffffff;
 			&:hover {
 				background-color: #29303a;
 			}
@@ -587,7 +549,7 @@ body, html {
 				border-left: 6px solid transparent;
 				border-right: 6px solid transparent;
 				position: absolute;
-				top: 0.18rem;
+				top: 0.15rem;
 			}
 			&.tri_top:before {
 				right: 0.1rem;
@@ -598,7 +560,7 @@ body, html {
 				border-left: 6px solid transparent;
 				border-right: 6px solid transparent;
 				position: absolute;
-				top: 0.18rem;
+				top: 0.15rem;
 			}
 			&.active {
 				background-image: linear-gradient(90deg, #e1251b 0%, #ea5f0e 53%, #f39800 100%), linear-gradient( #e1251b, #e1251b);
@@ -609,7 +571,7 @@ body, html {
 	.el-carousel--horizontal, .menu-style {
 		position: fixed;
 		left: 0;
-		top: 0.87rem;
+		top: 0.71rem;
 		z-index: 20000;
 		width: 100%;
 		background: #363e43;
@@ -626,13 +588,10 @@ body, html {
 		}
 	}
 	
-	
-	
 	.menu-style .nav-main {
 		background-color: #434d53;
 		max-height: 5rem;
 		overflow-y: scroll;
-		
 		li {
 			display: block;
 			padding: 0;
@@ -675,7 +634,7 @@ body, html {
 	.footer {
 		text-align: center;
 		width: 100%;
-		padding: 15px;
+		padding: 27px;
 		background-color: #181818;
 		height: auto;
 		box-sizing: border-box;
@@ -683,6 +642,21 @@ body, html {
 		.tip {
 			display: flex;
 			flex-wrap: wrap;
+			&.special {
+				span {
+					width: 33%;
+					font-size: 0.13rem;
+					font-weight: 600;
+					font-family: PingFang-SC-Medium;
+					text-decoration: underline;
+					color: #999999;
+					padding: 0;
+					margin-bottom: 0.15rem;
+					&:nth-child(3n) {
+						border-right: none
+					}
+				}
+			}
 			span {
 				display: inline-block;
 				color: rgba(245, 245, 245, 0.8);
@@ -691,18 +665,18 @@ body, html {
 				padding: 0 0.1rem;
 				width: auto;
 				text-align: center;
-				border-right: 1px solid rgba(245, 245, 245, 0.3);
+				border-right: 1px solid #4a4a4a;
 				&:last-child {
 					border-right: none;
 				}
 			}
 		}
-		.img{
-			margin:0
+		.img {
+			margin: 0
 		}
 		img {
 			width: 100%;
-			margin: 0.12rem auto;
+			margin: 0.12rem auto 0.24rem;
 		}
 		.icon {
 			margin: 32px auto 28px;
@@ -720,53 +694,66 @@ body, html {
 		width: 100%;
 		bottom: 0;
 		display: flex;
-		height: 0.5rem;
+		height: 0.6rem;
 		background: #fff;
 		align-items: center;
 		justify-content: space-between;
 		.left {
-			margin-left: 15px;
 			display: flex;
 			align-items: center;
-			.user-name {
+			.menu-cart {
+				width: 0.58rem;
+				height: 0.6rem;
+				background-color: #ebebeb;
 				margin-left: 0;
 				position: relative;
+				text-align: center;
 				.num {
 					position: absolute;
-					right: -8px;
-					top: -8px;
+					right: 0.1rem;
+					top: 0.1rem;
 					color: #666;
 					font-size: 0.13rem;
 					position: absolute;
-					width: 0.2rem;
-					height: 0.2rem;
+					width: 0.18rem;
+					height: 0.18rem;
 					text-align: center;
-					line-height: 0.2rem;
-					background-color: #e1251b;
+					line-height: 0.18rem;
+					background-color: #e60012;
 					border-radius: 50%;
+					font-family: PingFang-SC-Bold;
+					font-weight: bold;
 					color: #fff;
 				}
 				img {
-					width: 0.26rem;
-					height: 0.26rem;
+					margin-top: 0.16rem;
+					width: 0.28rem;
+					height: 0.28rem;
 				}
 			}
 			.price {
-				color: #666;
+				color: #333;
 				font-weight: bold;
-				font-size: 0.16rem;
-				margin-left: 0.4rem;
+				font-size: 0.2rem;
+				margin-left: 0.25rem;
+				.unit {
+					font-size: 0.12rem;
+				}
 			}
 		}
 		.btn {
-			width: 1rem;
-			height: 0.5rem;
-			color: #fff;
+			width: 1.22rem;
+			height: 0.42rem;
+			background-image: linear-gradient(90deg, #f75b1f 0%, #e10e0d 100%), linear-gradient(0deg, #f7571e 0%, #f6902b 100%);
+			background-blend-mode: normal, normal;
+			border-radius: 0.21rem;
+			font-family: PingFang-SC-Medium;
 			font-size: 0.16rem;
+			font-weight: 600;
+			color: #ffffff;
 			text-align: center;
-			line-height: 0.5rem;
-			background-image: linear-gradient(90deg, #e1251b 0%, #ea5f0e 53%, #f39800 100%), linear-gradient( #e1251b, #e1251b);
+			line-height: 0.42rem;
+			margin-right: 0.11rem;
 		}
 	}
-	
 </style>
