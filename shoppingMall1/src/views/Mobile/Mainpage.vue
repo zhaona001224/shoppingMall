@@ -191,9 +191,9 @@
 				localStorage.setItem("gameId", item.id);
 				localStorage.setItem("gameName", item.name);
 				if (item.productSell == "item,item") {
-					this.$router.push("/Mobile/itemList/" + localStorage.getItem("gameId"));
+					this.$router.push("/Mobile/ItemList/" + localStorage.getItem("gameId"));
 				} else {
-					this.$router.push("/Mobile/coinList/" + localStorage.getItem("gameId"));
+					this.$router.push("/Mobile/CoinList/" + localStorage.getItem("gameId"));
 				}
 			},
 			goItem(item, type) {
@@ -278,8 +278,8 @@
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
 						this.getItem();
-						this.$nextTick(() => {
-							if (!this.scroll) {
+						setTimeout(()=>{
+if (!this.scroll) {
 								this.scroll = new BScroll(this.$refs.tabsWrapper, {
 									scrollX: true,
 									eventPassthrough: "vertical",
@@ -287,7 +287,8 @@
 							} else {
 								this.scroll.refresh();
 							}
-						});
+						},2000)
+						
 					} else {
 						this.$message({
 							type: "warning",

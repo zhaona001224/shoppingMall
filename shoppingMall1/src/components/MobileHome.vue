@@ -1,5 +1,5 @@
 <template>
-	<div class="home-container" style="padding-top: 0.71rem;">
+	<div class="home-container touch" style="padding-top: 0.71rem;">
 		<div class="top" style="position: fixed;top:0;">
 			<div class="left-img"> <img style="width: 1.03rem;" src="../assets/image/home/mobile-logo.png" /> </div>
 			<div class="menu">
@@ -222,10 +222,10 @@
 			chooseGame(item) {
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
-				if (this.$route.path == "/itemList" || this.$route.path == "/coinList") {
+				if (this.$route.path == "/Mobile/ItemList" || this.$route.path == "/Mobile/CoinList") {
 					window.location.reload()
 				} else {
-					this.$router.push('/itemList/' + localStorage.getItem('gameId'));
+					this.$router.push('/Mobile/ItemList/' + localStorage.getItem('gameId'));
 				}
 			},
 			//登录方法
@@ -456,7 +456,7 @@
 		padding: 0;
 		margin: 0;
 	}
-	
+
 	.home-container {
 		font-size: 0.13rem;
 	}

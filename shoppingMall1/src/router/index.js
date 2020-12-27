@@ -36,6 +36,8 @@ import MobilePrivacyPolicy from '../views/Mobile/PrivacyPolicy'
 import MobileProfile from '../views/Mobile/Profile'
 import MobileHistoryOrder from '../views/Mobile/HistoryOrder'
 import Login from '../views/Mobile/Login'
+import MobileCoinList from '../views/Mobile/CoinList'
+import MobileItemList from '../views/Mobile/ItemList'
 Vue.use(VueRouter);
 const routes = [{
 		path: '*',
@@ -53,7 +55,7 @@ const routes = [{
 			component: Mainpage
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -66,7 +68,7 @@ const routes = [{
 			component: GameList
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -79,7 +81,7 @@ const routes = [{
 			component: ForgetPage
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -92,7 +94,7 @@ const routes = [{
 			component: CoinList
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -105,7 +107,7 @@ const routes = [{
 			component: ItemList
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -118,7 +120,7 @@ const routes = [{
 			component: PayPage
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -131,7 +133,7 @@ const routes = [{
 			component: Result
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -144,7 +146,7 @@ const routes = [{
 			component: NewsList
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -157,7 +159,7 @@ const routes = [{
 			component: BlankPage
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -170,7 +172,7 @@ const routes = [{
 			component: NewDetail
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -183,7 +185,7 @@ const routes = [{
 			component: AboutUs
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -196,7 +198,7 @@ const routes = [{
 			component: FAQ
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -209,7 +211,7 @@ const routes = [{
 			component: DeliveryPolicy
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -222,7 +224,7 @@ const routes = [{
 			component: DMCANotice
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -235,7 +237,7 @@ const routes = [{
 			component: ReturnPolicy
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -248,7 +250,7 @@ const routes = [{
 			component: PrivacyPolicy
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -261,7 +263,7 @@ const routes = [{
 			component: TermsCon
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -274,7 +276,7 @@ const routes = [{
 			component: Profile
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -287,7 +289,7 @@ const routes = [{
 			component: HistoryOrder
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -330,7 +332,7 @@ const routes = [{
 			component: MobileResult
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -423,7 +425,7 @@ const routes = [{
 			component: MobileProfile
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -436,7 +438,33 @@ const routes = [{
 			component: MobileHistoryOrder
 		}],
 		meta: {
-			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/CoinList/:id',
+		name: 'MobileCoinList',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileCoinList',
+			component: MobileCoinList
+		}],
+		meta: {
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
+	},
+	{
+		path: '/Mobile/ItemList/:id',
+		name: 'MobileItemList',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobileItemList',
+			component: MobileItemList
+		}],
+		meta: {
+			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -448,7 +476,7 @@ const routes = [{
 			name: 'Login',
 			component: Login
 		}]
-	},
+	}
 
 
 ];

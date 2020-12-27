@@ -29,6 +29,7 @@
 			var that = this;
 			var deviceWidth = document.documentElement.clientWidth;
 			if (deviceWidth < 750) {
+			
 				if (that.$route.fullPath.indexOf("Mobile") < 0) {
 					that.$router.replace("/Mobile" + that.$route.fullPath);
 				}

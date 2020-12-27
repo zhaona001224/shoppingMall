@@ -584,7 +584,7 @@
 		}
 	}
 	
-	.select {
+	.pc .select {
 		position: relative;
 		text-align: center;
 		height: 49px;
@@ -639,7 +639,7 @@
 		}
 	}
 	
-	.footer {
+	.pc .footer {
 		text-align: center;
 		width: 100%;
 		padding: 50px 0 30px;
@@ -673,7 +673,7 @@
 		}
 	}
 	
-	.choose-game {
+	.pc .choose-game {
 		position: absolute;
 		top: 48px;
 		left: 0;
@@ -735,7 +735,7 @@
 		}
 	}
 	
-	.pop-login {
+	.pc .pop-login {
 		position: fixed;
 		z-index: 100;
 		top: 10%;
@@ -779,7 +779,7 @@
 		}
 	}
 	
-	.form-contain {
+	.pc .form-contain {
 		margin-top: 25px;
 		.el-form-item__content {
 			display: flex;
@@ -824,7 +824,7 @@
 	}
 	
 	// 用户
-	.user {
+	.pc .user {
 		margin-left: 41px;
 		&:hover {
 			a:before {
@@ -909,7 +909,7 @@
 		}
 	}
 	
-	.shop {
+	.pc .shop {
 		position: relative;
 		float: left;
 		margin-left: 21px;
@@ -978,7 +978,7 @@
 	}
 	
 	// 用户信息弹出
-	.nav-user-wrapper {
+	.pc .nav-user-wrapper {
 		position: absolute;
 		z-index: 30;
 		padding-top: 18px;
@@ -1006,7 +1006,7 @@
 		}
 	}
 	
-	.nav-sub {
+	.pc .nav-sub {
 		position: relative;
 		z-index: 20;
 		height: 90px;
@@ -1098,7 +1098,7 @@
 		}
 	}
 	
-	.cart-con {
+	.pc .cart-con {
 		/*display: flex;*/
 		text-align: center;
 		position: relative;
@@ -1113,7 +1113,7 @@
 		margin-bottom: 16px;
 	}
 	
-	.cart-con:before {
+	.pc .cart-con:before {
 		position: absolute;
 		content: ' ';
 		left: 50%;
@@ -1124,7 +1124,7 @@
 		background-size: cover;
 	}
 	
-	.nav-user-list {
+	.pc .nav-user-list {
 		padding: 0;
 		width: 100%;
 		.full {

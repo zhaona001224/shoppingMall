@@ -199,9 +199,9 @@
 				localStorage.setItem("gameId", item.id);
 				localStorage.setItem("gameName", item.name);
 				if (item.productSell == "item,item") {
-					this.$router.push("/itemList/" + localStorage.getItem("gameId"));
+					this.$router.push("/MainPage/ItemList/" + localStorage.getItem("gameId"));
 				} else {
-					this.$router.push("/coinList/" + localStorage.getItem("gameId"));
+					this.$router.push("/MainPage/CoinList/" + localStorage.getItem("gameId"));
 				}
 			},
 			goItem(item, type) {
@@ -209,7 +209,8 @@
 				item.name = item.game.split(",")[1];
 				localStorage.setItem("gameId", item.id);
 				localStorage.setItem("gameName", item.name);
-				this.$router.push("/itemList/" + this.selectId);
+				debugger
+				this.$router.push("/MainPage/ItemList/" + this.selectId);
 			},
 			getGame() {
 				//获取game
