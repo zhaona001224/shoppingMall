@@ -1,21 +1,20 @@
 <template>
-	<div style="padding:0 15px;background: #f5f5f5;">
-		<div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
-							News
-					</span> </div>
-		<div class="section-title upper-center"> <img src="../../assets/image/icon/icon-news.png" alt="news"> <span class="line-red">News</span>			</div>
-		<div class="new-contain" v-if="newsList.length > 0">
-			<div class="contain">
-				<div class="li point" @click="goDetail(item)" v-for="(item, index) in newsList"
-				:key="item.id">
-					<div class="title"> {{ item.title }} </div>
-					<div class="text" 
-					 v-html="item.content"></div>
-					<div class="date"> {{ item.updated }} </div>
+	<div>
+		<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > NewsList></div>
+		<div
+		 style="padding:0 15px;background: #f5f5f5;">
+			<div class="section-title upper-center"> <img src="../../assets/image/icon/icon-news.png" alt="news"> <span class="line-red">News</span>				</div>
+			<div class="new-contain" v-if="newsList.length > 0">
+				<div class="contain">
+					<div class="li point" @click="goDetail(item)" v-for="(item, index) in newsList"
+					 :key="item.id">
+						<div class="title"> {{ item.title }} </div>
+						<div class="text" v-html="item.content"></div>
+						<div class="date"> {{ item.updated }} </div>
+					</div>
 				</div>
 			</div>
-		</div>
+	</div>
 	</div>
 </template>
 <script>
@@ -41,7 +40,7 @@
 				if (response.retCode == 0) {
 					this.newsList = response.data;
 					this.newsList && this.newsList.map((item) => {
-						item.content=item.text.substr(0,400)+'...'
+						item.content = item.text.substr(0, 400) + '...'
 						item.updated = this.$util.formatTime(item.updated,
 							"YYYY-MM-DD HH:mm:ss");
 					});
@@ -84,7 +83,7 @@
 				padding-bottom: 0.05rem;
 			}
 			padding-bottom:0.45rem;
-			.date{
+			.date {
 				text-align: right;
 				margin-top: 0.1rem;
 			}

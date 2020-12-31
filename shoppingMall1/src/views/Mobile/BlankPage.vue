@@ -1,12 +1,13 @@
 <template>
-	<div class="common-page">
-		<div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
-				{{data.display_name}}
-				</span> </div>
+	<div>
+		<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home >{{data.display_name}}</div>
+		<div class="common-page">
+			
 		<div class="title">{{data.display_name}}</div>
 		<div  v-html="data.desc"></div>
 	</div>
+	</div>
+	
 </template>
 <script>
 	import { getTemplete } from '../../api/common.js'
@@ -38,14 +39,5 @@
 		font-weight: 600;
 	}
 	
-	.nav {
-		font-size: 16px;
-		letter-spacing: 0px;
-		color: #666666;
-		margin: 20px 0;
-		img {
-			width: 18px;
-			height: 18px;
-		}
-	}
+	
 </style>

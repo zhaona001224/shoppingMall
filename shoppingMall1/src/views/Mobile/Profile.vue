@@ -1,30 +1,29 @@
 <template>
-	<div class="common-page">
-		  <div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
-							DMCA Notice
-				</span> </div>
-		<el-form
-		 style="width: 800px; margin: 40px auto 0" ref="form" :model="form" :rules="rules"
-		 label-width="200px">
-			<el-form-item :label="$t('language.user.email')" prop="email">
-				<el-input disabled v-model="form.email"> </el-input>
-			</el-form-item>
-			<el-form-item :label="$t('language.user.pass')" prop="password">
-				<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
-			</el-form-item>
-			<el-form-item :label="$t('language.user.repass')" prop="new_password">
-				<el-input Pleaseholder="" type="password" v-model="form.new_password"> </el-input>
-			</el-form-item>
-			<el-form-item label="Instance Message:" prop="social_type">
-				<el-select style="width: 130px; margin-right: 10px" :clearable="true" v-model="form.social_type">
-					<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
-					</el-option>
-				</el-select>
-				<el-input Pleaseholder="" v-model="userInfo.social_link"> </el-input>
-			</el-form-item>
+	<div>
+		<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > DMCA Notice</div>
+		<div
+		 class="common-page">
+			<el-form ref="form" :model="form" :rules="rules"
+			class="form" label-position="top">
+				<el-form-item :label="$t('language.user.email')" prop="email">
+					<el-input disabled v-model="form.email"> </el-input>
+				</el-form-item>
+				<el-form-item :label="$t('language.user.pass')" prop="password">
+					<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
+				</el-form-item>
+				<el-form-item :label="$t('language.user.repass')" prop="new_password">
+					<el-input Pleaseholder="" type="password" v-model="form.new_password"> </el-input>
+				</el-form-item>
+				<el-form-item label="Instance Message:" prop="social_type">
+					<el-select style="width: 130px; margin-right: 10px" :clearable="true" v-model="form.social_type">
+						<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
+						</el-option>
+					</el-select>
+					<el-input Pleaseholder="" v-model="userInfo.social_link"> </el-input>
+				</el-form-item>
 			</el-form>
-			<div style="text-align:center"> <span class="btn point" @click="submit()">Confirm</span></div>
+			<div class="btn" @click="submit()">Confirm</div>
+	</div>
 	</div>
 </template>
 <script>
@@ -59,8 +58,7 @@
 		},
 		computed: { ...mapState(['userInfo'])
 		},
-		methods: {
-			...mapMutations(['CHOOSE_GAME', 'RECORD_USERINFO',
+		methods: { ...mapMutations(['CHOOSE_GAME', 'RECORD_USERINFO',
 				'LOGINOUT_USERINFO', 'CHOOSE_CURRENCY', 'CHOOSE_COUNTRY', 'SHOW_LOGIN',
 				'CHANGE_SIZE'
 			]),
@@ -106,7 +104,6 @@
 		mounted() {
 			this.form.email = this.userInfo && this.userInfo.email;
 			this.form.social_type = this.userInfo && this.userInfo.social_type;
-		
 		},
 		watch: {
 			'userInfo.email' () {
@@ -120,57 +117,39 @@
 	};
 </script>
 <style lang="less" scoped="">
-	.nav {
-		font-size: 16px;
-		letter-spacing: 0px;
-		color: #666666;
-		margin: 20px 0;
-		img {
-			width: 18px;
-			height: 18px;
-		}
+
+	.common-page{
+		padding: 0.25rem;
 	}
-	
 	/deep/ .el-form-item__content {
 		display: flex;
 	}
+			.form {
+			/deep/ .el-input__inner {
+				height: 0.34rem;
+				background-color: #f5f5f5;
+				border: solid 1px #c9c9c9;
+				line-height: 0.34rem;
+			}
+			/deep/ .el-form-item__label {
+				line-height: 10px;
+			}
+			.el-form-item {
+				margin-bottom: 15px;
+			}
+		}
 	
 	.btn {
-		position: relative;
-		margin: 100px auto 0;
-		display: inline-block;
-		width: 200px;
-		height: 58px;
-		background-image: linear-gradient(0deg, #db170d 0%, #ff6860 100%), linear-gradient(#e1251b, #e1251b);
-		background-blend-mode: normal, normal;
-		border-radius: 6px;
-		font-family: Arial-BoldMT;
-		font-size: 22px;
-		font-weight: normal;
-		font-stretch: normal;
-		line-height: 22px;
-		letter-spacing: 0px;
+		margin: 0.25rem 0.25rem 0.37rem;
+		height: 0.5rem;
+		background-color: #e1251b;
+		border-radius: 5px;
 		color: #ffffff;
 		text-align: center;
-		line-height: 58px;
-		&:before {
-			content: "";
-			display: block;
-			background: linear-gradient( to left, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.4) 50%);
-			background-size: 210% 100%;
-			background-position: right bottom;
-			height: 100%;
-			width: 100%;
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			right: 0;
-			left: 0;
-			transition: all 1s;
-			-webkit-transition: all 1s;
-		}
-		&:hover:before {
-			background-position: left bottom;
-		}
+		line-height: 0.5rem;
+		color: #fff;
+		font-family: PingFang-SC-Bold;
+		font-size: 0.18rem;
+		font-weight: bold;
 	}
 </style>

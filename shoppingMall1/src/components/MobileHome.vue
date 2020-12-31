@@ -17,7 +17,7 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div @click="SHOW_LOGIN(true);changeType('login')" style="margin-left: 0.25rem;"
+				<div @click="$router.push('/Mobile/Profile')" style="margin-left: 0.25rem;"
 				 class="menu-cart"><img style="width: 0.185rem;" src="../assets/image/home/mobile-my.png"> </div>
 				<div
 				 class="menu-cart" style="margin-left: 0.14rem;"> <img @click="menuPop=!menuPop" src="../assets/image/home/mobild-menu.png" style="width: 0.2rem;"
@@ -30,22 +30,14 @@
 			 :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
 				<a href="javascript:void(0)"><img style="width: 0.18rem;height: 0.2rem;margin-left: -0.2rem;margin-right: 2px;vertical-align: -4px;"
 					 src="../assets/image/home/icon_hot.png" />All Games</a>
+					
 			</li>
-			<li class="user-name" @click="$router.push('/')">
-				<a href="javascript:void(0)">Home</a>
+			<li v-for="(item,index) in tabList" class="user-name" @click="$router.push(item.url)">
+				<a href="javascript:void(0)">{{item.text}}</a>
+				<img class="border" src="../assets/image/mobile/icon_split.png" /> 
+		
 			</li>
-			<li class="user-name">
-				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/2')">Discount</a>
-			</li>
-			<li class="user-name">
-				<a href="javascript:void(0)" @click="$router.push('/Mobile/HistoryOrder')">My order</a>
-			</li>
-			<!--<li class="user-name">
-					<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
-				</li>-->
-			<li class="user-name">
-				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/3')">Contact us</a>
-			</li>
+			
 		</ul>
 		<div :class="gamePop?'active choose-game':'choose-game'"> </div>
 	</div>
@@ -109,12 +101,12 @@
 	<div class="tip" style="margin:0.2rem auto;opacity: 0.4;">
 	<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>		</div>
 	</div>
-	<div class="fix-bottom" v-if="$route.fullPath!=='/Mobile/payPage'&&$route.fullPath!=='/Mobile/Result'&&$route.fullPath!=='/Mobile/Login'">
+	<div class="fix-bottom" v-if="$route.fullPath!=='/Mobile/payPage'&&$route.fullPath!=='/Mobile/Result'&&$route.name!=='Login'">
 		<div class="left">
-			<div class="menu-cart" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/mobile/car.png">				</div>
-			<div class="price">{{totalAmout}} <span class="unit">{{currencyInfo.name}}</span></div>
+			<div class="menu-cart" ><span class="num">{{cartList.length}}</span><img src="../assets/image/mobile/car.png">				</div>
+			<div class="price">{{totalAmout}}<span class="unit">{{currencyInfo.name}}</span></div>
 		</div>
-		<div class="btn">Check Out</div>
+		<div class="btn" @click="goPayPage()">Check Out</div>
 	</div>
 	</div>
 </template>
@@ -149,7 +141,20 @@
 					social_type: 'facebook'
 				},
 				showCart: true,
-				menuPop: false
+				menuPop: false,
+				tabList:[{
+					text:'Home',
+					url:'/'
+				},{
+					text:'Discount',
+					url:'/Mobile/BlankPage/2'
+				},{
+					text:'My order',
+					url:'/Mobile/HistoryOrder'
+				},{
+					text:'Contact us',
+					url:'/Mobile/BlankPage/3'
+				}]
 			}
 		},
 		computed: { ...mapState(["game", "userInfo", "login", 'currencyInfo',
@@ -440,13 +445,23 @@
 					deleteNode2 ? deleteNode2.className = '' : ''
 				}
 			}, 500)
+			this.totalAmout = 0
+				var price=0
+			this.cartList && this.cartList.map((item) => {
+					
+					price =price +item.salePrice*item.productNum
+				})
+				this.totalAmout=(price*this.currencyInfo.rate).toFixed(2)
 		},
 		watch: {
 			'cartList' () {
 				this.totalAmout = 0
+				var price=0
 				this.cartList && this.cartList.map((item) => {
-					this.totalAmout = +item.totalPrice
+					
+					price =price +item.salePrice*item.productNum
 				})
+				this.totalAmout=(price*this.currencyInfo.rate).toFixed(2)
 			}
 		},
 	}
@@ -455,6 +470,7 @@
 	body, html {
 		padding: 0;
 		margin: 0;
+		
 	}
 
 	.home-container {
@@ -532,7 +548,13 @@
 			text-align: center;
 			color: #fff;
 			position: relative;
-			border-right: solid 1px #ffffff;
+			.border{
+				position: absolute;
+				width: 1px;
+				height:0.3rem;
+				right: 0;
+				top:0;
+			}
 			&:hover {
 				background-color: #29303a;
 			}
@@ -676,7 +698,7 @@
 		}
 		img {
 			width: 100%;
-			margin: 0.12rem auto 0.24rem;
+			margin: 0.12rem auto 0.2rem;
 		}
 		.icon {
 			margin: 32px auto 28px;
@@ -738,6 +760,7 @@
 				margin-left: 0.25rem;
 				.unit {
 					font-size: 0.12rem;
+					margin-left: 4px;
 				}
 			}
 		}

@@ -29,7 +29,6 @@
 			var that = this;
 			var deviceWidth = document.documentElement.clientWidth;
 			if (deviceWidth < 750) {
-			
 				if (that.$route.fullPath.indexOf("Mobile") < 0) {
 					that.$router.replace("/Mobile" + that.$route.fullPath);
 				}
@@ -201,7 +200,7 @@
 	
 	@media (max-width: 750px) {
 		#app {
-			font-family: 'Barlow', Helvetica;
+			font-family: PingFang-SC-Regular;
 		}
 		.el-table td, .el-table th {
 			padding: 0.06rem 0!important;
@@ -218,5 +217,11 @@
 		/deep/ .el-message__icon.el-icon-warning {
 			font-size: 0.1rem!important;
 		}
+		.split {
+			width: 100%;
+			height: 0.125rem;
+			background-color: #f5f5f5;
+		}
+		
 	}
 </style>

@@ -38,6 +38,7 @@ import MobileHistoryOrder from '../views/Mobile/HistoryOrder'
 import Login from '../views/Mobile/Login'
 import MobileCoinList from '../views/Mobile/CoinList'
 import MobileItemList from '../views/Mobile/ItemList'
+import MobilePayPage from '../views/Mobile/PayPage'
 Vue.use(VueRouter);
 const routes = [{
 		path: '*',
@@ -425,7 +426,7 @@ const routes = [{
 			component: MobileProfile
 		}],
 		meta: {
-			requireAuth: false //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
 		}
 	},
 	{
@@ -476,6 +477,19 @@ const routes = [{
 			name: 'Login',
 			component: Login
 		}]
+	},
+	{
+		path: '/Mobile/PayPage',
+		name: 'Login',
+		component: MobileHome,
+		children: [{
+			path: '',
+			name: 'MobilePayPage',
+			component: MobilePayPage
+		}],
+		meta: {
+			requireAuth: true //添加该字段，true表示进入这个路由是需要登录的,false不需要登录
+		}
 	}
 
 

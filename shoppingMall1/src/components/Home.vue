@@ -262,8 +262,8 @@
 			forgetPsw() {
 				if (!this.form.email) {
 					this.$message({
-						type: 'Please fill in email',
-						message: response.Msg
+						type: 'warning',
+						message: 'Please fill in email'
 					});
 					return
 				}

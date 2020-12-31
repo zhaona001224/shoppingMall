@@ -1,9 +1,7 @@
 <template>
-	<div class="common-page">
-		<div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
-							Return Policy
-				</span> </div>
+	<div>
+		<div class="common-page">
+			<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > Return Policy</div>
 		<div class="title">Return Policy</div>
 		<div class="content">  How To Refund & Exchange? </div>
 		<div class="content"> - You can feel free to cancel your order and get full refund before delivery </div>
@@ -13,6 +11,8 @@
 			us for exchange or refund, </div>
 		<div class="content"> Please contact with us by livechat 24/7 for details </div>
 	</div>
+	</div>
+	
 </template>
 <script>
 	export default {
@@ -31,16 +31,7 @@
 		text-align: center;
 	}
 	
-	.nav {
-		font-size: 16px;
-		letter-spacing: 0px;
-		color: #666666;
-		margin: 20px 0;
-		img {
-			width: 18px;
-			height: 18px;
-		}
-	}
+
 	
 	.content {
 		color: #333;

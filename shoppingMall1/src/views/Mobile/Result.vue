@@ -1,10 +1,8 @@
 <template>
+	<div>
+		<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > 	Result</div>
+		
 	<div style="padding:0 15px;background: #f5f5f5;">
-		<div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
-							Result
-				</span> </div>
-		<div
 		 class="content"> <img v-if="status==1" style="margin-top: 0.1rem;" src="../../assets/image/icon/icon_success.png"
 			/> <img v-else style="margin-top:0.1rem;" src="../../assets/image/icon/icon_fail.png"
 			/>
@@ -12,6 +10,8 @@
 			<div class="order">Order No:<span>{{orderno}}</span></div>
 			<div class="email">You can check your email:<span>{{userInfo.email}}</span> to view the order details</div>
 	</div>
+	</div>
+	
 	</div>
 </template>
 <script>
@@ -48,17 +48,6 @@
 	}
 </script>
 <style lang="less" scoped="">
-	.nav {
-		font-size: 14px;
-		letter-spacing: 0px;
-		color: #666666;
-		margin: 20px 0;
-		img {
-			width: 18px;
-			height: 18px;
-		}
-	}
-	
 	.content {
 		text-align: center;
 		background-color: #ffffff;

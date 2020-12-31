@@ -1,15 +1,14 @@
 <template>
-	<div style="padding: 0 15px;">
-		<div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span @click="$router.push('/Mobile/NewsList')">
-							NewsList / {{ data.title }}
-					</span> </div>
-		<div>
+	<div>
+		<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > NewsList> {{ data.title
+			}}</div>
+		<div style="padding: 0 15px;">
 			<div class="content">
 				<div class="title">{{ data.title }}</div>
 				<div class="" v-html="data.text"></div>
 			</div>
 		</div>
+	</div>
 	</div>
 </template>
 <script>
@@ -40,7 +39,7 @@
 			line-height: 0.24rem;
 			padding-bottom: 8px;
 		}
-		/deep/ img{
+		/deep/ img {
 			width: 100%!important;
 		}
 	}

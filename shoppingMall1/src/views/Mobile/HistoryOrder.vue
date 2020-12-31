@@ -1,11 +1,9 @@
 <template>
-	<div style="padding: 0 15px;">
-		<div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
-							My Order
-					</span> </div>
+	<div>
+		<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > My Order</div>
+			<div>
 		<el-table class="table-style"
-		 show-summary :data="tableData" >
+		 show-summary :data="tableData"  style="width:100%">
 			<el-table-column header-align="left"  sortable prop="updated" label="pay_time">
 			</el-table-column>
 			<el-table-column header-align="left"  label="Game">
@@ -26,6 +24,8 @@
 			<el-table-column header-align="left" width="60"  prop="status" label="status">
 			</el-table-column>
 			</el-table>
+	</div>
+
 	</div>
 </template>
 <script>

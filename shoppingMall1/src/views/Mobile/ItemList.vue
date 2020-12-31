@@ -1,165 +1,91 @@
 <template>
-  <div>
-    <div>
-      <div class="nav">
-        <img src="../../assets/image/icon/icon_home.png" />Home >
-        {{ gameName }} > {{ gameList.itemName || "Items" }}
-      </div>
-      <div
-        class="step-line"
-        style="display: flex; justify-content: space-between"
-      >
-        <div
-          v-if="
+	<div>
+		<div>
+			<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > {{ gameName }} > {{
+				gameList.itemName || "Items" }} </div>
+			<div class="purchase-note" v-if="gameList.buyNotes">
+				<div class="bg">
+					<div class="tip">Purchase Notes:</div>
+					<div v-html="gameList.buyNotes"></div>
+				</div> <img style="    width: 100%;margin-top: -1rem;z-index: -1;position: relative;"
+				 src="../../assets/image/mobile/noticeBG.png" /> </div>
+			<div class="step-line"
+			 style="display: flex; justify-content: space-between">
+				<div v-if="
             gameList.productSell == 'both,both' ||
             gameList.productSell == 'coin,coin'
-          "
-          :class="selectType == 'coin' ? 'item active point' : 'item point'"
-          @click="$router.push('/coinList/' + $route.params.id)"
-        >
-          <img src="../../assets/image/icon/icon_coin.png" />
-          {{ gameList.coinName || "Silver" }}
-        </div>
-        <div
-          v-if="
+          " :class="selectType == 'coin' ? 'item active point' : 'item point'" @click="$router.push('/coinList/' + $route.params.id)">
+				<img src="../../assets/image/icon/icon_coin.png" /> {{ gameList.coinName || "Silver"
+					}} </div>
+				<div v-if="
             gameList.productSell == 'both,both' ||
             gameList.productSell == 'item,item'
-          "
-          :class="selectType == 'item' ? 'item active point' : 'item point'"
-          @click="$router.push('/itemList/' + $route.params.id)"
-        >
-          <img src="../../assets/image/icon/icon_item.png" />
-          {{ gameList.itemName || "Items" }}
-        </div>
-      </div>
-      <el-dropdown v-if="categoryList.length > 0">
-        <span class="el-dropdown-link">
+          " :class="selectType == 'item' ? 'item active point' : 'item point'" @click="$router.push('/itemList/' + $route.params.id)">
+				<img src="../../assets/image/icon/icon_item.png" /> {{ gameList.itemName || "Items"
+					}} </div>
+			</div>
+			<el-dropdown v-if="categoryList.length > 0"> <span class="el-dropdown-link">
           {{ selectCategoryData.name
           }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <el-dropdown-menu class="menu-li" slot="dropdown">
-          <el-dropdown-item
-            @click.native="selectCategory(item)"
-            v-for="(item, index) in categoryList"
-            v-if="categoryList.length > 0"
-            :key="item.id"
-            @click="selectCategory(item)"
-            :class="item.id == categoryId ? 'active point' : 'point'"
-            >{{ item.name }}</el-dropdown-item
-          >
-        </el-dropdown-menu>
-      </el-dropdown>
-      <el-dropdown v-if="serveList.length > 0">
-        <span class="el-dropdown-link">
+				<el-dropdown-menu class="menu-li" slot="dropdown">
+					<el-dropdown-item @click.native="selectCategory(item)" v-for="(item, index) in categoryList"
+					 v-if="categoryList.length > 0" :key="item.id" @click="selectCategory(item)"
+					 :class="item.id == categoryId ? 'active point' : 'point'">{{ item.name }}</el-dropdown-item>
+				</el-dropdown-menu>
+			</el-dropdown>
+			<el-dropdown v-if="serveList.length > 0"> <span class="el-dropdown-link">
           {{ selectServeData.name
           }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <el-dropdown-menu class="menu-li" slot="dropdown">
-          <el-dropdown-item
-            @click.native="selectServe(item)"
-            v-for="(item, index) in serveList"
-            v-if="serveList.length > 0"
-            :key="item.id"
-            :class="item.id == serveId ? 'active point' : 'point'"
-            >{{ item.name }}</el-dropdown-item
-          >
-        </el-dropdown-menu>
-      </el-dropdown>
-      <div class="step-line item-contain">
-        <div class="flex-style">
-          <div class="select-title">
-            <div>You Have Selected:<span style="color: #333"
-              >{{ selectCategoryData.name }}
-              <span v-if="selectCategoryData.name">-</span>
-              {{ selectServeData.name }} -
-            </span></div>
-            <el-select
-              @change="setCurrency"
-              style="width: 1rem"
-              v-model="currencyInfo.name"
-              placeholder=""
-            >
-              <el-option
-                v-for="(subItem, subIndex) in currencyData"
-                :key="subItem.showName"
-                :label="subItem.showName"
-                :value="subItem.showName"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="search">
-            <el-input
-              @input="changeInput"
-              v-model="searchKey"
-              placeholder="Search Item Name"
-             
-            ></el-input
-            ><img src="../../assets/image/icon/icon_search.png" />
-          </div>
-        </div>
-        <div class="li point" v-for="(item, index) in itemList" :key="item.id">
-          <div v-if="item.hintImage || item.hintText">
-            <el-popover
-              style="min-width: auto; text-align: center"
-              placement="right"
-              trigger="hover"
-            >
-              <div class="pop-item">
-                <img v-if="item.hintImage" :src="imgUrl + item.hintImage" />
-                <div>
-                  <div class="title hidden-style" style="height: auto">
-                    {{ item.name }}
-                  </div>
-                  <div class="label">{{ item.hintText }}</div>
-                </div>
-              </div>
-              <div slot="reference"><img :src="imgUrl + item.logo" /></div>
-            </el-popover>
-            <div class="text hidden-style">{{ item.name }}</div>
-            <div class="select-num">
-              <span @click="down(index)" class="down">-</span>
-              <input
-                type="number"
-                :min="item.miniNumber"
-                v-model="item.num"
-                onkeyup="this.value=this.value.replace(/\D/g,'')"
-                onafterpaste="this.value=this.value.replace(/\D/g,'')"
-                class="show"
-                @change="up(index, item.num)"
-              />
-              <span class="up" @click="up(index, 1)">+</span>
-            </div>
-            <div class="price">
-              {{ currencyInfo.symbol
-              }}{{ getPrice(item.price * item.num * currencyInfo.rate) }}
-            </div>
-            <div
-              style="
+				<el-dropdown-menu class="menu-li" slot="dropdown">
+					<el-dropdown-item @click.native="selectServe(item)" v-for="(item, index) in serveList"
+					 v-if="serveList.length > 0" :key="item.id" :class="item.id == serveId ? 'active point' : 'point'">{{ item.name }}</el-dropdown-item>
+				</el-dropdown-menu>
+			</el-dropdown>
+			<div class="step-line item-contain">
+				<div class="flex-style">
+					<div class="select-title">
+						<div>
+							<!--You Have Selected:<span style="color: #333">{{ selectCategoryData.name }}
+              <span v-if="selectCategoryData.name">-</span> {{ selectServeData.name
+							}} - </span>--></div>
+						<el-select @change="setCurrency" style="width: 1rem" v-model="currencyInfo.name"
+						 placeholder="">
+							<el-option v-for="(subItem, subIndex) in currencyData" :key="subItem.showName"
+							 :label="subItem.showName" :value="subItem.showName"> </el-option>
+						</el-select>
+					</div>
+					<div class="search">
+						<el-input @input="changeInput" v-model="searchKey" placeholder="Search Item Name"></el-input>
+						<div class="img-contain"><img src="../../assets/image/icon/icon_search.png" /></div>
+					</div>
+				</div>
+				<div class="li point" v-for="(item, index) in itemList" :key="item.id">
+					<div v-if="item.hintImage || item.hintText">
+						<el-popover style="min-width: auto; text-align: center" placement="right" trigger="hover">
+							<div class="pop-item"> <img v-if="item.hintImage" :src="imgUrl + item.hintImage" />
+								<div>
+									<div class="title hidden-style" style="height: auto"> {{ item.name }} </div>
+									<div class="label">{{ item.hintText }}</div>
+								</div>
+							</div>
+							<div slot="reference"><img :src="imgUrl + item.logo" /></div>
+						</el-popover>
+						<div class="text hidden-style">{{ item.name }}</div>
+						<div class="select-num"> <span @click="down(index)" class="down">-</span> <input type="number" :min="item.miniNumber"
+							 v-model="item.num" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"
+							 class="show" @change="up(index, item.num)" /> <span class="up" @click="up(index, 1)">+</span>							</div>
+						<div class="price"> {{ currencyInfo.symbol }}{{ getPrice(item.price * item.num * currencyInfo.rate)
+							}} </div>
+						<div style="
                 position: relative;
                 display: flex;
-                justify-content: space-between;
-                padding: 10px 20px;
-              "
-            >
-              <span
-                class="add"
-                @click="
-                  addCart(
-                    item,
-                    item.id,
-                    item.price,
-                    item.name,
-                    1,
-                    imgUrl + item.hintImage,
-                    1
-                  )
-                "
-                >Buy Now</span
-              >
-              <img
-                style="width: 43px; height: 32px"
-                src="../../assets/image/home/img_buy2.jpg"
+                justify-content: center;
+                padding: 13px 0;
+              "> <span class="img-contain">
+              	<img
+                src="../../assets/image/mobile/car1.png"
                 class="go"
                 @click="
                   addCart(
@@ -172,39 +98,7 @@
                   )
                 "
               />
-            </div>
-          </div>
-          <div v-else>
-            <img :src="imgUrl + item.logo" />
-            <div class="text hidden-style">{{ item.name }}</div>
-            <div class="select-num">
-              <span @click="down(index)" class="down">-</span>
-              <input
-                type="number"
-                :min="item.miniNumber"
-                v-model="item.num"
-                onkeyup="this.value=this.value.replace(/\D/g,'')"
-                onafterpaste="this.value=this.value.replace(/\D/g,'')"
-                class="show"
-                @change="up(index, item.num)"
-              />
-              <span class="up" @click="up(index, 1)">+</span>
-            </div>
-            <div class="price">
-              {{ currencyInfo.symbol
-              }}{{ getPrice(item.price * item.num * currencyInfo.rate) }}
-            </div>
-            <div
-              style="
-                position: relative;
-                display: flex;
-                justify-content: space-between;
-                padding: 10px 20px;
-              "
-            >
-              <span
-                class="add"
-                @click="
+              </span> <span class="add" @click="
                   addCart(
                     item,
                     item.id,
@@ -214,8 +108,38 @@
                     imgUrl + item.hintImage,
                     1
                   )
-                "
-                >Buy Now</span
+                ">Buy Now</span
+              >
+            
+            </div>
+          </div>
+          <div v-else>
+            <img :src="imgUrl + item.logo" />
+            <div class="text hidden-style">{{ item.name }}</div>
+            <div class="select-num">
+              <span @click="down(index)" class="down">-</span> <input type="number"
+							 :min="item.miniNumber" v-model="item.num" onkeyup="this.value=this.value.replace(/\D/g,'')"
+							 onafterpaste="this.value=this.value.replace(/\D/g,'')" class="show" @change="up(index, item.num)"
+							/> <span class="up" @click="up(index, 1)">+</span> </div>
+						<div class="price">
+						{{ currencyInfo.symbol }}{{ getPrice(item.price * item.num * currencyInfo.rate)
+							}} </div>
+						<div style="
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 20px;
+              "> <span class="add" @click="
+                  addCart(
+                    item,
+                    item.id,
+                    item.price,
+                    item.name,
+                    1,
+                    imgUrl + item.hintImage,
+                    1
+                  )
+                ">Buy Now</span
               >
               <img
                 style="width: 43px; height: 32px"
@@ -569,6 +493,29 @@ export default {
 </script>
 <style lang="less" scoped="">
 @import "../../assets/css/public.css";
+.purchase-note{
+	
+	box-sizing: border-box;
+	margin:0 0.25rem;
+	  
+	   
+	.tip{
+		font-size: 0.12rem;
+	color: #e1251b;
+	font-family: PingFang-SC-Bold;
+	font-weight:bold;
+	margin-bottom:0.1rem;
+	
+	}
+	.bg{
+		 	/deep/ img{
+			width: 0.5rem;
+		}
+		padding: 10px;
+		 background-color: #ebebeb;
+	}
+	
+}
 .el-dropdown {
   display: block;
   margin: 0.15rem 0.25rem auto;
@@ -614,22 +561,7 @@ export default {
   }
 }
 
-.split {
-  width: 100%;
-  height: 0.125rem;
-  background-color: #f5f5f5;
-}
-.add {
-  border-radius: 2px;
-  display: inline-block;
-  width: 106px;
-  height: 32px;
-  font-size: 14px;
-  text-align: center;
-  line-height: 32px;
-  color: #fff;
-  background: #e1251b;
-}
+
 .step-line {
   padding: 0 0.26rem;
   .select-title {
@@ -658,7 +590,7 @@ export default {
     margin-top: 10px;
     letter-spacing: 0px;
     color: #ffffff;
-    margin-right: 20px;
+    
     img {
       width: 0.21rem;
       height: 0.21rem;
@@ -713,20 +645,35 @@ export default {
     align-items: center;
     .search {
 		position: relative;
-      input {
-        padding-left: 20px;
-        width: 380px;
-        height: 36px;
+
+      /deep/ .el-input__inner {
+        padding-left: 10px;
+        width: 100%;
+        height: 0.35rem;
         background-color: #ffffff;
-        border: solid 1px #e1251b;
+       	border: solid 1px #e1251b;
+       	font-size: 0.14rem;
+       	color: #666;
+       	border-radius: 0;
+       	line-height: 0.35;
       }
-      img {
-        top: 10px;
+      .img-contain{
+      	width: 0.33rem;
+      	height: 0.33rem;
+      	position: absolute;
+      	top:1px;
+      	right: 1px;
+      	background-color: #ffcbc8;
+      	 img {
+      	 	position: absolute;
+        top: 8px;
         width: 18px;
         height: 18px;
-        position: absolute;
+        
         right: 8px;
       }
+      }
+     
     }
     .select-title {
       color: #999;
@@ -751,6 +698,7 @@ export default {
    
     &:last-child {
      margin-bottom: 0.2rem;
+     border-right: solid 1px #dcdcdc;
     }
     &:nth-child(2n+1) {
       border-right: solid 1px #dcdcdc;
@@ -804,8 +752,34 @@ export default {
       line-height: 18px;
       letter-spacing: 0px;
       color: #f39800;
-      margin-bottom: 12px;
     }
+    .add {
+		  border-radius: 2px;
+		  display: inline-block;
+		  width: 0.77rem;
+		  height: 0.3rem;
+		 font-family: PingFang-SC-Medium;
+			font-size: 0.12rem;
+		  text-align: center;
+		  line-height:0.3rem;
+		  color: #fff;
+		  background: #e1251b;
+		  font-weight: 600;
+		}
+		.img-contain{
+			width: 0.3rem;
+	height: 0.3rem;
+	background-color: #4c9adb;
+	border-radius: 2px;
+	text-align: center;
+	margin-right: 5px;
+	img{
+		margin-top: 0.07rem;
+		width: 0.15rem;
+		height: 0.15rem;
+		
+	}
+		}
   }
 }
 
@@ -850,6 +824,9 @@ export default {
 .footer1 {
   background-color: #ebebeb;
   padding-bottom: 0.25rem;
+  	/deep/ img{
+			width: 0.5rem;
+		}
   .contain {
     display: flex;
     box-sizing: border-box;

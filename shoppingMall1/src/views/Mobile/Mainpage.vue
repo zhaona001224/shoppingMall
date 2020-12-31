@@ -13,9 +13,9 @@
 		<div class="img-contain">
 			<a class="img-style" href="https://www.mcafeesecure.com/verify?host=egpal.com">
 			<img style="width: 0.75rem;" src="../../assets/image/mobile/home1.png" /></a>
-			<a class="img-style" href="javascript:void(0)"> <img style="width: 0.79rem;" src="../../assets/image/mobile/home2.png" /></a>
+			<a class="img-style" href="javascript:void(0)"> <img style="margin-top:4px;width: 0.79rem;" src="../../assets/image/mobile/home2.png" /></a>
 			<a class="img-style" href="https://transparencyreport.google.com/safe-browsing/search?url=www.egpal.com"><img style="width: 0.51rem;" src="../../assets/image/mobile/home3.png" /></a>
-			<a class="img-style" href="javascript:void(0)"> <img style="width: 0.63rem;" src="../../assets/image/mobile/home4.png" /></a>
+			<a class="img-style" href="javascript:void(0)"> <img style="width: 0.6rem;" src="../../assets/image/mobile/home4.png" /></a>
 		</div>
 		<div class="split"></div>
 		<div class="game-contain" v-if="gameList.length > 0">
@@ -33,7 +33,7 @@
 		<div class="split"></div>
 		<div class="item-contain">
 			<div class="main-title hidden-style"><span class="border-style"></span>{{ $t("language.mainPage.itemTitle") }} </div>
-			<el-dropdown v-if="currencyInfo"> <span class="el-dropdown-link">
+			<el-dropdown v-if="gameHotList.length>0"> <span class="el-dropdown-link">
 					     {{selectGame.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
 				<el-dropdown-menu class="menu-li" slot="dropdown">
@@ -388,7 +388,7 @@ if (!this.scroll) {
 				margin: 0 auto;
 				.li {
 					display: flex;
-					padding:0.1rem 0.25rem 0.325rem;
+					padding:0.1rem 0.25rem 0.15rem;
 					align-items: center;
 					text-align: left;
 					img {
@@ -420,12 +420,12 @@ if (!this.scroll) {
 					margin-top: 0;
 					box-sizing: border-box;
 					display: inline-block;
-					width: 1.45rem;
+					width: 1.43rem;
 					margin-right: 0.15rem;
 					box-shadow: 0px 3px 9px 0px rgba(56, 58, 60, 0.1);
 					border: solid 1px #dcdcdc;
 					img {
-						width: 1.45rem;
+						width: 1.41rem;
 						height: 1.2rem;
 					}
 					.text {
@@ -496,6 +496,7 @@ if (!this.scroll) {
 		}
 		.item-contain {
 			background: #fff;
+			padding-bottom: 0.1rem;
 			.left, .right {
 				position: absolute;
 				top: 50%;

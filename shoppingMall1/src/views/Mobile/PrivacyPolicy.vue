@@ -1,9 +1,10 @@
 <template>
+	<div>
+		
+
+	<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home >Privacy Policy</div>
+		
   <div class="common-page">
-    <div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
-							Privacy Policy
-					</span> </div>
     <div class="title">Privacy Policy</div>
     <div class="content">
       Egpal and its affiliated Teams (collectively, the "Team") respect your
@@ -270,6 +271,7 @@
       placing prominent notice on its web site.,
     </div>
   </div>
+  	</div>
 </template>
 <script>
 export default {
@@ -290,16 +292,6 @@ export default {
   margin: 20px 0 20px;
   font-size: 18px;
   font-weight: 600;
-}
-.nav {
-  font-size: 16px;
-  letter-spacing: 0px;
-  color: #666666;
-  margin: 20px 0;
-  img {
-    width: 18px;
-    height: 18px;
-  }
 }
 .content {
   color: #333;

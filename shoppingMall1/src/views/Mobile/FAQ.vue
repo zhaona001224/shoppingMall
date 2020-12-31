@@ -1,9 +1,8 @@
 <template>
-	<div class="common-page">
-		<div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
-							FAQ
-					</span> </div>
+	<div>
+		<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > FAQ</div>
+			<div class="common-page">
+		
 		<div class="title">Q: How do i check on the status of my order ?</div>
 		<div class="content"> A: please us our livechat 24/7 service and one of our customer service representatives
 			will assist you straight away, or you can login site to check your order status
@@ -109,6 +108,8 @@
 		<div class="content"> A: If you have any other questions, please feel free to contact with us by livechat
 			24/7 or check contact us page to choice your method to contact with us. </div>
 	</div>
+
+	</div>
 </template>
 <script>
 	export default {
@@ -132,18 +133,7 @@
 		font-size: 18px;
 		font-weight: 600;
 	}
-	
-	.nav {
-		font-size: 16px;
-		letter-spacing: 0px;
-		color: #666666;
-		margin: 20px 0;
-		img {
-			width: 18px;
-			height: 18px;
-		}
-	}
-	
+
 	.content {
 		color: #333;
 		margin-bottom: 30px;

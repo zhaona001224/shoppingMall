@@ -1,9 +1,8 @@
 <template>
-  <div class="common-page">
-    <div class="common-breadcrumb">
-			<a href="javascript:void(0)" @click="$router.push('/Mobile/Home')">Home</a> / <span>
-							Delivery Policy
-					</span> </div>
+	<div>
+		<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > Delivery Policy</div>
+		 <div class="common-page">
+
     <div class="title">Delivery Policy</div>
     <div class="content">
       After receiving and reviewing your payment, we will send your ordered
@@ -30,7 +29,9 @@
       minutes to 2 hours.
     </div>
   </div>
-</template>
+
+	</div>
+ </template>
 <script>
 export default {
   data() {
@@ -51,16 +52,7 @@ export default {
   font-size: 18px;
   font-weight: 600;
 }
-.nav {
-  font-size: 16px;
-  letter-spacing: 0px;
-  color: #666666;
-  margin: 20px 0;
-  img {
-    width: 18px;
-    height: 18px;
-  }
-}
+
 .content {
   color: #333;
   margin-bottom: 30px;
