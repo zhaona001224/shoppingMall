@@ -26,7 +26,7 @@
 	</div>
 	<div class="select" ref="tabsWrapper" style="position: fixed;top:0.36rem;z-index:1000;width:100%">
 		<ul class="select-ul" style="text-align: left;margin:0 auto;display: flex;">
-			<li style="width: 1.1rem;flex-shrink: 0;margin:0;height: 0.35rem;line-height: 0.35rem;border-right:0"
+			<li style="width: 1.3rem;flex-shrink: 0;margin:0;height: 0.35rem;line-height: 0.35rem;border-right:0"
 			 :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
 				<a href="javascript:void(0)"><img style="width: 0.18rem;height: 0.2rem;margin-left: -0.2rem;margin-right: 2px;vertical-align: -4px;"
 					 src="../assets/image/home/icon_hot.png" />All Games</a>
