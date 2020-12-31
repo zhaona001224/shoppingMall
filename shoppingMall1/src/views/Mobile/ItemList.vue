@@ -655,7 +655,7 @@ export default {
        	font-size: 0.14rem;
        	color: #666;
        	border-radius: 0;
-       	line-height: 0.35;
+       	line-height: 0.35rem;
       }
       .img-contain{
       	width: 0.33rem;
