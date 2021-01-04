@@ -537,7 +537,7 @@
 		li {
 			cursor: pointer;
 			padding: 0 0.2rem;
-			font-family: PingFang-SC-Bold;
+			font-family: font, Arial, Helvetica Neue, Helvetica, sans-serif;
 			font-size: 0.14rem;
 			line-height: 0.26rem;
 			letter-spacing: 0px;
