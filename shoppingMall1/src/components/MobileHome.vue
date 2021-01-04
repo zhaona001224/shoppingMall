@@ -54,24 +54,24 @@
 	</transition>
 	<nav :class="menuPop?'menu-style active':'menu-style'">
 		<ul class="list-inline nav-main">
-			<li class="nav-primary">
+			<li class="nav-primary" @click="$router.push('/Mobile/Home')">
 				<a href="javascript:void(0)"> Home </a>
 			</li>
-			<li class="nav-primary">
-				<a href="javascript:void(0)" @click="$router.push('/Mobile/HistoryOrder')"> My Order </a>
+			<li class="nav-primary"  @click="$router.push('/Mobile/HistoryOrder')">
+				<a href="javascript:void(0)"> My Order </a>
 			</li>
-			<li class="nav-primary">
-				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/2')"> Discount </a>
+			<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/2')">
+				<a href="javascript:void(0)" > Discount </a>
 			</li>
-			<li class="nav-primary">
-				<a href="javascript:void(0)" @click="$router.push('/Mobile/NewsList')"> News </a>
+			<li class="nav-primary" @click="$router.push('/Mobile/NewsList')">
+				<a href="javascript:void(0)" > News </a>
 			</li>
-			<li class="nav-primary">
-				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/1')" MobileNewDetail>
+			<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/1')">
+				<a href="javascript:void(0)" >
 				Sell to US </a>
 			</li>
-			<li class="nav-primary">
-				<a href="javascript:void(0)" @click="$router.push('/Mobile/BlankPage/3')" MobileNewDetail>
+			<li class="nav-primary"  @click="$router.push('/Mobile/BlankPage/3')">
+				<a href="javascript:void(0)" >
 				Contact US </a>
 			</li>
 		</ul>
@@ -622,8 +622,7 @@
 				padding: 0 15px;
 				line-height: 44px;
 				font-size: 0.15rem;
-				font-weight: bold;
-				font-family: 'Barlow', Helvetica;
+				font-family: font, Arial, Helvetica Neue, Helvetica, sans-serif;
 				text-decoration: none;
 				outline: none;
 				color: #fff;
@@ -647,6 +646,7 @@
 			width: 50%;
 			flex-shrink: 0;
 			line-height: 0.3rem;
+			font-family: font, Arial, Helvetica Neue, Helvetica, sans-serif;
 			&.active {
 				background: #29303a;
 			}

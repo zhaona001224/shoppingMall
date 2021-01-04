@@ -585,7 +585,7 @@ if (!this.scroll) {
 				}
 				.text {
 					padding: 5px 0 4px;
-					font-size: 14px;
+					font-size: 0.12rem;
 				}
 				.price {
 					text-align: center;
