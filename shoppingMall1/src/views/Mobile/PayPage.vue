@@ -43,7 +43,7 @@
 			</el-row>
 			<el-row style="position: relative;">
 				<el-form-item label='Instance Message:' prop="link">
-					<el-select style="width:1.26rem" :clearable="true" v-model="form.link1">
+					<el-select  placeholder="Please Select" style="width:1.26rem" :clearable="true" v-model="form.link1">
 						<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
 						</el-option>
 					</el-select>
