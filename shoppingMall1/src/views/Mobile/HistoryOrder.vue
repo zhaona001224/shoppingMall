@@ -2,7 +2,7 @@
 	<div>
 		<div class="nav"> <img src="../../assets/image/icon/icon_home.png" />Home > My Order</div>
 			<div>
-		<el-table class="table-style"
+		<el-table v-if="tableData.length>0" class="table-style"
 		 show-summary :data="tableData"  style="width:100%">
 			<el-table-column header-align="left"  sortable prop="updated" label="pay_time">
 			</el-table-column>
@@ -24,6 +24,7 @@
 			<el-table-column header-align="left" width="60"  prop="status" label="status">
 			</el-table-column>
 			</el-table>
+			<div style="line-height: 100px;color: #999;text-align: center;" v-else>{{$t('language.common.noData')}}</div>
 	</div>
 
 	</div>

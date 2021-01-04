@@ -4,7 +4,8 @@ export const language = {
 		login: 'Login',
 		reister: 'Register',
 		tab1: 'CHOOSE YOUR GAME',
-		footerTip: "Possible account termination when using illegal leveling or illegally obtained gold. Registered Names and Trademarks are the copyright and property of their respective owners. Copyright© 2020,All rights reserved "
+		footerTip: "Possible account termination when using illegal leveling or illegally obtained gold. Registered Names and Trademarks are the copyright and property of their respective owners. Copyright© 2020,All rights reserved ",
+		noData:"No Data"
 	},
 	mainPage:{
 		gameTitle:'HOT GAME',
@@ -21,7 +22,8 @@ export const language = {
 		forget:'Forget Password?',
 		repass:'Confirm Password',
 		confirm:'Confirm',
-		key:'Key'
+		key:'Key',
+		codeHolder:'Please Fill Your Coupon Code'
 	},
 	good:{
 		chooseProducts:'Choose Products',
@@ -30,8 +32,6 @@ export const language = {
 		selectItems:"Buy POE Currency Items",
 		selectCoin:"Buy Albion Online Silver",
 		shoppingCart:'Shopping Cart',
-		orderInformation:'Order Information',
-		playerInformation:'Player Information',
 		paymentMethod:'Payment Method'
 		
 		

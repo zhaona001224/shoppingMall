@@ -24,7 +24,7 @@
 		<div style="display: flex;justify-content: space-between;">
 			<div class="coupon">
 				<el-input @clear="disPrice=0;couponPrice={}" style="dispaly:inline-block;width:200px"
-				 placeholder="请输入优惠券码" v-model="couponCode" clearable> </el-input><span class="btn point" @click="apply">Apply</span> </div>
+				:placeholder="$t('language.user.codeHolder')" v-model="couponCode" clearable> </el-input><span class="btn point" @click="apply">Apply</span> </div>
 			<div class="count-price">
 				<div>Product Price: <span class="price">{{currencyInfo.symbol}}{{totalPrice}}</span></div>
 				<div>Coupon Discount: <span class="price">{{currencyInfo.symbol}}{{disPrice}}</span></div>

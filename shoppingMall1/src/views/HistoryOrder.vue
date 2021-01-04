@@ -1,7 +1,7 @@
 <template>
 	<div style="width: 1200px; margin: 100px auto">
 		<div class="nav"> <img src="../assets/image/icon/icon_home.png" />Home >My Order </div>
-		<el-table
+		<el-table v-if="tableData.length>0"
 		 show-summary :data="tableData" width="100%">
 			<el-table-column header-align="left" width="240px" sortable prop="updated" label="pay_time">
 			</el-table-column>
@@ -23,6 +23,8 @@
 			<el-table-column header-align="left" width="230px" prop="status" label="status">
 			</el-table-column>
 			</el-table>
+			<div style="line-height: 100px;color: #999;text-align: center;" v-else>{{$t('language.common.noData')}}</div>
+
 	</div>
 </template>
 <script>
