@@ -17,93 +17,83 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div @click="$router.push('/Mobile/Profile')" style="margin-left: 0.25rem;"
-				 class="menu-cart"><img style="width: 0.185rem;" src="../assets/image/home/mobile-my.png"> </div>
-				<div
-				 class="menu-cart" style="margin-left: 0.14rem;"> <img @click="menuPop=!menuPop" src="../assets/image/home/mobild-menu.png" style="width: 0.2rem;"
+				<div @click="$router.push('/Mobile/Profile')" style="margin-left: 0.25rem;" class="menu-cart"><img style="width: 0.185rem;" src="../assets/image/home/mobile-my.png"> </div>
+				<div class="menu-cart" style="margin-left: 0.14rem;"> <img @click="menuPop=!menuPop" src="../assets/image/home/mobild-menu.png" style="width: 0.2rem;"
 					/> </div>
+			</div>
 		</div>
-	</div>
-	<div class="select" ref="tabsWrapper" style="position: fixed;top:0.36rem;z-index:1000;width:100%">
-		<ul class="select-ul" style="text-align: left;margin:0 auto;display: flex;">
-			<li style="width: 1.3rem;flex-shrink: 0;margin:0;height: 0.35rem;line-height: 0.35rem;border-right:0"
-			 :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
-				<a href="javascript:void(0)"><img style="width: 0.18rem;height: 0.2rem;margin-left: -0.2rem;margin-right: 2px;vertical-align: -4px;"
-					 src="../assets/image/home/icon_hot.png" />All Games</a>
-					
-			</li>
-			<li v-for="(item,index) in tabList" class="user-name" @click="$router.push(item.url)">
-				<a href="javascript:void(0)">{{item.text}}</a>
-				<img class="border" src="../assets/image/mobile/icon_split.png" /> 
-		
-			</li>
-			
-		</ul>
-		<div :class="gamePop?'active choose-game':'choose-game'"> </div>
-	</div>
-	<el-carousel v-if="gamePop" height="300px" :autoplay="false" arrow="always">
-		<el-carousel-item v-for="item in result" :key="item.id">
-			<div class="game-ul"> <span :class="$route.params.id==subItem.id?'active':''" v-if="subItem.online"
-				 v-for="(subItem,index) in gameList" @click="chooseGame(subItem)">
+		<div class="select" ref="tabsWrapper" style="position: fixed;top:0.36rem;z-index:1000;width:100%">
+			<ul class="select-ul" style="text-align: left;margin:0 auto;display: flex;">
+				<li style="width: 1.3rem;flex-shrink: 0;margin:0;height: 0.35rem;line-height: 0.35rem;border-right:0"
+				 :class="gamePop?'active tri_top point':'active tri_bottom point'" @click="getGame();gamePop=!gamePop">
+					<a href="javascript:void(0)"><img style="width: 0.18rem;height: 0.2rem;margin-left: -0.2rem;margin-right: 2px;vertical-align: -4px;"
+						 src="../assets/image/home/icon_hot.png" />All Games</a>
+				</li>
+				<li v-for="(item,index) in tabList" class="user-name" @click="$router.push(item.url)">
+					<a href="javascript:void(0)">{{item.text}}</a> <img class="border" src="../assets/image/mobile/icon_split.png"
+					/> </li>
+			</ul>
+			<div :class="gamePop?'active choose-game':'choose-game'"> </div>
+		</div>
+		<el-carousel v-if="gamePop" height="300px" :autoplay="false" arrow="always">
+			<el-carousel-item v-for="item in result" :key="item.id">
+				<div class="game-ul"> <span :class="$route.params.id==subItem.id?'active':''" v-if="subItem.online"
+					 v-for="(subItem,index) in gameList" @click="chooseGame(subItem)">
 					·{{subItem.name}}
 				</span> </div>
-		</el-carousel-item>
-	</el-carousel>
-	<transition name="fade" mode="out-in">
-		<router-view></router-view>
-	</transition>
-	<nav :class="menuPop?'menu-style active':'menu-style'">
-		<ul class="list-inline nav-main">
-			<li class="nav-primary" @click="$router.push('/Mobile/Home')">
-				<a href="javascript:void(0)"> Home </a>
-			</li>
-			<li class="nav-primary"  @click="$router.push('/Mobile/HistoryOrder')">
-				<a href="javascript:void(0)"> My Order </a>
-			</li>
-			<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/2')">
-				<a href="javascript:void(0)" > Discount </a>
-			</li>
-			<li class="nav-primary" @click="$router.push('/Mobile/NewsList')">
-				<a href="javascript:void(0)" > News </a>
-			</li>
-			<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/1')">
-				<a href="javascript:void(0)" >
-				Sell to US </a>
-			</li>
-			<li class="nav-primary"  @click="$router.push('/Mobile/BlankPage/3')">
-				<a href="javascript:void(0)" >
-				Contact US </a>
-			</li>
-		</ul>
-	</nav>
-	<div class="footer">
-		<div class="tip special"> <span class="point" @click="$router.push('/Mobile/AboutUs')">About US</span>
-			<span
-			 class="point" @click="$router.push('/Mobile/DeliveryPolicy')"> Delivery Policy</span> <span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>				<span class="point" @click="$router.push('/Mobile/FAQ')">FAQ </span> <span class="point"
-				 @click="$router.push('/ReturnPolicy')">Return Policy</span> <span @click="$router.push('/Mobile/BlankPage/3')"
-				 class="point"> Contact US</span> </div>
-		<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
-		<!-- <div class="img">
+			</el-carousel-item>
+		</el-carousel>
+		<transition name="fade" mode="out-in">
+			<router-view></router-view>
+		</transition>
+		<nav :class="menuPop?'menu-style active':'menu-style'">
+			<ul class="list-inline nav-main">
+				<li class="nav-primary" @click="$router.push('/Mobile/Home')">
+					<a href="javascript:void(0)"> Home </a>
+				</li>
+				<li class="nav-primary" @click="$router.push('/Mobile/HistoryOrder')">
+					<a href="javascript:void(0)"> My Order </a>
+				</li>
+				<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/2')">
+					<a href="javascript:void(0)"> Discount </a>
+				</li>
+				<li class="nav-primary" @click="$router.push('/Mobile/NewsList')">
+					<a href="javascript:void(0)"> News </a>
+				</li>
+				<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/1')">
+					<a href="javascript:void(0)"> Sell to US </a>
+				</li>
+				<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/3')">
+					<a href="javascript:void(0)"> Contact US </a>
+				</li>
+			</ul>
+		</nav>
+		<div class="footer">
+			<div class="tip special"> <span class="point" @click="$router.push('/Mobile/AboutUs')">About US</span>
+				<span
+				 class="point" @click="$router.push('/Mobile/DeliveryPolicy')"> Delivery Policy</span> <span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>					<span class="point" @click="$router.push('/Mobile/FAQ')">FAQ </span> <span class="point"
+					 @click="$router.push('/ReturnPolicy')">Return Policy</span> <span @click="$router.push('/Mobile/BlankPage/3')"
+					 class="point"> Contact US</span> </div>
+			<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
+			<!-- <div class="img">
 				<div class="trustedsite-trustmark" data-type="202"></div>
 				<div class="trustedsite-trustmark" data-type="102"></div> </div>
 			<div class="icon">
 			<img src="../assets/image/icon/icon_footer1.png" /> <img src="../assets/image/icon/icon_footer2.png"
 				/> <img src="../assets/image/icon/icon_footer3.png" /> <img src="../assets/image/icon/icon_footer4.png"
 				/> <img src="../assets/image/icon/icon_footer5.png" /> </div> -->
-		<div style="margin:0 auto;width:100%;font-size: 12px;color: #4a4a4a;">Trademarks are the copyright and property of their respective owners.</div>
-		<div
-		 style="margin:0 auto;width:100%;font-size: 12px;color: #4a4a4a;">The use of this Website constitutes the acceptance of the <span style="color:rgba(2, 145, 205)"
-			 class="point" @click="$router.push('/TermsCon')">Terms&Conditions</span> and
-			<span
-			 @click="$router.push('/PrivacyPolicy')" class="point" style="color:rgba(2, 145, 205)">Privacy Policy</span>
-	</div>
-	<div style="margin:0 auto;width:100%;font-size: 12px;color: #4a4a4a;">Copyright © 2006-2020, J&S Network Technology Limited</div>
-	<div class="tip" style="margin:0.2rem auto;opacity: 0.4;">
-	<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>		</div>
+			<div style="margin:0 auto;width:100%;font-size: 12px;color: #4a4a4a;">Trademarks are the copyright and property of their respective owners.</div>
+			<div
+			 style="margin:0 auto;width:100%;font-size: 12px;color: #4a4a4a;">The use of this Website constitutes the acceptance of the <span style="color:rgba(2, 145, 205)"
+				 class="point" @click="$router.push('/TermsCon')">Terms&Conditions</span> and
+				<span @click="$router.push('/PrivacyPolicy')" class="point" style="color:rgba(2, 145, 205)">Privacy Policy</span>				</div>
+		<div style="margin:0 auto;width:100%;font-size: 12px;color: #4a4a4a;">Copyright © 2006-2020, J&S Network Technology Limited</div>
+		<div class="tip" style="margin:0.2rem auto;opacity: 0.4;">
+		<span v-for="(item,index) in gameConfig" :key="index" class="point" @click="chooseGame(item)">{{item.display_name}}</span>			</div>
 	</div>
 	<div class="fix-bottom" v-if="$route.fullPath!=='/Mobile/payPage'&&$route.fullPath!=='/Mobile/Result'&&$route.name!=='Login'">
 		<div class="left">
-			<div class="menu-cart" ><span class="num">{{cartList.length}}</span><img src="../assets/image/mobile/car.png">				</div>
+			<div class="menu-cart"><span class="num">{{cartList.length}}</span><img src="../assets/image/mobile/car.png">				</div>
 			<div class="price">{{totalAmout}}<span class="unit">{{currencyInfo.name}}</span></div>
 		</div>
 		<div class="btn" @click="goPayPage()">Check Out</div>
@@ -142,18 +132,18 @@
 				},
 				showCart: true,
 				menuPop: false,
-				tabList:[{
-					text:'Home',
-					url:'/'
-				},{
-					text:'Discount',
-					url:'/Mobile/BlankPage/2'
-				},{
-					text:'My order',
-					url:'/Mobile/HistoryOrder'
-				},{
-					text:'Contact us',
-					url:'/Mobile/BlankPage/3'
+				tabList: [{
+					text: 'Home',
+					url: '/'
+				}, {
+					text: 'Discount',
+					url: '/Mobile/BlankPage/2'
+				}, {
+					text: 'My order',
+					url: '/Mobile/HistoryOrder'
+				}, {
+					text: 'Contact us',
+					url: '/Mobile/BlankPage/3'
 				}]
 			}
 		},
@@ -227,7 +217,8 @@
 			chooseGame(item) {
 				localStorage.setItem('gameId', item.id);
 				localStorage.setItem('gameName', item.name);
-				if (this.$route.path == "/Mobile/ItemList" || this.$route.path == "/Mobile/CoinList") {
+				if (this.$route.path == "/Mobile/ItemList" || this.$route.path ==
+					"/Mobile/CoinList") {
 					window.location.reload()
 				} else {
 					this.$router.push('/Mobile/ItemList/' + localStorage.getItem('gameId'));
@@ -446,22 +437,22 @@
 				}
 			}, 500)
 			this.totalAmout = 0
-				var price=0
-			this.cartList && this.cartList.map((item) => {
-					
-					price =price +item.salePrice*item.productNum
+			var price = 0
+			seeTimeout(() => {
+				this.cartList && this.cartList.map((item) => {
+					price = price + item.salePrice * item.productNum
 				})
-				this.totalAmout=(price*this.currencyInfo.rate).toFixed(2)
+				this.totalAmout = (price * this.currencyInfo.rate).toFixed(2)
+			}, 1000)
 		},
 		watch: {
 			'cartList' () {
 				this.totalAmout = 0
-				var price=0
+				var price = 0
 				this.cartList && this.cartList.map((item) => {
-					
-					price =price +item.salePrice*item.productNum
+					price = price + item.salePrice * item.productNum
 				})
-				this.totalAmout=(price*this.currencyInfo.rate).toFixed(2)
+				this.totalAmout = (price * this.currencyInfo.rate).toFixed(2)
 			}
 		},
 	}
@@ -470,9 +461,8 @@
 	body, html {
 		padding: 0;
 		margin: 0;
-		
 	}
-
+	
 	.home-container {
 		font-size: 0.13rem;
 	}
@@ -548,12 +538,12 @@
 			text-align: center;
 			color: #fff;
 			position: relative;
-			.border{
+			.border {
 				position: absolute;
 				width: 1px;
-				height:0.3rem;
+				height: 0.3rem;
 				right: 0;
-				top:0;
+				top: 0;
 			}
 			&:hover {
 				background-color: #29303a;
