@@ -36,7 +36,7 @@
           {{ item.name }}
         </span> </div>
 			<div class="contain">
-				<div class="li point" v-for="(item, index) in itemList" :key="item.id" v-if="item.type == 'item,item' || (item.hintText && item.hintImage)"
+				<div class="li point aaa" v-for="(item, index) in itemList" :key="item.id" v-if="item.type == 'item,item' || (item.hintText && item.hintImage)"
 				 @click="goItem(item)">
 					<div v-if="item.hintImage || item.hintText">
 						<el-popover style="min-width: auto; text-align: center" placement="right" trigger="hover">
@@ -199,9 +199,9 @@
 				localStorage.setItem("gameId", item.id);
 				localStorage.setItem("gameName", item.name);
 				if (item.productSell == "item,item") {
-					this.$router.push("/MainPage/ItemList/" + localStorage.getItem("gameId"));
+					this.$router.push("/ItemList/" + localStorage.getItem("gameId"));
 				} else {
-					this.$router.push("/MainPage/CoinList/" + localStorage.getItem("gameId"));
+					this.$router.push("/CoinList/" + localStorage.getItem("gameId"));
 				}
 			},
 			goItem(item, type) {
@@ -209,8 +209,7 @@
 				item.name = item.game.split(",")[1];
 				localStorage.setItem("gameId", item.id);
 				localStorage.setItem("gameName", item.name);
-				debugger
-				this.$router.push("/MainPage/ItemList/" + this.selectId);
+				this.$router.push("/ItemList/" + this.selectId);
 			},
 			getGame() {
 				//获取game
