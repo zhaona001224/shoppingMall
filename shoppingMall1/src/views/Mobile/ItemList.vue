@@ -15,14 +15,12 @@
             gameList.productSell == 'both,both' ||
             gameList.productSell == 'coin,coin'
           " :class="selectType == 'coin' ? 'item active point' : 'item point'" @click="$router.push('/coinList/' + $route.params.id)">
-				<img src="../../assets/image/icon/icon_coin.png" /> {{ gameList.coinName || "Silver"
-					}} </div>
+				<img src="../../assets/image/icon/icon_coin.png" /> <span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"> {{ gameList.coinName || "Silver" }}</span></div>
 				<div v-if="
             gameList.productSell == 'both,both' ||
             gameList.productSell == 'item,item'
           " :class="selectType == 'item' ? 'item active point' : 'item point'" @click="$router.push('/itemList/' + $route.params.id)">
-				<img src="../../assets/image/icon/icon_item.png" /> {{ gameList.itemName || "Items"
-					}} </div>
+				<img src="../../assets/image/icon/icon_item.png" /> <span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ gameList.itemName || "Items" }}</span></div>
 			</div>
 			<el-dropdown v-if="categoryList.length > 0"> <span class="el-dropdown-link">
           {{ selectCategoryData.name
@@ -63,7 +61,9 @@
 				</div>
 				<div class="li point" v-for="(item, index) in itemList" :key="item.id">
 					<div v-if="item.hintImage || item.hintText">
-						<el-popover style="min-width: auto; text-align: center" placement="right" trigger="hover">
+						<el-popover :ref="'Popover'+index" style="min-width: auto; text-align: center" placement="right" trigger="hover">
+							<div class="text" style="position: absolute;width: 100%;height: 100%;left: 0;top:0"
+							 @click.stop='popClick(index)'></div>
 							<div class="pop-item"> <img v-if="item.hintImage" :src="imgUrl + item.hintImage" />
 								<div>
 									<div class="title hidden-style" style="height: auto"> {{ item.name }} </div>
@@ -104,7 +104,7 @@
                     item.id,
                     item.price,
                     item.name,
-                    1,
+                     item.num,
                     imgUrl + item.hintImage,
                     1
                   )
@@ -190,6 +190,7 @@ export default {
       categoryList: [],
       selectCategoryData: [],
       categoryId: "",
+      popClickIndex: 1
     };
   },
   computed: {
@@ -231,6 +232,13 @@ export default {
         return (price * 1).toFixed(2);
       }
     },
+    popClick(index) {
+				this.popClickIndex = this.popClickIndex + 1
+				if (this.popClickIndex == 3) {
+					this.$refs['Popover' + index][0].doClose();
+					this.popClickIndex = 1
+				}
+			},
     up(index, num) {
       if (num === 1) {
         this.itemList[index].num = this.itemList[index].num * 1 + 1;

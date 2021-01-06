@@ -13,7 +13,8 @@
 		<div class="img-contain">
 			<a class="img-style" href="https://www.mcafeesecure.com/verify?host=egpal.com">
 			<img style="width: 0.75rem;" src="../../assets/image/mobile/home1.png" /></a>
-			<a class="img-style" href="javascript:void(0)"> <img style="margin-top:4px;width: 0.79rem;" src="../../assets/image/mobile/home2.png" /></a>
+			<a class="img-style" href="javascript:void(0)"> <img style="margin-top:4px;width: 0.79rem;" src="../../assets/image/mobile/home2.png"
+				/></a>
 			<a class="img-style" href="https://transparencyreport.google.com/safe-browsing/search?url=www.egpal.com"><img style="width: 0.51rem;" src="../../assets/image/mobile/home3.png" /></a>
 			<a class="img-style" href="javascript:void(0)"> <img style="width: 0.6rem;" src="../../assets/image/mobile/home4.png" /></a>
 		</div>
@@ -50,10 +51,14 @@
 					/>
 					<div class="li point" v-for="(subItem,subIndex) in itemList" :key="subItem.id"
 					 v-if="subIndex>=6*index&&subIndex<6*(index+1)&&(subItem.type == 'item,item' || (subItem.hintText && subItem.hintImage))"
-					 @click="goItem(subItem)">
+					 @click="goItem(subItem);">
 						<div v-if="subItem.hintImage || subItem.hintText">
-							<el-popover style="min-width: auto; text-align: center" placement="right" trigger="hover">
-								<div class="pop-item" v-if="subItem.hintImage || subItem.hintText"> <img v-if="subItem.hintImage" :src="imgUrl + subItem.hintImage" />
+							<el-popover :ref="'Popover'+subIndex" style="min-width: auto;position: relative; text-align: center':'display:none"
+							 placement="right" trigger="hover">
+								<div class="text" style="position: absolute;width: 100%;height: 100%;left: 0;top:0"
+								 @click.stop='popClick(subIndex)'></div>
+								<div class="pop-item" v-if="subItem.hintImage || subItem.hintText">
+								<img v-if="subItem.hintImage" :src="imgUrl + subItem.hintImage" />
 									<div v-if="subItem.hintText">
 										<div class="label">{{ subItem.hintText }}</div>
 									</div>
@@ -83,7 +88,7 @@
 			</van-swipe>
 			<!--<div class="load" @click="itemPage=itemPage+1;getItem()" v-if="gameList.length>8&&gamePage<gameList.length/8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../../assets/image/icon/icon_load.png"
 				/>{{$t("language.mainPage.load")}}</div>--></div>
-		<div class="split"></div>
+		<div class="split" ref="button"></div>
 		<div class="choose-contain">
 			<div class="main-title"><span class="border-style"></span>{{ $t("language.mainPage.chooseTitle") }}</div>
 			<div class="contain">
@@ -170,11 +175,14 @@
 				gameHotList: [],
 				newsList: [],
 				selectId: "",
+				isShow: true,
+				visible: true,
 				gamePage: 0,
 				newPage: 0,
 				itemPage: 1,
 				selectGame: {},
-				itemArray: []
+				itemArray: [],
+				popClickIndex: 1
 			};
 		},
 		computed: { ...mapState(["login", "showMoveImg", "currencyInfo", "clientSize"]),
@@ -194,6 +202,13 @@
 					this.$router.push("/Mobile/ItemList/" + localStorage.getItem("gameId"));
 				} else {
 					this.$router.push("/Mobile/CoinList/" + localStorage.getItem("gameId"));
+				}
+			},
+			popClick(index) {
+				this.popClickIndex = this.popClickIndex + 1
+				if (this.popClickIndex == 3) {
+					this.$refs['Popover' + index][0].doClose();
+					this.popClickIndex = 1
 				}
 			},
 			goItem(item, type) {
@@ -278,8 +293,8 @@
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
 						this.getItem();
-						setTimeout(()=>{
-if (!this.scroll) {
+						setTimeout(() => {
+							if (!this.scroll) {
 								this.scroll = new BScroll(this.$refs.tabsWrapper, {
 									scrollX: true,
 									eventPassthrough: "vertical",
@@ -287,8 +302,7 @@ if (!this.scroll) {
 							} else {
 								this.scroll.refresh();
 							}
-						},2000)
-						
+						}, 2000)
 					} else {
 						this.$message({
 							type: "warning",
@@ -342,7 +356,6 @@ if (!this.scroll) {
 <style lang="less" scoped="">
 	@import "../../assets/css/public.css";
 	.mobile {
-	
 		.img-contain {
 			width: 100%;
 			border-radius: 2px;
@@ -388,7 +401,7 @@ if (!this.scroll) {
 				margin: 0 auto;
 				.li {
 					display: flex;
-					padding:0.1rem 0.25rem 0.15rem;
+					padding: 0.1rem 0.25rem 0.15rem;
 					align-items: center;
 					text-align: left;
 					img {

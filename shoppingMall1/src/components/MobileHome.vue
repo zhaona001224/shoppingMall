@@ -1,7 +1,7 @@
 <template>
 	<div class="home-container touch" style="padding-top: 0.71rem;">
 		<div class="top" style="position: fixed;top:0;">
-			<div class="left-img"> <img style="width: 1.03rem;" src="../assets/image/home/mobile-logo.png" /> </div>
+			<div class="left-img" @click="$router.push('/Mobile/Home')"> <img style="width: 1.03rem;" src="../assets/image/home/mobile-logo.png" /> </div>
 			<div class="menu">
 				<el-dropdown class="point" style="margin-right: 8.5px;" v-if="currencyInfo"> <span class="el-dropdown-link">
 					     {{currencyInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -35,14 +35,14 @@
 			</ul>
 			<div :class="gamePop?'active choose-game':'choose-game'"> </div>
 		</div>
-		<el-carousel v-if="gamePop" height="300px" :autoplay="false" arrow="always">
-			<el-carousel-item v-for="item in result" :key="item.id">
+		<van-swipe v-if="gamePop" height="300px" :loop="false" :show-indicators="false" :autoplay="false" arrow="always">
+			<van-swipe-item v-for="item in result" :key="item.id">
 				<div class="game-ul"> <span :class="$route.params.id==subItem.id?'active':''" v-if="subItem.online"
-					 v-for="(subItem,index) in gameList" @click="chooseGame(subItem)">
-					·{{subItem.name}}
+					 v-for="(subItem,index) in item" @click="chooseGame(subItem)">
+					{{subItem.name}}
 				</span> </div>
-			</el-carousel-item>
-		</el-carousel>
+			</van-swipe-item>
+		</van-swipe>
 		<transition name="fade" mode="out-in">
 			<router-view></router-view>
 		</transition>
@@ -63,8 +63,11 @@
 				<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/1')">
 					<a href="javascript:void(0)"> Sell to US </a>
 				</li>
-				<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/3')">
-					<a href="javascript:void(0)"> Contact US </a>
+				<li class="nav-primary" @click="$router.push('/Mobile/FAQ')">
+					<a href="javascript:void(0)">FAQ</a>
+				</li>
+				<li class="nav-primary" @click="doLoginOut">
+					<a href="javascript:void(0)">LoginOut</a>
 				</li>
 			</ul>
 		</nav>
@@ -139,10 +142,10 @@
 					text: 'Discount',
 					url: '/Mobile/BlankPage/2'
 				}, {
-					text: 'My order',
+					text: 'My Order',
 					url: '/Mobile/HistoryOrder'
 				}, {
-					text: 'Contact us',
+					text: 'Contact Us',
 					url: '/Mobile/BlankPage/3'
 				}]
 			}
@@ -199,7 +202,7 @@
 					loginOut("").then(response => {
 						if (response.retCode == 0) {
 							this.LOGINOUT_USERINFO()
-							this.$router.push('/')
+							this.$router.push('/Mobile/Home')
 						} else {
 							that.$message({
 								type: 'warning',
@@ -349,6 +352,7 @@
 							result.push(array.slice(start, end));
 						}
 						this.result = result
+						
 					} else {
 						this.$message({
 							type: 'warning',
@@ -428,7 +432,7 @@
 				if (deleteNode2) {
 					clearInterval(a);
 				}
-				if (this.$route.fullPath !== '/Home') {
+				if (this.$route.fullPath !== '/Home'&&this.$route.fullPath !== '/Mobile/Home') {
 					deleteNode ? deleteNode.className = 'style-none' : ''
 					deleteNode2 ? deleteNode2.className = 'style-none' : ''
 				} else {
@@ -438,7 +442,7 @@
 			}, 500)
 			this.totalAmout = 0
 			var price = 0
-			seeTimeout(() => {
+			setTimeout(() => {
 				this.cartList && this.cartList.map((item) => {
 					price = price + item.salePrice * item.productNum
 				})
@@ -526,7 +530,7 @@
 		background-color: #212121;
 		li {
 			cursor: pointer;
-			padding: 0 0.2rem;
+			padding: 0 0.13rem;
 			font-family: font, Arial, Helvetica Neue, Helvetica, sans-serif;
 			font-size: 0.14rem;
 			line-height: 0.26rem;
@@ -584,7 +588,7 @@
 		position: fixed;
 		left: 0;
 		top: 0.71rem;
-		z-index: 20000;
+		z-index: 999;
 		width: 100%;
 		background: #363e43;
 	}
@@ -595,7 +599,7 @@
 		transition: all .5s;
 		overflow-y: auto;
 		&.active {
-			height: 2.7rem;
+			height: 3.16rem;
 			transform: scale(1);
 		}
 	}
@@ -620,14 +624,13 @@
 		}
 	}
 	
-	.el-carousel__indicator.el-carousel__indicator--horizontal {
-		display: none;
-	}
+	
 	
 	.game-ul {
+		background: #212121;
 		padding: 20px 25px;
 		font-size: 0.15rem;
-		height: 3.5rem;
+		height: 3rem;
 		color: #fff;
 		display: flex;
 		flex-wrap: wrap;
@@ -635,10 +638,10 @@
 			text-align: left;
 			width: 50%;
 			flex-shrink: 0;
-			line-height: 0.3rem;
+			margin-top: 0.12rem;
 			font-family: font, Arial, Helvetica Neue, Helvetica, sans-serif;
 			&.active {
-				background: #29303a;
+				color: #f39800 ;
 			}
 		}
 	}

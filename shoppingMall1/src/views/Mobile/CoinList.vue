@@ -15,12 +15,12 @@
             gameList.productSell == 'both,both' ||
             gameList.productSell == 'coin,coin'
           " :class="selectType == 'coin' ? 'item active point' : 'item point'" @click="$router.push('/coinList/' + $route.params.id)">
-				<img src="../../assets/image/icon/icon_coin.png" /> <span> {{ gameList.coinName || "Silver" }}</span>					</div>
+				<img src="../../assets/image/icon/icon_coin.png" /> <span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"> {{ gameList.coinName || "Silver" }}</span>					</div>
 				<div v-if="
             gameList.productSell == 'both,both' ||
             gameList.productSell == 'item,item'
           " :class="selectType == 'item' ? 'item active point' : 'item point'" @click="$router.push('/itemList/' + $route.params.id)">
-				<img src="../../assets/image/icon/icon_item.png" /> <span>{{ gameList.itemName || "Items" }}</span>					</div>
+				<img src="../../assets/image/icon/icon_item.png" /> <span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ gameList.itemName || "Items" }}</span>					</div>
 			</div>
 			<el-dropdown v-if="categoryList.length > 0"> <span class="el-dropdown-link">
           {{ selectCategoryData.name
@@ -108,11 +108,11 @@
           >
         </div>
         <div class="li" v-for="(item, index) in discountList" :key="item.id">
-          <div class="left" style="width: 50%">
-            <span class="custom-quantity ">
-              {{ item.name }} {{ item.qty || 1 }}{{ selectData[0] && selectData[0].Unit }}-{{ selectServeData.name }}
+          <div class="left" style="width: 80%">
+            <div class="custom-quantity ">
+              {{ item.qty || 1 }}{{ selectData[0] && selectData[0].Unit }}-{{ selectServeData.name }}
               
-            </span> <span class="serve-name " v-html="item.selltext"></span> </div>
+            </div> <div class="serve-name " v-html="item.selltext"></div> </div>
 				<div class="right">
 					<div class="price"> {{ currencyInfo.symbol }}{{ ( (item.totalPrice || item.price) * 1 * currencyInfo.rate
 						).toFixed(2) }} </div>
@@ -279,7 +279,7 @@
 				if (price == 0 || productNum == 0) {
 					return;
 				}
-				item.unit = item.Unit;
+				item.unit = this.selectData[0]&&this.selectData[0].Unit
 				this.ADD_CART({
 					detail: item,
 					productId: id,
@@ -775,7 +775,7 @@
 				font-family: PingFang-SC-Bold;
 				font-size: 0.13rem;
 				font-weight: bold;
-				margin: 0.15rem 0 0.22rem;
+				margin: 0.15rem 0 0.06rem;
 			}
 		}
 		.right {

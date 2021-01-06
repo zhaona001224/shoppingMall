@@ -6,11 +6,11 @@
 			<div class="step-line" style="padding-bottom: 20px;">
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'"
 				 :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
-				<img src="../assets/image/icon/icon_coin.png" /> {{gameList.coinName||'Silver'}}
+				<img src="../assets/image/icon/icon_coin.png" /><div style="width:150px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{gameList.coinName||'Silver'}}</div>
 					</div>
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'"
 				 :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList/'+$route.params.id)">
-				<img src="../assets/image/icon/icon_item.png" /> {{gameList.itemName||'Items'}}
+				<img src="../assets/image/icon/icon_item.png" /> <div style="width:150px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{gameList.itemName||'Items'}}</div>
 					</div>
 			</div>
 			<div class="step" v-if="categoryList.length>0"><span>2</span>Please Select Your {{gameList.categoryHint||'Category'}}</div>
@@ -176,7 +176,7 @@
 				if (price == 0 || productNum == 0) {
 					return
 				}
-				item.unit = item.Unit
+				item.unit = this.selectData[0]&&this.selectData[0].Unit
 				this.ADD_CART({
 					detail: item,
 					productId: id,
@@ -489,7 +489,7 @@
 		.item {
 			display: inline-block;
 			text-align: center;
-			width: 120px;
+			width: 150px;
 			padding: 17px 0;
 			background-color: #ffcbc8;
 			border-radius: 5px;

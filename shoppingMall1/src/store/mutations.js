@@ -25,6 +25,7 @@ export default {
 	},
 	// 加入购物车
 	[ADD_CART](state, {
+	
 		detail,
 		productId,
 		salePrice,

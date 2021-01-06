@@ -6,6 +6,8 @@
 		 show-summary :data="tableData"  style="width:100%">
 			<el-table-column header-align="left"  sortable prop="updated" label="pay_time">
 			</el-table-column>
+							<el-table-column header-align="left"  
+				 prop="order_id" label="order id"> </el-table-column>
 			<el-table-column header-align="left"  label="Game">
 				<template slot-scope="scope">
 					<div :key="subIndex" v-if="subIndex===0" v-for="(subItem,subIndex) in JSON.parse(scope.row['description'])">

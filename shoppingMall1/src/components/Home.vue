@@ -527,7 +527,7 @@
 				if (deleteNode2) {
 					clearInterval(a);
 				}
-				if (this.$route.fullPath !== '/Home') {
+				if (this.$route.fullPath !== '/Home'&&this.$route.fullPath !== '/Mobile/Home') {
 					deleteNode ? deleteNode.className = 'style-none' : ''
 					deleteNode2 ? deleteNode2.className = 'style-none' : ''
 				} else {
