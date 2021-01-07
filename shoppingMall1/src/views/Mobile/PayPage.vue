@@ -697,7 +697,7 @@
 	}
 	
 	.tip {
-		padding-left: 20px;
+		margin-bottom: 12px;
 		font-size: 12px;
 		color: #e7534b;
 		img {

@@ -706,7 +706,7 @@
 		.custom-quantity {
 			font-size: 14px;
 			color: #333333;
-		}
+				}
 		.price {
 			font-family: PingFang-SC-Bold;
 			font-size: 0.15rem;
@@ -772,9 +772,9 @@
 			color: #333;
 			padding-left: 0.1rem;
 			.custom-quantity {
-				font-family: PingFang-SC-Bold;
+				font-family: font, Arial, Helvetica Neue, Helvetica, sans-serif;
+	
 				font-size: 0.13rem;
-				font-weight: bold;
 				margin: 0.15rem 0 0.06rem;
 			}
 		}
