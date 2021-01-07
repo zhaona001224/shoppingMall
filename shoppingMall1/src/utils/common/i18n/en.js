@@ -32,7 +32,9 @@ export const language = {
 		selectItems:"Buy POE Currency Items",
 		selectCoin:"Buy Albion Online Silver",
 		shoppingCart:'Shopping Cart',
-		paymentMethod:'Payment Method'
+		paymentMethod:'Payment Method',
+		orderInformation: 'Order Info',
+		playerInformation: 'Player Info',
 		
 		
 	}

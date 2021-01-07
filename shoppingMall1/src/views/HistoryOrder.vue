@@ -2,7 +2,7 @@
 	<div style="width: 1200px; margin: 100px auto">
 		<div class="nav"> <img src="../assets/image/icon/icon_home.png" />Home >My Order </div>
 		<el-table v-if="tableData.length>0"
-		 show-summary :data="tableData" width="100%">
+		  :summary-method="getSummaries" show-summary :data="tableData" width="100%">
 			<el-table-column header-align="left" width="240px" sortable prop="updated" label="pay_time">
 			</el-table-column>
 			<el-table-column header-align="left" width="240px" prop="order_id" label="order id">
@@ -105,7 +105,7 @@
 						sums[index] = 'Total';
 						return;
 					}
-					if (index === 3) {
+					if (index === 4) {
 						const values = data.map(item => Number(item[column.property]));
 						if (!values.every(value => isNaN(value))) {
 							sums[index] = values.reduce((prev, curr) => {
@@ -116,7 +116,7 @@
 									return prev;
 								}
 							}, 0);
-							sums[index] += '';
+							sums[index]=sums[index].toFixed(2);
 						}
 					}else{
 						sums[index] = '';

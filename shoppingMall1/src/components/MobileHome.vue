@@ -35,8 +35,11 @@
 			</ul>
 			<div :class="gamePop?'active choose-game':'choose-game'"> </div>
 		</div>
-		<van-swipe v-if="gamePop" height="300px" :loop="false" :show-indicators="false" :autoplay="false" arrow="always">
+		<van-swipe class="select-game" ref="swiper" v-if="gamePop" height="300px" :loop="false" :show-indicators="false" :autoplay="false" arrow="always">
 			<van-swipe-item v-for="item in result" :key="item.id">
+				 <img class="left" @click="$refs.swiper.prev()" src="../assets/image/mobile/left.png"
+					/> <img class="right" @click="$refs.swiper.next()" src="../assets/image/mobile/right.png"
+					/>
 				<div class="game-ul"> <span :class="$route.params.id==subItem.id?'active':''" v-if="subItem.online"
 					 v-for="(subItem,index) in item" @click="chooseGame(subItem)">
 					{{subItem.name}}
@@ -584,7 +587,7 @@
 		}
 	}
 	
-	.el-carousel--horizontal, .menu-style {
+	.el-carousel--horizontal, .menu-style,.select-game {
 		position: fixed;
 		left: 0;
 		top: 0.71rem;
@@ -625,7 +628,21 @@
 	}
 	
 	
-	
+	/deep/ .van-swipe-item{
+			position: relative;
+			.left{
+				position: absolute;
+				left: 10px;
+				top:1.4rem;
+				width: 14px;
+			}
+			.right{
+				position: absolute;
+				right: 10px;
+				top:1.4rem;
+				width: 14px;
+			}
+		}
 	.game-ul {
 		background: #212121;
 		padding: 20px 25px;
@@ -634,6 +651,7 @@
 		color: #fff;
 		display: flex;
 		flex-wrap: wrap;
+		
 		span {
 			text-align: left;
 			width: 50%;
