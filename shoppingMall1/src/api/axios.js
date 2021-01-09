@@ -48,13 +48,13 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
 
 	i--
-	if (i <= 0) {
+	if (i <= 1) {
 		loading.close();
 	}
 	return response.data;
 }, error => { //响应错误处理
 	i--
-	if (i <= 2) {
+	if (i <= 1) {
 		loading.close();
 	}
 	return Promise.reject(error);

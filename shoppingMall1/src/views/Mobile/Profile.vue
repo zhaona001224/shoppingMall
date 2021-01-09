@@ -148,7 +148,7 @@
 		text-align: center;
 		line-height: 0.5rem;
 		color: #fff;
-		font-family: PingFang-SC-Bold;
+	
 		font-size: 0.18rem;
 		font-weight: bold;
 	}

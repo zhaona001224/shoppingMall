@@ -22,29 +22,53 @@
           " :class="selectType == 'item' ? 'item active point' : 'item point'" @click="$router.push('/itemList/' + $route.params.id)">
 				<img src="../../assets/image/icon/icon_item.png" /> <span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ gameList.itemName || "Items" }}</span>					</div>
 			</div>
-			<el-dropdown v-if="categoryList.length > 0"> <span class="el-dropdown-link">
+				<van-popup v-model="showPicker" round position="bottom">
+  <van-picker
+    show-toolbar value-key="name"
+    :columns="categoryList"
+    @cancel="showPicker = false"
+    @confirm="selectCategory"
+  />
+  </van-popup>
+  	<van-popup v-model="showPicker1" round position="bottom">
+    <van-picker
+    show-toolbar value-key="name"
+    :columns="serveList"
+    @cancel="showPicker1 = false"
+    @confirm="selectServe"
+  />
+  </van-popup>
+   	<van-popup v-model="showPicker2" round position="bottom">
+    <van-picker
+    show-toolbar value-key="name"
+    :columns="itemList"
+    @cancel="showPicker2 = false"
+    @confirm="onConfirm"
+  />
+</van-popup>
+			<div class="el-dropdown"  v-if="categoryList.length > 0"> <span @click="showPicker=true" class="el-dropdown-link">
           {{ selectCategoryData.name
           }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-				<el-dropdown-menu class="menu-li" slot="dropdown">
+				<!-- <el-dropdown-menu class="menu-li" slot="dropdown">
 					<el-dropdown-item @click.native="selectCategory(item)" v-for="(item, index) in categoryList"
 					 v-if="categoryList.length > 0" :key="item.id" @click="selectCategory(item)"
 					 :class="item.id == categoryId ? 'active point' : 'point'">{{ item.name }}</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
-			<el-dropdown v-if="serveList.length > 0"> <span class="el-dropdown-link">
+				</el-dropdown-menu> -->
+			</div>
+			<div class="el-dropdown"  v-if="serveList.length > 0"> <span @click="showPicker1=true" class="el-dropdown-link">
           {{ selectServeData.name
           }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-				<el-dropdown-menu class="menu-li" slot="dropdown">
+				<!-- <el-dropdown-menu class="menu-li" slot="dropdown">
 					<el-dropdown-item @click.native="selectServe(item)" v-for="(item, index) in serveList"
 					 v-if="serveList.length > 0" :key="item.id" :class="item.id == serveId ? 'active point' : 'point'">{{ item.name }}</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
-			<el-dropdown v-if="itemList.length > 0"> <span class="el-dropdown-link">
+				</el-dropdown-menu> -->
+			</div>
+			<div class="el-dropdown"  v-if="itemList.length > 0"> <span @click="showPicker2=true" class="el-dropdown-link">
           {{ selectName }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-				<el-dropdown-menu class="menu-li" slot="dropdown">
+				<!-- <el-dropdown-menu class="menu-li" slot="dropdown">
 					<el-dropdown-item @click.native="
               selectId = item.id;
               selectName = item.name;
@@ -53,8 +77,8 @@
               filterId();
             " v-for="(item, index) in itemList" v-if="itemList.length > 0" :key="item.id"
 					 :class="item.id == selectId ? 'active point' : 'point'">{{ item.name }}</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
+				</el-dropdown-menu> -->
+			</div>
 			<div class="step-line item-contain">
 				<!-- <div class="flex-style">
           <div class="select-title">
@@ -186,6 +210,10 @@
 				categoryId: "",
 				totalPrice: 0,
 				selectName: "",
+				showPicker:false,
+				showPicker1:false,
+				showPicker2:false
+				
 			};
 		},
 		computed: { ...mapState(["login", "showMoveImg", "showCart", "currencyInfo",
@@ -253,6 +281,14 @@
 						this.totalPrice = item.price * this.coinNum;
 					}
 				});
+			},
+			onConfirm(item){
+				this.showPicker2=false
+				this.selectId = item.id;
+              this.selectName = item.name;
+              this.totalPrice = 0;
+              this.coinNum = 0;
+              this.filterId();
 			},
 			totalPrice2(data) {
 				var price = 0;
@@ -379,12 +415,14 @@
 				});
 			},
 			selectServe(item) {
+				this.showPicker1=false
 				this.selectServeData = item;
 				this.serveId = item.id;
 				this.getItem();
 				this.$forceUpdate();
 			},
 			selectCategory(item) {
+				this.showPicker=false
 				this.selectCategoryData = item;
 				this.categoryId = item.id;
 				this.getServe();
@@ -531,12 +569,12 @@
 		.tip {
 			font-size: 0.12rem;
 			color: #e1251b;
-			font-family: PingFang-SC-Bold;
+		
 			font-weight: bold;
 			margin-bottom: 0.1rem;
 		}
 		.bg {
-			padding: 10px;
+			padding: 0.1rem;
 			background-color: #ebebeb;
 				/deep/ img{
 			width: 0.5rem;
@@ -549,13 +587,13 @@
 		width: 1162px;
 		margin: 0 auto;
 		border-bottom: 2px solid #fe852d;
-		padding-top: 20px;
-		padding-bottom: 20px;
-		margin-bottom: 20px;
+		padding-top: 0.2rem;
+		padding-bottom: 0.2rem;
+		margin-bottom: 0.2rem;
 		overflow: hidden;
 		span {
-			padding: 15px 20px;
-			font-size: 14px;
+			padding: 0.15rem 0.2rem;
+			font-size: 0.14rem;
 			color: #333333;
 			border-radius: 4px;
 			&.active {
@@ -567,26 +605,26 @@
 	}
 	
 	.step {
-		font-size: 18px;
+		font-size: 0.18rem;
 		font-weight: normal;
 		font-stretch: normal;
-		line-height: 22px;
+		line-height: 0.22rem;
 		letter-spacing: 0px;
 		color: #333333;
 		span {
 			border-radius: 50%;
 			text-align: center;
 			display: inline-block;
-			width: 30px;
-			height: 30px;
-			line-height: 30px;
+			width: 0.3rem;
+			height: 0.3rem;
+			line-height: 0.3rem;
 			background-color: #fdf2f1;
 			border: solid 3px rgba(234, 111, 105, 0.4);
 			font-family: Arial-BoldMT;
-			font-size: 16px;
+			font-size: 0.16rem;
 			letter-spacing: 0px;
 			color: #e7534b;
-			margin-right: 16px;
+			margin-right: 0.16rem;
 		}
 	}
 	
@@ -599,7 +637,7 @@
 		line-height: 0.32rem;
 		background-color: #ffffff;
 		border: solid 1px #c9c9c9;
-		font-family: PingFang-SC-Regular;
+		
 		font-size: 0.14rem;
 		color: #666666;
 		text-align: left;
@@ -615,9 +653,9 @@
 		padding: 0 0.26rem;
 		.select-title {
 			color: #999;
-			font-size: 14px;
-			padding-top: 20px;
-			margin-bottom: 14px;
+			font-size: 0.14rem;
+			padding-top: 0.2rem;
+			margin-bottom: 0.14rem;
 		}
 		.item {
 			display: flex;
@@ -628,9 +666,9 @@
 			background-color: #ffcbc8;
 			border-radius: 2px;
 			font-size: 0.15rem;
-			font-family: PingFang-SC-Bold;
+		
 			font-weight: bold;
-			margin-top: 10px;
+			margin-top: 0.1rem;
 			letter-spacing: 0px;
 			color: #ffffff;
 			
@@ -648,7 +686,7 @@
 			justify-content: space-between;
 			align-items: center;
 			span {
-				font-family: PingFang-SC-Bold;
+			
 				margin: 0.2rem 0;
 				font-size: 0.13rem;
 				font-weight: bold;
@@ -664,7 +702,7 @@
 	.serve-contain {
 		display: flex;
 		flex-wrap: wrap;
-		padding-top: 20px;
+		padding-top: 0.2rem;
 		span {
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -672,12 +710,12 @@
 			display: block;
 			width: 140px;
 			text-align: center;
-			padding: 14px 10px;
-			font-size: 14px;
+			padding: 0.14rem 0.1rem;
+			font-size: 0.14rem;
 			border: 1px solid #efefef;
-			margin-right: 20px;
+			margin-right: 0.2rem;
 			position: relative;
-			margin-bottom: 20px;
+			margin-bottom: 0.2rem;
 			&:hover {
 				border: 1px solid #e1251b;
 			}
@@ -688,8 +726,8 @@
 					bottom: 0;
 					content: "";
 					position: absolute;
-					width: 20px;
-					height: 20px;
+					width: 0.2rem;
+					height: 0.2rem;
 					background: url(../../assets/image/icon/icon_check.png);
 				}
 			}
@@ -704,11 +742,11 @@
 		background-color: #feba00;
 		align-items: center;
 		.custom-quantity {
-			font-size: 14px;
+			font-size: 0.14rem;
 			color: #333333;
 				}
 		.price {
-			font-family: PingFang-SC-Bold;
+		
 			font-size: 0.15rem;
 			font-weight: bold;
 			font-stretch: normal;
@@ -716,7 +754,7 @@
 			color: #e1251b;
 		}
 		input {
-			margin-left: 10px;
+			margin-left: 0.1rem;
 			width: 0.92rem;
 			height: 0.28rem;
 			font-weight: bold;
@@ -737,11 +775,11 @@
 				border-radius: 2px;
 				font-size: 0.12rem;
 				line-height: 0.3rem;
-				font-family: PingFang-SC-Medium;
+				
 			}
 			
 			.buy {
-				margin-left: 13px;
+				margin-left: 0.13rem;
 				background-color: #e1251b;
 			}
 		}
@@ -767,7 +805,7 @@
 			margin-bottom: 0.2rem;
 		}
 		.left {
-			font-family: PingFang-SC-Regular;
+			
 			font-size: 0.12rem;
 			color: #333;
 			padding-left: 0.1rem;
@@ -785,7 +823,7 @@
 			text-align: right;
 			margin-top: 0.1rem;
 			margin-bottom: 0.12rem;
-			font-family: PingFang-SC-Bold;
+		
 			font-weight: bold;
 			font-size: 0.15rem;
 			color: #f3940e;
@@ -801,10 +839,10 @@
 				margin-right:5px;
 				img {
 					position: absolute;
-					top: 6px;
-					width: 18px;
-					height: 18px;
-					right: 6px;
+					top: 0.06rem;
+					width: 0.18rem;
+					height: 0.18rem;
+					right: 0.06rem;
 				}
 			}
 			.buy {
@@ -816,7 +854,7 @@
 				border-radius: 2px;
 				font-size: 0.12rem;
 				line-height: 0.3rem;
-				font-family: PingFang-SC-Medium;
+				
 				margin-left: 2px;
 				background-color: #e1251b;
 			}
@@ -841,7 +879,7 @@
 			margin: 0 auto;
 			margin: 0.25rem;
 			margin-top: 0;
-			padding: 20px;
+			padding: 0.2rem;
 			background: #fff;
 			border-radius: 8px;
 			margin-bottom: 0;
@@ -858,10 +896,10 @@
 			align-items: center;
 			.border-style {
 				width: 3px;
-				height: 9px;
+				height: 0.09rem;
 				background-color: #e10e0d;
 				border-radius: 1px;
-				margin-right: 9px;
+				margin-right: 0.09rem;
 			}
 		}
 		.contain {

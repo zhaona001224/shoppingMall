@@ -25,7 +25,7 @@ import 'vant/lib/index.css';
 Vue.use(Vant);
 router.beforeEach((to, from, next) => {
 	// 判断该路由是否需要登录权限
-	if(to.matched[0]&&to.matched[0].meta.requireAuth&&document.documentElement.clientWidth<=750) {
+	if(to.matched[0]&&to.matched[0].meta.requireAuth&&document.documentElement.clientWidth<=1200) {
 		if(localStorage.getItem('token')) {
 			next();
 		} else {

@@ -32,19 +32,27 @@
 			<!--<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../../assets/image/icon/icon_load.png"
 				/>{{$t("language.mainPage.load")}}</div>--></div>
 		<div class="split"></div>
+		<van-popup v-model="showPicker" round position="bottom">
+  <van-picker
+    show-toolbar value-key="name"
+    :columns="gameHotList"
+    @cancel="showPicker = false"
+    @confirm="onConfirm"
+  />
+</van-popup>
 		<div class="item-contain">
 			<div class="main-title hidden-style"><span class="border-style"></span>{{ $t("language.mainPage.itemTitle") }} </div>
-			<el-dropdown v-if="gameHotList.length>0"> <span class="el-dropdown-link">
+			<div class="el-dropdown"  v-if="gameHotList.length>0"> <span @click="showPicker=true" class="el-dropdown-link">
 					     {{selectGame.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
-				<el-dropdown-menu class="menu-li" slot="dropdown">
+				<!-- <el-dropdown-menu class="menu-li" slot="dropdown">
 					<el-dropdown-item @click.native="
               selectId = item.id;
               selectGame = item;
               getItem();
             " v-for="(item, index) in gameHotList" :key="index">{{item.name}}</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
+				</el-dropdown-menu> -->
+			</div>
 			<van-swipe ref="swiper" v-if="itemList.length>0" :interval="10000" height="260px">
 				<van-swipe-item v-for="(item,index) in itemArray" :key="index"> <img class="left" @click="$refs.swiper.prev()" src="../../assets/image/mobile/left.png"
 					/> <img class="right" @click="$refs.swiper.next()" src="../../assets/image/mobile/right.png"
@@ -170,6 +178,7 @@
 			return {
 				bannerList: [],
 				imgUrl: "",
+				showPicker:false,
 				gameList: [],
 				itemList: [],
 				gameHotList: [],
@@ -203,6 +212,12 @@
 				} else {
 					this.$router.push("/Mobile/CoinList/" + localStorage.getItem("gameId"));
 				}
+			},
+			onConfirm(item){
+				this.showPicker=false
+ this.selectId = item.id;
+              this.selectGame = item;
+              this.getItem()
 			},
 			popClick(index) {
 				this.popClickIndex = this.popClickIndex + 1
@@ -444,7 +459,7 @@
 					.text {
 						height: 0.45rem;
 						line-height: 0.45rem;
-						font-family: PingFang-SC-Regular;
+						
 						font-size: 0.15rem;
 						color: #222222;
 					}
@@ -532,7 +547,7 @@
 				line-height: 0.3rem;
 				background-color: #e10e0d;
 				border: solid 1px #c9c9c9;
-				font-family: PingFang-SC-Bold;
+			
 				font-size: 0.14rem;
 				font-weight: bold;
 				color: #ffffff;

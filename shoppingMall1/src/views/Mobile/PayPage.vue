@@ -561,7 +561,7 @@
 					font-stretch: normal;
 					letter-spacing: 0px;
 					color: #e1251b;
-					font-family: PingFang-SC-Bold;
+				
 					font-weight: bold;
 					margin-right: 0.2rem;
 				}
@@ -651,7 +651,7 @@
 			flex-shrink: 0;
 			font-family: MicrosoftYaHei;
 			font-size: 0.13rem;
-			font-family: PingFang-SC-Bold;
+		
 			font-weight: bold;
 			text-align: center;
 			color: #fff;
@@ -677,7 +677,7 @@
 			margin-bottom: 5px;
 		}
 		span {
-			font-family: PingFang-SC-Medium;
+			
 			font-weight: 600;
 			color: #666;
 		}
@@ -691,7 +691,7 @@
 		.price {
 			color: #e1251b;
 			margin-left: 8px;
-			font-family: PingFang-SC-Medium;
+			
 			font-weight: 600;
 		}
 	}
@@ -751,7 +751,7 @@
 		padding: 0.75rem 0.25rem 0.25rem;
 		text-align: center;
 		font-size: 0.18rem;
-		font-family: PingFang-SC-Bold;
+	
 		font-weight: bold;
 		color: #666;
 		.price {
@@ -769,7 +769,7 @@
 		text-align: center;
 		line-height: 0.5rem;
 		color: #fff;
-		font-family: PingFang-SC-Bold;
+	
 		font-size: 0.18rem;
 		font-weight: bold;
 	}
