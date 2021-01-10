@@ -215,7 +215,7 @@
 			},
 			onConfirm(item){
 				this.showPicker=false
- this.selectId = item.id;
+ 				this.selectId = item.id;
               this.selectGame = item;
               this.getItem()
 			},
@@ -237,9 +237,26 @@
 				//获取game
 				getTemplete("?type=Game&offset=-1&count=-1").then((response) => {
 					if (response.retCode == 0) {
+							response.data.sort((a,b) => {
+							
+							 let fa = a.name.trim().toLowerCase(),
+								fb = b.name.trim().toLowerCase();
+
+							if (fa < fb) {
+								return -1;
+							}
+							if (fa > fb) {
+								return 1;
+							}
+							return 0;
+							}); 
 						this.gameList = response.data.filter((item) => {
+							
 							return item.hot && item.online;
 						});
+					
+						
+						//console.log(this.gameList);
 						//						this.$nextTick(() => {
 						//							setTimeout(() => {
 						//								if (!this.scroll1) {
@@ -302,9 +319,11 @@
 				//获取game
 				getTemplete("?type=Game&offset=-1&count=-1").then((response) => {
 					if (response.retCode == 0) {
-						this.gameHotList = response.data.filter((item) => {
+
+						this.gameHotList =response.data.filter((item) => {
 							return item.hotitem && item.online;
 						});
+					
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
 						this.getItem();

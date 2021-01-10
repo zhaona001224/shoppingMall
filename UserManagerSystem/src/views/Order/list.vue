@@ -389,15 +389,55 @@
 					}
 				})
 			},
-			edit(index, id) {
-				var that = this;
+			getDataFromOriginTable(id){
 				var data;
-				data = this.originTable[index];
-				this.originTable[index].note = this.tableData[index].note && this.tableData[
-					index].note.join(',');
-				this.originTable[index].status = this.tableData[index].status
-				this.originTable[index].bad = this.tableData[index].bad
+				for(var i=0;i<this.originTable.length;i++){
+					if (this.originTable[i].id==id){
+						data = this.originTable[i];
+						return {data:data,i:i};
+					}
+				}
+				return {data:"",i:-1};
+			},
+			getDataFromTableData(id){
+				var data;
+				for(var i=0;i<this.tableData.length;i++){
+					if (this.tableData[i].id==id){
+						data = this.tableData[i];
+						return {data:data,i:i};
+					}
+				}
+				return {data:"",i:-1};
+			},
+			edit(index, id,m,e) {
+				var that = this;
+				//console.log(index,id,m,e);
+				var data,iid;
+				var dataObj = this.getDataFromOriginTable(id);
+				//data = this.originTable[index];
+				//console.log(dataObj);
+				data = dataObj.data;
+				iid = dataObj.i;
+				console.log(iid);
+				if (iid==-1){
+					return ;
+				}
+				var nowDataObj = this.getDataFromTableData(id);
+				console.log("current index is ",nowDataObj.i);
+				var curpos = nowDataObj.i;
+				data.status=that.tableData[curpos].status;
+				//this.originTable[iid].note = that.tableData[curpos].note && that.tableData[curpos].note.join(',');
+				//this.originTable[iid].status = this.tableData[curpos].status;
+				//return ;
+				/* this.originTable[iid].note = this.tableData[nowDataObj.i].note && this.tableData[nowDataObj.i].note.join(',');
+				this.originTable[iid].status = this.tableData[nowDataObj.i].status
+				this.originTable[iid].bad = this.tableData[nowDataObj.i].bad */
+				
+				//dataObj = this.getDataFromOriginTable(id);
+				//data = dataObj.data;
 				delete data.id
+				//console.log(data);
+				//return 
 				that.$post("/admin/v1/content/update?type=Order&id=" + id, data).then(
 					response => {
 						if (response.retCode == 0) {
@@ -445,8 +485,8 @@
 							item.note = item.note && item.note.split(',');
 							item.total = parseFloat(item.total)
 							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
-							item.request_time = item.request_time ? this.dateFormat(item.request_time,
-								'yyyy-MM-dd HH:mm:ss') : ''
+							//item.request_time = item.request_time ? this.dateFormat(item.request_time,
+							//	'yyyy-MM-dd HH:mm:ss') : ''
 							//console.log(item.pay_time);
 							item.airtime = this.$util.formatTime(this.getTimeFromString(item.pay_time),'YYYY-MM-DD HH:mm:ss');
 						})
@@ -542,8 +582,8 @@
 								'YYYY-MM-DD HH:mm:ss');
 							item.note = item.note && item.note.split(',');
 							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
-							item.request_time = item.request_time ? this.dateFormat(item.request_time,
-								'yyyy-MM-dd HH:mm:ss') : ''
+							//item.request_time = item.request_time ? this.dateFormat(item.request_time,
+							//	'yyyy-MM-dd HH:mm:ss') : ''
 						})
 						this.originTable = JSON.parse(JSON.stringify(this.tableData));
 						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));

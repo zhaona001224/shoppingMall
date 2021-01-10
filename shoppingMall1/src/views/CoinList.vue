@@ -13,11 +13,11 @@
 				<img src="../assets/image/icon/icon_item.png" /> <div style="width:150px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{gameList.itemName||'Items'}}</div>
 					</div>
 			</div>
-			<div class="step" v-if="categoryList.length>0"><span>2</span>Please Select Your {{gameList.categoryHint||'Category'}}</div>
+			<div class="step" v-if="categoryList.length>0"><span>2</span>Please Select  {{gameList.categoryHint||'Category'}}</div>
 			<div class="step-line serve-contain"
 			 v-if="categoryList.length>0"> <span v-for="(item,index) in categoryList" v-if="categoryList.length>0" :key="item.id"
 				 @click="selectCategory(item)" :class="item.id==categoryId?'active point':'point'">{{item.name}}</span>				<span v-if="categoryList.length==0" class="active">none</span> </div>
-			<div class="step"><span>{{categoryList.length>0?'3':'2'}}</span>Please Select Your {{gameList.serverHint||'Server'}}</div>
+			<div class="step"><span>{{categoryList.length>0?'3':'2'}}</span>Please Select  {{gameList.serverHint||'Server'}}</div>
 			<div class="step-line serve-contain"> <span v-for="(item,index) in serveList" :key="item.id" @click="selectServe(item)"
 				 :class="item.id==serveId?'active point':'point'">{{item.name}}</span> </div>
 			<div class="step"><span>{{categoryList.length>0?'4':'3'}}</span>Buy {{selectCategoryData.name}}

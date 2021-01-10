@@ -77,7 +77,7 @@
 			margin-left: -36px;
 			width: 1268px;
 			text-align: left;
-			.li {
+			.li {yield
 				text-align: center;
 				margin: 36px;
 				margin-top: 0;
