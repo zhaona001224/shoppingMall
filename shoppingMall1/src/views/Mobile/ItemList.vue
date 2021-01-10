@@ -23,7 +23,8 @@
 				<img src="../../assets/image/icon/icon_item.png" /> <span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ gameList.itemName || "Items" }}</span></div>
 			</div>
       		<van-popup v-model="showPicker" round position="bottom">
-  <van-picker
+ <van-picker
+   confirm-button-text="confirm"  cancel-button-text="cancel"
     show-toolbar value-key="name"
     :columns="categoryList"
     @cancel="showPicker = false"
@@ -31,7 +32,8 @@
   />
   </van-popup>
   	<van-popup v-model="showPicker1" round position="bottom">
-    <van-picker
+   <van-picker
+   confirm-button-text="confirm"  cancel-button-text="cancel"
     show-toolbar value-key="name"
     :columns="serveList"
     @cancel="showPicker1 = false"
@@ -141,25 +143,13 @@
 						{{ currencyInfo.symbol }}{{ getPrice(item.price * item.num * currencyInfo.rate)
 							}} </div>
 						<div style="
-                position: relative;
+               position: relative;
                 display: flex;
-                justify-content: space-between;
-                padding: 10px 0.2rem;
-              "> <span class="add" @click="
-                  addCart(
-                    item,
-                    item.id,
-                    item.price,
-                    item.name,
-                    1,
-                    imgUrl + item.hintImage,
-                    1
-                  )
-                ">Buy Now</span
-              >
-              <img
-                style="width: 43px; height: 0.32rem"
-                src="../../assets/image/home/img_buy2.jpg"
+                justify-content: center;
+                padding: 13px 0;
+              "> <span class="img-contain">
+              	<img
+                src="../../assets/image/mobile/car1.png"
                 class="go"
                 @click="
                   addCart(
@@ -172,6 +162,18 @@
                   )
                 "
               />
+              </span> <span class="add" @click="
+                  addCart(
+                    item,
+                    item.id,
+                    item.price,
+                    item.name,
+                     item.num,
+                    imgUrl + item.hintImage,
+                    1
+                  )
+                ">Buy Now</span
+              >
             </div>
           </div>
         </div>
