@@ -280,9 +280,10 @@
 				getTemplete("?type=Game&offset=-1&count=-1").then((response) => {
 					if (response.retCode == 0) {
 
-						this.gameHostList = response.data.filter((item) => {
+						this.gameHotList = response.data.filter((item) => {
 							return item.hotitem && item.online;
 						});
+						console.log(this.gameHotList)
 						
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];

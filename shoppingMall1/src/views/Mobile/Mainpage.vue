@@ -45,13 +45,6 @@
 			<div class="el-dropdown"  v-if="gameHotList.length>0"> <span @click="showPicker=true" class="el-dropdown-link">
 					     {{selectGame.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
-				<!-- <el-dropdown-menu class="menu-li" slot="dropdown">
-					<el-dropdown-item @click.native="
-              selectId = item.id;
-              selectGame = item;
-              getItem();
-            " v-for="(item, index) in gameHotList" :key="index">{{item.name}}</el-dropdown-item>
-				</el-dropdown-menu> -->
 			</div>
 			<van-swipe ref="swiper" v-if="itemList.length>0" :interval="10000" height="260px">
 				<van-swipe-item v-for="(item,index) in itemArray" :key="index"> <img class="left" @click="$refs.swiper.prev()" src="../../assets/image/mobile/left.png"
@@ -323,7 +316,7 @@
 						this.gameHotList =response.data.filter((item) => {
 							return item.hotitem && item.online;
 						});
-					
+
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
 						this.getItem();
