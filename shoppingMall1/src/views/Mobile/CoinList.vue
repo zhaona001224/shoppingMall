@@ -23,7 +23,8 @@
 				<img src="../../assets/image/icon/icon_item.png" /> <span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ gameList.itemName || "Items" }}</span>					</div>
 			</div>
 				<van-popup v-model="showPicker" round position="bottom">
-  <van-picker
+ <van-picker
+   confirm-button-text="confirm"  cancel-button-text="cancel"
     show-toolbar value-key="name"
     :columns="categoryList"
     @cancel="showPicker = false"
@@ -31,7 +32,8 @@
   />
   </van-popup>
   	<van-popup v-model="showPicker1" round position="bottom">
-    <van-picker
+   <van-picker
+   confirm-button-text="confirm"  cancel-button-text="cancel"
     show-toolbar value-key="name"
     :columns="serveList"
     @cancel="showPicker1 = false"
@@ -39,7 +41,8 @@
   />
   </van-popup>
    	<van-popup v-model="showPicker2" round position="bottom">
-    <van-picker
+   <van-picker
+   confirm-button-text="confirm"  cancel-button-text="cancel"
     show-toolbar value-key="name"
     :columns="itemList"
     @cancel="showPicker2 = false"

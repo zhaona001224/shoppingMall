@@ -33,8 +33,8 @@
 				/>{{$t("language.mainPage.load")}}</div>--></div>
 		<div class="split"></div>
 		<van-popup v-model="showPicker" round position="bottom">
-  <van-picker
-    show-toolbar value-key="name"
+ <van-picker
+   confirm-button-text="confirm"  cancel-button-text="cancel" show-toolbar value-key="name"
     :columns="gameHotList"
     @cancel="showPicker = false"
     @confirm="onConfirm"
