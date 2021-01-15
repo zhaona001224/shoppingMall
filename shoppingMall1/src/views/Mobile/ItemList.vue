@@ -22,25 +22,43 @@
           " :class="selectType == 'item' ? 'item active point' : 'item point'" @click="$router.push('/itemList/' + $route.params.id)">
 				<img src="../../assets/image/icon/icon_item.png" /> <span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ gameList.itemName || "Items" }}</span></div>
 			</div>
-			<el-dropdown v-if="categoryList.length > 0"> <span class="el-dropdown-link">
+      		<van-popup v-model="showPicker" round position="bottom">
+ <van-picker
+   confirm-button-text="confirm"  cancel-button-text="cancel"
+    show-toolbar value-key="name"
+    :columns="categoryList"
+    @cancel="showPicker = false"
+    @confirm="selectCategory"
+  />
+  </van-popup>
+  	<van-popup v-model="showPicker1" round position="bottom">
+   <van-picker
+   confirm-button-text="confirm"  cancel-button-text="cancel"
+    show-toolbar value-key="name"
+    :columns="serveList"
+    @cancel="showPicker1 = false"
+    @confirm="selectServe"
+  />
+</van-popup>
+			<div class="el-dropdown"v-if="categoryList.length > 0"> <span  @click="showPicker=true"  class="el-dropdown-link">
           {{ selectCategoryData.name
           }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-				<el-dropdown-menu class="menu-li" slot="dropdown">
+				<!-- <el-dropdown-menu class="menu-li" slot="dropdown">
 					<el-dropdown-item @click.native="selectCategory(item)" v-for="(item, index) in categoryList"
 					 v-if="categoryList.length > 0" :key="item.id" @click="selectCategory(item)"
 					 :class="item.id == categoryId ? 'active point' : 'point'">{{ item.name }}</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
-			<el-dropdown v-if="serveList.length > 0"> <span class="el-dropdown-link">
+				</el-dropdown-menu> -->
+			</div>
+			<div class="el-dropdown"  v-if="serveList.length > 0"> <span @click="showPicker1=true" class="el-dropdown-link">
           {{ selectServeData.name
           }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-				<el-dropdown-menu class="menu-li" slot="dropdown">
+				<!-- <el-dropdown-menu class="menu-li" slot="dropdown">
 					<el-dropdown-item @click.native="selectServe(item)" v-for="(item, index) in serveList"
 					 v-if="serveList.length > 0" :key="item.id" :class="item.id == serveId ? 'active point' : 'point'">{{ item.name }}</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
+				</el-dropdown-menu> -->
+			</div>
 			<div class="step-line item-contain">
 				<div class="flex-style">
 					<div class="select-title">
@@ -125,25 +143,13 @@
 						{{ currencyInfo.symbol }}{{ getPrice(item.price * item.num * currencyInfo.rate)
 							}} </div>
 						<div style="
-                position: relative;
+               position: relative;
                 display: flex;
-                justify-content: space-between;
-                padding: 10px 20px;
-              "> <span class="add" @click="
-                  addCart(
-                    item,
-                    item.id,
-                    item.price,
-                    item.name,
-                    1,
-                    imgUrl + item.hintImage,
-                    1
-                  )
-                ">Buy Now</span
-              >
-              <img
-                style="width: 43px; height: 32px"
-                src="../../assets/image/home/img_buy2.jpg"
+                justify-content: center;
+                padding: 13px 0;
+              "> <span class="img-contain">
+              	<img
+                src="../../assets/image/mobile/car1.png"
                 class="go"
                 @click="
                   addCart(
@@ -156,6 +162,18 @@
                   )
                 "
               />
+              </span> <span class="add" @click="
+                  addCart(
+                    item,
+                    item.id,
+                    item.price,
+                    item.name,
+                     item.num,
+                    imgUrl + item.hintImage,
+                    1
+                  )
+                ">Buy Now</span
+              >
             </div>
           </div>
         </div>
@@ -190,7 +208,9 @@ export default {
       categoryList: [],
       selectCategoryData: [],
       categoryId: "",
-      popClickIndex: 1
+      popClickIndex: 1,
+      showPicker:false,
+      showPicker1:false
     };
   },
   computed: {
@@ -413,12 +433,14 @@ export default {
       });
     },
     selectServe(item) {
+       this.showPicker1=false
       this.selectServeData = item;
       this.serveId = item.id;
       this.getItem();
       this.$forceUpdate();
     },
     selectCategory(item) {
+      this.showPicker=false
       this.selectCategoryData = item;
       this.categoryId = item.id;
       this.getServe();
@@ -510,7 +532,7 @@ export default {
 	.tip{
 		font-size: 0.12rem;
 	color: #e1251b;
-	font-family: PingFang-SC-Bold;
+
 	font-weight:bold;
 	margin-bottom:0.1rem;
 	
@@ -534,7 +556,7 @@ export default {
   background-color: #ffffff;
   border: solid 1px #c9c9c9;
 
-  font-family: PingFang-SC-Regular;
+  
   font-size: 0.14rem;
   color: #666666;
   text-align: left;
@@ -546,7 +568,7 @@ export default {
   }
 }
 .step {
-  font-size: 18px;
+  font-size: 0.18rem;
   font-weight: normal;
   font-stretch: normal;
   line-height: 22px;
@@ -556,9 +578,9 @@ export default {
     border-radius: 50%;
     text-align: center;
     display: inline-block;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+    width: 0.3rem;
+    height: 0.3rem;
+    line-height: 0.3rem;
     background-color: #fdf2f1;
     border: solid 3px rgba(234, 111, 105, 0.4);
     font-family: Arial-BoldMT;
@@ -574,9 +596,9 @@ export default {
   padding: 0 0.26rem;
   .select-title {
     color: #999;
-    font-size: 14px;
-    padding-top: 20px;
-	margin-bottom: 14px;
+    font-size: 0.14rem;
+    padding-top: 0.2rem;
+	margin-bottom: 0.14rem;
 	display: flex;
 	justify-content: space-between;
 	 /deep/ .el-input__inner {
@@ -613,7 +635,7 @@ export default {
 .serve-contain {
   display: flex;
   flex-wrap: wrap;
-  padding-top: 20px;
+  padding-top: 0.2rem;
   span {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -621,12 +643,12 @@ export default {
     display: block;
     width: 150px;
     text-align: center;
-    padding: 14px 10px;
-    font-size: 14px;
+    padding: 0.14rem 10px;
+    font-size: 0.14rem;
     border: 1px solid #efefef;
-    margin-right: 20px;
+    margin-right: 0.2rem;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 0.2rem;
     &:hover {
       border: 1px solid #e1251b;
     }
@@ -637,8 +659,8 @@ export default {
         bottom: 0;
         content: "";
         position: absolute;
-        width: 20px;
-        height: 20px;
+        width: 0.2rem;
+        height: 0.2rem;
         background: url(../../assets/image/icon/icon_check.png);
       }
     }
@@ -674,32 +696,32 @@ export default {
       	background-color: #ffcbc8;
       	 img {
       	 	position: absolute;
-        top: 8px;
-        width: 18px;
-        height: 18px;
+        top: 0.08rem;
+        width: 0.18rem;
+        height: 0.18rem;
         
-        right: 8px;
+        right: 0.08rem;
       }
       }
      
     }
     .select-title {
       color: #999;
-      font-size: 14px;
-      margin-top: 20px;
-      margin-bottom: 14px;
+      font-size: 0.14rem;
+      margin-top: 0.2rem;
+      margin-bottom:  0.14rem;
     }
   }
   .li {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 0.2rem;
     box-sizing: border-box;
 	display: inline-block;
 	box-sizing: border-box;
     width: 50%;
     background-color: #ffffff;
     border: solid 1px #dcdcdc;
-    padding: 16px;
+    padding: 0.16rem;
     vertical-align: top;
 	border-right: 0;
 	
@@ -712,30 +734,30 @@ export default {
       border-right: solid 1px #dcdcdc;
     }
     img {
-      width: 56px;
-      height: 56px;
+      width: 0.56rem;
+      height:  0.56rem;
       border-radius: 5px;
     }
     .text {
-      padding: 19px 0 8px;
-      font-size: 14px;
+      padding: 0.19rem 0 8px;
+      font-size: 0.14rem;
     }
     .select-num {
-      margin: 18px auto 12px;
+      margin: 0.18rem auto 12px;
       display: flex;
       align-items: center;
       border-radius: 3px;
       border: solid 1px #dcdcdc;
       color: #808080;
-      width: 136px;
+      width: 1.36rem;
       input {
-        font-size: 20px;
+        font-size:0.2rem;
         text-align: center;
-        width: 90px;
-        height: 24px;
+        width: 0.9rem;
+        height: 0.24rem;
         background-color: #fff;
-        line-height: 18px;
-        font-size: 14px;
+        line-height: 0.18rem;
+        font-size:0.14rem;
         padding: 0;
         color: #666;
         position: relative;
@@ -745,19 +767,19 @@ export default {
     .down,
     .up {
       display: inline-block;
-      width: 24px;
-      height: 24px;
-      line-height: 24px;
+      width: 0.24rem;
+      height: 0.24rem;
+      line-height: 0.24rem;
       background-color: #e7e7e7;
       cursor: pointer;
     }
     .price {
       text-align: center;
       font-family: Arial-BoldMT;
-      font-size: 20px;
+      font-size: 0.2rem;
       font-weight: normal;
       font-stretch: normal;
-      line-height: 18px;
+      line-height: 0.18rem;
       letter-spacing: 0px;
       color: #f39800;
     }
@@ -766,7 +788,7 @@ export default {
 		  display: inline-block;
 		  width: 0.77rem;
 		  height: 0.3rem;
-		 font-family: PingFang-SC-Medium;
+		 
 			font-size: 0.12rem;
 		  text-align: center;
 		  line-height:0.3rem;
@@ -797,22 +819,22 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  height: 32px;
+  height: 0.32rem;
   word-wrap: break-word;
   font-size: 10px;
 }
 
 .pop-item {
   overflow: hidden;
-  font-size: 14px;
+  font-size: 0.14rem;
   color: #333;
   text-align: center;
   .title {
     font-family: Arial-BoldMT;
-    font-size: 14px;
+    font-size: 0.14rem;
     font-weight: normal;
     font-stretch: normal;
-    line-height: 24px;
+    line-height: 0.24rem;
     letter-spacing: 0px;
     color: #333333;
     max-height: 40px;
@@ -820,7 +842,7 @@ export default {
   .text {
     margin-top: 0;
     margin-bottom: 17px;
-    font-size: 14px;
+    font-size: 0.14rem;
     color: #666;
     span {
       font-size: 16px;
@@ -841,7 +863,7 @@ export default {
     margin: 0 auto;
     margin: 0.25rem;
     margin-top: 0;
-    padding: 20px;
+    padding: 0.2rem;
     background: #fff;
     border-radius: 8px;
     margin-bottom: 0;

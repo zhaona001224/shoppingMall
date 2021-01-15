@@ -19,7 +19,7 @@
 		<div class="game-contain" v-if="gameList.length > 0">
 			<div class="main-title"> {{ $t("language.mainPage.gameTitle") }} </div>
 			<div class="contain">
-				<div v-if="index<=7" class="li point" v-for="(item, index) in gameList" :key="item.id"
+				<div v-if="index<=9" class="li point" v-for="(item, index) in gameList" :key="item.id"
 				 @click="goProduct(item)"> <img v-lazy="imgUrl + item.logo" />
 					<div class="text hidden-style">{{ item.name }}</div>
 				</div>
@@ -215,9 +215,23 @@
 				//获取game
 				getTemplete("?type=Game&offset=-1&count=-1").then((response) => {
 					if (response.retCode == 0) {
+							response.data.sort((a,b) => {
+							
+							 let fa = a.name.trim().toLowerCase(),
+								fb = b.name.trim().toLowerCase();
+
+							if (fa < fb) {
+								return -1;
+							}
+							if (fa > fb) {
+								return 1;
+							}
+							return 0;
+							}); 
 						this.gameList = response.data.filter((item) => {
 							return item.hot && item.online;
 						});
+						
 					} else {
 						this.$message({
 							type: "warning",
@@ -265,9 +279,12 @@
 				//获取game
 				getTemplete("?type=Game&offset=-1&count=-1").then((response) => {
 					if (response.retCode == 0) {
+
 						this.gameHotList = response.data.filter((item) => {
 							return item.hotitem && item.online;
 						});
+						console.log(this.gameHotList)
+						
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
 						this.getItem();

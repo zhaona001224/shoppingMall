@@ -32,19 +32,20 @@
 			<!--<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../../assets/image/icon/icon_load.png"
 				/>{{$t("language.mainPage.load")}}</div>--></div>
 		<div class="split"></div>
+		<van-popup v-model="showPicker" round position="bottom">
+ <van-picker
+   confirm-button-text="confirm"  cancel-button-text="cancel" show-toolbar value-key="name"
+    :columns="gameHotList"
+    @cancel="showPicker = false"
+    @confirm="onConfirm"
+  />
+</van-popup>
 		<div class="item-contain">
 			<div class="main-title hidden-style"><span class="border-style"></span>{{ $t("language.mainPage.itemTitle") }} </div>
-			<el-dropdown v-if="gameHotList.length>0"> <span class="el-dropdown-link">
+			<div class="el-dropdown"  v-if="gameHotList.length>0"> <span @click="showPicker=true" class="el-dropdown-link">
 					     {{selectGame.name}}<i class="el-icon-arrow-down el-icon--right"></i>
 					</span>
-				<el-dropdown-menu class="menu-li" slot="dropdown">
-					<el-dropdown-item @click.native="
-              selectId = item.id;
-              selectGame = item;
-              getItem();
-            " v-for="(item, index) in gameHotList" :key="index">{{item.name}}</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
+			</div>
 			<van-swipe ref="swiper" v-if="itemList.length>0" :interval="10000" height="260px">
 				<van-swipe-item v-for="(item,index) in itemArray" :key="index"> <img class="left" @click="$refs.swiper.prev()" src="../../assets/image/mobile/left.png"
 					/> <img class="right" @click="$refs.swiper.next()" src="../../assets/image/mobile/right.png"
@@ -170,6 +171,7 @@
 			return {
 				bannerList: [],
 				imgUrl: "",
+				showPicker:false,
 				gameList: [],
 				itemList: [],
 				gameHotList: [],
@@ -204,6 +206,12 @@
 					this.$router.push("/Mobile/CoinList/" + localStorage.getItem("gameId"));
 				}
 			},
+			onConfirm(item){
+				this.showPicker=false
+ 				this.selectId = item.id;
+              this.selectGame = item;
+              this.getItem()
+			},
 			popClick(index) {
 				this.popClickIndex = this.popClickIndex + 1
 				if (this.popClickIndex == 3) {
@@ -222,9 +230,26 @@
 				//获取game
 				getTemplete("?type=Game&offset=-1&count=-1").then((response) => {
 					if (response.retCode == 0) {
+							response.data.sort((a,b) => {
+							
+							 let fa = a.name.trim().toLowerCase(),
+								fb = b.name.trim().toLowerCase();
+
+							if (fa < fb) {
+								return -1;
+							}
+							if (fa > fb) {
+								return 1;
+							}
+							return 0;
+							}); 
 						this.gameList = response.data.filter((item) => {
+							
 							return item.hot && item.online;
 						});
+					
+						
+						//console.log(this.gameList);
 						//						this.$nextTick(() => {
 						//							setTimeout(() => {
 						//								if (!this.scroll1) {
@@ -287,9 +312,11 @@
 				//获取game
 				getTemplete("?type=Game&offset=-1&count=-1").then((response) => {
 					if (response.retCode == 0) {
-						this.gameHotList = response.data.filter((item) => {
+
+						this.gameHotList =response.data.filter((item) => {
 							return item.hotitem && item.online;
 						});
+
 						this.selectId = this.gameHotList[0].id;
 						this.selectGame = this.gameHotList[0];
 						this.getItem();
@@ -444,7 +471,7 @@
 					.text {
 						height: 0.45rem;
 						line-height: 0.45rem;
-						font-family: PingFang-SC-Regular;
+						
 						font-size: 0.15rem;
 						color: #222222;
 					}
@@ -532,7 +559,7 @@
 				line-height: 0.3rem;
 				background-color: #e10e0d;
 				border: solid 1px #c9c9c9;
-				font-family: PingFang-SC-Bold;
+			
 				font-size: 0.14rem;
 				font-weight: bold;
 				color: #ffffff;

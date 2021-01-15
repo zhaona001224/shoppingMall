@@ -513,6 +513,9 @@
 		color: #212121;
 		margin-top: 0;
 		width: auto;
+		height: 0.27rem;
+		line-height: 0.27rem;
+		font-size: 0.14rem;
 	}
 	
 	.home-container .top .menu .menu-cart {

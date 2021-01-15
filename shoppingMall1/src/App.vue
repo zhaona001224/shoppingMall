@@ -17,10 +17,10 @@
 		watch: {
 			$route: function(to, from) {
 				if (to.fullPath.indexOf("Mobile") > 0 && document.documentElement.clientWidth >
-					750) {
+					1200) {
 					this.$router.replace(to.fullPath.split("/Mobile")[1]);
 				} else if (to.fullPath.indexOf("Mobile") < 0 && document.documentElement.clientWidth <
-					750) {
+					1200) {
 					this.$router.replace("/Mobile" + to.fullPath);
 				}
 			},
@@ -28,7 +28,7 @@
 		beforeCreate() {
 			var that = this;
 			var deviceWidth = document.documentElement.clientWidth;
-			if (deviceWidth < 750) {
+			if (deviceWidth < 1200) {
 				if (that.$route.fullPath.indexOf("Mobile") < 0) {
 					that.$router.replace("/Mobile" + that.$route.fullPath);
 				}
@@ -42,7 +42,7 @@
 			window.addEventListener("resize", function() {
 				return (() => {
 					var deviceWidth = document.documentElement.clientWidth;
-					if (deviceWidth < 750) {
+					if (deviceWidth < 1200) {
 						if (that.$route.fullPath.indexOf("Mobile") < 0) {
 							that.$router.replace("/Mobile" + that.$route.fullPath);
 						}
@@ -198,10 +198,7 @@
 		outline: none;
 	}
 	
-	@media (max-width: 750px) {
-		#app {
-			font-family: PingFang-SC-Regular;
-		}
+	@media (max-width: 1200px) {
 		.el-table td, .el-table th {
 			padding: 0.06rem 0!important;
 			font-size: 0.12rem;
