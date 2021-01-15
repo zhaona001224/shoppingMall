@@ -5,15 +5,14 @@
 			<el-button type="primary" style="float: right;" class="common-btn" @click="search">Search</el-button>
 			<el-input @input="selfSearch" class="search-input" style="width:340px!important;margin-right: 50px;float: right;"prefix-icon="el-icon-search" v-model="keyword" placeholder="请输入搜索内容" >
 			</el-input>
-			
 		</el-card>
 		<el-card class="box-card">
-			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle">
-				<el-table-column header-align="left" width="70px" sortable prop="id" label="id">
+			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle" :default-sort="{prop:'name'}">
+				<el-table-column header-align="left" width="70px"  prop="id" label="id">
 				</el-table-column>
-				<el-table-column header-align="left" width="140px" prop="name" label="name">
+				<el-table-column header-align="left" width="140px" sortable prop="name" label="name">
 				</el-table-column>
-				<el-table-column header-align="left" width="160px" sortable prop="game" label="game">
+				<el-table-column header-align="left" width="160px"  prop="game" label="game">
 				</el-table-column>
 				<el-table-column header-align="left" prop="price" label="price">
 				</el-table-column>
@@ -21,7 +20,7 @@
 				</el-table-column>
 				<el-table-column header-align="left" prop="type" label="type">
 				</el-table-column>
-				<el-table-column header-align="left" sortable prop="code" width="160px" label="code">
+				<el-table-column header-align="left"  prop="code" width="160px" label="code">
 				</el-table-column>
 				<el-table-column header-align="left" prop="meta" width="160px" label="meta">
 				</el-table-column>
@@ -35,7 +34,7 @@
 				{{scope.row.endtime}}时
 				</template>
 				</el-table-column>
-				<el-table-column header-align="left" prop="updated" width="160px" label="updateTime">
+				<el-table-column header-align="left" sortable prop="updated" width="160px" label="updateTime">
 				</el-table-column>
 				<el-table-column  fixed="right" label="operation" width="180px" cell-class-name="center" header-align="center">
 					<template slot-scope="scope">

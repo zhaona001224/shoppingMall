@@ -3,15 +3,18 @@
 		<div style="width: 1200px;margin:40px auto">
 			<div class="nav"><img src="../assets/image/icon/icon_home.png" />Home > {{gameName}} > {{gameList.itemName||'Items'}}</div>
 			<div class="step"><span>1</span>{{$t("language.good.chooseProducts")}}</div>
-			<div class="step-line" style="padding-bottom: 20px;">
+			<div class="step-line"
+			 style="padding-bottom: 20px;">
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='coin,coin'"
 				 :class="selectType=='coin'?'item active point':'item point'" @click="$router.push('/coinList/'+$route.params.id)">
-				<img src="../assets/image/icon/icon_coin.png" /><div style="width:150px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{gameList.coinName||'Silver'}}</div>
-					</div>
+				<img src="../assets/image/icon/icon_coin.png" />
+					<div style="width:150px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{gameList.coinName||'Silver'}}</div>
+				</div>
 				<div v-if="gameList.productSell=='both,both'||gameList.productSell=='item,item'"
 				 :class="selectType=='item'?'item active point':'item point'" @click="$router.push('/itemList/'+$route.params.id)">
-				<img src="../assets/image/icon/icon_item.png" /><div style="width:150px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" >{{gameList.itemName||'Items'}}</div>
-					</div>
+				<img src="../assets/image/icon/icon_item.png" />
+					<div style="width:150px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{gameList.itemName||'Items'}}</div>
+				</div>
 			</div>
 			<div class="step" v-if="categoryList.length>0"><span>2</span>Please Select Your {{gameList.categoryHint||'Category'}}</div>
 			<div
@@ -124,14 +127,14 @@
 				var priceStr = price.split('.')[1]
 				if (priceStr) {
 					if (priceStr.length === 1) {
-						return ((price*1).toFixed(2))
+						return ((price * 1).toFixed(2))
 					} else if (priceStr.length === 2) {
 						return price
 					} else {
-						return ((price*1).toFixed(3))
+						return ((price * 1).toFixed(3))
 					}
 				} else {
-					return ((price*1).toFixed(2))
+					return ((price * 1).toFixed(2))
 				}
 			},
 			up(index, num) {
@@ -234,8 +237,14 @@
 							}
 							return param1.name.trim().localeCompare(param2.name.trim(), "zh");
 						})
-						console.log(resultArray)
 						this.categoryList = resultArray;
+						var array1 = this.categoryList.filter((item) => item.order)
+						array1 = array1.sort((a, b) => a.order - b.order)
+						var array2 = this.categoryList.filter((item) => !item.order)
+						array2 = array2.sort(function compareFunction(param1, param2) {
+							return param1.name.trim().localeCompare(param2.name.trim(), "zh");
+						})
+						this.categoryList = array1.concat(array2)
 						if (this.categoryList.length > 0) {
 							this.selectCategoryData = this.categoryList[0];
 							this.categoryId = this.categoryList && this.categoryList[0].id
@@ -369,7 +378,7 @@
 			var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
 			this.isMobile = isIphone || isAndroid;
-			this.gameName=localStorage.getItem('gameName')
+			this.gameName = localStorage.getItem('gameName')
 			localStorage.setItem('gameId', this.$route.params.id)
 			//获取game
 			this.getCategory();
@@ -426,11 +435,11 @@
 		color: #fff;
 		background: #e1251b;
 	}
+	
 	.step-line {
 		margin-left: 15px;
 		padding-left: 20px;
 		border-left: 4px solid #fdf2f1;
-
 		.item {
 			display: inline-block;
 			text-align: center;
@@ -675,5 +684,4 @@
 			}
 		}
 	}
-
 </style>

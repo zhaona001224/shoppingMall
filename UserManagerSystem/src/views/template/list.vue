@@ -12,7 +12,7 @@
 
 		</el-card>
 		<el-card class="box-card">
-			<el-table :data="tableData" width="100%">
+			<el-table :data="tableData" width="100%" :default-sort="{prop:'name'}">
 				<!--<el-table-column header-align="left" label="选择" width="80px">
 					<template slot-scope="scope">
 						<el-radio :label="scope.row.yun_id" v-model="selectid">&nbsp;</el-radio>
@@ -25,7 +25,7 @@
 						<el-input @keyup.enter.native="handleInputConfirm(scope.row.id,scope.row.price)" style="width:110px" @blur="handleInputClear(scope.row.id,scope.row.price)" v-model="scope.row.price" :placeholder="'请输入'+item.name"></el-input>
 					</template>
 				</el-table-column>
-				<el-table-column :sortable="item&&item.name=='name'" v-for="(item,index) in formData" :key="item&&item.id" v-if="item&&item.data.type!='textarea'&&item.data.type!='file'&&item.name!='price'" header-align="left" :prop="item&&item.name" :label="item&&item.name" :width="(item.name=='type'||item.name=='miniNumber'||item.name=='hotItem'||item.name=='online')?'110px':'140px'">
+				<el-table-column sortable :sortable="item&&item.name=='name'" v-for="(item,index) in formData" :key="item&&item.id" v-if="item&&item.data.type!='textarea'&&item.data.type!='file'&&item.name!='price'" header-align="left" :prop="item&&item.name" :label="item&&item.name" :width="(item.name=='type'||item.name=='miniNumber'||item.name=='hotItem'||item.name=='online')?'110px':'140px'">
 				</el-table-column>
 
 				<el-table-column v-for="(item,index) in formData" :key="item.id" v-if="item&&item.data.type=='file'" cell-style="text-align:center" header-align="center" :prop="item&&item.name" :label="item&&item.name" width="120px">
@@ -36,7 +36,7 @@
 
 				</el-table-column>
 
-				<el-table-column prop="updated" sortable label="updateTime" width="160px" cell-class-name="center" header-align="center">
+				<el-table-column sortable prop="updated" sortable label="updateTime" width="160px" cell-class-name="center" header-align="center">
 				</el-table-column>
 				<el-table-column fixed="right" label="operation" min-width="240px" cell-class-name="center" header-align="center">
 					<template slot-scope="scope">

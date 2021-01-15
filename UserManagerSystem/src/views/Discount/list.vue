@@ -8,7 +8,7 @@
 		
 		</el-card>
 		<el-card class="box-card">
-			<el-table :data="tableData" width="100%">
+			<el-table :data="tableData" width="100%" :default-sort="{prop:'name'}">
 				<!--<el-table-column header-align="left" label="选择" width="80px">
 					<template slot-scope="scope">
 						<el-radio :label="scope.row.yun_id" v-model="selectid">&nbsp;</el-radio>
@@ -16,17 +16,17 @@
 				</el-table-column>-->
 				<el-table-column header-align="left" width="70px" prop="id" label="id">
 				</el-table-column>
-					<el-table-column width="140px" header-align="left" prop="name" label="name">
+					<el-table-column width="140px" sortable header-align="left" prop="name" label="name">
 				</el-table-column>
 					
 				<el-table-column header-align="left" prop="online" label="online" width="100px">
 				</el-table-column>
-				<el-table-column header-align="left" prop="starttime" width="160px" label="starttime">
+				<el-table-column header-align="left" sortable prop="starttime" width="160px" label="starttime">
 				<template slot-scope="scope">
 				{{scope.row.starttime}}时
 				</template>
 				</el-table-column>
-				<el-table-column header-align="left" prop="endtime" width="160px" label="endtime">
+				<el-table-column header-align="left" sortable prop="endtime" width="160px" label="endtime">
 				<template slot-scope="scope">
 				{{scope.row.endtime}}时
 				</template>
@@ -60,7 +60,7 @@
 
 					</template>
 				</el-table-column>
-				<el-table-column header-align="left" prop="updated" width="160px" label="updateTime">
+				<el-table-column header-align="left" sortable prop="updated" width="160px" label="updateTime">
 				</el-table-column>
 				<el-table-column  fixed="right" label="operation" width="180px" cell-class-name="center" header-align="center">
 					<template slot-scope="scope">
