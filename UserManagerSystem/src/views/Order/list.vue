@@ -28,7 +28,7 @@
 			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle" :default-sort="{prop:'airtime',order:'descending'}">
 				<el-table-column header-align="left" width="160px" sortable prop="airtime" label="pay_time">
 				</el-table-column>
-				<el-table-column header-align="left" width="120px" prop="order_id"
+				<el-table-column header-align="left" sortable width="120px" prop="order_id"
 				 label="order_id"> </el-table-column>
 				<el-table-column header-align="left" width="160px" label="Game">
 					<template slot-scope="scope" >
@@ -192,6 +192,7 @@
 					return
 				}
 				this.notSearch = false;
+				
 				this.tableData = JSON.parse(JSON.stringify(this.tableData1)).filter((item,
 					index) => {
 					return JSON.stringify(item).indexOf(this.keyword) > -1
@@ -479,6 +480,9 @@
 					if (response.retCode == 0) {
 						this.notSearch = true;
 						this.tableData = response.data || [];
+						this.tableData.map((item) => {
+							delete item.slug
+						})
 						this.tableData && this.tableData.map((item) => {
 							item.updated = this.$util.formatTime(item.updated,
 								'YYYY-MM-DD HH:mm:ss');
@@ -572,7 +576,13 @@
 					str + "&status=public&start=" + start + "&end=" + end, {}).then(response => {
 					if (response.retCode == 0) {
 						this.tableData = response.data || [];
-						
+							this.tableData.map((item) => {
+							delete item.slug
+						})
+						this.tableData = JSON.parse(JSON.stringify(this.tableData)).filter((
+							item, index) => {
+							return JSON.stringify(item).indexOf(this.keyword) > -1
+						})
 						this.tableData.sort((a, b) => {
 							//排序基于的数据
 							return b.updated - a.updated;
