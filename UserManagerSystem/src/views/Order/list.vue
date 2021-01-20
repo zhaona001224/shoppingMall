@@ -572,7 +572,8 @@
 					start = this.timeRange[0].getTime()
 					end = this.timeRange[1].getTime()
 				}
-				this.notSearch = false;
+				this.notSearch = true;
+				
 				this.$get('/admin/v1/contents/ss?type=Order&q=' + this.keyword + "&r=" +
 					str + "&status=public&start=" + start + "&end=" + end+"&offset=" + this.pageNum +
 					"&count=" + this.pageSize, {}).then(response => {
@@ -601,9 +602,7 @@
 						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
 						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
 						this.tableData1 = JSON.parse(JSON.stringify(this.tableData));
-						if (this.keyword) {
-							this.selfSearch();
-						}
+			
 						this.$forceUpdate();
 					} else {
 						this.$message({
