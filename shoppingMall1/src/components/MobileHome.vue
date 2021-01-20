@@ -429,6 +429,9 @@
 			})
 		},
 		mounted() {
+			if(!this.login){
+				localStorage.token=''
+			}
 //			var a = setInterval(() => {
 //				var deleteNode = document.getElementById("chat-widget-container");
 //				var deleteNode2 = document.getElementById("livechat-eye-catcher");

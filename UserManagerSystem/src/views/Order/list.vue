@@ -548,6 +548,7 @@
 				})
 			},
 			search() {
+				
 				if (!this.keyword && !this.isIndeterminate && this.timeRange.length == 0) {
 					this.pageNum = 1;
 					this.queryTable();
@@ -572,8 +573,9 @@
 					end = this.timeRange[1].getTime()
 				}
 				this.notSearch = false;
-				this.$get('/admin/v1/contents/search?type=Order&q=' + this.keyword + "&r=" +
-					str + "&status=public&start=" + start + "&end=" + end, {}).then(response => {
+				this.$get('/admin/v1/contents/ss?type=Order&q=' + this.keyword + "&r=" +
+					str + "&status=public&start=" + start + "&end=" + end+"&offset=" + this.pageNum +
+					"&count=" + this.pageSize, {}).then(response => {
 					if (response.retCode == 0) {
 						this.tableData = response.data || [];
 							this.tableData.map((item) => {
@@ -612,13 +614,22 @@
 				})
 			},
 			//选择页数
-			handleCurrentChange() {
-				this.queryTable();
+			handleCurrentChange(val) {
+				this.pageNum=val
+				if(!this.keyword && !this.isIndeterminate && this.timeRange.length == 0){
+					this.queryTable();
+				}else{
+					this.search();
+				}
 			},
 			//选择每页条数
 			handleSizeChange(val) {
 				this.pageSize = val;
-				this.queryTable();
+				if(!this.keyword){
+					this.queryTable();
+				}else{
+					this.search();
+				}
 			},
 		},
 		created() {

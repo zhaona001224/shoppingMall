@@ -521,20 +521,9 @@
 			})
 		},
 		mounted() {
-//			var a = setInterval(() => {
-//				var deleteNode = document.getElementById("chat-widget-container");
-//				var deleteNode2 = document.getElementById("livechat-eye-catcher");
-//				if (deleteNode2) {
-//					clearInterval(a);
-//				}
-//				if (this.$route.fullPath !== '/Home'&&this.$route.fullPath !== '/Mobile/Home') {
-//					deleteNode ? deleteNode.className = 'style-none' : ''
-//					deleteNode2 ? deleteNode2.className = 'style-none' : ''
-//				} else {
-//					deleteNode ? deleteNode.className = '' : ''
-//					deleteNode2 ? deleteNode2.className = '' : ''
-//				}
-//			}, 500)
+			if(!this.login){
+				localStorage.token=''
+			}
 		}
 	}
 </script>
