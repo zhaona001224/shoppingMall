@@ -628,9 +628,13 @@
 	}
 	
 	.hidden-style {
-		overflow: hidden;
+	overflow: hidden;
 		text-overflow: ellipsis;
-		white-space: nowrap;
-		display: block;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		height: 32px;
+		word-wrap: break-word;
+		font-size: 10px;
 	}
 </style>

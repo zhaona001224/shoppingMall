@@ -115,8 +115,12 @@
 								this.RECORD_USERINFO(user);
 								this.SHOW_LOGIN(false);
 								this.form = {}
-								debugger
-								this.$router.push(this.$route.query.redirect) //返回上一层
+								if(this.$route.query.redirect){
+									this.$router.push(this.$route.query.redirect)
+								}else{
+									this.$router.push('/Mobile/Home')
+								}
+								 //返回上一层
 								//								window.location.reload();
 							} else {
 								this.$message({

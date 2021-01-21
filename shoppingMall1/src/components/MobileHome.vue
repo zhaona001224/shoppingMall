@@ -17,7 +17,17 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div @click="$router.push('/Mobile/Profile')" style="margin-left: 0.25rem;" class="menu-cart"><img style="width: 0.185rem;" src="../assets/image/home/mobile-my.png"> </div>
+				<el-dropdown  v-if="login"   trigger="click" >
+								<div  style="margin-left: 0.25rem;" class="menu-cart"><img style="width: 0.185rem;" src="../assets/image/mobile/icon-my.png"> </div>
+			<el-dropdown-menu slot="dropdown">
+				<el-dropdown-item @click.native="$router.push('/Profile')"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Profile</span>					</el-dropdown-item>
+				<el-dropdown-item @click.native="$router.push('/HistoryOrder')">
+				<i class="el-icon-circle-close-outline"></i><span class="user-name">My Order</span>					</el-dropdown-item>
+				<el-dropdown-item @click.native="doLoginOut"> <i class="el-icon-circle-close-outline"></i><span class="user-name">Login Out</span>					</el-dropdown-item>
+			</el-dropdown-menu>
+			</el-dropdown>
+			
+				<div v-else @click="$router.push('/Mobile/Login')"  style="margin-left: 0.25rem;" class="menu-cart"><img style="width: 0.185rem;" src="../assets/image/home/mobile-my.png"> </div>
 				<div class="menu-cart" style="margin-left: 0.14rem;"> <img @click="menuPop=!menuPop" src="../assets/image/home/mobild-menu.png" style="width: 0.2rem;"
 					/> </div>
 			</div>

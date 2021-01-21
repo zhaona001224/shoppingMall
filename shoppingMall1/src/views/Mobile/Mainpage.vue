@@ -67,7 +67,7 @@
 								<div slot="reference"> <img :src="imgUrl + subItem.logo" />
 									<!--<img class="point" @click="addCart(item.id,item.price,item.name,item.num,imgUrl+item.hintImage)" style="width: 162px;height: 32px;" src="../../assets/image/home/img_buy.jpg" />--></div>
 							</el-popover>
-							<div class="text hidden-style">{{ subItem.name }}</div>
+							<div class="text hidden-style-two">{{ subItem.name }}</div>
 							<!--<div class="select-num">
 								<span @click="down(index)" class="down">-</span>
 								<input type="number" v-model="item.num" class="show">
@@ -76,7 +76,7 @@
 								}} </div>
 						</div>
 						<div v-else slot="reference"> <img :src="imgUrl + item.logo" />
-							<div class="text hidden-style">{{ item.name }}</div>
+							<div class="text hidden-style-two">{{ item.name }}</div>
 							<!--<div class="select-num">
 								<span @click="down(index)" class="down">-</span>
 								<input type="number" v-model="item.num" class="show">
@@ -659,5 +659,15 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		display: block;
+	}
+	.hidden-style-two{
+		 overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: 0.25rem;
+  word-wrap: break-word;
+  font-size: 10px;
 	}
 </style>
