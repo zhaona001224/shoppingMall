@@ -17,42 +17,6 @@
 					</el-dropdown-menu>
 				</el-dropdown>
 				<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">
-					<div class="nav-user-wrapper pa active">
-						<div class="nav-user-list">
-							<div class="full" v-show="totalNum">
-								<!--购物列表-->
-								<div class="nav-cart-items">
-									<ul>
-										<li class="clearfix" v-for="(item,i) in cartList" :key="i">
-											<div class="cart-item">
-												<div class="cart-item-inner">
-													<div class="item-thumb"> <img :src="item.productImg"> </div>
-													<div class="item-desc">
-														<div class="cart-cell"> {{item.productName}} <span class="price-icon">¥</span><span class="price-num">{{item.salePrice}}</span>															<span class="item-num">x {{item.productNum}}</span> </div>
-													</div>
-													<div class="del-btn del point" @click="">删除</div>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</div>
-								<!--总件数-->
-								<div class="nav-cart-total">
-									<p>共 <strong>{{totalNum}}</strong> 件商品</p>
-									<h5>合计：<span
-                        class="price-icon">¥</span><span
-                        class="price-num">{{totalPrice}}</span></h5>
-									<h6>
-                          <div classStyle="main-btn"
-                                    style="height: 40px;width: 100%;margin: 0;color: #fff;font-size: 14px;line-height: 38px"
-                                    text="去购物车" @btnClick=""></div>
-                        </h6> </div>
-							</div>
-							<div v-show="!totalNum" style="height: 313px;text-align: center" class="cart-con">
-								<p>您的购物车竟然是空的!</p>
-							</div>
-						</div>
-					</div>
 				</div>
 				<!--购物车显示块-->
 				<el-dropdown class="point" v-if="login" trigger="hover" style="border:none;width:auto;">
@@ -309,9 +273,9 @@
 			//退出登录
 			doLoginOut() {
 				var that = this;
-				this.$confirm('确认退出登录?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
+				this.$confirm('Confirm Exit?', 'Tips', {
+					confirmButtonText: 'Confirm',
+					cancelButtonText: 'Cancel',
 					type: 'warning'
 				}).then(() => {
 					loginOut("").then(response => {
@@ -327,7 +291,7 @@
 					}).catch(() => {
 						this.$message({
 							type: 'info',
-							message: '已取消'
+							message: 'Cancel'
 						});
 					});
 				})
@@ -374,7 +338,7 @@
 							}
 						})
 					} else {
-						that.$message.error("请正确填写表单！");
+						that.$message.error("Please fill in the form correctly!");
 					}
 				})
 			},
@@ -443,7 +407,7 @@
 							}
 						})
 					} else {
-						that.$message.error("请正确填写表单！");
+						that.$message.error("Please fill in the form correctly!");
 					}
 				})
 			},

@@ -62,8 +62,8 @@
 						</el-radio-group>
 					</el-form-item>
 					<div class="return-btn">
-						<el-button @click.native="submit" type="info" class="button-purple">修改</el-button>
-						<el-button @click.native="$util.goBack" type="info" class="button-gray">取 消</el-button>
+						<el-button @click.native="submit" type="info" class="button-purple">Modify</el-button>
+						<el-button @click.native="$util.goBack" type="info" class="button-gray">Confirm</el-button>
 					</div>
 
 				</el-form>
@@ -151,7 +151,7 @@
 					if(valid) {
 						that.$post("/admin/v1/config", that.form).then(response => {
 								if(response.retCode == 0) {
-									that.$util.successAlert("修改成功！", '/config');
+									that.$util.successAlert("Modify Success！", '/config');
 								} else {
 									that.$message({
 										type: 'warning',
@@ -162,7 +162,7 @@
 							})
 
 					} else {
-						that.$message.error("请正确填写表单！");
+						that.$message.error("Please fill in the form correctly！");
 					}
 				})
 			},

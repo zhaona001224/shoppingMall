@@ -207,9 +207,9 @@
 			//退出登录
 			doLoginOut() {
 				var that = this;
-				this.$confirm('确认退出登录?', '提示', {
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
+				this.$confirm('Confirm Exit?', 'Tips', {
+					confirmButtonText: 'Confirm',
+					cancelButtonText: 'Cancel',
 					type: 'warning'
 				}).then(() => {
 					loginOut("").then(response => {
@@ -225,7 +225,7 @@
 					}).catch(() => {
 						this.$message({
 							type: 'info',
-							message: '已取消'
+							message: 'Cancel'
 						});
 					});
 				})
@@ -273,7 +273,7 @@
 							}
 						})
 					} else {
-						that.$message.error("请正确填写表单！");
+						that.$message.error("Please fill in the form correctly!");
 					}
 				})
 			},
@@ -342,7 +342,7 @@
 							}
 						})
 					} else {
-						that.$message.error("请正确填写表单！");
+						that.$message.error("Please fill in the form correctly!");
 					}
 				})
 			},

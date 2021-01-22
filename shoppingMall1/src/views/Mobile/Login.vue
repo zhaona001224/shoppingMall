@@ -130,7 +130,7 @@
 							}
 						})
 					} else {
-						that.$message.error("请正确填写表单！");
+						that.$message.error("Please fill in the form correctly！");
 					}
 				})
 			},
@@ -225,7 +225,7 @@
 							}
 						})
 					} else {
-						that.$message.error("请正确填写表单！");
+						that.$message.error("Please fill in the form correctly！");
 					}
 				})
 			}
