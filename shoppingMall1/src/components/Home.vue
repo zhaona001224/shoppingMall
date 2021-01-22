@@ -457,7 +457,23 @@
 								this.CLEAR_CART();
 							}, 1200000)
 						}
-						this.gameList = response.data;
+						console.log(response.retCode);
+						response.data.sort((a,b) => {
+							let fa = a.name.trim().toLowerCase(),
+								fb = b.name.trim().toLowerCase();
+
+							if (fa < fb) {
+								return -1;
+							}
+							if (fa > fb) {
+								return 1;
+							}
+							return 0;
+							}); 
+						this.gameList = response.data.filter((item) => {
+							return item.online;
+						});
+						//this.gameList = response.data;
 					} else {
 						this.$message({
 							type: 'warning',
