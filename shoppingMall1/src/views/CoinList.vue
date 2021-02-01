@@ -598,7 +598,7 @@
 	.head {
 		background-color: #e7e7e7;
 		.custom-quantity, .price {
-			font-size: 17px;hidden-style
+			font-size: 17px;
 			letter-spacing: 0px;
 			color: #333333;
 		}

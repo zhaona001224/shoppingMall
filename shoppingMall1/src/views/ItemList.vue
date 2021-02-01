@@ -617,7 +617,7 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
-		height: 32px;
+		height: 26px;
 		word-wrap: break-word;
 		font-size: 10px;
 	}

@@ -27,7 +27,7 @@
 			<!--<div class="load" @click="gamePage=gamePage+1;getGame()" v-if="gameList.length>8"><img style="width:16px;vertical-align: -3px;margin-right: 14px;" src="../assets/image/icon/icon_load.png"
 				/>{{$t("language.mainPage.load")}}</div>--></div>
 		<div class="item-contain">
-			<div class="main-title hidden-style"> {{ $t("language.mainPage.itemTitle") }} </div>
+			<div class="main-title"> {{ $t("language.mainPage.itemTitle") }} </div>
 			<div class="tab point"> <span class="user-name" @click="
             selectId = item.id;
             selectGame = item;
@@ -633,8 +633,9 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
-		height: 32px;
+		height: 26px;
+		margin-bottom: 8px;
 		word-wrap: break-word;
-		font-size: 10px;
+		
 	}
 </style>
