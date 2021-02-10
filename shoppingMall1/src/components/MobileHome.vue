@@ -136,15 +136,14 @@
 				result: [],
 				totalAmout: 0,
 				selectCurrency: '',
-				selectList: ['Discord', 'Skype', 'QQ', 'Wechat', 'Whats app', 'Line',
-					'Instagram', 'Telegram', 'Snapchat', 'Facebook', 'Phone'
-				],
+				selectList:  ['Discord', 'Skype','Phone',  'Whatsapp','Facebook-Message','Instagram','Telegram',
+        'ICQ','Line', 'Snapchat','QQ', 'Wechat'],
 				width: '100%',
 				gamePop: false,
 				totalPrice: 0,
 				selectType: 'login',
 				form: {
-					social_type: 'facebook'
+					social_type: 'Discord'
 				},
 				showCart: true,
 				menuPop: false,

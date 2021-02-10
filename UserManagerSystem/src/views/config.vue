@@ -12,13 +12,13 @@
 						</el-input>
 					</el-form-item>
 					<el-form-item label="cache_disabled" prop="cache_disabled">
-						<el-radio-group disabled v-model="form.cache_disabled">
+						<el-radio-group  v-model="form.cache_disabled">
 							<el-radio label=true>true</el-radio>
 							<el-radio label=false>false</el-radio>
 						</el-radio-group>
 					</el-form-item>
 					<el-form-item label="cors_disabled" prop="cors_disabled">
-						<el-radio-group disabled v-model="form.cors_disabled">
+						<el-radio-group  v-model="form.cors_disabled">
 							<el-radio label=true>true</el-radio>
 							<el-radio label=false>false</el-radio>
 						</el-radio-group>

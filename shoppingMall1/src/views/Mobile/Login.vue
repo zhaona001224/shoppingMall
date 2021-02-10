@@ -28,7 +28,7 @@
 				<el-form-item :label='$t("language.user.repass")' prop="repassword">
 					<el-input Pleaseholder="" type="password" v-model="form.repassword"> </el-input>
 				</el-form-item>
-				<el-form-item label='Instance Message:' prop="social_type">
+				<el-form-item label='IM:' prop="social_type">
 					<el-select style="width:130px;margin-right: 10px;" :clearable="true" v-model="form.social_type">
 						<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
 						</el-option>
@@ -51,9 +51,8 @@
 			return {
 				selectType: 'login',
 				form: {},
-				selectList: ['Discord', 'Skype', 'QQ', 'Wechat', 'Whats app', 'Line',
-					'Instagram', 'Telegram', 'Snapchat', 'Facebook', 'Phone'
-				],
+				selectList:  ['Discord', 'Skype','Phone',  'Whatsapp','Facebook-Message','Instagram','Telegram',
+        'ICQ','Line', 'Snapchat','QQ', 'Wechat'],
 				rules: {
 					email: [{
 						message: "Please fill in email",
@@ -88,7 +87,7 @@
 			changeType(type) {
 				this.selectType = type;
 				this.form = {
-					social_type: 'facebook'
+					social_type: 'Discord'
 				}
 			},
 			//登录方法
@@ -281,7 +280,7 @@
 	}
 	
 	.btn {
-		background-color: #de6262;
+		background-color: #e1251b;
 		width: 100%;
 		padding: 6px 0;
 		text-align: center;
@@ -290,7 +289,6 @@
 		border-radius: 4px;
 		margin-top: 0.2rem;
 		margin-bottom: 12px;
-		opacity: 0.6;
 		cursor: not-allowed;
 		height: 0.34rem;
 		line-height: 0.34rem;

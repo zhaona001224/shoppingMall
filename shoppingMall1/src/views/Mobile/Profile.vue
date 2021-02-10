@@ -14,7 +14,7 @@
 				<el-form-item :label="$t('language.user.repass')" prop="new_password">
 					<el-input Pleaseholder="" type="password" v-model="form.new_password"> </el-input>
 				</el-form-item>
-				<el-form-item label="Instance Message:" prop="social_type">
+				<el-form-item label="IM:" prop="social_type">
 					<el-select style="width: 130px; margin-right: 10px" :clearable="true" v-model="form.social_type">
 						<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
 						</el-option>
@@ -35,9 +35,8 @@
 				status: 1,
 				orderno: 0,
 				msg: "",
-				selectList: ["Discord", "Skype", "QQ", "Wechat", "Whats app", "Line",
-					"Instagram", "Telegram", "Snapchat", "Facebook", "Phone",
-				],
+				selectList:  ['Discord', 'Skype','Phone',  'Whatsapp','Facebook-Message','Instagram','Telegram',
+        'ICQ','Line', 'Snapchat','QQ', 'Wechat'],
 				form: {
 					social_type: "facebook",
 				},

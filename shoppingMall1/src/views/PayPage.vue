@@ -43,7 +43,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="16" style="display: flex;">
-						<el-form-item label='Instance Message:' prop="link" style="margin-left:30px;width:400px">
+						<el-form-item label='IM:' prop="link" style="margin-left:30px;width:400px">
 							<el-select  placeholder="Please Select" :clearable="true" v-model="form.link1">
 								<el-option v-for="subItem in selectList" :key="subItem" :label="subItem" :value="subItem">
 								</el-option>
@@ -107,9 +107,8 @@
 				couponList: [],
 				couponCode: '',
 				disPrice: 0,
-				selectList: ['Discord', 'Skype', 'QQ', 'Wechat', 'Whats app', 'Line',
-					'Instagram', 'Telegram', 'Snapchat', 'Facebook', 'Phone'
-				],
+				selectList:  ['Discord', 'Skype','Phone',  'Whatsapp','Facebook-Message','Instagram','Telegram',
+        'ICQ','Line', 'Snapchat','QQ', 'Wechat'],
 				couponPrice: {},
 				feeRate: [],
 				productInfo: {},
