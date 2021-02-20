@@ -318,10 +318,13 @@
 			getGame() {
 				//获取game
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
+					
 					if (response.retCode == 0) {
 						var data = response.data.filter((item) => {
 							return item.id == localStorage.getItem('gameId')
 						})
+						this.gameName=data[0].name
+						localStorage.setItem('gameName',data[0].name)
 						JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 							item = JSON.parse(item);
 							item.showName = item.name;
