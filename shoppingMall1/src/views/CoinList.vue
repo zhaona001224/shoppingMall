@@ -406,6 +406,8 @@
 			var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
 			this.isMobile = isIphone || isAndroid;
+			localStorage.setItem('gameId', this.$route.params.id)
+		
 			//获取gameSilver
 			this.getCategory();
 			this.getGame();
