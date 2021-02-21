@@ -207,8 +207,8 @@
 					if (response.retCode == 0) {
 						response.data = response.data || []
 						this.categoryList = response.data.filter((item) => {
-							var id = item.game.split(',')[0]
-							return id == localStorage.getItem('gameId') && item.online && item.class ==
+							var id = item.game.split(',')[1]
+							return id == this.$route.params.id && item.online && item.class ==
 								'coin,coin'
 						})
 						this.imgUrl = window.imgUrl;
@@ -240,8 +240,8 @@
 						response.data = response.data || []
 						this.serveList = response.data.filter((item) => {
 							if (!item.category) {
-								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online && item.coins
+								var id = item.game.split(',')[1]
+								return id == this.$route.params.id && item.online && item.coins
 									.length > 2
 							}
 							if (this.categoryId) {
@@ -249,8 +249,8 @@
 								return id == this.categoryId && item.online && item.coins.length >
 									2
 							} else {
-								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online && item.coins
+								var id = item.game.split(',')[1]
+								return id == this.$route.params.id && item.online && item.coins
 									.length > 2
 							}
 						})
@@ -321,10 +321,10 @@
 					
 					if (response.retCode == 0) {
 						var data = response.data.filter((item) => {
-							return item.id == localStorage.getItem('gameId')
+							return item.name == localStorage.getItem('gameName')
 						})
 						this.gameName=data[0].name
-						localStorage.setItem('gameName',data[0].name)
+						localStorage.setItem('gameId',data[0].id)
 						JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 							item = JSON.parse(item);
 							item.showName = item.name;
@@ -409,7 +409,7 @@
 			var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
 			this.isMobile = isIphone || isAndroid;
-			localStorage.setItem('gameId', this.$route.params.id)
+			localStorage.setItem('gameName', this.$route.params.id)
 		
 			//获取gameSilver
 			this.getCategory();

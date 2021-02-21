@@ -236,7 +236,7 @@
 					"/Mobile/CoinList") {
 					window.location.reload()
 				} else {
-					this.$router.push('/Mobile/ItemList/' + localStorage.getItem('gameId'));
+					this.$router.push('/Mobile/ItemList/' + localStorage.getItem('gameName'));
 				}
 			},
 			//登录方法

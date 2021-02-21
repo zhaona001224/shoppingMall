@@ -349,8 +349,8 @@
 					if (response.retCode == 0) {
 						response.data = response.data || [];
 						this.categoryList = response.data.filter((item) => {
-							var id = item.game.split(",")[0];
-							return (id == localStorage.getItem("gameId") && item.online && item.class ==
+							var id = item.game.split(",")[1];
+							return (id == this.$route.params.id && item.online && item.class ==
 								"coin,coin");
 						});
 						this.imgUrl = window.imgUrl;
@@ -382,8 +382,8 @@
 						response.data = response.data || [];
 						this.serveList = response.data.filter((item) => {
 							if (!item.category) {
-								var id = item.game.split(",")[0];
-								return (id == localStorage.getItem("gameId") && item.online && item
+								var id = item.game.split(",")[1];
+								return (id == this.$route.params.id && item.online && item
 									.coins.length > 2);
 							}
 							if (this.categoryId) {
@@ -391,8 +391,8 @@
 								return (id == this.categoryId && item.online && item.coins.length >
 									2);
 							} else {
-								var id = item.game.split(",")[0];
-								return (id == localStorage.getItem("gameId") && item.online && item
+								var id = item.game.split(",")[1];
+								return (id == this.$route.params.id && item.online && item
 									.coins.length > 2);
 							}
 						});
@@ -465,8 +465,10 @@
 				getTemplete("?type=Game&offset=-1&count=-1").then((response) => {
 					if (response.retCode == 0) {
 						var data = response.data.filter((item) => {
-							return item.id == localStorage.getItem("gameId");
+							return item.name == this.$route.params.id;
 						});
+						this.gameName=data[0]&&data[0].name
+						localStorage.setItem('gameId',data[0].id)
 						JSON.parse(localStorage.getItem("currencyData")).map((item) => {
 							item = JSON.parse(item);
 							item.showName = item.name;

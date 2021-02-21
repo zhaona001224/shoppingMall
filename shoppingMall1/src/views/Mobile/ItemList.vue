@@ -40,7 +40,7 @@
     @confirm="selectServe"
   />
 </van-popup>
-			<div class="el-dropdown"v-if="categoryList.length > 0"> <span  @click="showPicker=true"  class="el-dropdown-link">
+			<div class="el-dropdown" v-if="categoryList.length > 0"> <span  @click="showPicker=true"  class="el-dropdown-link">
           {{ selectCategoryData.name
           }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
@@ -68,7 +68,7 @@
 							}} - </span>--></div>
 						<el-select @change="setCurrency" style="width: 1rem" v-model="currencyInfo.name"
 						 placeholder="">
-							<el-option v-for="(subItem, subIndex) in currencyData" :key="subItem.showName"
+							<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.showName"
 							 :label="subItem.showName" :value="subItem.showName"> </el-option>
 						</el-select>
 					</div>
@@ -352,8 +352,8 @@ export default {
         if (response.retCode == 0) {
           response.data = response.data || [];
           this.categoryList = response.data.filter((item) => {
-            var id = item.game.split(",")[0];
-            return id == localStorage.getItem("gameId") && item.online;
+            var id = item.game.split(",")[1];
+            return id == this.$route.params.id && item.online;
           });
           this.imgUrl = window.imgUrl;
           var resultArray = this.categoryList.sort(function compareFunction(
@@ -389,9 +389,9 @@ export default {
           response.data = response.data || [];
           this.serveList = response.data.filter((item) => {
             if (!item.category) {
-              var id = item.game.split(",")[0];
+              var id = item.game.split(",")[1];
               return (
-                id == localStorage.getItem("gameId") &&
+                id == this.$route.params.id &&
                 item.online &&
                 item.items.length > 2
               );
@@ -402,9 +402,9 @@ export default {
                 id == this.categoryId && item.online && item.items.length > 2
               );
             } else {
-              var id = item.game.split(",")[0];
+              var id = item.game.split(",")[1];
               return (
-                id == localStorage.getItem("gameId") &&
+                id == this.$route.params.id &&
                 item.online &&
                 item.class == "item,item" &&
                 item.items.length > 2
@@ -484,8 +484,10 @@ export default {
       getTemplete("?type=Game&offset=-1&count=-1").then((response) => {
         if (response.retCode == 0) {
           var data = response.data.filter((item) => {
-            return item.id == localStorage.getItem("gameId");
+            return item.name == this.$route.params.id;
           });
+          this.gameName=data[0]&&data[0].name
+						localStorage.setItem('gameId',data[0].id)
           JSON.parse(localStorage.getItem("currencyData")).map((item) => {
             item = JSON.parse(item);
             item.showName = item.name;
@@ -513,8 +515,8 @@ export default {
     var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
     var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
     this.isMobile = isIphone || isAndroid;
-    this.gameName = localStorage.getItem("gameName");
-    localStorage.setItem("gameId", this.$route.params.id);
+
+    localStorage.setItem("gameName", this.$route.params.id);
     //获取game
     this.getCategory();
     this.getGame();
@@ -889,5 +891,9 @@ export default {
   .contain {
     text-align: left;
   }
+
 }
+ /deep/ .el-select .el-input__icon{
+    line-height: 0.26rem;
+  }
 </style>

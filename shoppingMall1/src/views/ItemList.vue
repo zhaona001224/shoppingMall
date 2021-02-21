@@ -226,8 +226,8 @@
 					if (response.retCode == 0) {
 						response.data = response.data || []
 						this.categoryList = response.data.filter((item) => {
-							var id = item.game.split(',')[0]
-							return id == localStorage.getItem('gameId') && item.online
+							var name = item.game.split(',')[1]
+							return name == localStorage.getItem('gameId') && item.online
 						})
 						this.imgUrl = window.imgUrl;
 						var resultArray = this.categoryList.sort(function compareFunction(
@@ -267,8 +267,8 @@
 						response.data = response.data || []
 						this.serveList = response.data.filter((item) => {
 							if (!item.category) {
-								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online && item.items
+								var id = item.game.split(',')[1]
+								return id == this.$route.params.id && item.online && item.items
 									.length > 2
 							}
 							if (this.categoryId) {
@@ -276,8 +276,8 @@
 								return id == this.categoryId && item.online && item.items.length >
 									2
 							} else {
-								var id = item.game.split(',')[0]
-								return id == localStorage.getItem('gameId') && item.online && item.class ==
+								var id = item.game.split(',')[1]
+								return id == this.$route.params.id && item.online && item.class ==
 									'item,item' && item.items.length > 2
 							}
 						})
@@ -349,10 +349,11 @@
 				getTemplete('?type=Game&offset=-1&count=-1').then(response => {
 					if (response.retCode == 0) {
 						var data = response.data.filter((item) => {
-							return item.id == localStorage.getItem('gameId')
+							return item.name == this.$route.params.id
 						})
-						this.gameName=data[0].name
-						localStorage.setItem('gameName',data[0].name)
+						
+						this.gameName=data[0]&&data[0].name
+						localStorage.setItem('gameId',data[0].id)
 						JSON.parse(localStorage.getItem('currencyData')).map((item) => {
 							item = JSON.parse(item);
 							item.showName = item.name;
@@ -380,8 +381,8 @@
 			var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
 			this.isMobile = isIphone || isAndroid;
-			this.gameName = localStorage.getItem('gameName')
-			localStorage.setItem('gameId', this.$route.params.id)
+			this.gameId = localStorage.getItem('gameId')
+			localStorage.setItem('gameName', this.$route.params.id)
 			//获取game
 			this.getCategory();
 			this.getGame();

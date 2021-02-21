@@ -301,7 +301,7 @@
 				if (this.$route.path == "/itemList" || this.$route.path == "/coinList") {
 					window.location.reload()
 				} else {
-					this.$router.push('/itemList/' + localStorage.getItem('gameId'));
+					this.$router.push('/itemList/' + localStorage.getItem('gameName'));
 				}
 			},
 			//登录方法
