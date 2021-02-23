@@ -1,5 +1,5 @@
 npm run build
 cd dist
-scp -r * root@nerd:/var/www/mgr/html/
+scp -r * debian@egpal:/home/debian/frontend/mgr/
 cd ../..
 

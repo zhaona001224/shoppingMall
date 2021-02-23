@@ -10,8 +10,8 @@ import Vue from 'vue'
 Vue.use(ElementUI);
 import crypto from "crypto";
 import * as types from '@/store/types'
-window.imgUrl = 'https://support.bk.cloudns.cc:8081/admin/v1/file?id=';
-var config = "https://support.bk.cloudns.cc:8081";
+window.imgUrl = 'https://www2.egpal.com:8081/admin/v1/file?id=';
+var config = "https://www2.egpal.com:8081";
 //if(window.origin.indexOf('localhost') > -1) {
 //	var config = "/api";
 //	window.imgUrl = 'http://216.24.249.93:8080/admin/v1/file?id=';
