@@ -467,6 +467,8 @@
 						var data = response.data.filter((item) => {
 							return item.id == localStorage.getItem("gameId");
 						});
+						 this.gameName=data[0].name
+		localStorage.setItem('gameName',data[0].name)
 						JSON.parse(localStorage.getItem("currencyData")).map((item) => {
 							item = JSON.parse(item);
 							item.showName = item.name;
@@ -552,6 +554,7 @@
 			var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
 			var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
 			this.isMobile = isIphone || isAndroid;
+			 localStorage.setItem("gameId", this.$route.params.id);
 			//获取gameSilver
 			this.getCategory();
 			this.getGame();

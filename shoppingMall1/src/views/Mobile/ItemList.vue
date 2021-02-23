@@ -22,25 +22,15 @@
           " :class="selectType == 'item' ? 'item active point' : 'item point'" @click="$router.push('/itemList/' + $route.params.id)">
 				<img src="../../assets/image/icon/icon_item.png" /> <span style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{ gameList.itemName || "Items" }}</span></div>
 			</div>
-      		<van-popup v-model="showPicker" round position="bottom">
- <van-picker
-   confirm-button-text="confirm"  cancel-button-text="cancel"
-    show-toolbar value-key="name"
-    :columns="categoryList"
-    @cancel="showPicker = false"
-    @confirm="selectCategory"
-  />
-  </van-popup>
-  	<van-popup v-model="showPicker1" round position="bottom">
-   <van-picker
-   confirm-button-text="confirm"  cancel-button-text="cancel"
-    show-toolbar value-key="name"
-    :columns="serveList"
-    @cancel="showPicker1 = false"
-    @confirm="selectServe"
-  />
-</van-popup>
-			<div class="el-dropdown"v-if="categoryList.length > 0"> <span  @click="showPicker=true"  class="el-dropdown-link">
+			<van-popup v-model="showPicker" round position="bottom">
+				<van-picker confirm-button-text="confirm" cancel-button-text="cancel" show-toolbar
+				 value-key="name" :columns="categoryList" @cancel="showPicker = false" @confirm="selectCategory"
+				/> </van-popup>
+			<van-popup v-model="showPicker1" round position="bottom">
+				<van-picker confirm-button-text="confirm" cancel-button-text="cancel" show-toolbar
+				 value-key="name" :columns="serveList" @cancel="showPicker1 = false" @confirm="selectServe"
+				/> </van-popup>
+			<div class="el-dropdown" v-if="categoryList.length > 0"> <span @click="showPicker=true" class="el-dropdown-link">
           {{ selectCategoryData.name
           }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
@@ -50,7 +40,7 @@
 					 :class="item.id == categoryId ? 'active point' : 'point'">{{ item.name }}</el-dropdown-item>
 				</el-dropdown-menu> -->
 			</div>
-			<div class="el-dropdown"  v-if="serveList.length > 0"> <span @click="showPicker1=true" class="el-dropdown-link">
+			<div class="el-dropdown" v-if="serveList.length > 0"> <span @click="showPicker1=true" class="el-dropdown-link">
           {{ selectServeData.name
           }}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
@@ -79,7 +69,8 @@
 				</div>
 				<div class="li point" v-for="(item, index) in itemList" :key="item.id">
 					<div v-if="item.hintImage || item.hintText">
-						<el-popover :ref="'Popover'+index" style="min-width: auto; text-align: center" placement="right" trigger="hover">
+						<el-popover :ref="'Popover'+index" style="min-width: auto; text-align: center"
+						 placement="right" trigger="hover">
 							<div class="text" style="position: absolute;width: 100%;height: 100%;left: 0;top:0"
 							 @click.stop='popClick(index)'></div>
 							<div class="pop-item"> <img v-if="item.hintImage" :src="imgUrl + item.hintImage" />
@@ -486,6 +477,8 @@ export default {
           var data = response.data.filter((item) => {
             return item.id == localStorage.getItem("gameId");
           });
+          this.gameName=data[0].name
+		localStorage.setItem('gameName',data[0].name)
           JSON.parse(localStorage.getItem("currencyData")).map((item) => {
             item = JSON.parse(item);
             item.showName = item.name;
@@ -513,7 +506,7 @@ export default {
     var isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/);
     var isAndroid = ua.match(/(Android)\s+([\d.]+)/);
     this.isMobile = isIphone || isAndroid;
-    this.gameName = localStorage.getItem("gameName");
+
     localStorage.setItem("gameId", this.$route.params.id);
     //获取game
     this.getCategory();
