@@ -46,10 +46,10 @@
 							</div>
 							<div class="tool-tip">note</div>
 							<el-tag :key="subIndex" v-for="(tag,subIndex) in scope.row['note']"
-							 closable :disable-transitions="false" @close="handleClose(scope.$index,subIndex)">
+							 closable :disable-transitions="false" @close="handleClose(scope.$index,subIndex,scope.row)">
 							{{tag}} </el-tag>
 							<el-input class="input-new-tag" v-if="inputVisible[scope.$index]==1"
-							 v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm(scope.$index)"
+							 v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm(scope.$index,scope.row)"
 							 @blur="handleInputBlur(scope.$index)"> </el-input>
 							<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
 						</el-popover>
@@ -65,7 +65,7 @@
 				 prop="vendor" label="type"> </el-table-column>
 				<el-table-column prop="status" label="status" width="160px">
 					<template slot-scope="scope">
-						<el-select :clearable="true" @change="edit(scope.$index,scope.row['id'])" style="width:100px"
+						<el-select :clearable="true" @change="edit(scope.row)" style="width:100px"
 						 v-model="scope.row['status']" placeholder="请选择 status">
 							<el-option v-for="subItem in statusList" :key="subItem.name" :label="subItem.name"
 							 :value="subItem.name"> </el-option>
@@ -204,9 +204,11 @@
 				})
 				this.$forceUpdate();
 			},
-			handleClose(index, subIndex) {
-				this.tableData[index].note.splice(subIndex, 1);
-				this.edit(index, this.tableData[index].id)
+			handleClose(index, subIndex,item) {
+				item=JSON.parse(JSON.stringify(item))
+				item.note.splice(subIndex, 1);
+				item.note=JSON.stringify(item.note)
+				this.edit(item)
 			}, //导出表格
 			exportTable() {
 				var tableLable = this.originTable;
@@ -347,7 +349,8 @@
 				this.tableData[index].note.splice(index, 0);
 				this.$forceUpdate();
 			},
-			handleInputConfirm(index) {
+			handleInputConfirm(index,item) {
+				item=JSON.parse(JSON.stringify(item))
 				let inputValue = this.inputValue;
 				var d = new Date(),
 					str = '';
@@ -359,9 +362,11 @@
 				str += d.getSeconds() + '';
 				var email = JSON.parse(this.store.state.configData).admin_email
 				if (inputValue) {
-					this.tableData[index].note.push(' [' + str + ']' + ' [' + email + ']:' +
+					item.note=item.note||[]
+					item.note.push(' [' + str + ']' + ' [' + email + ']:' +
 						inputValue);
-					this.edit(index, this.tableData[index].id)
+						item.note=JSON.stringify(item.note)
+					this.edit(item)
 				}
 				this.inputVisible[index] = 0;
 				this.inputValue = '';
@@ -410,45 +415,19 @@
 				}
 				return {data:"",i:-1};
 			},
-			edit(index, id,m,e) {
-				var that = this;
-				//console.log(index,id,m,e);
-				var data,iid;
-				var dataObj = this.getDataFromOriginTable(id);
-				//data = this.originTable[index];
-				//console.log(dataObj);
-				data = dataObj.data;
-				iid = dataObj.i;
-				console.log(iid);
-				if (iid==-1){
-					return ;
-				}
-				var nowDataObj = this.getDataFromTableData(id);
-				console.log("current index is ",nowDataObj.i);
-				var curpos = nowDataObj.i;
-				data.status=that.tableData[curpos].status;
-				//this.originTable[iid].note = that.tableData[curpos].note && that.tableData[curpos].note.join(',');
-				//this.originTable[iid].status = this.tableData[curpos].status;
-				//return ;
-				/* this.originTable[iid].note = this.tableData[nowDataObj.i].note && this.tableData[nowDataObj.i].note.join(',');
-				this.originTable[iid].status = this.tableData[nowDataObj.i].status
-				this.originTable[iid].bad = this.tableData[nowDataObj.i].bad */
-				
-				//dataObj = this.getDataFromOriginTable(id);
-				//data = dataObj.data;
-				delete data.id
-				//console.log(data);
-				//return 
-				that.$post("/admin/v1/content/update?type=Order&id=" + id, data).then(
+			edit(item) {
+				var id=item.id
+				delete item.id
+				this.$post("/admin/v1/content/update?type=Order&id=" + id, item).then(
 					response => {
 						if (response.retCode == 0) {
-							that.$message({
+							this.$message({
 								type: 'success',
 								message: "success"
 							});
-							that.search();
+							this.search();
 						} else {
-							that.$message({
+							this.$message({
 								type: 'warning',
 								message: response.message
 							});
@@ -486,7 +465,8 @@
 						this.tableData && this.tableData.map((item) => {
 							item.updated = this.$util.formatTime(item.updated,
 								'YYYY-MM-DD HH:mm:ss');
-							item.note = item.note && item.note.split(',');
+//								item.note = item.note && item.note.split(',');
+							item.note = item.note && JSON.parse(item.note);
 							item.total = parseFloat(item.total)
 							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
 							//item.request_time = item.request_time ? this.dateFormat(item.request_time,
@@ -593,7 +573,7 @@
 						this.tableData && this.tableData.map((item) => {
 							item.updated = this.$util.formatTime(item.updated,
 								'YYYY-MM-DD HH:mm:ss');
-							item.note = item.note && item.note.split(',');
+							item.note = item.note && JSON.parse(item.note);
 							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
 							//item.request_time = item.request_time ? this.dateFormat(item.request_time,
 							//	'yyyy-MM-dd HH:mm:ss') : ''

@@ -36,7 +36,7 @@
           {{ item.name }}
         </span> </div>
 			<div class="contain">
-				<div class="li point aaa" v-for="(item, index) in itemList" :key="item.id" v-if="item.type == 'item,item' || (item.hintText && item.hintImage)"
+				<div class="li point" v-for="(item, index) in itemList" :key="item.id" v-if="item.type == 'item,item' || (item.hintText && item.hintImage)"
 				 @click="goItem(item)">
 					<div v-if="item.hintImage || item.hintText">
 						<el-popover style="min-width: auto; text-align: center" placement="right" trigger="hover">
