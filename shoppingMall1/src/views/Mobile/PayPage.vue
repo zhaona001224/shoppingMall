@@ -127,7 +127,6 @@
 					}],
 					link: [{
 						message: "Please fill in payer_name",
-						required: true,
 						trigger: 'blur'
 					}]
 				},
