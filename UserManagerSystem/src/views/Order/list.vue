@@ -28,13 +28,10 @@
 			<el-table :data="tableData" width="100%" :row-class-name="getRowStyle" :default-sort="{prop:'airtime',order:'descending'}">
 				<el-table-column header-align="left" width="160px" sortable prop="airtime" label="pay_time">
 				</el-table-column>
-				<el-table-column header-align="left" sortable width="120px" prop="order_id"
-				 label="order_id"> </el-table-column>
+				<el-table-column header-align="left" sortable width="120px"
+				 prop="order_id" label="order_id"> </el-table-column>
 				<el-table-column header-align="left" width="160px" label="Game">
-					<template slot-scope="scope" >
-						{{scope.row['description']&&JSON.parse(scope.row['description'])[0].game}}
-				
-					</template>
+					<template slot-scope="scope"> {{scope.row['description']&&JSON.parse(scope.row['description'])[0].game}} </template>
 				</el-table-column>
 				<el-table-column header-align="left" width="160px" prop="comments" label="request_info">
 				</el-table-column>
@@ -53,20 +50,16 @@
 							 @blur="handleInputBlur(scope.$index)"> </el-input>
 							<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
 						</el-popover>
-						
 						<el-tag size="medium">{{ scope.row.user }}</el-tag>
-					
-
 					</template>
 				</el-table-column>
-				<el-table-column header-align="left" width="120px"  prop="ip" label="ip">
-				</el-table-column>
+				<el-table-column header-align="left" width="120px" prop="ip" label="ip"> </el-table-column>
 				<el-table-column header-align="left" width="100px" sortable
 				 prop="vendor" label="type"> </el-table-column>
 				<el-table-column prop="status" label="status" width="160px">
 					<template slot-scope="scope">
-						<el-select :clearable="true" @change="edit(scope.row)" style="width:100px"
-						 v-model="scope.row['status']" placeholder="请选择 status">
+						<el-select :clearable="true" @change="edit(scope.row)" style="width:100px" v-model="scope.row['status']"
+						 placeholder="请选择 status">
 							<el-option v-for="subItem in statusList" :key="subItem.name" :label="subItem.name"
 							 :value="subItem.name"> </el-option>
 						</el-select>
@@ -160,7 +153,7 @@
 		},
 		methods: {
 			handleEdit(item) {
-				localStorage.setItem('selectData',JSON.stringify(item))
+				localStorage.setItem('selectData', JSON.stringify(item))
 				var url = window.location.origin + '/#/Order/add?id=' + item.id
 				if (window.showModelessDialog) { // Internet Explorer
 					showModelessDialog(url, window, "dialogWidth:880px; dialogHeight:900px");
@@ -192,7 +185,6 @@
 					return
 				}
 				this.notSearch = false;
-				
 				this.tableData = JSON.parse(JSON.stringify(this.tableData1)).filter((item,
 					index) => {
 					return JSON.stringify(item).indexOf(this.keyword) > -1
@@ -204,10 +196,10 @@
 				})
 				this.$forceUpdate();
 			},
-			handleClose(index, subIndex,item) {
-				item=JSON.parse(JSON.stringify(item))
+			handleClose(index, subIndex, item) {
+				item = JSON.parse(JSON.stringify(item))
 				item.note.splice(subIndex, 1);
-				item.note=JSON.stringify(item.note)
+				item.note = JSON.stringify(item.note)
 				this.edit(item)
 			}, //导出表格
 			exportTable() {
@@ -279,48 +271,46 @@
 				return format;      
 			},
 			getFormData(id) {
-				var index=0;
-				this.tableData&&this.tableData.map((item,subIndex)=>{
-					if(item.id==id){
-						index=subIndex
+				var index = 0;
+				this.tableData && this.tableData.map((item, subIndex) => {
+					if (item.id == id) {
+						index = subIndex
 					}
 				})
 				var data = JSON.parse(JSON.stringify(this.tableData[index]));
 				var str1 = ''
 				var str = ''
-				data.description&&JSON.parse(data.description).map((item, index) => {
-				//	console.log(data)
+				data.description && JSON.parse(data.description).map((item, index) => {
+					//	console.log(data)
 					var subtotal = 0;
-					if (item.unit_price && item.quantity){
-						subtotal = item.unit_price*item.quantity
+					if (item.unit_price && item.quantity) {
+						subtotal = item.unit_price * item.quantity
 					}
-					var category=item.category?(item.category+'-'):''
-					var server=item.server?(item.server+'-'):''
-					str1 = category+	server + item.product 
-					
+					var category = item.category ? (item.category + '-') : ''
+					var server = item.server ? (item.server + '-') : ''
+					str1 = category + server + item.product
 					var data2 = {
 						pay_time: '"' + data.updated.split(' ')[0] + '"',
-						game:  '"' +item.game + '"',
+						game: '"' + item.game + '"',
 						products: '"' + str1 + '"',
-						gameId: item.quantity ,
-						request_info:'"'+data.comments+'"',
+						gameId: item.quantity,
+						request_info: '"' + data.comments + '"',
 						order: '"' + data.order_id + '"',
-						kong1:'""',
+						kong1: '""',
 						kong2: '""',
-						currency:'"' + data.currency + '"',
-						total: subtotal 
+						currency: '"' + data.currency + '"',
+						total: subtotal
 					}
-					
 					for (var key in data2) {
-						data2[key] = data2[key] 
+						data2[key] = data2[key]
 						// 2.5.1 注意要将本身就有换行或者英文逗号的内容进行变换 否则表格内容会错乱
 						//					data[key] = data[key].replace(/\n/g, ' ')
 						//					data[key] = data[key].replace(/,/g, '，') // 英文替换为中文
 						str += `${data2[key]+ '\t'}`;
 					}
-					str=str+'\n'
+					str = str + '\n'
 				})
-				str += '""	""	""	0	""	""	""	""	""	0';  //for hack operation
+				str += '""	""	""	0	""	""	""	""	""	0'; //for hack operation
 				return str
 			},
 			handleCheckAllChange(val) {
@@ -349,8 +339,8 @@
 				this.tableData[index].note.splice(index, 0);
 				this.$forceUpdate();
 			},
-			handleInputConfirm(index,item) {
-				item=JSON.parse(JSON.stringify(item))
+			handleInputConfirm(index, item) {
+				item = JSON.parse(JSON.stringify(item))
 				let inputValue = this.inputValue;
 				var d = new Date(),
 					str = '';
@@ -362,10 +352,9 @@
 				str += d.getSeconds() + '';
 				var email = JSON.parse(this.store.state.configData).admin_email
 				if (inputValue) {
-					item.note=item.note||[]
-					item.note.push(' [' + str + ']' + ' [' + email + ']:' +
-						inputValue);
-						item.note=JSON.stringify(item.note)
+					item.note = item.note || []
+					item.note.push(' [' + str + ']' + ' [' + email + ']:' + inputValue);
+					item.note = JSON.stringify(item.note)
 					this.edit(item)
 				}
 				this.inputVisible[index] = 0;
@@ -395,28 +384,40 @@
 					}
 				})
 			},
-			getDataFromOriginTable(id){
+			getDataFromOriginTable(id) {
 				var data;
-				for(var i=0;i<this.originTable.length;i++){
-					if (this.originTable[i].id==id){
+				for (var i = 0; i < this.originTable.length; i++) {
+					if (this.originTable[i].id == id) {
 						data = this.originTable[i];
-						return {data:data,i:i};
+						return {
+							data: data,
+							i: i
+						};
 					}
 				}
-				return {data:"",i:-1};
+				return {
+					data: "",
+					i: -1
+				};
 			},
-			getDataFromTableData(id){
+			getDataFromTableData(id) {
 				var data;
-				for(var i=0;i<this.tableData.length;i++){
-					if (this.tableData[i].id==id){
+				for (var i = 0; i < this.tableData.length; i++) {
+					if (this.tableData[i].id == id) {
 						data = this.tableData[i];
-						return {data:data,i:i};
+						return {
+							data: data,
+							i: i
+						};
 					}
 				}
-				return {data:"",i:-1};
+				return {
+					data: "",
+					i: -1
+				};
 			},
 			edit(item) {
-				var id=item.id
+				var id = item.id
 				delete item.id
 				this.$post("/admin/v1/content/update?type=Order&id=" + id, item).then(
 					response => {
@@ -436,7 +437,6 @@
 			},
 			copy(id) {
 				var that = this;
-				
 				var clipboard1 = new this.clipboard('.clip')
 				clipboard1.on('success', e => {
 					this.$message({
@@ -462,29 +462,34 @@
 						this.tableData.map((item) => {
 							delete item.slug
 						})
-						this.tableData && this.tableData.map((item) => {
-							item.updated = this.$util.formatTime(item.updated,
-								'YYYY-MM-DD HH:mm:ss');
-//								item.note = item.note && item.note.split(',');
-							item.note = item.note && JSON.parse(item.note);
-							item.total = parseFloat(item.total)
-							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
-							//item.request_time = item.request_time ? this.dateFormat(item.request_time,
-							//	'yyyy-MM-dd HH:mm:ss') : ''
-							//console.log(item.pay_time);
-							item.airtime = this.$util.formatTime(this.getTimeFromString(item.pay_time),'YYYY-MM-DD HH:mm:ss');
-						})
-						this.originTable = JSON.parse(JSON.stringify(this.tableData));
-						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
-						this.tableData.sort((a, b) => {
-							//排序基于的数据
-							return b.updated - a.updated;
-						})
-						
-						this.tableData1 = JSON.parse(JSON.stringify(this.tableData))
-						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
-						if (this.keyword) {
-							this.selfSearch();
+						try {
+							this.tableData && this.tableData.map((item) => {
+								console.log(item.note)
+								item.updated = this.$util.formatTime(item.updated,
+									'YYYY-MM-DD HH:mm:ss');
+								//								item.note = item.note && item.note.split(',');
+								item.note = item.note && JSON.parse(item.note);
+								item.total = parseFloat(item.total)
+								//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
+								//item.request_time = item.request_time ? this.dateFormat(item.request_time,
+								//	'yyyy-MM-dd HH:mm:ss') : ''
+								//console.log(item.pay_time);
+								item.airtime = this.$util.formatTime(this.getTimeFromString(item.pay_time),
+									'YYYY-MM-DD HH:mm:ss');
+							})
+							this.originTable = JSON.parse(JSON.stringify(this.tableData));
+							this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
+							this.tableData.sort((a, b) => {
+								//排序基于的数据
+								return b.updated - a.updated;
+							})
+							this.tableData1 = JSON.parse(JSON.stringify(this.tableData))
+							this.total = response.meta.total ? parseInt(response.meta.total) : 0;
+							if (this.keyword) {
+								this.selfSearch();
+							}
+						} catch (e) {
+							//TODO handle the exception
 						}
 					} else {
 						this.$message({
@@ -495,18 +500,18 @@
 				})
 			},
 			getTimeFromString(str) {
-				if (str&&str.indexOf(",")>0 && str.indexOf("HKT")>0){
-					var sep=str.split(",");
+				if (str && str.indexOf(",") > 0 && str.indexOf("HKT") > 0) {
+					var sep = str.split(",");
 					// console.log(sep[1]);
-					var 	spacearray=sep[1].split(" ");
-						spacearray.pop();
-						//console.log(spacearray);
-					var	target = spacearray.join(" ");
-						//console.log(target);
-					var 	tt = Date.parse(target);
+					var spacearray = sep[1].split(" ");
+					spacearray.pop();
+					//console.log(spacearray);
+					var target = spacearray.join(" ");
+					//console.log(target);
+					var tt = Date.parse(target);
 					//	console.log(tt);
-						return tt
-				}else {
+					return tt
+				} else {
 					return Date.parse(str)
 				}
 			},
@@ -528,7 +533,6 @@
 				})
 			},
 			search() {
-				
 				if (!this.keyword && !this.isIndeterminate && this.timeRange.length == 0) {
 					this.pageNum = 1;
 					this.queryTable();
@@ -553,13 +557,12 @@
 					end = this.timeRange[1].getTime()
 				}
 				this.notSearch = true;
-				
 				this.$get('/admin/v1/contents/ss?type=Order&q=' + this.keyword + "&r=" +
-					str + "&status=public&start=" + start + "&end=" + end+"&offset=" + this.pageNum +
-					"&count=" + this.pageSize, {}).then(response => {
+					str + "&status=public&start=" + start + "&end=" + end + "&offset=" + this
+					.pageNum + "&count=" + this.pageSize, {}).then(response => {
 					if (response.retCode == 0) {
 						this.tableData = response.data || [];
-							this.tableData.map((item) => {
+						this.tableData.map((item) => {
 							delete item.slug
 						})
 						this.tableData = JSON.parse(JSON.stringify(this.tableData)).filter((
@@ -582,7 +585,6 @@
 						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
 						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
 						this.tableData1 = JSON.parse(JSON.stringify(this.tableData));
-			
 						this.$forceUpdate();
 					} else {
 						this.$message({
@@ -594,19 +596,19 @@
 			},
 			//选择页数
 			handleCurrentChange(val) {
-				this.pageNum=val
-				if(!this.keyword && !this.isIndeterminate && this.timeRange.length == 0){
+				this.pageNum = val
+				if (!this.keyword && !this.isIndeterminate && this.timeRange.length == 0) {
 					this.queryTable();
-				}else{
+				} else {
 					this.search();
 				}
 			},
 			//选择每页条数
 			handleSizeChange(val) {
 				this.pageSize = val;
-				if(!this.keyword){
+				if (!this.keyword) {
 					this.queryTable();
-				}else{
+				} else {
 					this.search();
 				}
 			},
@@ -617,7 +619,6 @@
 				localStorage.setItem('keyword', '');
 			}
 			this.getDataSource();
-
 			if (localStorage.getItem('checkedStatus') || localStorage.getItem(
 					'timeRange')) {
 				this.checkedStatus = localStorage.getItem('checkedStatus') ? JSON.parse(
@@ -667,7 +668,7 @@
 	}
 	
 	.el-table__row.comments td:nth-child(5) {
-		background:  #E3EDCD;
+		background: #E3EDCD;
 		color: #fff;
 	}
 	
