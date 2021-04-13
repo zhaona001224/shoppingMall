@@ -22,7 +22,8 @@
 		created() {
 			//获取banner
 			getTemplete("?type=Site").then((response) => {
-				this.data=response.data[this.$route.params.id*1-1]
+				const data=response.data.filter((item)=>item.id==this.$route.params.id)
+				this.data = data[0]
 			});
 		}
 	}

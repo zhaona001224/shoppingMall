@@ -73,7 +73,7 @@
 				<li class="nav-primary" @click="$router.push('/Mobile/NewsList')">
 					<a href="javascript:void(0)"> News </a>
 				</li>
-				<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/1')">
+				<li class="nav-primary" @click="$router.push('/Mobile/BlankPage/3')">
 					<a href="javascript:void(0)"> Sell to US </a>
 				</li>
 				<li class="nav-primary" @click="$router.push('/Mobile/FAQ')">
@@ -88,7 +88,7 @@
 			<div class="tip special"> <span class="point" @click="$router.push('/Mobile/AboutUs')">About US</span>
 				<span
 				 class="point" @click="$router.push('/Mobile/DeliveryPolicy')"> Delivery Policy</span> <span class="point" @click="$router.push('/DMCANotice')">DMCA Notice</span>					<span class="point" @click="$router.push('/Mobile/FAQ')">FAQ </span> <span class="point"
-					 @click="$router.push('/ReturnPolicy')">Return Policy</span> <span @click="$router.push('/Mobile/BlankPage/3')"
+					 @click="$router.push('/ReturnPolicy')">Return Policy</span> <span @click="$router.push('/Mobile/BlankPage/1')"
 					 class="point"> Contact US</span> </div>
 			<div class="img"> <img src="../assets/image/home/icon_footer.png" /></div>
 			<!-- <div class="img">
@@ -158,7 +158,7 @@
 					url: '/Mobile/HistoryOrder'
 				}, {
 					text: 'Contact Us',
-					url: '/Mobile/BlankPage/3'
+					url: '/Mobile/BlankPage/1'
 				}]
 			}
 		},

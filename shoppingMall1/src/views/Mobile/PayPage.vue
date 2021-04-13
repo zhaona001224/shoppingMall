@@ -124,10 +124,6 @@
 						message: "Please fill in payer_name",
 						required: true,
 						trigger: 'blur'
-					}],
-					link: [{
-						message: "Please fill in payer_name",
-						trigger: 'blur'
 					}]
 				},
 				form: {
@@ -243,10 +239,6 @@
 					that.$message.error("Please fill in form！");
 					return
 				}
-				if (!this.form.link) {
-					that.$message.error("Please fill in form！");
-					return
-				}
 				this.$refs.form.validate((valid) => {
 					if (valid) {
 						this.pay1();
@@ -296,7 +288,6 @@
 				}
 				getPay(this.payList[this.selectIndex].payment, params).then(response => {
 					if (response.retCode == 0) {
-						debugger
 						window.location.href = response.data.redirect_url;
 						this.CLEAR_CART();
 					} else {

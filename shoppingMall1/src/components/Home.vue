@@ -49,10 +49,10 @@
 				<a href="javascript:void(0)">Home</a>
 			</li>
 			<li class="user-name">
-				<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Sell to US</a>
+				<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Sell to US</a>
 			</li>
 			<li class="user-name">
-				<a href="javascript:void(0)" @click="$router.push('/BlankPage/3')">Contact us</a>
+				<a href="javascript:void(0)" @click="$router.push('/BlankPage/1')">Contact us</a>
 			</li>
 			<li class="user-name">
 				<a href="javascript:void(0)" @click="$router.push('/FAQ')">FAQ</a>
