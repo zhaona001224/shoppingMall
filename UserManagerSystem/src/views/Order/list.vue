@@ -577,6 +577,8 @@
 							item.updated = this.$util.formatTime(item.updated,
 								'YYYY-MM-DD HH:mm:ss');
 							item.note = item.note && JSON.parse(item.note);
+							item.airtime = this.$util.formatTime(this.getTimeFromString(item.pay_time),
+									'YYYY-MM-DD HH:mm:ss');
 							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
 							//item.request_time = item.request_time ? this.dateFormat(item.request_time,
 							//	'yyyy-MM-dd HH:mm:ss') : ''
