@@ -118,8 +118,8 @@
 				inputValue: '',
 				inputVisible: [],
 				checkAll: true,
-				isIndeterminate: false,
-				checkedStatus: [],
+				isIndeterminate: true,
+				checkedStatus: ["Paid-已付款","Pending-等待付款","Processing-等待"],
 				statusOptions: [],
 				pickerOptions: {
 					shortcuts: [{
@@ -636,7 +636,7 @@
 				}, 1000)
 				return
 			}
-			this.queryTable();
+			this.search();
 		},
 		mounted() {}
 	}
