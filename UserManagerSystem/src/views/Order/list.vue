@@ -289,12 +289,24 @@
 					var category = item.category ? (item.category + '-') : ''
 					var server = item.server ? (item.server + '-') : ''
 					str1 = category + server + item.product
+					//process data.commnets:remove : right side content
+					var usereq = data.comments
+					var npos
+					if (usereq&&usereq.length>0){
+						npos=usereq.indexOf(":")
+						if (npos>0){
+							usereq=usereq.substring(npos+1)
+						}
+					}else{
+						usereq=""
+					}
+					//end of bug fix
 					var data2 = {
 						pay_time: '"' + data.updated.split(' ')[0] + '"',
 						game: '"' + item.game + '"',
 						products: '"' + str1 + '"',
 						gameId: item.quantity,
-						request_info: '"' + data.comments + '"',
+						request_info: '"' + usereq + '"',
 						order: '"' + data.order_id + '"',
 						kong1: '""',
 						kong2: '""',
