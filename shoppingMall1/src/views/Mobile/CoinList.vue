@@ -445,6 +445,7 @@
 									}
 								});
 							});
+							this.itemList=this.itemList.filter(item => !!item.online)
 						if (this.itemList[0]) {
 							this.selectId = this.itemList[0].id;
 							this.selectName = this.itemList[0].name;

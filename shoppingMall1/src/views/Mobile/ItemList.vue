@@ -67,7 +67,7 @@
 						<div class="img-contain"><img src="../../assets/image/icon/icon_search.png" /></div>
 					</div>
 				</div>
-				<div class="li point" v-for="(item, index) in itemList" :key="item.id">
+				<div class="li point" v-for="(item, index) in itemList" :key="item.id" v-if="item.online">
 					<div v-if="item.hintImage || item.hintText">
 						<el-popover :ref="'Popover'+index" style="min-width: auto; text-align: center"
 						 placement="right" trigger="hover">
