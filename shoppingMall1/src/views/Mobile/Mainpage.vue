@@ -3,7 +3,7 @@
 		<van-swipe v-if="bannerList" class="my-swipe" :autoplay="3000" indicator-color="white">
 			<van-swipe-item v-for="item in bannerList" :key="item.id">
 				<div @click="item.link ? goNewBank(item.link) : goProduct(item, 1)" :style="
-            'width:100%;height:250px;background: url(' +
+            'width:100%;height:2.5rem;background: url(' +
             imgUrl +
             item.image +
             ');background-size:cover;'
