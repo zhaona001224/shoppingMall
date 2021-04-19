@@ -150,15 +150,15 @@
 				tabList: [{
 					text: 'Home',
 					url: '/'
-				}, {
-					text: 'Discount',
-					url: '/Mobile/BlankPage/2'
-				}, {
+				},{
+					text: 'Contact Us',
+					url: '/Mobile/BlankPage/1'
+				} , {
 					text: 'My Order',
 					url: '/Mobile/HistoryOrder'
 				}, {
-					text: 'Contact Us',
-					url: '/Mobile/BlankPage/1'
+					text: 'Discount',
+					url: '/Mobile/BlankPage/2'
 				}]
 			}
 		},

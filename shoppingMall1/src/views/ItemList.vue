@@ -39,7 +39,7 @@
 				<el-input @input="changeInput" v-model="searchKey" placeholder="Search Item Name"
 				 style="width:400px"></el-input><img src="../assets/image/icon/icon_search.png" /></div>
 		</div>
-		<div class="li point" v-for="(item,index) in itemList" :key="item.id">
+		<div class="li point" v-for="(item,index) in itemList" :key="item.id" v-if="item.online">
 			<div v-if="item.hintImage||item.hintText">
 				<el-popover style="min-width:auto;text-align: center;" placement="right" trigger="hover">
 					<div class="pop-item"> <img v-if="item.hintImage" :src="imgUrl+item.hintImage" />

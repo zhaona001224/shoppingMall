@@ -29,7 +29,7 @@
 					</div>
 				</div>
 				<div class="tab point"> <span @click="selectId=item.id;totalPrice=0;coinNum=0;filterId()" :class="selectId==item.id?'active':''"
-					 v-for="(item,index) in itemList">
+					 v-for="(item,index) in itemList" v-if="item.online">
 					{{item.name}}
 				</span>
 					<el-select @change="setCurrency" style="width:140px;float:right;margin-top: -9px;margin-right: 186px;"
