@@ -92,11 +92,12 @@
 		name: 'Add',
 		data() {
 			var validatePass = (rule, value, callback) => {
+
+				var index = rule.field.split('.')[1] * 1;
+				var value=this.form.discountList[index].qty
 				if(value === '') {
 					callback(new Error('qty不能为空'));
 				} else {
-
-					var index = rule.field.split('.')[1] * 1;
 					if(this.form.discountList[index - 1] && this.form.discountList[index - 1].qty * 1 > value * 1) {
 						callback(new Error('qty不能小于前一条数据的qty'));
 						return
@@ -188,6 +189,7 @@
 
 			handleDelete(index) {
 				this.form.discountList.splice(index, 1)
+				this.$refs.form.clearValidate()
 				this.$forceUpdate();
 			},
 			//新增方法
