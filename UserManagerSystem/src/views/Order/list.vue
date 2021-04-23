@@ -339,6 +339,7 @@
 				this.search();
 			},
 			showInput(index) {
+				this.inputVisible[index]=1
 				this.inputVisible.splice(index, 1, 1);
 				this.tableData[index].note = this.tableData[index].note || []
 				this.$nextTick(() => {
