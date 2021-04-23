@@ -494,7 +494,7 @@
 							this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
 							this.tableData.sort((a, b) => {
 								//排序基于的数据
-								return b.updated - a.updated;
+								return b.timestamp - a.timestamp;
 							})
 							this.tableData1 = JSON.parse(JSON.stringify(this.tableData))
 							this.total = response.meta.total ? parseInt(response.meta.total) : 0;
@@ -584,7 +584,7 @@
 						})
 						this.tableData.sort((a, b) => {
 							//排序基于的数据
-							return b.updated - a.updated;
+							return b.timestamp - a.timestamp;
 						})
 						this.tableData && this.tableData.map((item) => {
 							item.updated = this.$util.formatTime(item.updated,
