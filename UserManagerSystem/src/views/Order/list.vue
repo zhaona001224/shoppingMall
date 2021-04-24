@@ -40,6 +40,7 @@
 						<el-popover v-if="scope.row['payer']" placement="right" width="400" trigger="hover">
 							<div slot="reference" class="name-wrapper">
 								<el-tag size="medium">{{ scope.row.payer }}</el-tag>
+								<el-tag size="medium">{{ scope.row.user }}</el-tag>
 							</div>
 							<div class="tool-tip">note</div>
 							<el-tag :key="subIndex" v-for="(tag,subIndex) in scope.row['note']"
@@ -50,7 +51,7 @@
 							 @blur="handleInputBlur(scope.$index)"> </el-input>
 							<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
 						</el-popover>
-						<el-tag size="medium">{{ scope.row.user }}</el-tag>
+						
 					</template>
 				</el-table-column>
 				<el-table-column header-align="left" width="120px" prop="ip" label="ip"> </el-table-column>
@@ -688,6 +689,7 @@
 	}
 	
 	.el-tag {
+		display: block;
 		height: auto;
 		white-space: initial;
 	}
