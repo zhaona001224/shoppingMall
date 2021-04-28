@@ -51,7 +51,6 @@
 							 @blur="handleInputBlur(scope.$index)"> </el-input>
 							<el-button v-else class="button-new-tag" size="small" @click="showInput(scope.$index)">+Note</el-button>
 						</el-popover>
-						
 					</template>
 				</el-table-column>
 				<el-table-column header-align="left" width="120px" prop="ip" label="ip"> </el-table-column>
@@ -120,7 +119,7 @@
 				inputVisible: [],
 				checkAll: true,
 				isIndeterminate: true,
-				checkedStatus: ["Paid-已付款","Pending-等待付款","Processing-等待"],
+				checkedStatus: ["Paid-已付款", "Pending-等待付款", "Processing-等待"],
 				statusOptions: [],
 				pickerOptions: {
 					shortcuts: [{
@@ -293,17 +292,17 @@
 					//process data.commnets:remove : right side content
 					var usereq = data.comments
 					var npos
-					if (usereq&&usereq.length>0){
-						npos=usereq.indexOf(":")
-						if (npos>0){
-							usereq=usereq.substring(npos+1)
+					if (usereq && usereq.length > 0) {
+						npos = usereq.indexOf(":")
+						if (npos > 0) {
+							usereq = usereq.substring(npos + 1)
 						}
-					}else{
-						usereq=""
+					} else {
+						usereq = ""
 					}
 					//end of bug fix
 					var data2 = {
-						pay_time: '"' + data.updated.split(' ')[0] + '"',
+						pay_time: '"' + data.airtime.split(' ')[0] + '"',
 						game: '"' + item.game + '"',
 						products: '"' + str1 + '"',
 						gameId: item.quantity,
@@ -340,7 +339,7 @@
 				this.search();
 			},
 			showInput(index) {
-				this.inputVisible[index]=1
+				this.inputVisible[index] = 1
 				this.inputVisible.splice(index, 1, 1);
 				this.tableData[index].note = this.tableData[index].note || []
 				this.$nextTick(() => {
@@ -366,6 +365,7 @@
 				str += d.getSeconds() + '';
 				var email = JSON.parse(this.store.state.configData).admin_email
 				if (inputValue) {
+					inputValue.replace('"','')
 					item.note = item.note || []
 					item.note.push(' [' + str + ']' + ' [' + email + ']:' + inputValue);
 					item.note = JSON.stringify(item.note)
@@ -479,9 +479,7 @@
 						try {
 							this.tableData && this.tableData.map((item) => {
 								console.log(item.note)
-								item.updated = this.$util.formatTime(item.updated,
-									'YYYY-MM-DD HH:mm:ss');
-								//								item.note = item.note && item.note.split(',');
+								item.note = item.note && item.note.split(',');
 								item.note = item.note && JSON.parse(item.note);
 								item.total = parseFloat(item.total)
 								//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
@@ -502,9 +500,7 @@
 							if (this.keyword) {
 								this.selfSearch();
 							}
-						} catch (e) {
-							//TODO handle the exception
-						}
+						} catch (e) {}
 					} else {
 						this.$message({
 							type: 'warning',
@@ -583,20 +579,17 @@
 							item, index) => {
 							return JSON.stringify(item).indexOf(this.keyword) > -1
 						})
-						this.tableData.sort((a, b) => {
-							//排序基于的数据
-							return b.timestamp - a.timestamp;
-						})
-						this.tableData && this.tableData.map((item) => {
-							item.updated = this.$util.formatTime(item.updated,
-								'YYYY-MM-DD HH:mm:ss');
-							item.note = item.note && JSON.parse(item.note);
-							item.airtime = this.$util.formatTime(this.getTimeFromString(item.pay_time),
+						try {
+							this.tableData && this.tableData.map((item, index) => {
+								item.note = item.note && item.note.split(',');
+								item.note = item.note && JSON.parse(item.note);
+								item.airtime = this.$util.formatTime(this.getTimeFromString(item.pay_time),
 									'YYYY-MM-DD HH:mm:ss');
-							//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
-							//item.request_time = item.request_time ? this.dateFormat(item.request_time,
-							//	'yyyy-MM-dd HH:mm:ss') : ''
-						})
+								//							item.pay_time = item.pay_time ? this.dateFormat(item.pay_time, 'yyyy-MM-dd HH:mm:ss') : ''
+								//item.request_time = item.request_time ? this.dateFormat(item.request_time,
+								//	'yyyy-MM-dd HH:mm:ss') : ''
+							})
+						} catch (e) {}
 						this.originTable = JSON.parse(JSON.stringify(this.tableData));
 						this.originTable1 = JSON.parse(JSON.stringify(this.tableData));
 						this.total = response.meta.total ? parseInt(response.meta.total) : 0;
