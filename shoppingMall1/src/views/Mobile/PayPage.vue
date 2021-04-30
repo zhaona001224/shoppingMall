@@ -304,7 +304,7 @@
 				}
 				var data = this.couponList.filter((item) => {
 					console.log(this.couponCode)
-					return item.code === this.couponCode
+					return item.code.toLowerCase() === this.couponCode.toLowerCase()
 				})
 				if (data.length == 0) {
 					this.$message({

@@ -169,7 +169,7 @@
 			},
 			getDataSource(url, key) {
 				var that = this;
-				that.$get('/admin/v1/contents?type=Game', {
+				that.$get('/admin/v1/contents?type=Game&count=-1', {
 
 				}).then(response => {
 					if(response.retCode == 0) {

@@ -67,7 +67,7 @@
 					 class="show" @change="up(index,item.num)"> <span class="up" @click="up(index,1)">+</span></div>
 				<div class="price">{{currencyInfo.symbol}}{{getPrice(item.price*item.num*currencyInfo.rate)}}</div>
 				<div style="position: relative;display: flex;justify-content: space-between;padding: 10px 20px; ">
-				<span class="add" @click="addCart(item,item.id,item.price,item.name,1,imgUrl+item.hintImage,1)">Buy Now</span>					<img style="width: 43px;height: 32px;" src="../assets/image/home/img_buy2.jpg"
+				<span class="add" @click="addCart(item,item.id,item.price,item.name,item.num,imgUrl+item.hintImage,1)">Buy Now</span>					<img style="width: 43px;height: 32px;" src="../assets/image/home/img_buy2.jpg"
 					 class="go" @click="addCart(item,item.id,item.price,item.name,item.num,imgUrl+item.hintImage)"
 					/> </div>
 			</div>
