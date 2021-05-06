@@ -322,15 +322,6 @@
 					this.disPrice = 0;
 					return
 				}
-				if (data.length == 0) {
-					this.$message({
-						type: 'warning',
-						message: 'Coupon is not valid'
-					});
-					this.couponPrice = 0;
-					this.disPrice = 0;
-					return
-				}
 				if (this.totalPrice * 1 < data[0].initial_amount * this.currencyInfo.rate) {
 					this.$message({
 						type: 'warning',
@@ -346,8 +337,8 @@
 					return id == item.gameId
 				})
 				if (cart.length > 0) {
-					var startTime = new Date(data[0].starttime + ':00');
-					var endTime = new Date(data[0].endtime + ':00');
+					var startTime = new Date(data[0].starttime.replace(/-/g,'/') + ':00');
+					var endTime = new Date(data[0].endtime.replace(/-/g,'/') + ':00');
 					if (new Date() >= startTime && new Date() <= endTime) {
 						this.couponPrice = data[0];
 						this.$message({

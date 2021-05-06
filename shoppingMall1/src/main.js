@@ -14,6 +14,7 @@ import store from './store/'
 import VueLazyload from 'vue-lazyload'
 Vue.use(Vuex);
 Vue.use(Router);
+
 Vue.use(ElementUI);　　　　　
 Vue.prototype.$util = util;
 Vue.config.productionTip = false;
