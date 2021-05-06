@@ -346,7 +346,6 @@
 					return id == item.gameId
 				})
 				if (cart.length > 0) {
-					debugger
 					var startTime = new Date(data[0].starttime + ':00');
 					var endTime = new Date(data[0].endtime + ':00');
 					if (new Date() >= startTime && new Date() <= endTime) {
