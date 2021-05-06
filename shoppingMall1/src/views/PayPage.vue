@@ -308,9 +308,11 @@
 					return
 				}
 				var data = this.couponList.filter((item) => {
-					console.log(this.couponCode)
+					//console.log(this.couponCode)
+					//console.log(item)
 					return item.code.toLowerCase() === this.couponCode.toLowerCase()
 				})
+				//console.log(data)
 				if (data.length == 0) {
 					this.$message({
 						type: 'warning',
@@ -356,13 +358,13 @@
 						this.disPrice = 0;
 						this.$message({
 							type: 'warning',
-							message: 'Coupon is not valid'
+							message: 'Coupon is not valid at current time'
 						});
 					}
 				}else{
 					this.$message({
 						type: 'warning',
-						message: 'Coupon is not valid'
+						message: 'Coupon is not valid for cart'
 					});
 				}
 			},

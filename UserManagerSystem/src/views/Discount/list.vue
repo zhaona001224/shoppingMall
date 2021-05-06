@@ -235,12 +235,12 @@
 						})
 						this.tableData.sort((a, b) => {
 							//排序基于的数据
-							return b.updated - a.updated;
+							return b.timestamp - a.timestamp;
 						})
 						this.tableData && this.tableData.map((item) => {
 							item.online = item.online + '';
 							item.list = JSON.parse(item.list)
-							item.updated = this.$util.formatTime(item.updated,
+							item.updated = this.$util.formatTime(item.timestamp,
 								'YYYY-MM-DD HH:mm:ss');
 						})
 						this.tableData1 = JSON.parse(JSON.stringify(this.tableData))
