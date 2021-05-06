@@ -199,6 +199,11 @@
 						1;
 					return
 				}
+						this.EDIT_CART({
+					productId: this.cartList[index].productId,
+					productName: this.cartList[index].productName,
+					productNum: this.cartList[index].productNum
+				})
 			},
 			down(item, id, productName) {
 				this.REDUCE_CART({

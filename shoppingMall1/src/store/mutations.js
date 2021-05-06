@@ -155,6 +155,7 @@ export default {
 			cart.forEach((item, i) => {
 				if(item.productId === productId&&item.productName === productName) {
 					item.productNum = productNum * 1
+					item.totalPrice=productNum*item.salePrice
 					item.checked = checked
 				}
 			})

@@ -195,6 +195,11 @@
 						1;
 					return
 				}
+					this.EDIT_CART({
+					productId: this.cartList[index].productId,
+					productName: this.cartList[index].productName,
+					productNum: this.cartList[index].productNum
+				})
 			},
 			down(item, id, productName) {
 				this.REDUCE_CART({
@@ -303,9 +308,11 @@
 					return
 				}
 				var data = this.couponList.filter((item) => {
-					console.log(this.couponCode)
-					return item.code.toLowerCase() === this.couponCode.toLowerCase()
+					console.log(item.code.toLowerCase())
+					console.log(this.couponCode.toLowerCase())
+					return item.code.toLowerCase() == this.couponCode.toLowerCase()
 				})
+				
 				if (data.length == 0) {
 					this.$message({
 						type: 'warning',
@@ -339,6 +346,7 @@
 					return id == item.gameId
 				})
 				if (cart.length > 0) {
+					debugger
 					var startTime = new Date(data[0].starttime + ':00');
 					var endTime = new Date(data[0].endtime + ':00');
 					if (new Date() >= startTime && new Date() <= endTime) {
