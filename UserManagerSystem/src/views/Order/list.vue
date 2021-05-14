@@ -283,6 +283,7 @@
 				data.description && JSON.parse(data.description).map((item, index) => {
 					//	console.log(data)
 					var subtotal = 0;
+					console.log(item)
 					if (item.unit_price && item.quantity) {
 						subtotal = item.unit_price * item.quantity
 					}

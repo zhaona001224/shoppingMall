@@ -12,7 +12,7 @@ module.exports = {
 		assetsPublicPath: '/',
 		proxyTable: {
 			'/api': {
-				target: 'https://www2.egpal.com:8081/',
+				target: 'www.ggmint.com/',
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '' //重定向

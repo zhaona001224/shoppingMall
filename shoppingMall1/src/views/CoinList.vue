@@ -126,27 +126,30 @@
 				this.totalPrice2(data)
 			},
 			changeNum() {
-				this.coinNum=this.coinNum.replace(/\D/g,'')
+				this.coinNum=this.coinNum.replace(/\D/g,'')*1
 				var that = this;
 				this.newArray = JSON.parse(JSON.stringify(this.discountList));
 				this.lowPrice = '';
 				this.plane = [];
 				var totalPrice = 0;
-				if (this.coinNum <this.selectData[0].miniNumber) {
+				if (this.coinNum*1 <this.selectData[0].miniNumber*1) {
 					this.$message({
 						type: 'error',
 												message: "The minimum quantity is "+this.selectData[0].miniNumber
 					});
-					this.coinNum=this.selectData[0].miniNumber
+					this.coinNum=this.selectData[0].miniNumber*1
 					return
 				}
-				if (this.coinNum > this.newArray[this.newArray.length - 1].qty) {
+				if (this.coinNum*1 > this.newArray[this.newArray.length - 1].qty*1) {
 					this.totalPrice = this.coinNum * this.newArray[this.newArray.length - 1].price;
 					return
 				}
 				this.newArray.map((item, index) => {
-					if (this.coinNum >= item.qty && this.coinNum < this.newArray[index + 1] &&
-						this.newArray[index + 1].qty) {
+					debugger
+					if (this.coinNum*1 >= item.qty*1 && (this.coinNum*1 < (this.newArray[index + 1] &&
+						
+						this.newArray[index + 1].qty*1))) {
+							
 						this.totalPrice = item.price * this.coinNum
 					}
 				})
@@ -376,14 +379,17 @@
 					return new Date() >= startTime && new Date() <= endTime
 				})
 				this.discountList.map((item) => {
+					console.log(item)
 					item.name = this.selectData[0].name;
 					if (this.selectData[0].price * 1 - item.discount > 0) {
 						console.log(this.selectData[0].price)
 						item.price = this.selectData[0].price * 1 - item.discount;
+						console.log(item.price)
 					} else {
 						item.price = this.selectData[0].price * 1
 					}
 					item.totalPrice = (item.price * 1 * (item.qty * 1)).toFixed(2)
+					console.log(item.totalPrice)
 				})
 				this.coinNum = this.discountList[0].qty * 1;
 				this.totalPrice = this.discountList[0].totalPrice;
