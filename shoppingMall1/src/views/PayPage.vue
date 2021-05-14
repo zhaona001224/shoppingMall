@@ -188,8 +188,8 @@
 				})
 			},
 			changeNum(index, num) {
-				if (this.cartList[index].detail && this.cartList[index].productNum*1 < this.cartList[
-						index].detail.miniNumber) {
+				if (this.cartList[index].detail && (this.cartList[index].productNum*1 < this.cartList[
+						index].detail.miniNumber* 1)) {
 					this.$message({
 						type: 'error',
 						message: "The minimum quantity is "+this.cartList[

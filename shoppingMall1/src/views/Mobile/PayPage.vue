@@ -186,10 +186,10 @@
 			},
 			changeNum(index, num) {
 				if (this.cartList[index].detail && this.cartList[index].productNum * 1 <
-					this.cartList[index].detail.miniNumber) {
+					this.cartList[index].detail.miniNumber* 1) {
 					this.$message({
 						type: 'error',
-						message: "The minimum quantity is " + this.cartList[index].detail.miniNumber
+						message: "The minimum quantity is " + this.cartList[index].detail.miniNumber* 1
 					});
 					this.cartList[index].productNum = this.cartList[index].detail.miniNumber *
 						1;
@@ -198,7 +198,7 @@
 					this.EDIT_CART({
 					productId: this.cartList[index].productId,
 					productName: this.cartList[index].productName,
-					productNum: this.cartList[index].productNum
+					productNum: this.cartList[index].productNum* 1
 				})
 			},
 			down(item, id, productName) {

@@ -260,30 +260,32 @@
 				this.totalPrice2(data);
 			},
 			changeNum() {
-				this.coinNum = this.coinNum.replace(/\D/g, "");
+				this.coinNum=this.coinNum.replace(/\D/g,'')*1
 				var that = this;
 				this.newArray = JSON.parse(JSON.stringify(this.discountList));
-				this.lowPrice = "";
+				this.lowPrice = '';
 				this.plane = [];
 				var totalPrice = 0;
-				if (this.coinNum < this.selectData[0].miniNumber) {
+				if (this.coinNum*1 <this.selectData[0].miniNumber*1) {
 					this.$message({
-						type: "error",
-						message: "The minimum quantity is " + this.selectData[0].miniNumber,
+						type: 'error',
+												message: "The minimum quantity is "+this.selectData[0].miniNumber
 					});
-					this.coinNum = this.selectData[0].miniNumber;
-					return;
+					this.coinNum=this.selectData[0].miniNumber*1
+					return
 				}
-				if (this.coinNum > this.newArray[this.newArray.length - 1].qty) {
+				if (this.coinNum*1 > this.newArray[this.newArray.length - 1].qty*1) {
 					this.totalPrice = this.coinNum * this.newArray[this.newArray.length - 1].price;
-					return;
+					return
 				}
 				this.newArray.map((item, index) => {
-					if (this.coinNum >= item.qty && this.coinNum < this.newArray[index + 1] &&
-						this.newArray[index + 1].qty) {
-						this.totalPrice = item.price * this.coinNum;
+					if (this.coinNum*1 >= item.qty*1 && (this.coinNum*1 < (this.newArray[index + 1] &&
+						
+						this.newArray[index + 1].qty*1))) {
+							
+						this.totalPrice = item.price * this.coinNum
 					}
-				});
+				})
 			},
 			onConfirm(item){
 				this.showPicker2=false
