@@ -145,7 +145,6 @@
 					return
 				}
 				this.newArray.map((item, index) => {
-					debugger
 					if (this.coinNum*1 >= item.qty*1 && (this.coinNum*1 < (this.newArray[index + 1] &&
 						
 						this.newArray[index + 1].qty*1))) {
