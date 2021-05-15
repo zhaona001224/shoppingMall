@@ -39,7 +39,7 @@ export default {
 		gameName,
 		categoryName,
 		categoryId,
-		totalPrice = 0
+		totalPrice
 		
 	}) {
 		let cart = state.cartList || [] // 购物车
@@ -69,7 +69,7 @@ export default {
 					if(item.productNum >= 0) {
 						falg = false
 						item.productNum =item.productNum*1+ productNum * 1
-						item.totalPrice+= totalPrice * 1
+						item.totalPrice= item.productNum*1*item.salePrice*1
 					}
 
 				}
