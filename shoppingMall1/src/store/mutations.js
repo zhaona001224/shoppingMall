@@ -134,9 +134,11 @@ export default {
 			if(item.productId === productId&&item.productName === productName) {
 				if(item.productNum * 1 > 1) {
 					item.productNum--
+					item.totalPrice=item.productNum*item.salePrice
 				} else {
 					cart.splice(i, 1)
 				}
+			
 			}
 		})
 		state.cartList = cart
@@ -160,10 +162,12 @@ export default {
 				}
 			})
 		} else if(productId) {
+			
 			cart.forEach((item, i) => {
 				if(item.productId === productId&&item.productName === productName) {
 					cart.splice(i, 1)
 				}
+				item.totalPrice= item.productNum*1*item.salePrice*1
 			})
 		} else {
 			cart.forEach((item) => {
