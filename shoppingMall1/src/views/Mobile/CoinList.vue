@@ -97,7 +97,7 @@
         </div> -->
 				<div class="main-title"> <span> custom-quantity: </span>
 					<el-select @change="setCurrency" style="width: 1rem; height: 0.32rem"
-					 v-model="selectCurrency" placeholder="">
+					 v-model="currencyInfo.name" placeholder="">
 						<el-option v-for="(subItem, subIndex) in currencyData" :key="subItem.id" :label="subItem.showName"
 						 :value="subItem.id"> </el-option>
 					</el-select>

@@ -33,7 +33,7 @@
 					{{item.name}}
 				</span>
 					<el-select @change="setCurrency" style="width:140px;float:right;margin-top: -9px;margin-right: 186px;"
-					 v-model="selectCurrency" placeholder="">
+					 v-model="currencyInfo.name" placeholder="">
 						<el-option v-for="(subItem,subIndex) in currencyData" :key="subItem.id" :label="subItem.showName"
 						 :value="subItem.id"> </el-option>
 					</el-select>
