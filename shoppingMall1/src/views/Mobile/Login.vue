@@ -142,14 +142,7 @@
 					});
 					return
 				}
-				var re = /^\w+@[a-z0-9]+\.[a-z]{2,4}$/;
-				if (!re.test(this.form.email)) {
-					this.$message({
-						type: 'warning',
-						message: 'Please fill in correct email'
-					});
-					return
-				}
+
 				recover({
 					email: this.form.email
 				}).then(response => {
