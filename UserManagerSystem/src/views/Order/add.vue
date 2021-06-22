@@ -1,5 +1,5 @@
 <template>
-	<div class="add" style="width: 850px;overflow-y: scroll;height: 500px;">
+	<div class="add" style="width:100%;overflow-y: scroll;height: 760px;">
 		<el-form ref="form" style="background: #efefef;padding:20px;">
 			<el-row style="height:40px">
 				<el-col :span="12">

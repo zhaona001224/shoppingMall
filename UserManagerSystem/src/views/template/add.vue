@@ -187,13 +187,14 @@
 							if (key == "belongto") {
 								var source = this.treeData
 							} else {
+								
 								var source = this.dataSource.formData.data[key].source
 							}
 							if (this.form[key].toString().indexOf(',') > -1) return
 							var data = source.filter((item, index) => {
 								return item.id == this.form[key]
 							})
-							if (data.length > 1) {
+							if (data.length == 1) {
 								form[key] = this.form[key] + "," + data[0].name
 							} else {
 								form[key] = this.form[key] + ", "
@@ -206,7 +207,7 @@
 								var data = source.filter((item, index) => {
 									return item.id == formItem
 								})
-								if (data.length > 1) {
+								if (data.length === 1) {
 									array.push(formItem + "," + data[0].name)
 								} else {
 									array.push(formItem + ", ")
