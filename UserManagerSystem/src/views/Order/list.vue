@@ -302,8 +302,9 @@
 						usereq = ""
 					}
 					//end of bug fix
+					var str=data.airtime?data.airtime.split(' ')[0]:''
 					var data2 = {
-						pay_time: '"' + data.airtime.split(' ')[0] + '"',
+						pay_time: '"' + str+ '"',
 						game: '"' + item.game + '"',
 						products: '"' + str1 + '"',
 						gameId: item.quantity,
@@ -572,6 +573,7 @@
 					str + "&status=public&start=" + start + "&end=" + end + "&offset=" + this
 					.pageNum + "&count=" + this.pageSize, {}).then(response => {
 					if (response.retCode == 0) {
+						
 						this.tableData = response.data || [];
 						this.tableData.map((item) => {
 							delete item.slug
