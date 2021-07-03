@@ -302,9 +302,9 @@
 						usereq = ""
 					}
 					//end of bug fix
-					var str=data.airtime?data.airtime.split(' ')[0]:''
+					var timestr=data.airtime?data.airtime.split(' ')[0]:''
 					var data2 = {
-						pay_time: '"' + str+ '"',
+						pay_time: '"' + timestr+ '"',
 						game: '"' + item.game + '"',
 						products: '"' + str1 + '"',
 						gameId: item.quantity,
