@@ -580,8 +580,11 @@
 						})
 						this.tableData = JSON.parse(JSON.stringify(this.tableData)).filter((
 							item, index) => {
-							return JSON.stringify(item).indexOf(this.keyword) > -1
+								var str=JSON.stringify(item).toLocaleUpperCase()
+								
+							return str.indexOf(this.keyword.toLocaleUpperCase()) > -1
 						})
+						
 						try {
 							this.tableData && this.tableData.map((item, index) => {
 								item.note = item.note && item.note.split(',');
