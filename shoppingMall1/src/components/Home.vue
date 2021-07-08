@@ -171,10 +171,6 @@
 						message: "Please fill in email",
 						required: true,
 						trigger: 'blur'
-					}, {
-						message: "Please fill in correct email",
-						pattern: ptn.email(0, 40),
-						trigger: 'blur'
 					}],
 					password: [{
 						message: "Please fill in password",
