@@ -138,7 +138,6 @@
 					});
 					return
 				}
-
 				recover({
 					email: this.form.email
 				}).then(response => {

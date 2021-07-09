@@ -115,10 +115,6 @@
 						message: "Please fill in email",
 						required: true,
 						trigger: 'blur'
-					}, {
-						message: "Please fill in correct email",
-						pattern: ptn.email(0, 40),
-						trigger: 'blur'
 					}],
 					payer: [{
 						message: "Please fill in payer_name",
