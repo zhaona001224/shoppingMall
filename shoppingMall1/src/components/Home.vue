@@ -16,8 +16,7 @@
 						<el-dropdown-item v-for="(item,index) in countryData" :key="index" @click='setCountry(item)'>{{JSON.parse(item).name}}</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
-				<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">
-				</div>
+				<div class="menu-cart point user user-name" @click="goPayPage()"><span class="num">{{cartList.length}}</span><img src="../assets/image/icon/icon_cart.png">					</div>
 				<!--购物车显示块-->
 				<el-dropdown class="point" v-if="login" trigger="hover" style="border:none;width:auto;">
 				<span class="el-dropdown-link userinfo-inner">
@@ -117,8 +116,8 @@
 		</div>
 		<div class="form-contain" v-if="selectType=='register'">
 			<el-form ref="form" :model="form" :rules="rules" label-width="35%" label-position="right">
-				<el-form-item :label='$t("language.user.email")' prop="email">
-					<el-input Pleaseholder="" v-model="form.email"> </el-input>
+				<el-form-item :label='$t("language.user.email")' prop="judgeEmail">
+					<el-input Pleaseholder="" v-model="form.judgeEmail"> </el-input>
 				</el-form-item>
 				<el-form-item :label='$t("language.user.pass")' prop="password">
 					<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
@@ -156,8 +155,9 @@
 				countryData: [],
 				currencyData: [],
 				selectCurrency: '',
-				selectList:  ['Discord', 'Skype','Phone',  'Whatsapp','Facebook-Message','Instagram','Telegram',
-        'ICQ','Line', 'Snapchat','QQ', 'Wechat'],
+				selectList: ['Discord', 'Skype', 'Phone', 'Whatsapp', 'Facebook-Message',
+					'Instagram', 'Telegram', 'ICQ', 'Line', 'Snapchat', 'QQ', 'Wechat'
+				],
 				width: '100%',
 				gamePop: false,
 				totalPrice: 0,
@@ -170,6 +170,15 @@
 					email: [{
 						message: "Please fill in email",
 						required: true,
+						trigger: 'blur'
+					}],
+					judgeEmail: [{
+						message: "Please fill in email",
+						required: true,
+						trigger: 'blur'
+					}, {
+						pattern: ptn.email(0,40),
+						message: "Please fill in correct email",
 						trigger: 'blur'
 					}],
 					password: [{
@@ -226,7 +235,6 @@
 					});
 					return
 				}
-
 				recover({
 					email: this.form.email
 				}).then(response => {
@@ -299,8 +307,8 @@
 				this.$refs.form.validate((valid) => {
 					if (valid) {
 						login({
-							email: this.form.email,
-							password: this.form.password
+							email: this.form.email.trim(),
+							password: this.form.password.trim()
 						}).then(response => {
 							if (response.retCode == 0) {
 								this.$message({
@@ -308,8 +316,8 @@
 									message: 'success'
 								});
 								var user = {
-									token: response.data,
-									email: this.form.email,
+									token: response.data.trim(),
+									email: this.form.email.trim(),
 									social_link: response.social_link,
 									social_type: response.social_type
 								}
@@ -339,7 +347,7 @@
 					return
 				}
 				forget({
-					email: this.form.email
+					email: this.form.email.trim()
 				}).then(response => {
 					if (response.retCode == 0) {
 						this.$message({
@@ -364,18 +372,18 @@
 					});
 					return
 				}
-//				if (!(/^1[0-9]{10}$/.test(this.form.phone))) {
-//					this.$message({
-//						type: 'warning',
-//						message: 'Please fill in correct phone'
-//					});
-//					return;
-//				}
+				//				if (!(/^1[0-9]{10}$/.test(this.form.phone))) {
+				//					this.$message({
+				//						type: 'warning',
+				//						message: 'Please fill in correct phone'
+				//					});
+				//					return;
+				//				}
 				this.$refs.form.validate((valid) => {
 					if (valid) {
 						register({
-							email: this.form.email,
-							password: this.form.password,
+							email: this.form.judgeEmail.trim(),
+							password: this.form.password.trim(),
 							phone: this.form.phone,
 							social_type: this.form.social_type,
 							social_link: this.form.social_link
@@ -410,10 +418,9 @@
 							}, 1200000)
 						}
 						console.log(response.retCode);
-						response.data.sort((a,b) => {
+						response.data.sort((a, b) => {
 							let fa = a.name.trim().toLowerCase(),
 								fb = b.name.trim().toLowerCase();
-
 							if (fa < fb) {
 								return -1;
 							}
@@ -421,7 +428,7 @@
 								return 1;
 							}
 							return 0;
-							}); 
+						});
 						this.gameList = response.data.filter((item) => {
 							return item.online;
 						});
@@ -489,8 +496,8 @@
 			})
 		},
 		mounted() {
-			if(!this.login){
-				localStorage.token=''
+			if (!this.login) {
+				localStorage.token = ''
 			}
 		}
 	}

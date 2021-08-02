@@ -19,8 +19,8 @@
 		</div>
 		<div class="form-contain" v-if="selectType=='register'">
 			<el-form ref="form" :model="form" :rules="rules" label-width="42%" label-position="right">
-				<el-form-item :label='$t("language.user.email")' prop="email">
-					<el-input Pleaseholder="" v-model="form.email"> </el-input>
+				<el-form-item :label='$t("language.user.email")' prop="judgeEmail">
+					<el-input Pleaseholder="" v-model="form.judgeEmail"> </el-input>
 				</el-form-item>
 				<el-form-item :label='$t("language.user.pass")' prop="password">
 					<el-input Pleaseholder="" type="password" v-model="form.password"> </el-input>
@@ -59,6 +59,15 @@
 						required: true,
 						trigger: 'blur'
 					}],
+					judgeEmail: [{
+						message: "Please fill in email",
+						required: true,
+						trigger: 'blur'
+					}, {
+						pattern: ptn.email(0,40),
+						message: "Please fill in correct email",
+						trigger: 'blur'
+					}],
 					password: [{
 						message: "Please fill in password",
 						required: true,
@@ -92,8 +101,8 @@
 				this.$refs.form.validate((valid) => {
 					if (valid) {
 						login({
-							email: this.form.email,
-							password: this.form.password
+							email: this.form.email.trim(),
+							password: this.form.password.trim()
 						}).then(response => {
 							if (response.retCode == 0) {
 								this.$message({
@@ -102,7 +111,7 @@
 								});
 								var user = {
 									token: response.data,
-									email: this.form.email,
+									email: this.form.email.trim(),
 									social_link: response.social_link,
 									social_type: response.social_type
 								}
@@ -163,7 +172,7 @@
 					return
 				}
 				forget({
-					email: this.form.email
+					email: this.form.email.trim()
 				}).then(response => {
 					if (response.retCode == 0) {
 						this.$message({
@@ -191,7 +200,7 @@
 				this.$refs.form.validate((valid) => {
 					if (valid) {
 						register({
-							email: this.form.email,
+							email: this.form.judgeEmail.trim(),
 							password: this.form.password,
 							phone: this.form.phone,
 							social_type: this.form.social_type,

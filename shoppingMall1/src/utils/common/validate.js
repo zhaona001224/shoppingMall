@@ -108,7 +108,7 @@ export const ptn = {
       return '^[A-Za-z0-9]{' + min + ',' + max + '}$'
     },
     email: function(min = 0, max = 9999) {
-      return '^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$'
+      return '^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$'
     },
     validateDateRange:function(rule, dates, callback){
     	if(!dates||dates.length==0||!dates[0]||!dates[1]){
