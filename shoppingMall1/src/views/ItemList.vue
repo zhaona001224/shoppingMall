@@ -255,7 +255,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.Msg
+							message: response.msg
 						});
 					}
 				})
@@ -297,7 +297,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.Msg
+							message: response.msg
 						});
 					}
 				})
@@ -339,7 +339,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.Msg
+							message: response.msg
 						});
 					}
 				})
@@ -368,7 +368,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.Msg
+							message: response.msg
 						});
 					}
 				})

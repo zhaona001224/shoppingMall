@@ -241,12 +241,12 @@
 					if (response.retCode == 0) {
 						this.$message({
 							type: 'success',
-							message: response.Msg
+							message: response.msg
 						});
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.Msg
+							message: response.msg
 						});
 					}
 				})
@@ -281,7 +281,7 @@
 						} else {
 							that.$message({
 								type: 'warning',
-								message: response.Msg
+								message: response.msg
 							});
 						}
 					}).catch(() => {
@@ -445,7 +445,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.Msg
+							message: response.msg
 						});
 					}
 				})
@@ -479,7 +479,7 @@
 				} else {
 					this.$message({
 						type: 'warning',
-						message: response.Msg
+						message: response.msg
 					});
 				}
 			})
@@ -499,7 +499,7 @@
 				} else {
 					this.$message({
 						type: 'warning',
-						message: response.Msg
+						message: response.msg
 					});
 				}
 			})

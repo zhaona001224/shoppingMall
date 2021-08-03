@@ -368,7 +368,7 @@ export default {
         } else {
           this.$message({
             type: "warning",
-            message: response.Msg,
+            message: response.msg,
           });
         }
       });
@@ -418,7 +418,7 @@ export default {
         } else {
           this.$message({
             type: "warning",
-            message: response.Msg,
+            message: response.msg,
           });
         }
       });
@@ -465,7 +465,7 @@ export default {
         } else {
           this.$message({
             type: "warning",
-            message: response.Msg,
+            message: response.msg,
           });
         }
       });
@@ -494,7 +494,7 @@ export default {
         } else {
           this.$message({
             type: "warning",
-            message: response.Msg,
+            message: response.msg,
           });
         }
       });

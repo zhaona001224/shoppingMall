@@ -446,7 +446,7 @@
 						} else {
 							this.$message({
 								type: 'warning',
-								message: response.message
+								message: response.msg
 							});
 						}
 					})
@@ -506,7 +506,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.msg
 						});
 					}
 				})
@@ -539,7 +539,7 @@
 					} else {
 						that.$message({
 							type: 'warning',
-							message: response.message
+							message: response.msg
 						});
 					}
 				})
@@ -604,7 +604,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.msg
 						});
 					}
 				})

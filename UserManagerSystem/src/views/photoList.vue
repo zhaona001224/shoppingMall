@@ -78,7 +78,7 @@
 
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.msg
 						});
 					}
 
@@ -116,7 +116,7 @@
 
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.msg
 						});
 					}
 

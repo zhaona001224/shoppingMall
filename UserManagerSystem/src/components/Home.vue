@@ -112,7 +112,7 @@
 						} else {
 							that.$message({
 								type: 'warning',
-								message: response.message
+								message: response.msg
 							});
 						}
 					}).catch(() => {
@@ -134,7 +134,7 @@
 					} else {
 						that.$message({
 							type: 'warning',
-							message: response.message
+							message: response.msg
 						});
 					}
 				}).catch(() => {});

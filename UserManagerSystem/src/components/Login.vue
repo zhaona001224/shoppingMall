@@ -126,7 +126,7 @@
 
 										that.$message({
 											type: 'warning',
-											message: response.message
+											message: response.msg
 										});
 									}
 
@@ -136,7 +136,7 @@
 
 								that.$message({
 									type: 'warning',
-									message: response.message
+									message: response.msg
 								});
 							}
 						})

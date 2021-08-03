@@ -138,7 +138,7 @@
 
 						this.$message({
 							type: 'warning',
-							message: response.Msg
+							message: response.msg
 						});
 					}
 
@@ -155,7 +155,7 @@
 								} else {
 									that.$message({
 										type: 'warning',
-										message: response.Msg
+										message: response.msg
 									});
 								}
 
