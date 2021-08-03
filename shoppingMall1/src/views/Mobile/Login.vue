@@ -51,8 +51,9 @@
 			return {
 				selectType: 'login',
 				form: {},
-				selectList:  ['Discord', 'Skype','Phone',  'Whatsapp','Facebook-Message','Instagram','Telegram',
-        'ICQ','Line', 'Snapchat','QQ', 'Wechat'],
+				selectList: ['Discord', 'Skype', 'Phone', 'Whatsapp', 'Facebook-Message',
+					'Instagram', 'Telegram', 'ICQ', 'Line', 'Snapchat', 'QQ', 'Wechat'
+				],
 				rules: {
 					email: [{
 						message: "Please fill in email",
@@ -64,7 +65,7 @@
 						required: true,
 						trigger: 'blur'
 					}, {
-						pattern: ptn.email(0,40),
+						pattern: ptn.email(0, 40),
 						message: "Please fill in correct email",
 						trigger: 'blur'
 					}],
@@ -119,12 +120,12 @@
 								this.RECORD_USERINFO(user);
 								this.SHOW_LOGIN(false);
 								this.form = {}
-								if(this.$route.query.redirect){
+								if (this.$route.query.redirect) {
 									this.$router.push(this.$route.query.redirect)
-								}else{
+								} else {
 									this.$router.push('/Mobile/Home')
 								}
-								 //返回上一层
+								//返回上一层
 								//								window.location.reload();
 							} else {
 								this.$message({
@@ -141,7 +142,7 @@
 			//忘记密码
 			forgetPsw() {
 				if (!this.form.email) {
-						this.$message({
+					this.$message({
 						type: 'warning',
 						message: 'Please fill in email'
 					});
@@ -190,6 +191,13 @@
 			//注册方法
 			register() {
 				var that = this;
+				if (this.form.judgeEmail.indexOf(' ') > -1) {
+					this.$message({
+						type: 'warning',
+						message: 'The email cannot contain Spaces'
+					});
+					return
+				}
 				if (this.form.password != this.form.repassword) {
 					this.$message({
 						type: 'warning',
@@ -197,6 +205,7 @@
 					});
 					return
 				}
+				
 				this.$refs.form.validate((valid) => {
 					if (valid) {
 						register({

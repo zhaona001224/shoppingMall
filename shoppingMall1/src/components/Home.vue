@@ -281,7 +281,7 @@
 						} else {
 							that.$message({
 								type: 'warning',
-								message: response.message
+								message: response.Msg
 							});
 						}
 					}).catch(() => {
@@ -365,6 +365,14 @@
 			//注册方法
 			register() {
 				var that = this;
+				if(this.form.judgeEmail.indexOf(' ')>-1){
+					this.$message({
+						type: 'warning',
+						message: 'The email cannot contain Spaces'
+					});
+					return
+					
+				}
 				if (this.form.password != this.form.repassword) {
 					this.$message({
 						type: 'warning',
@@ -379,6 +387,7 @@
 				//					});
 				//					return;
 				//				}
+				
 				this.$refs.form.validate((valid) => {
 					if (valid) {
 						register({
@@ -436,7 +445,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.Msg
 						});
 					}
 				})
@@ -470,7 +479,7 @@
 				} else {
 					this.$message({
 						type: 'warning',
-						message: response.message
+						message: response.Msg
 					});
 				}
 			})
@@ -490,7 +499,7 @@
 				} else {
 					this.$message({
 						type: 'warning',
-						message: response.message
+						message: response.Msg
 					});
 				}
 			})

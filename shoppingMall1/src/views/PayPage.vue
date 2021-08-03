@@ -277,7 +277,7 @@
 					amount: amount,
 					"currency": this.currencyInfo.name,
 					"language": "UK",
-					email: this.form.email,
+					email: this.form.email.trim(),
 					request_info: this.productInfo.customerLabel+':'+this.form.payer,
 					contact_info: this.form.link1 + this.form.link,
 					item_list: itemList,
@@ -303,7 +303,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.msg
 						});
 					}
 				})
@@ -398,7 +398,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.Msg
 						});
 					}
 				})
@@ -411,7 +411,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.Msg
 						});
 					}
 				})
@@ -427,7 +427,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.Msg
 						});
 					}
 				})
@@ -451,7 +451,7 @@
 					} else {
 						this.$message({
 							type: 'warning',
-							message: response.message
+							message: response.Msg
 						});
 					}
 				})

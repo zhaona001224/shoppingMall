@@ -51,7 +51,7 @@
 				} else {
 					this.$message({
 						type: 'warning',
-						message: response.message
+						message: response.Msg
 					});
 				}
 			})
